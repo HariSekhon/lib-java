@@ -13,6 +13,6 @@ mvn clean package
 #### See Also ####
 
 * Advanced Nagios Plugins Collection: https://github.com/harisekhon/nagios-plugins
-* Toolbox (Hadoop, NoSQL, Web, Linux CLI): https://github.com/harisekhon/toolbox
+* Toolbox (Hadoop, NoSQL, Solr, Elasticsearch, Web, Linux CLI): https://github.com/harisekhon/toolbox
 * Perl / Python / Jython Lib: https://github.com/harisekhon/lib
 * Spark-to-Elasticsearch: https://github.com/harisekhon/spark-to-elasticsearch

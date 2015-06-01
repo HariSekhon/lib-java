@@ -24,8 +24,17 @@ import org.apache.commons.lang.StringUtils;
 
 public class Utils {
 	
-	public static boolean stdout;
-	public static final HashMap<String, Integer> ERRORS = new HashMap<String, Integer>();
+	public static boolean stdout = false;
+	public static final HashMap<String, Integer> exit_codes = new HashMap<String, Integer>();
+	
+	static {
+		// java autoboxing
+		exit_codes.put("OK", 		0);
+		exit_codes.put("WARNING", 	1);
+		exit_codes.put("CRITICAL", 	2);
+		exit_codes.put("UNKNOWN", 	3);
+		exit_codes.put("DEPENDENT", 4);
+	}
 	
 	// years and years of Regex expertise and testing has gone in to this, do not edit!
 	// This also gives flexibility to work around some situations where domain names may not be quite valid (eg .local/.intranet) but still keep things quite tight
@@ -58,25 +67,24 @@ public class Utils {
 	public static final String threshold_simple_regex	= "^(-?\\d+(?:\\.\\d+)?)$";
 	public static final String version_regex = "\\d(\\.\\d+)*";
 	
-	public Utils () {
-		stdout = false;		
-		// java autoboxing
-		ERRORS.put("OK", 		new Integer(0));
-		ERRORS.put("WARNING", 	1);
-		ERRORS.put("CRITICAL", 	2);
-		ERRORS.put("UNKNOWN", 	3);
-		ERRORS.put("DEPENDENT", 4);
+	public static void code_error (String msg) {
+		println("CODE ERROR: " + msg);
+		System.exit(exit_codes.get("UNKNOWN"));
 	}
 	
-	public static void quit(String status, String msg){
+	public static void quit (String status, String msg) {
 		println(status + ": " + msg);
-		if(ERRORS.containsKey(status)) {
-			System.exit(ERRORS.get(status));
+		if(exit_codes.containsKey(status)) {
+			System.exit(exit_codes.get(status));
 		} else {
 			// TODO: provide a warning stack trace here
-			println("CODE ERROR: specified an invalid exit status '%s' to quit()".format(status));
-			System.exit(ERRORS.get("UNKNOWN"));
+			code_error("specified an invalid exit status '%s' to quit()".format(status));
 		}
+	}
+	
+	public static void usage(String msg){
+		println("usage: " + msg);
+		System.exit(exit_codes.get("UNKNOWN"));
 	}
 
 	private static void println(String msg){
@@ -95,6 +103,8 @@ public class Utils {
 		if(host.length() > 255){
 			return isIP(host);
 		} else if(host.matches("^" + host_regex + "$")){
+			return host;
+		} else if(isIP(host) != null){
 			return host;
 		} else {
 			return null;
@@ -157,7 +167,9 @@ public class Utils {
     		quit("UNKNOWN", "invalid host:port supplied");
     	}
     	if(isHost(host_port[0]) == null){
-    		quit("CRITICAL", "invalid host '%s' defined: not a valid hostname or IP address".format(host_port[0]));
+    		// this only prints the host and loses the message
+    		//quit("CRITICAL", "invalid host:port '%s' defined: host portion is not a valid hostname or IP address".format(hostport));
+    		quit("CRITICAL", "invalid host:port '" + hostport + "' defined: host portion '" + host_port[0] + "' is not a valid hostname or IP address");
     	}
     	if(host_port.length > 1){
     		if(isPort(host_port[1]) == null){

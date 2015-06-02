@@ -21,11 +21,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+// 1.3+ API causes problems with Spark, use older API for commons-cli
+//import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.GnuParser;
+import org.apache.commons.cli.HelpFormatter;
+//import org.apache.commons.cli.Option;
+import org.apache.commons.cli.OptionBuilder;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 public class Utils {
 	
 	public static boolean stdout = false;
 	public static final HashMap<String, Integer> exit_codes = new HashMap<String, Integer>();
+	public static Options options = new Options();
 	
 	static {
 		// java autoboxing
@@ -34,6 +45,15 @@ public class Utils {
 		exit_codes.put("CRITICAL", 	2);
 		exit_codes.put("UNKNOWN", 	3);
 		exit_codes.put("DEPENDENT", 4);
+		
+		// 1.3+ API doesn't work in Spark which embeds older commons-cli
+		//options.addOption(Option.builder("t").longOpt("timeout").argName("secs").required(false).desc("Timeout for program (Optional)").build());
+		// .create() must come last as it generates Option on which we cannot add long opt etc
+		//options.addOption(OptionBuilder.create("t").withLongOpt("timeout").withArgName("secs").withDescription("Timeout for program (Optional)").create("t"));
+		options.addOption(OptionBuilder.withLongOpt("timeout").withArgName("secs").hasArg().withDescription("Timeout for program (Optional)").create("t"));
+		options.addOption("v", false, "Verbose mode");
+		options.addOption("h", false, "Print usage help and exit");
+		//CommandLine cmd = get_options(new String[]{"test", "test2"});
 	}
 	
 	// years and years of Regex expertise and testing has gone in to this, do not edit!
@@ -48,8 +68,8 @@ public class Utils {
 	public static final String domain_component			= "\\b[a-zA-Z0-9](?:[a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\b";
 	public static final String domain_regex				= "(?:" + domain_component + "\\.)*" + tld_regex;
 	public static final String domain_regex2 			= "(?:" + domain_component + "\\.)*" + tld_regex;
-	public static final String hostname_regex			= "%s(?:\\.%s)?".format(hostname_component_regex, domain_regex);
-	public static final String host_regex 	  			= "\\b(?:%s|%s)\\b".format(hostname_regex, ip_regex);
+	public static final String hostname_regex			= String.format("%s(?:\\.%s)?", hostname_component_regex, domain_regex);
+	public static final String host_regex 	  			= String.format("\\b(?:%s|%s)\\b", hostname_regex, ip_regex);
 	public static final String filename_regex 			= "[\\/\\w\\s_\\.:,\\*\\(\\)\\=\\%\\?\\+-]+";
 	public static final String rwxt_regex 	  	 		= "[r-][w-][x-][r-][w-][x-][r-][w-][xt-]";
 	public static final String fqdn_regex 	  	 		= hostname_component_regex + "\\." + domain_regex;
@@ -62,7 +82,7 @@ public class Utils {
 	public static final String user_regex				= "\\b[A-Za-z][A-Za-z0-9-]*[A-Za-z0-9]\\b";
 	public static final String column_regex				= "\\b[\\w\\:]+\\b";
 	public static final String ldap_dn_regex			= "\\b\\w+=[\\w\\s]+(?:,\\w+=[\\w\\s]+)*\\b";
-	public static final String krb5_principal_regex		= "%s(?:/%s)?(?:@%s)?".format(user_regex, hostname_regex, domain_regex);
+	public static final String krb5_principal_regex		= String.format("%s(?:/%s)?(?:@%s)?", user_regex, hostname_regex, domain_regex);
 	public static final String threshold_range_regex	= "^(@)?(-?\\d+(?:\\.\\d+)?)(:)(-?\\d+(?:\\.\\d+)?)?$";
 	public static final String threshold_simple_regex	= "^(-?\\d+(?:\\.\\d+)?)$";
 	public static final String version_regex = "\\d(\\.\\d+)*";
@@ -78,21 +98,49 @@ public class Utils {
 			System.exit(exit_codes.get(status));
 		} else {
 			// TODO: provide a warning stack trace here
-			code_error("specified an invalid exit status '%s' to quit()".format(status));
+			code_error(String.format("specified an invalid exit status '%s' to quit()", status));
 		}
 	}
 	
+	public static CommandLine get_options(String[] args){
+		// 1.3+ API problem with Spark, go back to older API for commons-cli
+		//CommandLineParser parser = new DefaultParser();
+		CommandLineParser parser = new GnuParser();
+		CommandLine cmd = null;
+		try {
+			cmd = parser.parse(options, args);
+			if(cmd.hasOption("h")){
+				usage();
+			}
+		} catch (ParseException e){
+			println(e + "\n");
+			usage();
+		}
+		return cmd;
+	}
+	
 	public static void usage(String msg){
-		println("usage: " + msg);
+		if(msg != null){
+			println(msg + "\n");
+		}
+		HelpFormatter formatter = new HelpFormatter();
+		// TODO: get caller's class name to populate this
+		formatter.printHelp("<className> [options]", options);
 		System.exit(exit_codes.get("UNKNOWN"));
 	}
-
+	public static void usage(){
+		usage(null);
+	}
+	
 	private static void println(String msg){
 		if(stdout){
 			System.out.println(msg);
 		} else {
 			System.err.println(msg);
 		}
+	}
+	private static void printf(String msg, String... args){
+		System.out.printf(msg, (Object[]) args); // cast to Object[] to avoid warning about String and Object not quite matching up
 	}
 	
 	// neither Google's com.Guava google.common.net.HostSpecifier nor Apache Commons org.apache.commons.validator.routines.DomainValidator are suitable for my needs here, must port the more flexible regex methods from my Perl library
@@ -173,7 +221,7 @@ public class Utils {
     	}
     	if(host_port.length > 1){
     		if(isPort(host_port[1]) == null){
-    			quit("CRITICAL", "invalid port '%s' defined for host:port: must be a positive integer".format(host_port[1]));
+    			quit("CRITICAL", String.format("invalid port '%s' defined for host:port: must be a positive integer", host_port[1]));
     		}
     	}
     	return hostport;
@@ -191,9 +239,9 @@ public class Utils {
     	return StringUtils.join(nodelist2, ","); 
     }
     
-    // TODO: replace this with Log4j now it's in Java
+    // TODO: replace this with Log4j
     public static void vlog_options(String option, String value){
-    	println("%-25s %s".format("%s:".format(option), value));
+    	printf(String.format("%-25s %s\n", String.format("%s:", option), value));
     }
     
     public static void vlog_options_bool(String option, Boolean value){

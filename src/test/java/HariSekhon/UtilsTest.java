@@ -55,7 +55,7 @@ public class UtilsTest extends TestCase {
         assertEquals("isIP(255.255.255.254) eq 255.255.255.254", "255.255.255.254", Utils.isIP("255.255.255.254"));
         assertEquals("isIP(10.10.10.0) eq 10.10.10.0", "10.10.10.0", Utils.isIP("10.10.10.0"));
         assertEquals("isIP(10.10.10.255) eq 10.10.10.255", "10.10.10.255", Utils.isIP("10.10.10.255"));
-        assertEquals("isIP(10.10.10.300) eq null", null, Utils.isIP("10.10.10.300"));
+        assertEquals("isIP(10.10.10.256) eq null", null, Utils.isIP("10.10.10.256"));
         assertEquals("isIP(x.x.x.x) eq null", null, Utils.isIP("x.x.x.x"));
     }
 }

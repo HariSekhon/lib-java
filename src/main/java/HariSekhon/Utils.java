@@ -51,8 +51,8 @@ public class Utils {
 		// .create() must come last as it generates Option on which we cannot add long opt etc
 		//options.addOption(OptionBuilder.create("t").withLongOpt("timeout").withArgName("secs").withDescription("Timeout for program (Optional)").create("t"));
 		options.addOption(OptionBuilder.withLongOpt("timeout").withArgName("secs").hasArg().withDescription("Timeout for program (Optional)").create("t"));
-		options.addOption("v", false, "Verbose mode");
-		options.addOption("h", false, "Print usage help and exit");
+		options.addOption("v", "verbose", false, "Verbose mode");
+		options.addOption("h", "help", false, "Print usage help and exit");
 		//CommandLine cmd = get_options(new String[]{"test", "test2"});
 	}
 	

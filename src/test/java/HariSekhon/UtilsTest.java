@@ -48,14 +48,14 @@ public class UtilsTest extends TestCase {
      */
     public void testUtils()
     {
-        assertEquals("isIP(10.10.10.1) eq 10.10.10.1", "10.10.10.1", Utils.isIP("10.10.10.1"));
-        assertEquals("isIP(10.10.10.10) eq 10.10.10.10", "10.10.10.10", Utils.isIP("10.10.10.10"));
-        assertEquals("isIP(10.10.10.100) eq 10.10.10.100", "10.10.10.100", Utils.isIP("10.10.10.100"));
-        assertEquals("isIP(254.0.0.254) eq 254.0.0.254", "254.0.0.254", Utils.isIP("254.0.0.254"));
-        assertEquals("isIP(255.255.255.254) eq 255.255.255.254", "255.255.255.254", Utils.isIP("255.255.255.254"));
-        assertEquals("isIP(10.10.10.0) eq 10.10.10.0", "10.10.10.0", Utils.isIP("10.10.10.0"));
-        assertEquals("isIP(10.10.10.255) eq 10.10.10.255", "10.10.10.255", Utils.isIP("10.10.10.255"));
-        assertEquals("isIP(10.10.10.256) eq null", null, Utils.isIP("10.10.10.256"));
-        assertEquals("isIP(x.x.x.x) eq null", null, Utils.isIP("x.x.x.x"));
+        assertTrue("isIP(10.10.10.1)",        Utils.isIP("10.10.10.1"));
+        assertTrue("isIP(10.10.10.10)",       Utils.isIP("10.10.10.10"));
+        assertTrue("isIP(10.10.10.100)",      Utils.isIP("10.10.10.100"));
+        assertTrue("isIP(254.0.0.254)",       Utils.isIP("254.0.0.254"));
+        assertTrue("isIP(255.255.255.254)",   Utils.isIP("255.255.255.254"));
+        assertTrue("isIP(10.10.10.0)",        Utils.isIP("10.10.10.0"));
+        assertTrue("isIP(10.10.10.255)",      Utils.isIP("10.10.10.255"));
+        assertFalse("isIP(10.10.10.256)",     Utils.isIP("10.10.10.256"));
+        assertFalse("isIP(x.x.x.x)",          Utils.isIP("x.x.x.x"));
     }
 }

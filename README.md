@@ -1,7 +1,7 @@
-Hari Sekhon Libraries [![Build Status](https://travis-ci.org/harisekhon/lib-java.svg?branch=master)](https://travis-ci.org/harisekhon/lib-java)
+Hari Sekhon Java Library [![Build Status](https://travis-ci.org/harisekhon/lib-java.svg?branch=master)](https://travis-ci.org/harisekhon/lib-java)
 =====================
 
-My personal Java libraries, full of lots of validation code and utility functions, ported from [my previous code and libraries in other languages](https://github.com/harisekhon/lib).
+My personal Java library, full of lots of validation code and utility functions, ported from [my previous code and libraries in other languages](https://github.com/harisekhon/lib).
 
 #### Build ####
 

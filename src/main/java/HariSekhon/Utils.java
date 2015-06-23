@@ -1958,6 +1958,9 @@ public class Utils {
             usage(name + "url not defined");
         }
         url = url.trim();
+        if(!url.contains("://")){
+            url = "http://" + url;
+        }
         if(! isUrl(url)){
             usage("invalid " + name + "url defined: '" + url + "'");
         }

@@ -676,7 +676,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     @Test
     public void test_validate_url(){
-        assertEquals("validate_url(www.google.com)",        "www.google.com",        validate_url("www.google.com"));
+        assertEquals("validate_url(www.google.com)",        "http://www.google.com", validate_url("www.google.com"));
         assertEquals("validate_url(http://www.google.com)", "http://www.google.com", validate_url("http://www.google.com"));
         assertEquals("validate_url(http://gmail.com)",      "http://gmail.com",      validate_url("http://gmail.com"));
     }

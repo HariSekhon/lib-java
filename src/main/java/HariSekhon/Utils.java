@@ -1646,6 +1646,19 @@ public class Utils {
     }
     
     
+    public static final String validate_label (String label) {
+        if(label == null || label.trim().isEmpty()){
+            usage("label not defined");
+        }
+        label = label.trim();
+        if(! isLabel(label)){
+            usage("invalid label defined: must be an alphanumeric identifier");
+        }
+        vlog_options("label", label);
+        return label;
+    }
+    
+    
     public static final String validate_ldap_dn (String dn, String name) {
         name = name(name);
         if(dn == null || dn.trim().isEmpty()){
@@ -1734,6 +1747,9 @@ public class Utils {
         vlog_options(name + "key", key);
         return key;
     }
+    public static final String validate_nosql_key (String key) {
+        return validate_nosql_key(key, null);
+    }
     
     
     public static final int validate_port (int port, String name) {
@@ -1744,19 +1760,19 @@ public class Utils {
         vlog_options(name + "port", String.valueOf(port));
         return port;
     }
-    public static final int validate_port (String port, String name){
+    public static final String validate_port (String port, String name){
         int port_int = -1;
         try {
             port_int = Integer.parseInt(port);
         } catch (Exception e){
             usage("invalid " + name + "port specified: must be numeric");
         }
-        return validate_port(port_int, name);
+        return String.valueOf(validate_port(port_int, name));
     }
     public static final int validate_port (int port) {
         return validate_port(port, null);
     }
-    public static final int validate_port (String port) {
+    public static final String validate_port (String port) {
         return validate_port(port, null);
     }
     
@@ -1813,19 +1829,6 @@ public class Utils {
     }
     
     
-    public static final String validate_label (String label) {
-        if(label == null || label.trim().isEmpty()){
-            usage("label not defined");
-        }
-        label = label.trim();
-        if(! isLabel(label)){
-            usage("invalid label defined: must be an alphanumeric identifier");
-        }
-        vlog_options("label", label);
-        return label;
-    }
-    
-    
     public static final String validate_regex (String regex, String name, Boolean noquit, Boolean posix) {
         name = name(name);
         // intentionally not trimming
@@ -1866,7 +1869,7 @@ public class Utils {
     
     public static final String validate_user (String user, String name) {
         name = name(name);
-        if(user == null || name.trim().isEmpty()){
+        if(user == null || user.trim().isEmpty()){
             usage(name + "user not defined");
         }
         user = user.trim();
@@ -1899,10 +1902,10 @@ public class Utils {
         if(allow_all){
             return password;
         }
-        if(password.matches("^[^\"'`]+$")){
+        if(!password.matches("^[^\"'`]+$")){
             usage("invalid " + name + "password defined: may not contain quotes or backticks");
         }
-        if(password.matches("$\\(")){
+        if(password.matches(".*$\\(.*")){
             usage("invalid " + name + "password defined: may not conatina $( as this is a subshell escape and could be dangerous to pass through to programs on the command line");
         }
         return password;
@@ -1986,33 +1989,41 @@ public class Utils {
     }
     */
     
-    public static final String which (String bin, Boolean noquit) {
+    public static final String which (String bin, Boolean quit) {
         if(bin == null || bin.trim().isEmpty()){
             code_error("no bin passed to which()");
         }
-        if(bin.matches("^[./]")){
+        // TODO: should probably consider switching this to os path sep instead of unix biased /
+        if(bin.matches("^(?:/|\\./).*")){
             File f = new File(bin);
-            if(!(f.exists() && ! f.isDirectory())){
+            if(f.exists() && ! f.isDirectory()){
                 if(f.canExecute()){
                    return bin; 
                 } else {
-                    if(!noquit){
+                    if(quit){
                         quit("UNKNOWN", "'" + bin + "' is not executable!");
                     }
                 }
             } else {
-                if(!noquit){
+                if(quit){
                     quit("UNKNOWN", "couldn't find executable '" + bin + "'");
                 }
             }
         } else {
             for(String path: System.getenv("PATH").split(":")){
-                File f = new File(path);
-                if((f.exists() && ! f.isDirectory()) && f.canExecute()){
-                    return path;
+                String fullpath = path + "/" + bin;
+                println("checking " + fullpath);
+                File f = new File(fullpath);
+                if((f.exists() && ! f.isDirectory())){
+                    if(! f.canExecute()){
+                        if(quit){
+                            quit("UNKNOWN", "'" + bin + "' is not executable!");
+                        }
+                    }
+                    return fullpath;
                 }
             }
-            if(!noquit){
+            if(quit){
                 quit("UNKNOWN", "couldn't find '" + bin + "' in PATH (" + System.getenv("PATH") + ")");
             }
         }

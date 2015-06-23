@@ -360,12 +360,14 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertFalse(isPort(65536));
     	assertFalse(isPort("a"));
     	assertFalse(isPort("-1"));
+    	assertFalse(isPort("0"));
     	assertFalse(isPort(-1));
+    	assertFalse(isPort(0));
     }
     
     @Test
     public void test_isLabel(){
-    	assertTrue(isLabel("st4ts used_(%)"));
+    	assertTrue(isLabel("st4ts used_(%%)"));
     	assertFalse(isLabel("b@dlabel"));
     }
     
@@ -589,11 +591,112 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertEquals("validate_filename(/nonexistentfile)", "/nonexistentfile", validate_filename("/nonexistentfile", "nonexistentfile", true));
     }
     
-    
+    @Test
+    public void test_validate_fqdn(){
+        assertEquals("validate_fqdn(www.harisekhon.com)", "www.harisekhon.com", validate_fqdn("www.harisekhon.com"));
+        // permissive because of short tld style internal domains
+        assertEquals("validate_fqdn(myhost.local)", "myhost.local", validate_fqdn("myhost.local"));
+    }
     
     @Test
-    public void test_validate_t(){
-    	//assertEquals("", , );
+    public void test_validate_interface(){
+    	assertEquals("valdiate_interface(eth0)",  "eth0",  validate_interface("eth0"));
+    	assertEquals("valdiate_interface(bond3)", "bond3", validate_interface("bond3"));
+    	assertEquals("valdiate_interface(lo)",    "lo",    validate_interface("lo"));
+    }
+    
+    @Test
+    public void test_validate_ip(){
+        assertEquals("validate_ip(validate_ip(10.10.10.1)",     "10.10.10.1",   validate_ip("10.10.10.1"));
+        assertEquals("validate_ip(validate_ip(10.10.10.10)",    "10.10.10.10",  validate_ip("10.10.10.10"));
+        assertEquals("validate_ip(validate_ip(10.10.10.100)",   "10.10.10.100", validate_ip("10.10.10.100"));
+        assertEquals("validate_ip(validate_ip(10.10.10.1)",     "10.10.10.1",   validate_ip("10.10.10.1"));
+        assertEquals("validate_ip(validate_ip(254.0.0.254)",    "254.0.0.254",  validate_ip("254.0.0.254"));
+    }
+    
+    @Test
+    public void test_validate_label(){
+        assertEquals("validate_label(st4ts_used (%%))", "st4ts_used (%%)", validate_label("st4ts_used (%%)"));
+    }
+    
+    // TODO: validate_node_list / validate_nodeport_list
+    
+    @Test
+    public void test_validate_nosql_key(){
+        assertEquals("validate_nosql_key(HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc)", "HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc", validate_nosql_key("HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc"));
+    }
+    
+    @Test
+    public void test_validate_port(){
+        assertEquals("validate_port(1)",     1,         validate_port(1));
+        assertEquals("validate_port(80)",    80,        validate_port(80));
+        assertEquals("validate_port(65535)", 65535,     validate_port(65535));
+        assertEquals("validate_port(1)",     "1",       validate_port("1"));
+        assertEquals("validate_port(80)",    "80",      validate_port("80"));
+        assertEquals("validate_port(65535)", "65535" ,  validate_port("65535"));
+    }
+    
+    @Test
+    public void test_validate_process_name(){
+        assertEquals("validate_process_name(../my_program)", "../my_program", validate_process_name("../my_program"));
+        assertEquals("validate_process_name(ec2-run-instances)", "ec2-run-instances", validate_process_name("ec2-run-instances"));
+        assertEquals("validate_process_name(sh <defunct>)", "sh <defunct>", validate_process_name("sh <defunct>"));
+    }
+    
+    @Test
+    public void test_validate_user(){
+        assertEquals("validate_user(hadoop)", "hadoop", validate_user("hadoop"));
+        assertEquals("validate_user(hari1)", "hari1", validate_user("hari1"));
+    }
+
+    /* unix only
+    @Test
+    public void test_validate_exists(){
+        assertEquals("validate_user_exists(root)", "root", validate_user("root"));
+    }
+    */
+    
+    @Test
+    public void test_validate_password(){
+        assertEquals("validate_password(wh@tev3r)", "wh@tev3r", validate_password("wh@tev3r"));
+    }
+    
+    @Test
+    public void test_validate_units(){
+        assertEquals("validate_units(s)",   "s",    validate_units("s"));
+        assertEquals("validate_units(ms)",  "ms",   validate_units("ms"));
+        assertEquals("validate_units(us)",  "us",   validate_units("us"));
+        assertEquals("validate_units(B)",   "B",    validate_units("B"));
+        assertEquals("validate_units(KB)",  "KB",   validate_units("KB"));
+        assertEquals("validate_units(MB)",  "MB",   validate_units("MB"));
+        assertEquals("validate_units(GB)",  "GB",   validate_units("GB"));
+        assertEquals("validate_units(TB)",  "TB",   validate_units("TB"));
+        assertEquals("validate_units(c)",   "c",    validate_units("c"));
+    }
+    
+    @Test
+    public void test_validate_url(){
+        assertEquals("validate_url(www.google.com)",        "www.google.com",        validate_url("www.google.com"));
+        assertEquals("validate_url(http://www.google.com)", "http://www.google.com", validate_url("http://www.google.com"));
+        assertEquals("validate_url(http://gmail.com)",      "http://gmail.com",      validate_url("http://gmail.com"));
+    }
+    
+    @Test
+    public void test_validate_vlog(){
+        vlog("vlog");
+        vlog("vlog2");
+        vlog("vlog3");
+        vlog_options("vlog_option", "myOpt");
+        vlog_options_bool("vlog_option_bool", true);
+        vlog_options_bool("vlog_option_bool", false);
+    }
+    
+    @Test
+    public void test_validate_which(){
+        assertEquals("which(sh)",                           "/bin/sh",      which("sh"));
+        assertEquals("which(/bin/bash)",                    "/bin/bash",    which("/bin/bash"));
+        assertEquals("which(/explicit/nonexistent/path",    null,           which("/explicit/nonexistent/path"));
+        assertEquals("which(nonexistentprogram",            null,           which("nonexistentprogram"));
     }
     
     // @Test(expected= IndexOutOfBoundsException.class)

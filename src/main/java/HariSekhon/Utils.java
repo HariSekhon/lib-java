@@ -28,6 +28,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import static java.lang.Math.pow;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.cli.CommandLine;
@@ -57,20 +58,20 @@ import org.apache.commons.cli.ParseException;
 
 public class Utils {
 	
-    public static final String utils_version = "1.12.11";
+    public static final String utils_version = "1.12.12";
 	public static boolean stdout = false;
-	public static final HashMap<String, Integer> exit_codes = new HashMap<String, Integer>();
 	public static Options options = new Options();
 	
 	public static String msg = "";
-	public static String status = "UNKNOWN";
 	public static final String nagios_plugins_support_msg = "Please try latest version from https://github.com/harisekhon/nagios-plugins, re-run on command line with -vvv and if problem persists paste full output from -vvv mode in to a ticket requesting a fix/update at https://github.com/harisekhon/nagios-plugins/issues/new";
     public static final String nagios_plugins_support_msg_api = "API may have changed. " + nagios_plugins_support_msg;
 	
-	public static int verbose = 0;
+    private static final HashMap<String, Integer> exit_codes = new HashMap<String, Integer>();
+    private static String status = "UNKNOWN";
+	private static int verbose = 0;
 	
 	// keeping this lowercase to make it easier to do String.toLowerCase() case insensitive matches
-	public static final ArrayList<String> valid_units = new ArrayList<String>(Arrays.asList(
+	private static final ArrayList<String> valid_units = new ArrayList<String>(Arrays.asList(
 	                                                                                            "%",
 	                                                                                            "s",
 	                                                                                            "ms",
@@ -107,73 +108,90 @@ public class Utils {
 	//
 	// ===================================================================== //
 	
+	
+	public static final String getStatus(){
+		return status;
+	}
+	
+	public static final int getStatusCode(){
+		return exit_codes.get(status);
+	}
+		
+	public static final void setStatus (String key) {
+		if(exit_codes.containsKey(key)){
+			status = key;
+		} else {
+			code_error("invalid status '" + key + "' passed to setStatus(), must be one of: " + exit_codes.keySet().toString());
+		}
+	}
+	
 	public static final void unknown(){
-		if(status == null || status.equals("OK")){
-			status = "UNKNOWN";
+		if(getStatus() == null || getStatus().equals("OK")){
+			setStatus("UNKNOWN");
 		}
 	}
 	
 	public static final void warning(){
-		if(status == null || ! status.equals("CRITICAL")){
-			status = "WARNING";
+		if(getStatus() == null || ! getStatus().equals("CRITICAL")){
+			setStatus("WARNING");
 		}
 	}
 	
 	public static final void critical(){
-		status = "CRITICAL";
+		setStatus("CRITICAL");
 	}
 	
 	public static final Boolean is_ok(){
-	    if(status == null){
+	    if(getStatus() == null){
 	        return false;
 	    }
-		return status.equals("OK");
+		return getStatus().equals("OK");
 	}
 	
 	
 	public static final Boolean is_warning(){
-	    if(status == null){
+	    if(getStatus() == null){
 	        return false;
 	    }
-		return status.equals("warning");
+		return getStatus().equals("warning");
 	}
 	
 	public static final Boolean is_critical(){
-	    if(status == null){
+	    if(getStatus() == null){
 	        return false;
 	    }
-		return status.equals("CRITICAL");
+		return getStatus().equals("CRITICAL");
 	}
 	
 	public static final Boolean is_unknown(){
-	    if(status == null){
+	    if(getStatus() == null){
 	        return false;
 	    }
-		return status.equals("UNKNOWN");
+		return getStatus().equals("UNKNOWN");
 	}
 
 	
-	public static final int get_status_code (String code) {
-		if(code != null && exit_codes.containsKey(code)){
-			return exit_codes.get(code);
+	public static final int getStatusCode (String key) {
+		if(key != null && exit_codes.containsKey(key)){
+			return exit_codes.get(key);
 		} else {
 		    // TODO: show last caller in code_error
-			code_error("invalid status code passed to get_status_code()"); 
+			code_error("invalid status '" + key + "' passed to getStatusCode()");
 			return exit_codes.get("UNKNOWN"); // appease Java return, won't get called
 		}
 	}
 
 	
 	public static final void status(){
-		vlog("status: " + status);
+		vlog("status: " + getStatus());
 	}
 	
 	public static final void status2(){
-		vlog3("status: " + status);
+		vlog2("status: " + getStatus());
 	}
 	
 	public static final void status3(){
-		vlog3("status: " + status);
+		vlog3("status: " + getStatus());
 	}
 
 	
@@ -191,23 +209,24 @@ public class Utils {
 	public static final String ip_regex 				= ip_prefix_regex + "(?:25[0-5]|2[0-4][0-9]|[01]?[1-9][0-9]|[01]?0[1-9]|[12]00|[0-9])\\b";
 	public static final String hostname_component_regex = "\\b[A-Za-z](?:[A-Za-z0-9_\\-]{0,61}[a-zA-Z0-9])?\\b";
 	// TODO: replace this with IANA TLDs as done in my Perl lib
-	public static final String tld_regex				= "\\b(?:[A-Za-z]{2,4}|london|museum|travel|local|localdomain|intra)\\b";
+	public static final String tld_regex				= "\\b(?i:[A-Za-z]{2,4}|london|museum|travel|local|localdomain|intra)\\b";
 	public static final String domain_component			= "\\b[a-zA-Z0-9](?:[a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\b";
 	public static final String domain_regex				= "(?:" + domain_component + "\\.)*" + tld_regex;
 	public static final String domain_regex_strict 		= "(?:" + domain_component + "\\.)+" + tld_regex;
 	public static final String hostname_regex			= String.format("%s(?:\\.%s)?", hostname_component_regex, domain_regex);
 	public static final String host_regex 	  			= String.format("\\b(?:%s|%s)\\b", hostname_regex, ip_regex);
-	public static final String filename_regex 			= "[\\/\\w\\s_\\.:,\\*\\(\\)\\=\\%\\?\\+-]+";
+	public static final String dirname_regex 			= "[/\\w\\s\\\\.:,*()=%?+-]+";
+	public static final String filename_regex 			= dirname_regex + "[^/]";
 	public static final String rwxt_regex 	  	 		= "[r-][w-][x-][r-][w-][x-][r-][w-][xt-]";
 	public static final String fqdn_regex 	  	 		= hostname_component_regex + "\\." + domain_regex;
 	public static final String email_regex 	  	 		= "\\b[A-Za-z0-9](?:[A-Za-z0-9\\._\\%\\'\\+-]{0,62}[A-Za-z0-9\\._\\%\\+-])?@" + domain_regex + "\\b";
 	public static final String subnet_mask_regex 		= "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[1-9][0-9]|[01]?0[1-9]|[12]00|[0-9])\\b";
 	public static final String mac_regex				= "\\b[0-9A-F-af]{1,2}[:-](?:[0-9A-Fa-f]{1,2}[:-]){4}[0-9A-Fa-f]{1,2}\\b";
-	public static final String process_name_regex		= "[\\w\\s_\\.\\/\\<\\>-]+";
-	public static final String url_path_suffix_regex	= "/(?:[\\w\\.,:\\/\\%\\&\\?\\!\\=\\*\\|\\[\\]\\+-]+)?";
-	public static final String url_regex				= "\\b(?i:https?://" + host_regex + "(?::\\d{1,5})?(?:" + url_path_suffix_regex + ")?)";
+	public static final String process_name_regex		= "[\\w\\s./<>-]+";
+	public static final String url_path_suffix_regex	= "/(?:[\\w.,:/%&?!=*|\\[\\]~+-]+)?"; // there is an RFC3987 regex but it's gigantic, this is easier to reason about and serves my needs
+	public static final String url_regex				= "\\b(?i:https?://)?" + host_regex + "(?::\\d{1,5})?(?:" + url_path_suffix_regex + ")?";
 	public static final String user_regex				= "\\b[A-Za-z][A-Za-z0-9-]*[A-Za-z0-9]\\b";
-	public static final String column_regex				= "\\b[\\w\\:]+\\b";
+	public static final String column_regex				= "\\b[\\w:]+\\b";
 	public static final String ldap_dn_regex			= "\\b\\w+=[\\w\\s]+(?:,\\w+=[\\w\\s]+)*\\b";
 	public static final String krb5_principal_regex		= String.format("%s(?:/%s)?(?:@%s)?", user_regex, hostname_regex, domain_regex);
 	public static final String threshold_range_regex	= "^(@)?(-?\\d+(?:\\.\\d+)?)(:)(-?\\d+(?:\\.\\d+)?)?$";
@@ -239,22 +258,29 @@ public class Utils {
 	}
 	
 	
-	public static final Boolean check_string (String str, String expected, String no_msg) {
-		if(str != null && str.equals(expected)){
-		    return true;
-		} else {
-		    critical();
-		    // revise msg
-		    return false;
+	public static final Boolean check_string (String str, String expected, Boolean no_msg) {
+		if(expected == null){
+			code_error("passed null as expected string to check_string()");
 		}
+		if(str != null && ( str == expected || str.equals(expected) ) ){
+		    return true;
+		}
+	    critical();
+	    /* implement when msg and thresholds are done
+	    if(nomsg){
+	    	
+	    }
+	    */
+	    return false;
+	}
+	public static final Boolean check_string (String str, String expected) {
+		return check_string(str, expected, false);
 	}
 
 	
 	// TODO: optional name
 	public static final double expand_units (double num, String units, String name) {
-	    if(name == null){
-	        code_error("null passed for string name to expand_units()");
-	    }
+	    name = name(name);
 	    if(units == null){
 	        code_error("null passed for units to expand_units()");
 	    }
@@ -274,7 +300,16 @@ public class Utils {
 		} else {
 			code_error(String.format("unrecognized units '%s' passed to expand_units()%s", units, name));
 		}
-		return (num * ( 1024 ^ power ) );
+		return (num * ( pow(1024, power) ) );
+	}
+	public static final double expand_units (double num, String units) {
+		return expand_units(num, units, null);
+	}
+	public static final long expand_units (long num, String units, String name) {
+		return (long) expand_units((double)num, units, name);
+	}
+	public static final long expand_units (long num, String units) {
+		return expand_units(num, units, null);
 	}
 
 	
@@ -283,41 +318,78 @@ public class Utils {
 	}
 	
 	
-	public static final String human_units (double num, String units, String name) {
+	public static final String human_units (double num, String units, Boolean terse) {
 	    if(units == null){
-	        code_error("null passed for units to human_units()");
+	    	units = "";
 	    }
 	    units = units.trim();
-	    String num_str = "-1";
 		if(!units.isEmpty()){
-			num = expand_units(num, units, name);
+			num = expand_units(num, units, "human_units");
 		}
-		if(num >= (1024 ^ 7)){
-			code_error(String.format("determine suspicious units for number '%s', larger than Exabytes?!!", num));
-		} else if(num >= (1024 ^ 6)){
-			num_str = String.format("%.2f", num / (1024 ^ 6));
+		// TODO: remove trailing zeros .00 from doubles
+		if(num >= pow(1024, 7)){
+			code_error(String.format("determined suspicious units for number '%s', larger than Exabytes?!!", num));
+		} else if(num >= pow(1024, 6)){
+			//num_str = String.format("%.2f", num / pow(1024, 6)).replaceFirst("\\.0+$", "");
+			num = num / pow(1024, 6);
 			units = "EB";
-		} else if(num >= (1024 ^ 5)){
-			num_str = String.format("%.2f", num / (1024 ^ 5));
+		} else if(num >= pow(1024, 5)){
+			//num_str = String.format("%.2f", num / pow(1024, 5));
+			num = num / pow(1024, 5);
 			units = "PB";
-		} else if(num >= (1024 ^ 4)){
-			num_str = String.format("%.2f", num / (1024 ^ 4));
+		} else if(num >= pow(1024, 4)){
+			//num_str = String.format("%.2f", num / pow(1024, 4));
+			num = num / pow(1024, 4);
 			units = "TB";
-		} else if(num >= (1024 ^ 3)){
-			num_str = String.format("%.2f", num / (1024 ^ 3));
+		} else if(num >= pow(1024, 3)){
+			//num_str = String.format("%.2f", num / pow(1024, 3));
+			num = num / pow(1024, 3);
 			units = "GB";
-		} else if(num >= (1024 ^ 2)){
-			num_str = String.format("%.2f", num / (1024 ^ 2));
+		} else if(num >= pow(1024, 2)){
+			//num_str = String.format("%.2f", num / pow(1024, 2));
+			num = num / pow(1024, 2);
 			units = "MB";
-		} else if(num >= (1024 ^ 1)){
-			num_str = String.format("%.2f", num / (1024 ^ 1));
+		} else if(num >= pow(1024, 1)){
+			//num_str = String.format("%.2f", num / pow(1024, 1));
+			num = num / pow(1024, 1);
 			units = "KB";
 		} else if(num < 1024){
-			return String.format("%sB", num);
+			//num_str = String.valueOf(num);
+			if(terse){
+				//return String.format("%sB", num);
+				units = "B";
+			} else {
+				//return String.format("%s bytes", num);
+				units = " bytes";
+			}
 		} else {
 			code_error("unable to determine units for number num");
 		}
+		String num_str = String.format("%.2f", num).replaceFirst("(\\.\\d+)0$", "$1").replaceFirst("\\.0+$", "");
 		return num_str + units;
+	}
+	public static String human_units (double num, String units) {
+		return human_units(num, units, false);
+	}
+	public static String human_units (double num) {
+		return human_units(num, null, false);
+	}
+	
+	public static String strip_scheme (String str) {
+		if(str.matches("^\\w+://[^/].*")){
+			return str.replaceFirst("^\\w+://", "");
+		} else {
+			return str.replaceFirst("^\\w+:/+", "/");
+		}
+	}
+	
+	public static String strip_scheme_host (String str) {
+		if(str.matches("^\\w+:///[^/].*")){
+			return str.replaceFirst("^\\w+:///", "/");
+		} else {
+			//return str.replaceFirst("^\\w+:(?://[^/]+)?/", "/");
+			return str.replaceFirst("^\\w+:(?://" + host_regex + "(?::\\d+)?)?/", "/");
+		}
 	}
 	
 	
@@ -379,7 +451,7 @@ public class Utils {
 	    if(str == null){
             return false;
         }
-        return str.matches("^[A-Za-z0-9{20}$");
+        return str.matches("^[A-Za-z0-9]{20}$");
 	}
 	
 	
@@ -391,14 +463,14 @@ public class Utils {
 	}
 	
 	
-	public static final Boolean isChars (String str, String chars) {
-	    if(str == null || chars == null){
+	public static final Boolean isChars (String str, String char_range) {
+	    if(str == null || char_range == null){
             return false;
         }
-        if(!isRegex(String.format("[%s]", chars))){
+        if(!isRegex(String.format("[%s]", char_range))){
 			code_error("invalid regex char range passed to isChars()");
 		}
-		return str.matches(String.format("^[%s]+$", chars));
+		return str.matches(String.format("^[%s]+$", char_range));
 	}
 	
 	
@@ -452,17 +524,19 @@ public class Utils {
 	
 	
 	public static final Boolean isDatabaseViewName (String view, Boolean allow_qualified) {
-		return isDatabaseTableName(view);
+		return isDatabaseTableName(view, allow_qualified);
 	}
-		
 	
 	public static final Boolean isDatabaseViewName (String view) {
-	    return isDatabaseTableName(view, false);
+	    return isDatabaseViewName(view, false);
 	}
 
 	
 	public static final Boolean isDirname(String dir){
-	    return isFilename(dir);
+	    if(dir == null || dir.trim().isEmpty()){
+	        return false;
+	    }
+	    return dir.matches("^" + dirname_regex + "$");
 	}
 	
 	public static final Boolean isDomain (String domain) {
@@ -689,9 +763,6 @@ public class Utils {
         if(url == null || url.trim().isEmpty()){
             return false;
         }
-        if(! url.matches("://")){
-            url = "http://" + url;
-        }
         if(url.matches("^" + url_regex + "$")){
             return true;
         } else {
@@ -754,7 +825,8 @@ public class Utils {
     }
     
     public static final String supported_os_msg = "this program is only supported on %s at this time";
-    
+ 
+    // TODO: change these to raise UnsupportedOperatingSystemException + then unit test
     public static final void linux_only(){
         if( ! isLinux() ){
             quit("UNKNOWN", String.format(supported_os_msg, "Linux"));
@@ -813,13 +885,11 @@ public class Utils {
     // plural
     // prompt
     // isYes
-    // randomAlnum
-    // resolve_ip
+    // random_alnum
     // sec2min
     // sec2human
     // set_sudo
     // set_timeout
-    // user_exists
     
     
     public static final String resolve_ip (String host) {
@@ -834,8 +904,9 @@ public class Utils {
         }
     }
     
-    
+    // only works on unix systems
     public static final Boolean user_exists (String user){
+    	linux_mac_only();
         if(user == null || user.trim().isEmpty()){
             return false;
         }
@@ -863,8 +934,9 @@ public class Utils {
     
     
     public static final void code_error (String msg) {
-        println("CODE ERROR: " + msg);
-        System.exit(exit_codes.get("UNKNOWN"));
+        //println("CODE ERROR: " + msg);
+        //System.exit(exit_codes.get("UNKNOWN"));
+        throw new IllegalArgumentException(msg);
     }
     
     
@@ -917,12 +989,21 @@ public class Utils {
 	}
 	
 	
-	private static final void println (String msg) {
+	public static final void println (String msg) {
 		if(stdout){
 			System.out.println(msg);
 		} else {
 			System.err.println(msg);
 		}
+	}
+	public static final void println (double num) {
+		println(String.valueOf(num));
+	}
+	public static final void println (long num) {
+		println(String.valueOf(num));
+	}
+	public static final void println (Boolean b){
+		println(b.toString());
 	}
 	
 	
@@ -931,7 +1012,7 @@ public class Utils {
 	}
 	
 	
-	public static final String repeat_chars(String chars, int num) {
+	public static final String repeat_string(String chars, int num) {
 	    StringBuilder string = new StringBuilder(); 
 	    for(int i = 0; i < num; i++){
 	        string.append(chars);
@@ -946,6 +1027,8 @@ public class Utils {
 	//
 	// ===================================================================== //
 	
+	// these methods are intentionally not throwing exceptions as they are designed for CLI usage and exit with usage()
+	// for try and recover behaviour use the corresponding is* methods which return Boolean
 	
 	public static final String name (String name) {
 	    if(name == null){
@@ -1008,7 +1091,7 @@ public class Utils {
 	    if(! isAwsAccessKey(key)){
 	        usage("invalid aws access key defined: must be 20 alphanumeric chars");
 	    }
-	    vlog_options("aws access key", repeat_chars("X", 18) + key.substring(18, 20));
+	    vlog_options("aws access key", repeat_string("X", 18) + key.substring(18, 20));
 	    return key;
 	}
 	
@@ -1037,7 +1120,7 @@ public class Utils {
         if(! isAwsSecretKey(key)){
             usage("invalid aws secret key defined: must be 20 alphanumeric chars");
         }
-        vlog_options("aws secret key", repeat_chars("X", 38) + key.substring(38, 40));
+        vlog_options("aws secret key", repeat_string("X", 38) + key.substring(38, 40));
         return key;
 	}
 	
@@ -1171,13 +1254,13 @@ public class Utils {
 	public static final String validate_domain (String domain, String name) {
         name = name(name);
         if(domain == null || domain.trim().isEmpty()){
-            usage(name + " domain not defined");
+            usage(name + "domain not defined");
         }
         domain = domain.trim();
         if(! isDomain(domain)){
-            usage("invalid " + name + " domain name defined ('" + domain + "')");
+            usage("invalid " + name + "domain name defined ('" + domain + "')");
         }
-        vlog_options(name + " domain", domain);
+        vlog_options(name + "domain", domain);
         return domain;
 	}
 	public static final String validate_domain (String domain) {
@@ -1185,18 +1268,46 @@ public class Utils {
 	}
 	
 	
+	public static final String validate_dirname (String dir, String name, Boolean noquit, Boolean novlog) {
+	    name = name(name);
+	    if(dir == null || dir.trim().isEmpty()){
+	        usage(name + "directory not defined");
+	    }
+	    dir = dir.trim();
+	    if(! isDirname(dir)){
+	        if(noquit){
+	            return null;
+	        }
+	        usage("invalid " + name + "directory (does not match regex criteria): '" + dir + "'");
+	    }
+	    if(! novlog){
+	        vlog_options(name + "directory", dir);
+	    }
+	    return dir;
+	}
+	public static final String validate_dirname (String dir, String name, Boolean quit) {
+		return validate_dirname(dir, name, quit, false);
+	}
+	public static final String validate_dirname (String dir, String name) {
+		return validate_dirname(dir, name, false, false);
+	}
+	public static final String validate_dirname (String dir) {
+		return validate_dirname(dir, null, false, false);
+	}
+	
+	
 	public static final String validate_directory (String dir, String name, Boolean noquit, Boolean novlog){
 	    name = name(name);
 	    if(noquit){
-	        // XXX: call validate-filename with noquit
-	        return validate_filename(dir, name + " directory", true);
+	        // XXX: call validate_filename with noquit
+	        return validate_dirname(dir, name, true);
 	    }
 	    if(dir == null || dir.trim().isEmpty()){
-	        usage(name + " directory not defined");
+	        usage(name + "directory not defined");
 	    }
 	    dir = dir.trim();
-	    if(null != validate_filename(dir, name, noquit, novlog)){
-	        usage("invalid " + name + " directory (does not match regex criteria: '" + dir + "'");
+	    if(null == validate_dirname(dir, name, noquit, novlog)){
+	        usage("invalid " + name + "directory (does not match regex criteria): '" + dir + "'");
 	    }
 	    return dir;
 	}
@@ -1211,6 +1322,21 @@ public class Utils {
 	}
 	public static final String validate_directory (String dir) {
 	    return validate_directory(dir, null, false, false);
+	}
+	public static final String validate_dir (String dir, String name, Boolean noquit, Boolean novlog) {
+		return validate_directory(dir, name, noquit, novlog);
+	}
+	public static final String validate_dir (String dir, String name, Boolean noquit) {
+		return validate_directory(dir, name, noquit, false);
+	}
+	public static final String validate_dir (String dir, String name) {
+		return validate_directory(dir, name, false, false);
+	}
+	public static final String validate_dir (String dir, Boolean noquit) {
+		return validate_directory(dir, null, noquit, false);
+	}
+	public static final String validate_dir (String dir) {
+		return validate_directory(dir, null, false, false);
 	}
 	
 	
@@ -1263,10 +1389,10 @@ public class Utils {
 	        if(noquit){
 	            return null;
 	        }
-	        usage("invalid " + name + " (does not match regex criteria: '" + filename + "'");
+	        usage("invalid " + name + "(does not match regex criteria): '" + filename + "'");
 	    }
 	    if(! novlog){
-	        vlog_options(name, filename);
+	        vlog_options(name.trim(), filename);
 	    }
 	    return filename;
 	}
@@ -1283,33 +1409,15 @@ public class Utils {
 	    return validate_filename(filename, null, false, false);
 	}
 	
-	public static final String validate_dirname (String dir, String name, Boolean noquit, Boolean novlog) {
-	    name = name(name);
-	    if(dir == null || dir.trim().isEmpty()){
-	        usage(name + "directory not defined");
-	    }
-	    dir = dir.trim();
-	    if(! isDirname(dir)){
-	        if(noquit){
-	            return null;
-	        }
-	        usage("invalid " + name + "directory (does not match regex criteria): '" + dir + "'");
-	    }
-	    if(! novlog){
-	        vlog_options(name + "directory", dir);
-	    }
-	    return dir;
-	}
-	
 	
 	public static final String validate_fqdn (String fqdn, String name) {
 	    name = name(name);
 	    if(fqdn == null || fqdn.trim().isEmpty()){
-	        usage(name + " FQDN not defined");
+	        usage(name + "FQDN not defined");
 	    }
 	    fqdn = fqdn.trim();
 	    if(! isFqdn(fqdn)){
-	        usage("invalid " + name + " FQDN defined");
+	        usage("invalid " + name + "FQDN defined");
 	    }
 	    vlog_options(name + "fqdn", fqdn);
 	    return fqdn;
@@ -1656,11 +1764,11 @@ public class Utils {
     public static final String validate_process_name (String process, String name) {
         name = name(name);
         if(process == null || process.trim().isEmpty()){
-            usage(name + " process name not defined");
+            usage(name + "process name not defined");
         }
         process = process.trim();
         if(! isProcessName(process)){
-            usage("invalid" + name + " process name defined:");
+            usage("invalid" + name + "process name defined:");
         }
         return process;
     }
@@ -1920,25 +2028,37 @@ public class Utils {
     //
     // ===================================================================== //
     
-    // TODO: replace this with Log4j
+    public static int getVerbose(){
+    	return verbose;
+    }
+    
+    public static void setVerbose (int v) {
+    	if(v >= 0){
+    		verbose = v;
+    	} else {
+    		code_error(String.format("invalid verbosity level '%s' passed to setVerbose()", v));
+    	}
+    }
+    
+    // TODO: add Log4j here
     
     public static final void vlog (String str) {
         if(str == null){
             str = "<null!>";
         }
-        if(verbose >= 1){
+        if(getVerbose() >= 1){
             println(str);
         }
     }
 
     public static final void vlog2 (String str) {
-        if(verbose >= 2){
+        if(getVerbose() >= 2){
             println(str);
         }
     }
     
     public static final void vlog3 (String str) {
-        if(verbose >= 3){
+        if(getVerbose() >= 3){
             println(str);
         }
     }

@@ -808,8 +808,12 @@ public class Utils {
         System.getProperties().list(System.out);
     }
     
+    public static final String getOS(){
+    	return System.getProperty("os.name");
+    }
+    
     public static final Boolean isOS (String os) {
-        if(os != null && os.equals(System.getProperty("os.name"))){
+        if(os != null && os.equals(getOS())){
             return true;
         } else {
             return false;

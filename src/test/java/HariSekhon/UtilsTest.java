@@ -436,21 +436,21 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_isLinux(){
     	if(isLinux()){
-    		assertTrue(System.getProperty("os.name").equals("Linux"));
+    		assertEquals("isLinux()", "Linux", System.getProperty("os.name"));
     	}
     }
     
     @Test
     public void test_isMac(){
-    	if(isLinux()){
-    		assertTrue(System.getProperty("os.name").equals("Mac OS X"));
+    	if(isMac()){
+    		assertEquals("isMac()", "Mac OS X", System.getProperty("os.name"));
     	}
     }
     
     @Test
     public void test_isLinuxOrMac(){
     	if(isLinuxOrMac()){
-    		assertTrue(System.getProperty("os.name").matches("Linux|Mac OS X"));
+    		assertTrue("isLinuxOrMac()", System.getProperty("os.name").matches("Linux|Mac OS X"));
     	}
     }
     

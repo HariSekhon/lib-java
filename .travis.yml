@@ -10,3 +10,11 @@ jdk:
   - oraclejdk8
   - oraclejdk7
   - openjdk6
+
+after_success:
+  # JaCoCo gives error, skip for now and just use Cobertura:
+  # [WARNING] Classes in bundle 'Utils' do no match with execution data. For report
+  # generation the same class files must be used as at runtime.
+  # [WARNING] Execution data for class HariSekhon/Utils does not match.
+  #- mvn clean cobertura:cobertura jacoco:report coveralls:report
+  - mvn clean cobertura:cobertura coveralls:report

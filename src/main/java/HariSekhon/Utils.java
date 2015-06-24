@@ -824,6 +824,10 @@ public class Utils {
         return isOS("Linux");
     }
     
+    public static final Boolean isLinuxOrMac(){
+    	return isLinux() || isMac();
+    }
+    
     public static final String supported_os_msg = "this program is only supported on %s at this time";
  
     // TODO: change these to raise UnsupportedOperatingSystemException + then unit test
@@ -2015,7 +2019,6 @@ public class Utils {
         } else {
             for(String path: System.getenv("PATH").split(":")){
                 String fullpath = path + "/" + bin;
-                println("checking " + fullpath);
                 File f = new File(fullpath);
                 if((f.exists() && ! f.isDirectory())){
                     if(! f.canExecute()){

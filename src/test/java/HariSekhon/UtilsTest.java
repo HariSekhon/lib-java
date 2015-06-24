@@ -417,14 +417,50 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
     
     @Test
+    public void test_isVersion(){
+    	assertTrue(isVersion("1"));
+    	assertTrue(isVersion("2.1.2"));
+    	assertTrue(isVersion("2.2.0.4"));
+    	assertTrue(isVersion("3.0"));
+    	assertFalse(isVersion("a"));
+    	assertFalse(isVersion("3a"));
+    	assertFalse(isVersion("1.0-2"));
+    	assertFalse(isVersion("1.0-a"));
+    }
+    
+    @Test
     public void test_isOS(){
     	assertTrue(isOS(System.getProperty("os.name")));
     }
     
     @Test
+    public void test_isLinux(){
+    	if(isLinux()){
+    		assertTrue(System.getProperty("os.name").equals("Linux"));
+    	}
+    }
+    
+    @Test
+    public void test_isMac(){
+    	if(isLinux()){
+    		assertTrue(System.getProperty("os.name").equals("Mac OS X"));
+    	}
+    }
+    
+    @Test
+    public void test_isLinuxOrMac(){
+    	if(isLinuxOrMac()){
+    		assertTrue(System.getProperty("os.name").matches("Linux|Mac OS X"));
+    	}
+    }
+    
+    @Test
     public void test_resolve_ip(){
-    	// TODO: re-enable later
-    	//assertEquals("resolve_ip(a.resolvers.level3.net)", 	"4.2.2.1", 	resolve_ip("a.resolvers.level3.net"));
+    	// if not on a decent OS assume I'm somewhere lame like a bank where internal resolvers don't resolve internet addresses
+    	// this way my continous integration tests still run this one
+    	if(isLinuxOrMac()){
+    		assertEquals("resolve_ip(a.resolvers.level3.net)", 	"4.2.2.1", 	resolve_ip("a.resolvers.level3.net"));
+    	}
     	assertEquals("resolve_ip(4.2.2.1)",					"4.2.2.1", 	resolve_ip("4.2.2.1"));
     }
     
@@ -610,7 +646,6 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("validate_ip(validate_ip(10.10.10.1)",     "10.10.10.1",   validate_ip("10.10.10.1"));
         assertEquals("validate_ip(validate_ip(10.10.10.10)",    "10.10.10.10",  validate_ip("10.10.10.10"));
         assertEquals("validate_ip(validate_ip(10.10.10.100)",   "10.10.10.100", validate_ip("10.10.10.100"));
-        assertEquals("validate_ip(validate_ip(10.10.10.1)",     "10.10.10.1",   validate_ip("10.10.10.1"));
         assertEquals("validate_ip(validate_ip(254.0.0.254)",    "254.0.0.254",  validate_ip("254.0.0.254"));
     }
     
@@ -693,8 +728,10 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     @Test
     public void test_validate_which(){
-        assertEquals("which(sh)",                           "/bin/sh",      which("sh"));
-        assertEquals("which(/bin/bash)",                    "/bin/bash",    which("/bin/bash"));
+    	if(isLinuxOrMac()){
+    		assertEquals("which(sh)",                           "/bin/sh",      which("sh"));
+    		assertEquals("which(/bin/bash)",                    "/bin/bash",    which("/bin/bash"));
+    	}
         assertEquals("which(/explicit/nonexistent/path",    null,           which("/explicit/nonexistent/path"));
         assertEquals("which(nonexistentprogram",            null,           which("nonexistentprogram"));
     }

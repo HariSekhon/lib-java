@@ -809,7 +809,11 @@ public class Utils {
     }
     
     public static final String getOS(){
-    	return System.getProperty("os.name");
+    	String os = System.getProperty("os.name");
+    	if(os == null || os.trim().isEmpty()){
+    		throw new IllegalStateException("unknown OS, retrieved null or blank for OS");
+    	}
+    	return os;
     }
     
     public static final Boolean isOS (String os) {

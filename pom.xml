@@ -71,6 +71,60 @@
           <compilerVersion>1.6</compilerVersion>
         </configuration>
       </plugin>
+      <plugin>
+          <groupId>org.eluder.coveralls</groupId>
+          <artifactId>coveralls-maven-plugin</artifactId>
+          <version>3.1.0</version>
+          <configuration>
+              <!-- <repoToken>yourcoverallsprojectrepositorytoken</repoToken> -->
+          </configuration>
+      </plugin>
+      <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>cobertura-maven-plugin</artifactId>
+          <version>2.6</version>
+          <configuration>
+              <format>xml</format>
+              <maxmem>256m</maxmem>
+              <!-- aggregated reports for multi-module projects -->
+              <aggregate>true</aggregate>
+          </configuration>
+      </plugin>
+      <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.7.2.201409121644</version>
+          <executions>
+              <execution>
+                  <id>prepare-agent</id>
+                  <goals>
+                      <goal>prepare-agent</goal>
+                  </goals>
+              </execution>
+          </executions>
+      </plugin>
+      <!-- gives an IllegalArgumentException which looks like a bug in this plugin
+      [ERROR] Failed to execute goal com.github.timurstrekalov:saga-maven-plugin:1.5.2 :coverage (default-cli) on project Utils: Caught IllegalArgumentException: illegal parameters?: Illegal character in authority at index 7: http://localhost:${jasmine.serverPort} -> [Help 1]
+      <plugin>
+          <groupId>com.github.timurstrekalov</groupId>
+          <artifactId>saga-maven-plugin</artifactId>
+          <version>1.5.2</version>
+          <executions>
+              <execution>
+                  <goals>
+                      <goal>coverage</goal>
+                  </goals>
+              </execution>
+          </executions>
+          <configuration>
+              <baseDir>http://localhost:${jasmine.serverPort}</baseDir>
+              <outputDir>${project.build.directory}/saga-coverage</outputDir>
+              <noInstrumentPatterns>
+                  <pattern>.*/spec/.*</pattern>
+              </noInstrumentPatterns>
+          </configuration>
+      </plugin>
+      -->
     </plugins>
   </build>
 

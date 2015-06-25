@@ -104,6 +104,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	setStatus("UNKNOWN");
     }
     
+	// ====================================================================== //
 	@Test
     public void test_check_regex(){
     	//println(check_regex("test", "test"));
@@ -117,6 +118,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	check_regex("test", "*est");
     }
     
+    // ====================================================================== //
     @Test
     public void test_check_string(){
     	//println(check_string("test", "test"));
@@ -125,6 +127,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertFalse("check_string(test,test2)", check_string("test", "test2"));
     }
     
+    // ====================================================================== //
     @Test
     public void test_expand_units(){
     	//println(expand_units(10, "kb")); // => 10240
@@ -138,6 +141,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertEquals("expand_units(10, KB)", 	10240.0,  			expand_units(10.0, "KB", "some Name"), 	0);
     }
     
+    // ====================================================================== //
     @Test
     public void test_human_units(){
     	//println(human_units(1023     * pow(1024,1)));
@@ -150,284 +154,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertEquals("human units EB",		"1023EB",		human_units(1023 	 * pow(1024,6)));
     }
     
-    @Test
-    public void test_isAlNum(){
-    	assertTrue("isAlNum(ABC123efg)", isAlNum("ABC123efg"));
-    	assertTrue("isAlNum(0)", 		 isAlNum("0"));
-    	assertFalse("isAlNum(1.2)",		 isAlNum("1.2"));
-    	assertFalse("isAlNum(\"\")",     isAlNum(""));
-    	assertFalse("isAlNum(hari@domain.com)",     isAlNum("hari@domain.com"));
-    }
-    
-    @Test
-    public void test_isAwsAccessKey(){
-    	assertTrue(isAwsAccessKey(repeat_string("A", 20)));
-    	assertTrue(isAwsAccessKey(repeat_string("1",20)));
-    	assertTrue(isAwsAccessKey(repeat_string("A1",10)));
-    	assertFalse(isAwsAccessKey(repeat_string("@",20)));
-    	assertFalse(isAwsAccessKey(repeat_string("A",40)));
-    }
-    
-    @Test
-    public void test_isAwsSecretKey(){
-    	assertTrue(isAwsSecretKey(repeat_string("A",40)));
-    	assertTrue(isAwsSecretKey(repeat_string("1",40)));
-    	assertTrue(isAwsSecretKey(repeat_string("A1",20)));
-    	assertFalse(isAwsSecretKey(repeat_string("@",40)));
-    	assertFalse(isAwsSecretKey(repeat_string("A",20)));
-    }
-    
-    @Test
-    public void test_isChars(){
-    	assertTrue(isChars("Alpha-01_", "A-Za-z0-9_-"));
-    	assertFalse(isChars("Alpha-01_*", "A-Za-z0-9_-"));
-    }
-    
-    @Test
-    public void test_isCollection(){
-    	assertTrue(isCollection("students.grades"));
-    	assertFalse(isCollection("wrong@.grades"));
-    }
-    
-    @Test
-    public void test_isDatabaseName(){
-    	assertTrue(isDatabaseName("mysql1"));
-    	assertFalse(isDatabaseName("my@sql"));
-    }
-    
-    @Test
-    public void test_isDatabaseColumn(){
-    	assertTrue(isDatabaseColumnName("myColumn_1"));
-    	assertFalse(isDatabaseColumnName("'column'"));
-    }
-    
-    @Test
-    public void test_isDatabaseFieldName(){
-    	assertTrue(isDatabaseFieldName("2"));
-    	assertTrue(isDatabaseFieldName("age"));
-    	assertTrue(isDatabaseFieldName("count(*)"));
-    	assertFalse(isDatabaseFieldName("@something"));
-    }
-    
-    @Test
-    public void test_isDatabaseTableName(){
-    	assertTrue(isDatabaseTableName("myTable_1"));
-    	assertTrue(isDatabaseTableName("default.myTable_1", true));
-    	assertFalse(isDatabaseTableName("'table'"));
-    	assertFalse(isDatabaseTableName("default.myTable_1", false));
-    	assertFalse(isDatabaseTableName("default.myTable_1"));
-    }
-    
-    @Test
-    public void test_isDatabaseViewName(){
-    	assertTrue(isDatabaseViewName("myView_1"));
-    	assertTrue(isDatabaseViewName("default.myView_1", true));
-    	assertFalse(isDatabaseViewName("'view'"));
-    	assertFalse(isDatabaseViewName("default.myView_1", false));
-    	assertFalse(isDatabaseViewName("default.myView_1"));
-    }
-    
-    @Test
-    public void test_isDomain(){
-    	assertTrue(isDomain("localDomain"));
-    	assertTrue(isDomain("harisekhon.com"));
-    	assertTrue(isDomain("1harisekhon.com"));
-    	assertTrue(isDomain("com"));
-    	assertTrue(isDomain(repeat_string("a",63) + ".com"));
-    	assertFalse(isDomain(repeat_string("a",64) + ".com"));
-    	assertFalse(isDomain("harisekhon")); // not a valid TLD
-    }
-    
-    @Test
-    public void test_isDomainStrict(){
-    	assertFalse(isDomainStrict("com"));
-    	assertTrue(isDomainStrict("domain.com"));
-    	assertTrue(isDomainStrict("domain.local"));
-    	assertTrue(isDomainStrict("domain.localDomain"));
-    }
-    
-    @Test
-    public void test_isDnsShortName(){
-    	assertTrue(isDnsShortName("myHost"));
-    	assertFalse(isDnsShortName("myHost.domain.com"));
-    }
-    
-    @Test
-    public void test_isEmail(){
-    	assertTrue(isEmail("hari'sekhon@gmail.com"));
-    	assertTrue(isEmail("hari@LOCALDOMAIN"));
-    	assertFalse(isEmail("harisekhon"));
-    }
-    
-    @Test
-    public void test_isFile(){
-    	assertTrue(isFilename("some_File.txt"));
-    	assertTrue(isFilename("/tmp/test"));
-    	assertFalse(isFilename("@me"));
-    }
-    
-    @Test
-    public void test_isFqdn(){
-    	assertTrue(isFqdn("hari.sekhon.com"));
-    	assertFalse(isFqdn("hari@harisekhon.com"));
-    }
-    
-    @Test
-    public void test_isHex(){
-    	assertTrue(isHex("0xAf09b"));
-    	assertFalse(isHex("9"));
-    	assertFalse(isHex("0xhari"));
-    }
-    
-    //@Test(timeout=1000)
-    public void test_isHost(){
-    	assertTrue(isHost("harisekhon.com"));
-    	assertTrue(isHost("harisekhon"));
-    	assertTrue(isHost("10.10.10.1"));
-    	assertTrue(isHost("10.10.10.10"));
-    	assertTrue(isHost("10.10.10.100"));
-    	assertTrue(isHost("10.10.10.0"));
-    	assertTrue(isHost("10.10.10.255"));
-    	assertFalse(isHost("10.10.10.256"));
-    	assertFalse(isHost(repeat_string("a", 256)));
-    }
-    
-    @Test
-    public void test_isHostname(){
-    	assertTrue(isHostname("harisekhon.com"));
-    	assertTrue(isHostname("harisekhon"));
-    	assertTrue(isHostname("a"));
-    	assertTrue(isHostname("harisekhon1.com"));
-    	assertFalse(isHostname("1"));
-    	assertFalse(isHostname("1harisekhon.com"));
-    	assertTrue(isHostname(repeat_string("a",63)));
-    	assertFalse(isHostname(repeat_string("a",64)));
-    }
-    
-    @Test
-    public void test_isInterface(){
-    	assertTrue(isInterface("eth0"));
-    	assertTrue(isInterface("bond3"));
-    	assertTrue(isInterface("lo"));
-    	assertFalse(isInterface("b@interface"));
-    }
-    
-    @Test
-    public void test_isIP(){
-    	assertTrue("isIP(10.10.10.1)",        isIP("10.10.10.1"));
-    	assertTrue("isIP(10.10.10.10)",       isIP("10.10.10.10"));
-    	assertTrue("isIP(10.10.10.100)",      isIP("10.10.10.100"));
-    	assertTrue("isIP(254.0.0.254)",       isIP("254.0.0.254"));
-    	assertTrue("isIP(255.255.255.254)",   isIP("255.255.255.254"));
-    	assertTrue("isIP(10.10.10.0)",        isIP("10.10.10.0"));
-    	assertTrue("isIP(10.10.10.255)",      isIP("10.10.10.255"));
-    	assertFalse("isIP(10.10.10.256)",     isIP("10.10.10.256"));
-    	assertFalse("isIP(x.x.x.x)",          isIP("x.x.x.x"));
-    }
-    
-    @Test
-    public void test_Krb5Princ(){
-    	assertTrue(isKrb5Princ("tgt/HARI.COM@HARI.COM"));
-    	assertTrue(isKrb5Princ("hari"));
-    	assertTrue(isKrb5Princ("hari@HARI.COM"));
-    	assertTrue(isKrb5Princ("hari/my.host.local@HARI.COM"));
-    	assertTrue(isKrb5Princ("cloudera-scm/admin@REALM.COM"));
-    	assertTrue(isKrb5Princ("cloudera-scm/admin@SUB.REALM.COM"));
-    	assertTrue(isKrb5Princ("hari@hari.com"));
-    	assertFalse(isKrb5Princ("hari$HARI.COM"));
-    }
-    
-    @Test
-    public void test_isNagiosUnit(){
-    	assertTrue(isNagiosUnit("s"));
-    	assertTrue(isNagiosUnit("ms"));
-    	assertTrue(isNagiosUnit("%"));
-    	assertTrue(isNagiosUnit("Kb"));
-    	assertFalse(isNagiosUnit("Kbps"));
-    }
-    
-    @Test
-    public void test_isNoSqlKey(){
-    	assertTrue(isNoSqlKey("HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc"));
-    	assertFalse(isNoSqlKey("HariSekhon@check_riak_write.pl"));
-    }
-    
-    @Test
-    public void test_isPort(){
-    	assertTrue(isPort("80"));
-    	assertTrue(isPort(80));
-    	assertTrue(isPort(65535));
-    	assertFalse(isPort(65536));
-    	assertFalse(isPort("a"));
-    	assertFalse(isPort("-1"));
-    	assertFalse(isPort("0"));
-    	assertFalse(isPort(-1));
-    	assertFalse(isPort(0));
-    }
-    
-    @Test
-    public void test_isLabel(){
-    	assertTrue(isLabel("st4ts used_(%%)"));
-    	assertFalse(isLabel("b@dlabel"));
-    }
-    
-    @Test
-    public void test_isProcessName(){
-    	assertTrue(isProcessName("../my_program"));
-    	assertTrue(isProcessName("ec2-run-instances"));
-    	assertTrue(isProcessName("sh <defunct>"));
-    	assertFalse(isProcessName("./b@dfile"));
-    	assertFalse(isProcessName("[init] 3"));
-    }
-    
-    @Test
-    public void test_isRegex(){
-    	assertTrue(isRegex(".*"));
-    	assertTrue(isRegex("(.*)"));
-    	assertFalse(isRegex("(.*"));
-    }
-    
-    @Test
-    public void test_isUrl(){
-    	assertTrue(isUrl("www.google.com"));
-    	assertTrue(isUrl("http://www.google.com"));
-    	assertTrue(isUrl("https://gmail.com"));
-    	assertFalse(isUrl("1"));
-    	assertTrue(isUrl("http://cdh43:50070/dfsnodelist.jsp?whatNodes=LIVE"));
-    }
-    
-    @Test
-    public void test_UrlPathSuffix(){
-    	assertTrue(isUrlPathSuffix("/"));
-    	assertTrue(isUrlPathSuffix("/?var=something"));
-    	assertTrue(isUrlPathSuffix("/dir1/file.php?var=something+else&var2=more%20stuff"));
-    	assertTrue(isUrlPathSuffix("/*"));
-    	assertTrue(isUrlPathSuffix("/~hari"));
-    	assertFalse(isUrlPathSuffix("hari"));
-    }
-    
-    @Test
-    public void test_isUser(){
-    	assertTrue(isUser("hadoop"));
-    	assertTrue(isUser("hari1983"));
-    	assertTrue(isUser("cloudera-scm"));
-    	assertTrue(isUser("cloudera-scm"));
-    	assertFalse(isUser("-hari"));
-    	assertFalse(isUser("1983hari"));
-    }
-    
-    @Test
-    public void test_isVersion(){
-    	assertTrue(isVersion("1"));
-    	assertTrue(isVersion("2.1.2"));
-    	assertTrue(isVersion("2.2.0.4"));
-    	assertTrue(isVersion("3.0"));
-    	assertFalse(isVersion("a"));
-    	assertFalse(isVersion("3a"));
-    	assertFalse(isVersion("1.0-2"));
-    	assertFalse(isVersion("1.0-a"));
-    }
-    
+    // ====================================================================== //
+    //							O S   H e l p e r s
+    // ====================================================================== //
     @Test
     public void test_isOS(){
     	assertTrue(isOS(System.getProperty("os.name")));
@@ -454,6 +183,572 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	}
     }
     
+    // ====================================================================== //
+    // 			   V a l i d a t i o n    M e t h o d s
+    // ====================================================================== //
+    
+    @Test
+    public void test_isAlNum(){
+    	assertTrue("isAlNum(ABC123efg)", isAlNum("ABC123efg"));
+    	assertTrue("isAlNum(0)", 		 isAlNum("0"));
+    	assertFalse("isAlNum(1.2)",		 isAlNum("1.2"));
+    	assertFalse("isAlNum(\"\")",     isAlNum(""));
+    	assertFalse("isAlNum(hari@domain.com)",     isAlNum("hari@domain.com"));
+    }
+    
+    @Test
+    public void test_validate_alnum(){
+    	assertEquals("validate_alnum(Alnum2Test99, alnum test)", "Alnum2Test99", validate_alnum("Alnum2Test99", "alnum test"));
+    	assertEquals("validate_alnum(0, alnum zero)", "0", validate_alnum("0", "alnum zero"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isAwsAccessKey(){
+    	assertTrue(isAwsAccessKey(repeat_string("A", 20)));
+    	assertTrue(isAwsAccessKey(repeat_string("1",20)));
+    	assertTrue(isAwsAccessKey(repeat_string("A1",10)));
+    	assertFalse(isAwsAccessKey(repeat_string("@",20)));
+    	assertFalse(isAwsAccessKey(repeat_string("A",40)));
+    }
+    
+    @Test
+    public void test_isAwsSecretKey(){
+    	assertTrue(isAwsSecretKey(repeat_string("A",40)));
+    	assertTrue(isAwsSecretKey(repeat_string("1",40)));
+    	assertTrue(isAwsSecretKey(repeat_string("A1",20)));
+    	assertFalse(isAwsSecretKey(repeat_string("@",40)));
+    	assertFalse(isAwsSecretKey(repeat_string("A",20)));
+    }
+    
+    @Test
+    public void test_validate_aws_access_key(){
+    	assertEquals("validate_aws_access_key(Ax20)", repeat_string("A", 20), validate_aws_access_key(repeat_string("A",20)));
+    }
+    
+    @Test
+    public void test_validate_aws_bucket(){
+    	assertEquals("validate_aws_bucket(BucKeT63)", "BucKeT63", validate_aws_bucket("BucKeT63"));
+    }
+    
+    @Test
+    public void test_validate_aws_secret_key(){
+    	assertEquals("validate_aws_secret_key(BucKeT63)", repeat_string("A", 40), validate_aws_secret_key(repeat_string("A", 40)));
+    }
+    
+    
+    // ====================================================================== //
+    @Test
+    public void test_isChars(){
+    	assertTrue(isChars("Alpha-01_", "A-Za-z0-9_-"));
+    	assertFalse(isChars("Alpha-01_*", "A-Za-z0-9_-"));
+    }
+    
+    @Test
+    public void test_validate_chars(){
+    	assertEquals("validate_chars(...)", "log_date=2015-05-23_10", validate_chars("log_date=2015-05-23_10", "validate chars", "A-Za-z0-9_=-"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isCollection(){
+    	assertTrue(isCollection("students.grades"));
+    	assertFalse(isCollection("wrong@.grades"));
+    }
+
+    @Test
+    public void test_validate_collection(){
+    	assertEquals("validate_collection(students.grades)", "students.grades", validate_collection("students.grades"));
+    }
+
+    // ====================================================================== //
+    @Test
+    public void test_isDatabaseName(){
+    	assertTrue(isDatabaseName("mysql1"));
+    	assertFalse(isDatabaseName("my@sql"));
+    }
+
+    @Test
+    public void test_validate_database(){
+    	assertEquals("validate_database(mysql)", "mysql", validate_database("mysql", "MySQL"));
+    }
+
+    // ====================================================================== //
+    @Test
+    public void test_isDatabaseColumnName(){
+    	assertTrue(isDatabaseColumnName("myColumn_1"));
+    	assertFalse(isDatabaseColumnName("'column'"));
+    }
+
+    @Test
+    public void test_validate_database_columnname(){
+    	assertEquals("validate_database_columnname(myColumn_1)", "myColumn_1", validate_database_columnname("myColumn_1"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isDatabaseFieldName(){
+    	assertTrue(isDatabaseFieldName("2"));
+    	assertTrue(isDatabaseFieldName("age"));
+    	assertTrue(isDatabaseFieldName("count(*)"));
+    	assertFalse(isDatabaseFieldName("@something"));
+    }
+    
+    @Test
+    public void test_validate_database_fieldname(){
+    	assertEquals("validate_database_fieldname(age)", "age", validate_database_fieldname("age"));
+    	assertEquals("validate_database_fieldname(10)", "10", validate_database_fieldname("10"));
+    	assertEquals("validate_database_fieldname(count(*))", "count(*)", validate_database_fieldname("count(*)"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isDatabaseTableName(){
+    	assertTrue(isDatabaseTableName("myTable_1"));
+    	assertTrue(isDatabaseTableName("default.myTable_1", true));
+    	assertFalse(isDatabaseTableName("'table'"));
+    	assertFalse(isDatabaseTableName("default.myTable_1", false));
+    	assertFalse(isDatabaseTableName("default.myTable_1"));
+    }
+    
+    @Test
+    public void test_validate_database_tablename(){
+    	assertEquals("validate_database_tablename(myTable, Hive)", "myTable", validate_database_tablename("myTable", "Hive"));
+    	assertEquals("validate_database_tablename(default.myTable, Hive, true)", "default.myTable", validate_database_tablename("default.myTable", "Hive", true));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isDatabaseViewName(){
+    	assertTrue(isDatabaseViewName("myView_1"));
+    	assertTrue(isDatabaseViewName("default.myView_1", true));
+    	assertFalse(isDatabaseViewName("'view'"));
+    	assertFalse(isDatabaseViewName("default.myView_1", false));
+    	assertFalse(isDatabaseViewName("default.myView_1"));
+    }
+    
+    @Test
+    public void test_validate_database_viewname(){
+    	assertEquals("validate_database_viewname(myView, Hive)", "myView", validate_database_viewname("myView", "Hive"));
+    	assertEquals("validate_database_viewname(default.myView, Hive, true)", "default.myView", validate_database_viewname("default.myView", "Hive", true));
+    }
+    
+    // ====================================================================== //
+    
+    @Test
+    public void test_isDirname(){
+    	assertTrue("isDirname(test_Dir)", isDirname("test_Dir"));
+    	assertTrue("isDirname(/tmp/test)", isDirname("/tmp/test"));
+    	assertTrue("isDirname(./test)", isDirname("./test"));
+    	assertFalse("isDirname(@me)", isDirname("@me"));
+    }
+    
+    @Test
+    public void test_validate_dirname(){
+    	assertEquals("validate_dirname(./src)", 	"./src", 	validate_dirname("./src", "dirname"));
+    	assertEquals("validate_dirname(/etc)", 	"/etc", 	validate_dirname("/etc", "dirname"));
+    	assertEquals("validate_dirname(/etc/)", 	"/etc/", 	validate_dirname("/etc/", "dirname"));
+    	assertEquals("validate_dirname(b@dDir)", 	null,   	validate_dirname("b@dDir", "invalid dir", true));
+    }
+    
+	@Test
+	public void test_validate_directory(){
+		if(isLinuxOrMac()){
+			assertEquals("validate_directory(./src)", 	"./src", 	validate_directory("./src", "directory"));
+			assertEquals("validate_directory(/etc)", 	"/etc", 	validate_directory("/etc", "directory"));
+			assertEquals("validate_directory(/etc/)", 	"/etc/", 	validate_directory("/etc/", "directory"));
+		}
+		assertEquals("validate_directory(b@dDir)", 	null,   	validate_directory("b@dDir", "invalid dir", true));
+	}
+
+    @Test
+    public void test_validate_dir(){
+    	if(isLinuxOrMac()){
+	    	assertEquals("validate_dir(./src)", 	"./src", 	validate_dir("./src", "directory"));
+	    	assertEquals("validate_dir(/etc)", 		"/etc", 	validate_dir("/etc", "dir"));
+	    	assertEquals("validate_dir(/etc/)", 	"/etc/", 	validate_dir("/etc/", "dir"));
+    	}
+    	assertEquals("validate_dir(b@dDir)", 	null,   	validate_dir("b@dDir", "invalid dir", true));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isDomain(){
+    	assertTrue(isDomain("localDomain"));
+    	assertTrue(isDomain("harisekhon.com"));
+    	assertTrue(isDomain("1harisekhon.com"));
+    	assertTrue(isDomain("com"));
+    	assertTrue(isDomain(repeat_string("a",63) + ".com"));
+    	assertFalse(isDomain(repeat_string("a",64) + ".com"));
+    	assertFalse(isDomain("harisekhon")); // not a valid TLD
+    }
+    
+    @Test
+    public void test_validate_domain(){
+    	assertEquals("validate_domain(harisekhon.com)", "harisekhon.com", validate_domain("harisekhon.com"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isDomainStrict(){
+    	assertFalse(isDomainStrict("com"));
+    	assertTrue(isDomainStrict("domain.com"));
+    	assertTrue(isDomainStrict("123domain.com"));
+    	assertTrue(isDomainStrict("domain1.com"));
+    	assertTrue(isDomainStrict("domain.local"));
+    	assertTrue(isDomainStrict("domain.localDomain"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isDnsShortName(){
+    	assertTrue(isDnsShortName("myHost"));
+    	assertFalse(isDnsShortName("myHost.domain.com"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isEmail(){
+    	assertTrue(isEmail("hari'sekhon@gmail.com"));
+    	assertTrue(isEmail("hari@LOCALDOMAIN"));
+    	assertFalse(isEmail("harisekhon"));
+    }
+    
+    @Test
+    public void test_validate_email(){
+    	assertEquals("validate_email(hari@domain.com)", "hari@domain.com", validate_email("hari@domain.com"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isFileName(){
+    	assertTrue(isFilename("some_File.txt"));
+    	assertTrue(isFilename("/tmp/test"));
+    	assertFalse(isFilename("@me"));
+    }
+    
+    @Test
+    public void test_validate_filename(){
+    	assertEquals("validate_filename(./pom.xml)", "./pom.xml", validate_filename("./pom.xml"));
+    	assertEquals("validate_filename(/etc/passwd)", "/etc/passwd", validate_filename("/etc/passwd"));
+    	assertEquals("validate_filename(/etc/passwd/)", null, validate_filename("/etc/passwd/", "/etc/passwd/", true));
+    	assertEquals("validate_filename(/nonexistentfile)", "/nonexistentfile", validate_filename("/nonexistentfile", "nonexistentfile", true));
+    }
+    
+    @Test
+    public void test_validate_file(){
+    	assertEquals("validate_file(./pom.xml)", "./pom.xml", validate_file("./pom.xml"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isFqdn(){
+    	assertTrue(isFqdn("hari.sekhon.com"));
+    	assertFalse(isFqdn("hari@harisekhon.com"));
+    }
+
+    @Test
+    public void test_validate_fqdn(){
+        assertEquals("validate_fqdn(www.harisekhon.com)", "www.harisekhon.com", validate_fqdn("www.harisekhon.com"));
+        // permissive because of short tld style internal domains
+        assertEquals("validate_fqdn(myhost.local)", "myhost.local", validate_fqdn("myhost.local"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isHex(){
+    	assertTrue(isHex("0xAf09b"));
+    	assertFalse(isHex("9"));
+    	assertFalse(isHex("0xhari"));
+    }
+    
+    // ====================================================================== //
+    //@Test(timeout=1000)
+    @Test
+    public void test_isHost(){
+    	assertTrue(isHost("harisekhon.com"));
+    	assertTrue(isHost("harisekhon"));
+    	assertTrue(isHost("10.10.10.1"));
+    	assertTrue(isHost("10.10.10.10"));
+    	assertTrue(isHost("10.10.10.100"));
+    	assertTrue(isHost("10.10.10.0"));
+    	assertTrue(isHost("10.10.10.255"));
+    	assertFalse(isHost("10.10.10.256"));
+    	assertFalse(isHost(repeat_string("a", 256)));
+    }
+    
+    @Test
+    public void test_validate_host(){
+    	assertEquals("validate_host(10.10.10.10)", "10.10.10.10", validate_host("10.10.10.10"));
+    	assertEquals("validate_host(myHost)",	   "myHost",	  validate_host("myHost"));
+    	assertEquals("validate_host(myHost.myDomain.com)",	"myHost.myDomain.com",	validate_host("myHost.myDomain.com"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isHostname(){
+    	assertTrue(isHostname("harisekhon.com"));
+    	assertTrue(isHostname("harisekhon"));
+    	assertTrue(isHostname("a"));
+    	assertTrue(isHostname("harisekhon1.com"));
+    	assertFalse(isHostname("1"));
+    	assertFalse(isHostname("1harisekhon.com"));
+    	assertTrue(isHostname(repeat_string("a",63)));
+    	assertFalse(isHostname(repeat_string("a",64)));
+    }
+    
+    @Test
+    public void test_validate_hostname(){
+    	assertEquals("validate_hostname(myHost)",	   "myHost",	  validate_hostname("myHost"));
+    	assertEquals("validate_hostname(myHost.myDomain.com)",	"myHost.myDomain.com",	validate_hostname("myHost.myDomain.com"));
+    	assertEquals("validate_hostname(harisekhon1.com)",	"harisekhon1.com",	validate_hostname("harisekhon1.com"));
+    	assertEquals("validate_hostname(repeat_string(a))",	repeat_string("a",63),	validate_hostname(repeat_string("a",63)));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isInterface(){
+    	assertTrue(isInterface("eth0"));
+    	assertTrue(isInterface("bond3"));
+    	assertTrue(isInterface("lo"));
+    	assertFalse(isInterface("b@interface"));
+    }
+    
+    @Test
+    public void test_validate_interface(){
+    	assertEquals("valdiate_interface(eth0)",  "eth0",  validate_interface("eth0"));
+    	assertEquals("valdiate_interface(bond3)", "bond3", validate_interface("bond3"));
+    	assertEquals("valdiate_interface(lo)",    "lo",    validate_interface("lo"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isIP(){
+    	assertTrue("isIP(10.10.10.1)",        isIP("10.10.10.1"));
+    	assertTrue("isIP(10.10.10.10)",       isIP("10.10.10.10"));
+    	assertTrue("isIP(10.10.10.100)",      isIP("10.10.10.100"));
+    	assertTrue("isIP(254.0.0.254)",       isIP("254.0.0.254"));
+    	assertTrue("isIP(255.255.255.254)",   isIP("255.255.255.254"));
+    	assertTrue("isIP(10.10.10.0)",        isIP("10.10.10.0"));
+    	assertTrue("isIP(10.10.10.255)",      isIP("10.10.10.255"));
+    	assertFalse("isIP(10.10.10.256)",     isIP("10.10.10.256"));
+    	assertFalse("isIP(x.x.x.x)",          isIP("x.x.x.x"));
+    }
+
+    @Test
+    public void test_validate_ip(){
+        assertEquals("validate_ip(validate_ip(10.10.10.1)",     "10.10.10.1",   validate_ip("10.10.10.1"));
+        assertEquals("validate_ip(validate_ip(10.10.10.10)",    "10.10.10.10",  validate_ip("10.10.10.10"));
+        assertEquals("validate_ip(validate_ip(10.10.10.100)",   "10.10.10.100", validate_ip("10.10.10.100"));
+        assertEquals("validate_ip(validate_ip(10.10.10.254)",   "10.10.10.254", validate_ip("10.10.10.254"));
+        assertEquals("validate_ip(validate_ip(254.0.0.254)",    "254.0.0.254",  validate_ip("254.0.0.254"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isKrb5Princ(){
+    	assertTrue(isKrb5Princ("tgt/HARI.COM@HARI.COM"));
+    	assertTrue(isKrb5Princ("hari"));
+    	assertTrue(isKrb5Princ("hari@HARI.COM"));
+    	assertTrue(isKrb5Princ("hari/my.host.local@HARI.COM"));
+    	assertTrue(isKrb5Princ("cloudera-scm/admin@REALM.COM"));
+    	assertTrue(isKrb5Princ("cloudera-scm/admin@SUB.REALM.COM"));
+    	assertTrue(isKrb5Princ("hari@hari.com"));
+    	assertFalse(isKrb5Princ("hari$HARI.COM"));
+    }
+    
+    @Test
+    public void test_validate_krb5_princ(){
+    	assertEquals("validate_krb5_princ(tgt/HARI.COM@HARI.COM)", "tgt/HARI.COM@HARI.COM", validate_krb5_princ("tgt/HARI.COM@HARI.COM"));
+    	assertEquals("validate_krb5_princ(hari)", "hari", validate_krb5_princ("hari"));
+    	assertEquals("validate_krb5_princ(hari@HARI.COM)", "hari@HARI.COM", validate_krb5_princ("hari@HARI.COM"));
+    	assertEquals("validate_krb5_princ(hari/my.host.local@HARI.COM)", "hari/my.host.local@HARI.COM", validate_krb5_princ("hari/my.host.local@HARI.COM"));
+    	assertEquals("validate_krb5_princ(cloudera-scm/admin@REALM.COM)", "cloudera-scm/admin@REALM.COM", validate_krb5_princ("cloudera-scm/admin@REALM.COM"));
+    	assertEquals("validate_krb5_princ(cloudera-scm/admin@SUB.REALM.COM)", "cloudera-scm/admin@SUB.REALM.COM", validate_krb5_princ("cloudera-scm/admin@SUB.REALM.COM"));
+    	assertEquals("validate_krb5_princ(hari@hari.com)", "hari@hari.com", validate_krb5_princ("hari@hari.com"));
+    }
+    
+    @Test
+    public void test_validate_krb5_realm(){
+    	assertEquals("validate_krb5_realm(harisekhon.com)", "harisekhon.com", validate_krb5_realm("harisekhon.com"));
+    }
+
+    // ====================================================================== //
+    @Test
+    public void test_isLabel(){
+    	assertTrue(isLabel("st4ts used_(%%)"));
+    	assertFalse(isLabel("b@dlabel"));
+    }
+    
+    @Test
+    public void test_validate_label(){
+        assertEquals("validate_label(st4ts_used (%%))", "st4ts_used (%%)", validate_label("st4ts_used (%%)"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isLdapDn(){
+    	assertTrue(isLdapDn("uid=hari,cn=users,cn=accounts,dc=local"));
+    	assertFalse(isLdapDn("hari@LOCAL"));
+    }
+    
+    @Test
+    public void test_validate_ldap_dn(){
+    	assertEquals("validate_ldap_dn(uid=hari,cn=users,cn=accounts,dc=local)", "uid=hari,cn=users,cn=accounts,dc=local", validate_ldap_dn("uid=hari,cn=users,cn=accounts,dc=local"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isNagiosUnit(){
+    	assertTrue(isNagiosUnit("s"));
+    	assertTrue(isNagiosUnit("ms"));
+    	assertTrue(isNagiosUnit("us"));
+    	assertTrue(isNagiosUnit("b"));
+    	assertTrue(isNagiosUnit("Kb"));
+    	assertTrue(isNagiosUnit("Mb"));
+    	assertTrue(isNagiosUnit("Gb"));
+    	assertTrue(isNagiosUnit("Tb"));
+    	assertTrue(isNagiosUnit("c"));
+    	assertTrue(isNagiosUnit("%"));
+    	assertFalse(isNagiosUnit("Kbps"));
+    }
+    
+    @Test
+    public void test_validate_units(){
+        assertEquals("validate_units(s)",   "s",    validate_units("s"));
+        assertEquals("validate_units(ms)",  "ms",   validate_units("ms"));
+        assertEquals("validate_units(us)",  "us",   validate_units("us"));
+        assertEquals("validate_units(B)",   "B",    validate_units("B"));
+        assertEquals("validate_units(KB)",  "KB",   validate_units("KB"));
+        assertEquals("validate_units(MB)",  "MB",   validate_units("MB"));
+        assertEquals("validate_units(GB)",  "GB",   validate_units("GB"));
+        assertEquals("validate_units(TB)",  "TB",   validate_units("TB"));
+        assertEquals("validate_units(c)",   "c",    validate_units("c"));
+        assertEquals("validate_units(%%)",  "%",    validate_units("%"));
+    }
+    
+    // ====================================================================== //
+    // TODO: validate_node_list / validate_nodeport_list
+    
+    // ====================================================================== //
+    @Test
+    public void test_isNoSqlKey(){
+    	assertTrue(isNoSqlKey("HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc"));
+    	assertFalse(isNoSqlKey("HariSekhon@check_riak_write.pl"));
+    }
+    
+    @Test
+    public void test_validate_nosql_key(){
+        assertEquals("validate_nosql_key(HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc)", "HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc", validate_nosql_key("HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isPort(){
+    	assertTrue(isPort("80"));
+    	assertTrue(isPort(80));
+    	assertTrue(isPort(65535));
+    	assertFalse(isPort(65536));
+    	assertFalse(isPort("a"));
+    	assertFalse(isPort("-1"));
+    	assertFalse(isPort("0"));
+    	assertFalse(isPort(-1));
+    	assertFalse(isPort(0));
+    }
+
+    @Test
+    public void test_validate_port(){
+        assertEquals("validate_port(1)",     1,         validate_port(1));
+        assertEquals("validate_port(80)",    80,        validate_port(80));
+        assertEquals("validate_port(65535)", 65535,     validate_port(65535));
+        assertEquals("validate_port(1)",     "1",       validate_port("1"));
+        assertEquals("validate_port(80)",    "80",      validate_port("80"));
+        assertEquals("validate_port(65535)", "65535" ,  validate_port("65535"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isProcessName(){
+    	assertTrue(isProcessName("../my_program"));
+    	assertTrue(isProcessName("ec2-run-instances"));
+    	assertTrue(isProcessName("sh <defunct>"));
+    	assertFalse(isProcessName("./b@dfile"));
+    	assertFalse(isProcessName("[init] 3"));
+    }
+
+    @Test
+    public void test_validate_process_name(){
+        assertEquals("validate_process_name(../my_program)", "../my_program", validate_process_name("../my_program"));
+        assertEquals("validate_process_name(ec2-run-instances)", "ec2-run-instances", validate_process_name("ec2-run-instances"));
+        assertEquals("validate_process_name(sh <defunct>)", "sh <defunct>", validate_process_name("sh <defunct>"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isRegex(){
+    	assertTrue(isRegex(".*"));
+    	assertTrue(isRegex("(.*)"));
+    	assertFalse(isRegex("(.*"));
+    }
+    
+    @Test
+    public void test_validate_regex(){
+    	assertEquals("validate_regex(some[Rr]egex.*(capture))", "some[Rr]egex.*(capture)",	validate_regex("some[Rr]egex.*(capture)", "myRegex"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isUrl(){
+    	assertTrue(isUrl("www.google.com"));
+    	assertTrue(isUrl("http://www.google.com"));
+    	assertTrue(isUrl("https://gmail.com"));
+    	assertFalse(isUrl("1"));
+    	assertTrue(isUrl("http://cdh43:50070/dfsnodelist.jsp?whatNodes=LIVE"));
+    }
+    
+    @Test
+    public void test_validate_url(){
+        assertEquals("validate_url(www.google.com)",        "http://www.google.com", validate_url("www.google.com"));
+        assertEquals("validate_url(http://www.google.com)", "http://www.google.com", validate_url("http://www.google.com"));
+        assertEquals("validate_url(http://gmail.com)",      "http://gmail.com",      validate_url("http://gmail.com"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_UrlPathSuffix(){
+    	assertTrue(isUrlPathSuffix("/"));
+    	assertTrue(isUrlPathSuffix("/?var=something"));
+    	assertTrue(isUrlPathSuffix("/dir1/file.php?var=something+else&var2=more%20stuff"));
+    	assertTrue(isUrlPathSuffix("/*"));
+    	assertTrue(isUrlPathSuffix("/~hari"));
+    	assertFalse(isUrlPathSuffix("hari"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isUser(){
+    	assertTrue(isUser("hadoop"));
+    	assertTrue(isUser("hari1983"));
+    	assertTrue(isUser("cloudera-scm"));
+    	assertTrue(isUser("cloudera-scm"));
+    	assertFalse(isUser("-hari"));
+    	assertFalse(isUser("1983hari"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_isVersion(){
+    	assertTrue(isVersion("1"));
+    	assertTrue(isVersion("2.1.2"));
+    	assertTrue(isVersion("2.2.0.4"));
+    	assertTrue(isVersion("3.0"));
+    	assertFalse(isVersion("a"));
+    	assertFalse(isVersion("3a"));
+    	assertFalse(isVersion("1.0-2"));
+    	assertFalse(isVersion("1.0-a"));
+    }
+    
+    // ====================================================================== //
     @Test
     public void test_resolve_ip(){
     	// if not on a decent OS assume I'm somewhere lame like a bank where internal resolvers don't resolve internet addresses
@@ -464,6 +759,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertEquals("resolve_ip(4.2.2.1)",					"4.2.2.1", 	resolve_ip("4.2.2.1"));
     }
     
+    // ====================================================================== //
     /*
     @Test
     public void test_sec2min(){
@@ -493,11 +789,13 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
     */
     
+    // ====================================================================== //
     @Test
     public void test_uniq_array2(){
     	assertEquals("uniq_array2(one,two,three,,one)",	new String[]{ "one", "two", "three", ""}, uniq_array2(new String[]{"one","two","three","","one"}));
     }
     
+    // ====================================================================== //
     /* re-enable later
     @Test
     public void test_user_exists(){
@@ -506,6 +804,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
     */
     
+    // ====================================================================== //
     @Test
     public void test_strip_scheme(){
     	assertEquals("strip_scheme(file:/blah)",						"/blah",						strip_scheme("file:/blah"));
@@ -515,6 +814,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertEquals("strip_scheme(hdfs://namenode:8020/path/to/blah)",	"namenode:8020/path/to/blah",	strip_scheme("hdfs://namenode:8020/path/to/blah"));
     }
     
+    // ====================================================================== //
     @Test
     public void test_strip_scheme_host(){
     	assertEquals("strip_scheme_host(file:/blah)",								"/blah",			strip_scheme_host("file:/blah"));
@@ -523,159 +823,12 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertEquals("strip_scheme_host(hdfs://nameservice1/hdfsfile)",				"/hdfsfile",		strip_scheme_host("hdfs://nameservice1/hdfsfile"));
     	assertEquals("strip_scheme_host(hdfs://namenode.domain.com:8020/hdfsfile)",	"/hdfsfile",		strip_scheme_host("hdfs://namenode.domain.com:8020/hdfsfile"));
     }
-    
-    @Test
-    public void test_validate_alnum(){
-    	assertEquals("validate_alnum(Alnum2Test99, alnum test)", "Alnum2Test99", validate_alnum("Alnum2Test99", "alnum test"));
-    	assertEquals("validate_alnum(0, alnum zero)", "0", validate_alnum("0", "alnum zero"));
-    }
-    
-    @Test
-    public void test_validate_aws_access_key(){
-    	assertEquals("validate_aws_access_key(Ax20)", repeat_string("A", 20), validate_aws_access_key(repeat_string("A",20)));
-    }
-    
-    @Test
-    public void test_validate_aws_bucket(){
-    	assertEquals("validate_aws_bucket(BucKeT63)", "BucKeT63", validate_aws_bucket("BucKeT63"));
-    }
-    
-    @Test
-    public void test_validate_aws_secret_key(){
-    	assertEquals("validate_aws_secret_key(BucKeT63)", repeat_string("A", 40), validate_aws_secret_key(repeat_string("A", 40)));
-    }
-    
-    @Test
-    public void test_validate_chars(){
-    	assertEquals("validate_chars(...)", "log_date=2015-05-23_10", validate_chars("log_date=2015-05-23_10", "validate chars", "A-Za-z0-9_=-"));
-    }
-   
-    @Test
-    public void test_validate_collection(){
-    	assertEquals("validate_collection(students.grades)", "students.grades", validate_collection("students.grades"));
-    }
-    
-    @Test
-    public void test_validate_database(){
-    	assertEquals("validate_database(mysql)", "mysql", validate_database("mysql", "MySQL"));
-    }
-    
-    @Test
-    public void test_validate_database_fieldname(){
-    	assertEquals("validate_database_fieldname(10)", "10", validate_database_fieldname("10"));
-    	assertEquals("validate_database_fieldname(count(*))", "count(*)", validate_database_fieldname("count(*)"));
-    }
-    
-    @Test
-    public void test_validate_database_tablename(){
-    	assertEquals("validate_database_tablename(myTable, Hive)", "myTable", validate_database_tablename("myTable", "Hive"));
-    	assertEquals("validate_database_tablename(default.myTable, Hive, true)", "default.myTable", validate_database_tablename("default.myTable", "Hive", true));
-    }
-    
-    @Test
-    public void test_validate_database_viewname(){
-    	assertEquals("validate_database_viewname(myView, Hive)", "myView", validate_database_viewname("myView", "Hive"));
-    	assertEquals("validate_database_viewname(default.myView, Hive, true)", "default.myView", validate_database_viewname("default.myView", "Hive", true));
-    }
+
+    // ====================================================================== //
     
     @Test
     public void test_validate_database_query_select_show(){
     	assertEquals("validate_database_query_select_show(SELECT count(*) from database.table)", "SELECT count(*) from database.table", validate_database_query_select_show("SELECT count(*) from database.table"));
-    }
-    
-    @Test
-    public void test_validate_domain(){
-    	assertEquals("validate_domain(harisekhon.com)", "harisekhon.com", validate_domain("harisekhon.com"));
-    }
-    
-    @Test
-    public void test_validate_krb5_realm(){
-    	assertEquals("validate_krb5_realm(harisekhon.com)", "harisekhon.com", validate_krb5_realm("harisekhon.com"));
-    }
-    
-    @Test
-    public void test_validate_directory(){
-    	assertEquals("validate_directory(./src)", 	"./src", 	validate_directory("./src", "directory"));
-    	assertEquals("validate_directory(/etc)", 	"/etc", 	validate_directory("/etc", "directory"));
-    	assertEquals("validate_directory(/etc/)", 	"/etc/", 	validate_directory("/etc/", "directory"));
-    	assertEquals("validate_directory(b@dDir)", 	null,   	validate_directory("b@dDir", "invalid dir", true));
-    }
-    
-    @Test
-    public void test_validate_dir(){
-    	assertEquals("validate_dir(./src)", 	"./src", 	validate_dir("./src", "directory"));
-    	assertEquals("validate_dir(/etc)", 		"/etc", 	validate_dir("/etc", "dir"));
-    	assertEquals("validate_dir(/etc/)", 	"/etc/", 	validate_dir("/etc/", "dir"));
-    	assertEquals("validate_dir(b@dDir)", 	null,   	validate_dir("b@dDir", "invalid dir", true));
-    }
-    
-    @Test
-    public void test_validate_email(){
-    	assertEquals("validate_email(hari@domain.com)", "hari@domain.com", validate_email("hari@domain.com"));
-    }
-    
-    @Test
-    public void test_validate_file(){
-    	assertEquals("validate_file(./pom.xml)", "./pom.xml", validate_file("./pom.xml"));
-    }
-    
-    @Test
-    public void test_validate_filename(){
-    	assertEquals("validate_filename(./pom.xml)", "./pom.xml", validate_filename("./pom.xml"));
-    	assertEquals("validate_filename(/etc/passwd)", "/etc/passwd", validate_filename("/etc/passwd"));
-    	assertEquals("validate_filename(/etc/passwd/)", null, validate_filename("/etc/passwd/", "/etc/passwd/", true));
-    	assertEquals("validate_filename(/nonexistentfile)", "/nonexistentfile", validate_filename("/nonexistentfile", "nonexistentfile", true));
-    }
-    
-    @Test
-    public void test_validate_fqdn(){
-        assertEquals("validate_fqdn(www.harisekhon.com)", "www.harisekhon.com", validate_fqdn("www.harisekhon.com"));
-        // permissive because of short tld style internal domains
-        assertEquals("validate_fqdn(myhost.local)", "myhost.local", validate_fqdn("myhost.local"));
-    }
-    
-    @Test
-    public void test_validate_interface(){
-    	assertEquals("valdiate_interface(eth0)",  "eth0",  validate_interface("eth0"));
-    	assertEquals("valdiate_interface(bond3)", "bond3", validate_interface("bond3"));
-    	assertEquals("valdiate_interface(lo)",    "lo",    validate_interface("lo"));
-    }
-    
-    @Test
-    public void test_validate_ip(){
-        assertEquals("validate_ip(validate_ip(10.10.10.1)",     "10.10.10.1",   validate_ip("10.10.10.1"));
-        assertEquals("validate_ip(validate_ip(10.10.10.10)",    "10.10.10.10",  validate_ip("10.10.10.10"));
-        assertEquals("validate_ip(validate_ip(10.10.10.100)",   "10.10.10.100", validate_ip("10.10.10.100"));
-        assertEquals("validate_ip(validate_ip(254.0.0.254)",    "254.0.0.254",  validate_ip("254.0.0.254"));
-    }
-    
-    @Test
-    public void test_validate_label(){
-        assertEquals("validate_label(st4ts_used (%%))", "st4ts_used (%%)", validate_label("st4ts_used (%%)"));
-    }
-    
-    // TODO: validate_node_list / validate_nodeport_list
-    
-    @Test
-    public void test_validate_nosql_key(){
-        assertEquals("validate_nosql_key(HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc)", "HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc", validate_nosql_key("HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc"));
-    }
-    
-    @Test
-    public void test_validate_port(){
-        assertEquals("validate_port(1)",     1,         validate_port(1));
-        assertEquals("validate_port(80)",    80,        validate_port(80));
-        assertEquals("validate_port(65535)", 65535,     validate_port(65535));
-        assertEquals("validate_port(1)",     "1",       validate_port("1"));
-        assertEquals("validate_port(80)",    "80",      validate_port("80"));
-        assertEquals("validate_port(65535)", "65535" ,  validate_port("65535"));
-    }
-    
-    @Test
-    public void test_validate_process_name(){
-        assertEquals("validate_process_name(../my_program)", "../my_program", validate_process_name("../my_program"));
-        assertEquals("validate_process_name(ec2-run-instances)", "ec2-run-instances", validate_process_name("ec2-run-instances"));
-        assertEquals("validate_process_name(sh <defunct>)", "sh <defunct>", validate_process_name("sh <defunct>"));
     }
     
     @Test
@@ -697,26 +850,6 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
     
     @Test
-    public void test_validate_units(){
-        assertEquals("validate_units(s)",   "s",    validate_units("s"));
-        assertEquals("validate_units(ms)",  "ms",   validate_units("ms"));
-        assertEquals("validate_units(us)",  "us",   validate_units("us"));
-        assertEquals("validate_units(B)",   "B",    validate_units("B"));
-        assertEquals("validate_units(KB)",  "KB",   validate_units("KB"));
-        assertEquals("validate_units(MB)",  "MB",   validate_units("MB"));
-        assertEquals("validate_units(GB)",  "GB",   validate_units("GB"));
-        assertEquals("validate_units(TB)",  "TB",   validate_units("TB"));
-        assertEquals("validate_units(c)",   "c",    validate_units("c"));
-    }
-    
-    @Test
-    public void test_validate_url(){
-        assertEquals("validate_url(www.google.com)",        "http://www.google.com", validate_url("www.google.com"));
-        assertEquals("validate_url(http://www.google.com)", "http://www.google.com", validate_url("http://www.google.com"));
-        assertEquals("validate_url(http://gmail.com)",      "http://gmail.com",      validate_url("http://gmail.com"));
-    }
-    
-    @Test
     public void test_validate_vlog(){
         vlog("vlog");
         vlog("vlog2");
@@ -726,6 +859,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         vlog_options_bool("vlog_option_bool", false);
     }
     
+    // ====================================================================== //    
     @Test
     public void test_validate_which(){
     	if(isLinuxOrMac()){

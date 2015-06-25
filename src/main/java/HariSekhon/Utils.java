@@ -201,6 +201,8 @@ public class Utils {
 	//
 	// ===================================================================== //
 	
+	// neither Google's com.Guava google.common.net.HostSpecifier nor Apache Commons org.apache.commons.validator.routines.DomainValidator are suitable for my needs here, must port the more flexible regex methods from my Perl library
+	
 	// years and years of Regex expertise and testing has gone in to this, do not edit!
 	// This also gives flexibility to work around some situations where domain names may not be quite valid (eg .local/.intranet) but still keep things quite tight
 	// There are certain scenarios where Google Guava and Apache Commons libraries don't help with these
@@ -595,31 +597,19 @@ public class Utils {
 	    }
 	}
 	
-	
-	/*
-	public static final Boolean isHost(String host){
-	    if(host != null && host.length() > 255 && host.matches("^" + host_regex + "$")){
-	        return true;
-	    } else {
-	        return false;
-	    }
-	}
-	*/
-	
-	
-	// neither Google's com.Guava google.common.net.HostSpecifier nor Apache Commons org.apache.commons.validator.routines.DomainValidator are suitable for my needs here, must port the more flexible regex methods from my Perl library
+	// at casual glance this looks like it's duplicating isHostname but it's using a different unified regex of isHostname + isIP
 	public static final Boolean isHost (String host) {
 	    if(host == null || host.trim().isEmpty()){
 	        return null;
 	    }
 	    if(host.length() > 255){
-	        return isIP(host);
+	    	return false;
 	    } else if(host.matches("^" + host_regex + "$")){
 	        return true;
-	    } else if(isIP(host) != null){
+	    } else if(isIP(host)){
 	        return true;
 	    } else {
-	        return null;
+	        return false;
 	    }
 	}
 	
@@ -810,8 +800,11 @@ public class Utils {
     
     public static final String getOS(){
     	String os = System.getProperty("os.name");
-    	if(os == null || os.trim().isEmpty()){
-    		throw new IllegalStateException("unknown OS, retrieved null or blank for OS");
+    	if(os == null){
+    		throw new IllegalStateException("unknown OS, retrieved null for OS");
+    	}
+		if(os.trim().isEmpty()){
+    		throw new IllegalStateException("unknown OS, retrieved blank for OS");
     	}
     	return os;
     }
@@ -865,6 +858,7 @@ public class Utils {
     // TODO: msg_perf_thresholds()
     // TODO: msg_thresholds()
     
+    /*
     public static final int month2int (String month) {
         if(month == null){
             code_error("null passed to month2int");
@@ -890,6 +884,7 @@ public class Utils {
         }
         return -1; // purely to appease Java - won't reach here
     }
+    */
     
     // TODO:
     // open_file
@@ -1018,10 +1013,11 @@ public class Utils {
 		println(b.toString());
 	}
 	
-	
+	/*
 	private static final void printf (String msg, String... args) {
-		System.out.printf(msg, (Object[]) args); // cast to Object[] to avoid warning about String and Object not quite matching up
+		System.out.printf(String.format("%s", msg), (Object[]) args); // cast to Object[] to avoid warning about String and Object not quite matching up
 	}
+	*/
 	
 	
 	public static final String repeat_string(String chars, int num) {
@@ -1545,7 +1541,7 @@ public class Utils {
         }
         hostname = hostname.trim();
         if(! isHostname(hostname)){
-            usage("invalid " + name + "hostname defined");
+            usage("invalid " + name + "hostname '" + hostname + "' defined");
         }
         vlog_options(name + "hostname", hostname);
         return hostname;
@@ -1875,7 +1871,7 @@ public class Utils {
         return validate_regex(regex, name, noquit, false);
     }
     public static final String validate_regex (String regex, String name) {
-        return validate_regex(regex, name);
+        return validate_regex(regex, name, false, false);
     }
     
     
@@ -1954,7 +1950,7 @@ public class Utils {
         }
         units = units.trim();
         if(! isNagiosUnit(units)){
-            usage("invalid " + name + "units defined, must be one of: " + valid_units.toString());
+            usage("invalid " + name + "units '" + units + "' defined, must be one of: " + valid_units.toString());
         }
         vlog_options(name + "units", units);
         return units;
@@ -2095,7 +2091,7 @@ public class Utils {
         if(value == null){
             value = "<null!>";
         }
-    	printf(String.format("%-25s %s\n", String.format("%s:", option), value));
+    	System.out.printf("%-25s %s\n", option, value);
     }
     
     public static final void vlog_options_bool (String option, Boolean value) {

@@ -1991,6 +1991,9 @@ public class Utils {
         }
         return url;
     }
+    public static final String validate_url_path_suffix (String url) {
+    	return validate_url_path_suffix(url, null);
+    }
     
     /*
     // TODO: version_string

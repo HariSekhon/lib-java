@@ -259,6 +259,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_validate_collection(){
     	assertEquals("validate_collection(students.grades)", "students.grades", validate_collection("students.grades"));
+    	assertEquals("validate_collection(students.grades, name)", "students.grades", validate_collection("students.grades", "name"));
     }
 
     // ====================================================================== //
@@ -270,7 +271,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_database(){
-    	assertEquals("validate_database(mysql)", "mysql", validate_database("mysql", "MySQL"));
+    	assertEquals("validate_database(mysql)", "mysql", validate_database("mysql"));
+    	assertEquals("validate_database(mysql, MySQL)", "mysql", validate_database("mysql", "MySQL"));
     }
 
     // ====================================================================== //
@@ -313,6 +315,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     @Test
     public void test_validate_database_tablename(){
+    	assertEquals("validate_database_tablename(myTable)", "myTable", validate_database_tablename("myTable"));
     	assertEquals("validate_database_tablename(myTable, Hive)", "myTable", validate_database_tablename("myTable", "Hive"));
     	assertEquals("validate_database_tablename(default.myTable, Hive, true)", "default.myTable", validate_database_tablename("default.myTable", "Hive", true));
     }
@@ -329,6 +332,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     @Test
     public void test_validate_database_viewname(){
+    	assertEquals("validate_database_viewname(myView)", "myView", validate_database_viewname("myView"));
     	assertEquals("validate_database_viewname(myView, Hive)", "myView", validate_database_viewname("myView", "Hive"));
     	assertEquals("validate_database_viewname(default.myView, Hive, true)", "default.myView", validate_database_viewname("default.myView", "Hive", true));
     }
@@ -346,6 +350,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_validate_dirname(){
     	assertEquals("validate_dirname(./src)", 	"./src", 	validate_dirname("./src", "dirname"));
+    	assertEquals("validate_dirname(./src, true)", 	"./src", 	validate_dirname("./src", "dirname", true));
+    	assertEquals("validate_dirname(./src, true, true)", 	"./src", 	validate_dirname("./src", "dirname", true, true));
     	assertEquals("validate_dirname(/etc)", 	"/etc", 	validate_dirname("/etc", "dirname"));
     	assertEquals("validate_dirname(/etc/)", 	"/etc/", 	validate_dirname("/etc/", "dirname"));
     	assertEquals("validate_dirname(b@dDir)", 	null,   	validate_dirname("b@dDir", "invalid dir", true));
@@ -355,6 +361,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 	public void test_validate_directory(){
 		if(isLinuxOrMac()){
 			assertEquals("validate_directory(./src)", 	"./src", 	validate_directory("./src", "directory"));
+			assertEquals("validate_directory(./src, true)", 	"./src", 	validate_directory("./src", "directory", true));
+			assertEquals("validate_directory(./src, true, true)", 	"./src", 	validate_directory("./src", "directory", true, true));
 			assertEquals("validate_directory(/etc)", 	"/etc", 	validate_directory("/etc", "directory"));
 			assertEquals("validate_directory(/etc/)", 	"/etc/", 	validate_directory("/etc/", "directory"));
 		}
@@ -365,6 +373,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_dir(){
     	if(isLinuxOrMac()){
 	    	assertEquals("validate_dir(./src)", 	"./src", 	validate_dir("./src", "directory"));
+	    	assertEquals("validate_dir(./src, true)", 	"./src", 	validate_dir("./src", "directory", true));
+	    	assertEquals("validate_dir(./src, true, true)", 	"./src", 	validate_dir("./src", "directory", true, true));
 	    	assertEquals("validate_dir(/etc)", 		"/etc", 	validate_dir("/etc", "dir"));
 	    	assertEquals("validate_dir(/etc/)", 	"/etc/", 	validate_dir("/etc/", "dir"));
     	}
@@ -431,6 +441,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_filename(){
     	assertEquals("validate_filename(./pom.xml)", "./pom.xml", validate_filename("./pom.xml"));
     	assertEquals("validate_filename(/etc/passwd)", "/etc/passwd", validate_filename("/etc/passwd"));
+    	assertEquals("validate_filename(/etc/passwd, name)", "/etc/passwd", validate_filename("/etc/passwd", "name"));
     	assertEquals("validate_filename(/etc/passwd/)", null, validate_filename("/etc/passwd/", "/etc/passwd/", true));
     	assertEquals("validate_filename(/nonexistentfile)", "/nonexistentfile", validate_filename("/nonexistentfile", "nonexistentfile", true));
     }
@@ -438,6 +449,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_validate_file(){
     	assertEquals("validate_file(./pom.xml)", "./pom.xml", validate_file("./pom.xml"));
+    	assertEquals("validate_file(./pom.xml)", "./pom.xml", validate_file("./pom.xml", "name"));
     }
     
     // ====================================================================== //
@@ -451,7 +463,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_fqdn(){
         assertEquals("validate_fqdn(www.harisekhon.com)", "www.harisekhon.com", validate_fqdn("www.harisekhon.com"));
         // permissive because of short tld style internal domains
-        assertEquals("validate_fqdn(myhost.local)", "myhost.local", validate_fqdn("myhost.local"));
+        assertEquals("validate_fqdn(myhost.local, name)", "myhost.local", validate_fqdn("myhost.local", "name"));
     }
     
     // ====================================================================== //
@@ -479,7 +491,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     @Test
     public void test_validate_host(){
-    	assertEquals("validate_host(10.10.10.10)", "10.10.10.10", validate_host("10.10.10.10"));
+    	assertEquals("validate_host(10.10.10.10)", "10.10.10.10", validate_host("10.10.10.10", "name"));
     	assertEquals("validate_host(myHost)",	   "myHost",	  validate_host("myHost"));
     	assertEquals("validate_host(myHost.myDomain.com)",	"myHost.myDomain.com",	validate_host("myHost.myDomain.com"));
     }
@@ -499,7 +511,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     @Test
     public void test_validate_hostname(){
-    	assertEquals("validate_hostname(myHost)",	   "myHost",	  validate_hostname("myHost"));
+    	assertEquals("validate_hostname(myHost)",	   "myHost",	  validate_hostname("myHost", "name"));
     	assertEquals("validate_hostname(myHost.myDomain.com)",	"myHost.myDomain.com",	validate_hostname("myHost.myDomain.com"));
     	assertEquals("validate_hostname(harisekhon1.com)",	"harisekhon1.com",	validate_hostname("harisekhon1.com"));
     	assertEquals("validate_hostname(repeat_string(a))",	repeat_string("a",63),	validate_hostname(repeat_string("a",63)));
@@ -537,7 +549,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_ip(){
-        assertEquals("validate_ip(validate_ip(10.10.10.1)",     "10.10.10.1",   validate_ip("10.10.10.1"));
+        assertEquals("validate_ip(validate_ip(10.10.10.1)",     "10.10.10.1",   validate_ip("10.10.10.1", "name"));
         assertEquals("validate_ip(validate_ip(10.10.10.10)",    "10.10.10.10",  validate_ip("10.10.10.10"));
         assertEquals("validate_ip(validate_ip(10.10.10.100)",   "10.10.10.100", validate_ip("10.10.10.100"));
         assertEquals("validate_ip(validate_ip(10.10.10.254)",   "10.10.10.254", validate_ip("10.10.10.254"));
@@ -559,7 +571,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     @Test
     public void test_validate_krb5_princ(){
-    	assertEquals("validate_krb5_princ(tgt/HARI.COM@HARI.COM)", "tgt/HARI.COM@HARI.COM", validate_krb5_princ("tgt/HARI.COM@HARI.COM"));
+    	assertEquals("validate_krb5_princ(tgt/HARI.COM@HARI.COM)", "tgt/HARI.COM@HARI.COM", validate_krb5_princ("tgt/HARI.COM@HARI.COM", "name"));
     	assertEquals("validate_krb5_princ(hari)", "hari", validate_krb5_princ("hari"));
     	assertEquals("validate_krb5_princ(hari@HARI.COM)", "hari@HARI.COM", validate_krb5_princ("hari@HARI.COM"));
     	assertEquals("validate_krb5_princ(hari/my.host.local@HARI.COM)", "hari/my.host.local@HARI.COM", validate_krb5_princ("hari/my.host.local@HARI.COM"));
@@ -583,6 +595,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_validate_label(){
         assertEquals("validate_label(st4ts_used (%%))", "st4ts_used (%%)", validate_label("st4ts_used (%%)"));
+        assertEquals("validate_label(st4ts_used (%%))", "st4ts_used (%%)", validate_label("st4ts_used (%%)"));
     }
     
     // ====================================================================== //
@@ -595,6 +608,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_validate_ldap_dn(){
     	assertEquals("validate_ldap_dn(uid=hari,cn=users,cn=accounts,dc=local)", "uid=hari,cn=users,cn=accounts,dc=local", validate_ldap_dn("uid=hari,cn=users,cn=accounts,dc=local"));
+    	assertEquals("validate_ldap_dn(uid=hari,cn=users,cn=accounts,dc=local, name)", "uid=hari,cn=users,cn=accounts,dc=local", validate_ldap_dn("uid=hari,cn=users,cn=accounts,dc=local", "name"));
     }
     
     // ====================================================================== //
@@ -615,7 +629,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     @Test
     public void test_validate_units(){
-        assertEquals("validate_units(s)",   "s",    validate_units("s"));
+        assertEquals("validate_units(s)",   "s",    validate_units("s", "name"));
         assertEquals("validate_units(ms)",  "ms",   validate_units("ms"));
         assertEquals("validate_units(us)",  "us",   validate_units("us"));
         assertEquals("validate_units(B)",   "B",    validate_units("B"));
@@ -640,6 +654,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_validate_nosql_key(){
         assertEquals("validate_nosql_key(HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc)", "HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc", validate_nosql_key("HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc"));
+        assertEquals("validate_nosql_key(HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc, name)", "HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc", validate_nosql_key("HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc", "name"));
     }
     
     // ====================================================================== //
@@ -658,7 +673,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_port(){
-        assertEquals("validate_port(1)",     1,         validate_port(1));
+        assertEquals("validate_port(1)",     1,         validate_port(1, "name"));
         assertEquals("validate_port(80)",    80,        validate_port(80));
         assertEquals("validate_port(65535)", 65535,     validate_port(65535));
         assertEquals("validate_port(1)",     "1",       validate_port("1"));
@@ -678,7 +693,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_process_name(){
-        assertEquals("validate_process_name(../my_program)", "../my_program", validate_process_name("../my_program"));
+        assertEquals("validate_process_name(../my_program)", "../my_program", validate_process_name("../my_program", "name"));
         assertEquals("validate_process_name(ec2-run-instances)", "ec2-run-instances", validate_process_name("ec2-run-instances"));
         assertEquals("validate_process_name(sh <defunct>)", "sh <defunct>", validate_process_name("sh <defunct>"));
     }
@@ -708,20 +723,30 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     @Test
     public void test_validate_url(){
-        assertEquals("validate_url(www.google.com)",        "http://www.google.com", validate_url("www.google.com"));
+        assertEquals("validate_url(www.google.com)",        "http://www.google.com", validate_url("www.google.com", "name"));
         assertEquals("validate_url(http://www.google.com)", "http://www.google.com", validate_url("http://www.google.com"));
         assertEquals("validate_url(http://gmail.com)",      "http://gmail.com",      validate_url("http://gmail.com"));
+        assertEquals("validate_url(http://cdh43:50070/dfsnodelist.jsp?whatNodes=LIVE)",      "http://cdh43:50070/dfsnodelist.jsp?whatNodes=LIVE",      validate_url("http://cdh43:50070/dfsnodelist.jsp?whatNodes=LIVE"));
     }
     
     // ====================================================================== //
     @Test
-    public void test_UrlPathSuffix(){
+    public void test_isUrlPathSuffix(){
     	assertTrue(isUrlPathSuffix("/"));
     	assertTrue(isUrlPathSuffix("/?var=something"));
     	assertTrue(isUrlPathSuffix("/dir1/file.php?var=something+else&var2=more%20stuff"));
     	assertTrue(isUrlPathSuffix("/*"));
     	assertTrue(isUrlPathSuffix("/~hari"));
     	assertFalse(isUrlPathSuffix("hari"));
+    }
+    
+    @Test
+    public void test_validate_url_path_suffix(){
+    	assertEquals("validate_url_path_suffix(/)", "/", validate_url_path_suffix("/", "name"));
+    	assertEquals("validate_url_path_suffix(/?var=something)", "/?var=something", validate_url_path_suffix("/?var=something"));
+    	assertEquals("validate_url_path_suffix(/dir1/file.php?var=something+else&var2=more%20stuff)", "/dir1/file.php?var=something+else&var2=more%20stuff", validate_url_path_suffix("/dir1/file.php?var=something+else&var2=more%20stuff"));
+    	assertEquals("validate_url_path_suffix(/*)", "/*", validate_url_path_suffix("/*"));
+    	assertEquals("validate_url_path_suffix(/~hari)", "/~hari", validate_url_path_suffix("/~hari"));
     }
     
     // ====================================================================== //
@@ -734,6 +759,20 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertFalse(isUser("-hari"));
     	assertFalse(isUser("1983hari"));
     }
+    
+    @Test
+    public void test_validate_user(){
+        assertEquals("validate_user(hadoop, name)", "hadoop", validate_user("hadoop", "name"));
+        assertEquals("validate_user(hari1)", "hari1", validate_user("hari1"));
+    }
+    
+    @Test
+    public void test_validate_exists(){
+    	if(isLinuxOrMac()){
+    		assertEquals("validate_user_exists(root)", "root", validate_user("root"));
+    	}
+    }
+    
     
     // ====================================================================== //
     @Test
@@ -830,20 +869,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_database_query_select_show(){
     	assertEquals("validate_database_query_select_show(SELECT count(*) from database.table)", "SELECT count(*) from database.table", validate_database_query_select_show("SELECT count(*) from database.table"));
     }
-    
-    @Test
-    public void test_validate_user(){
-        assertEquals("validate_user(hadoop)", "hadoop", validate_user("hadoop"));
-        assertEquals("validate_user(hari1)", "hari1", validate_user("hari1"));
-    }
 
-    /* unix only
-    @Test
-    public void test_validate_exists(){
-        assertEquals("validate_user_exists(root)", "root", validate_user("root"));
-    }
-    */
-    
     @Test
     public void test_validate_password(){
         assertEquals("validate_password(wh@tev3r)", "wh@tev3r", validate_password("wh@tev3r"));

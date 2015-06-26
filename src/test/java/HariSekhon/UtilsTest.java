@@ -27,6 +27,7 @@ import org.junit.Rule;
 import org.junit.rules.Timeout;
 
 import static org.junit.Assert.*;
+import static org.hamcrest.CoreMatchers.containsString;
 import static java.lang.Math.pow;
 
 /**
@@ -83,6 +84,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 		//println(getStatus());
     	assertTrue(getStatus().equals("UNKNOWN"));
     	warning();
+    	status();
+    	status2();
+    	status3();
     	assertTrue(getStatus().equals("WARNING"));
     	
     	// shouldn't change from warning to unknown
@@ -123,6 +127,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_check_string(){
     	//println(check_string("test", "test"));
     	assertTrue("check_string(test,test)",   check_string("test", "test")); 			   // will use ==
+    	assertTrue("check_string(test,test)",   check_string("test", "test", true));
     	assertTrue("check_string(test,test)",   check_string("test", new String("test"))); // will use .equals()
     	assertFalse("check_string(test,test2)", check_string("test", "test2"));
     }
@@ -137,8 +142,15 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertEquals("expand_units(10, Gb)", 	10737418240L, 		expand_units(10L,  "Gb"));
     	assertEquals("expand_units(10, tb)", 	10995116277760L, 	expand_units(10L,  "tb"));
     	assertEquals("expand_units(10, Pb)", 	11258999068426240L, expand_units(10L,  "Pb"));
-    	assertEquals("expand_units(10, KB)", 	1024L, 				expand_units(1L,   "KB", "some Name"));
-    	assertEquals("expand_units(10, KB)", 	10240.0,  			expand_units(10.0, "KB", "some Name"), 	0);
+    	assertEquals("expand_units(10, KB, name)", 	1024L, 			expand_units(1L,   "KB", "name"));
+    	assertEquals("expand_units(10, KB, name)", 	10240.0,  		expand_units(10.0, "KB", "name"), 	0);
+    	assertEquals("expand_units(10, KB)", 	10240.0,  			expand_units(10.0, "KB"), 	0);
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_hr(){
+    	hr();
     }
     
     // ====================================================================== //
@@ -152,11 +164,78 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertEquals("human units TB", 		"1023.31TB",	human_units(1023.31  * pow(1024,4)));
     	assertEquals("human units PB",		"1023.01PB",	human_units(1023.012 * pow(1024,5)));
     	assertEquals("human units EB",		"1023EB",		human_units(1023 	 * pow(1024,6)));
+    	
+    	assertEquals("human_units(1023)",	"1023 bytes",	human_units(1023, 		"b"));
+    	assertEquals("human units KB", 		"1023KB", 		human_units(1023, 		"KB"));
+    	assertEquals("human_units MB", 		"1023.1MB", 	human_units(1023.1, 	"MB"));
+    	assertEquals("human units GB",		"1023.2GB",		human_units(1023.2, 	"GB"));
+    	assertEquals("human units TB", 		"1023.31TB",	human_units(1023.31, 	"TB"));
+    	assertEquals("human units PB",		"1023.01PB",	human_units(1023.012, 	"PB"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_resolve_ip(){
+    	// if not on a decent OS assume I'm somewhere lame like a bank where internal resolvers don't resolve internet addresses
+    	// this way my continous integration tests still run this one
+    	if(isLinuxOrMac()){
+    		assertEquals("resolve_ip(a.resolvers.level3.net)", 	"4.2.2.1", 	resolve_ip("a.resolvers.level3.net"));
+    	}
+    	assertEquals("resolve_ip(4.2.2.1)",					"4.2.2.1", 	resolve_ip("4.2.2.1"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_strip_scheme(){
+    	assertEquals("strip_scheme(file:/blah)",						"/blah",						strip_scheme("file:/blah"));
+    	assertEquals("strip_scheme(file:///path/to/blah)",				"/path/to/blah",				strip_scheme("file:///path/to/blah"));
+    	assertEquals("strip_scheme(http://blah)",						"blah",							strip_scheme("http://blah"));
+    	assertEquals("strip_scheme(hdfs://namenode/path/to/blah)",		"namenode/path/to/blah",		strip_scheme("hdfs://namenode/path/to/blah"));
+    	assertEquals("strip_scheme(hdfs://namenode:8020/path/to/blah)",	"namenode:8020/path/to/blah",	strip_scheme("hdfs://namenode:8020/path/to/blah"));
+    }
+    
+    // ====================================================================== //
+    @Test
+    public void test_strip_scheme_host(){
+    	assertEquals("strip_scheme_host(file:/blah)",								"/blah",			strip_scheme_host("file:/blah"));
+    	assertEquals("strip_scheme_host(file:///path/to/blah)",						"/path/to/blah",	strip_scheme_host("file:///path/to/blah"));
+    	assertEquals("strip_scheme_host(http://my.domain.com/blah)",				"/blah",			strip_scheme_host("http://my.domain.com/blah"));
+    	assertEquals("strip_scheme_host(hdfs://nameservice1/hdfsfile)",				"/hdfsfile",		strip_scheme_host("hdfs://nameservice1/hdfsfile"));
+    	assertEquals("strip_scheme_host(hdfs://namenode.domain.com:8020/hdfsfile)",	"/hdfsfile",		strip_scheme_host("hdfs://namenode.domain.com:8020/hdfsfile"));
+    }
+    
+    // ====================================================================== //
+    
+
+    // This is highly dependent on JDK version and fails on Oracle JDK 8 in Travis, TODO: review
+    /*
+    @Test
+    public void test_uniq_array(){
+    	assertEquals("uniq_array(one,two,three,,one)",	new String[]{ "", "two", "one", "three"}, uniq_array(new String[]{"one","two","three","","one"}));
+    }
+    */
+    
+    @Test
+    public void test_uniq_array2(){
+    	assertEquals("uniq_array2(one,two,three,,one)",	new String[]{ "one", "two", "three", ""}, uniq_array2(new String[]{"one","two","three","","one"}));
     }
     
     // ====================================================================== //
     //							O S   H e l p e r s
     // ====================================================================== //
+    
+    /*
+    @Test
+    public void print_java_properties(){
+    	print_java_properties();
+    }
+    */
+    //import static org.hamcrest.CoreMatchers.
+    @Test
+    public void test_getOS(){
+    	assertTrue("getOS()", getOS().matches(".*Linux|Mac|Windows.*"));
+    }
+    
     @Test
     public void test_isOS(){
     	assertTrue(isOS(System.getProperty("os.name")));
@@ -788,14 +867,56 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
     
     // ====================================================================== //
+    
     @Test
-    public void test_resolve_ip(){
-    	// if not on a decent OS assume I'm somewhere lame like a bank where internal resolvers don't resolve internet addresses
-    	// this way my continous integration tests still run this one
+    public void test_validate_database_query_select_show(){
+    	assertEquals("validate_database_query_select_show(SELECT count(*) from database.table)", "SELECT count(*) from database.table", validate_database_query_select_show("SELECT count(*) from database.table"));
+    }
+
+    @Test
+    public void test_validate_password(){
+        assertEquals("validate_password(wh@tev3r)", "wh@tev3r", validate_password("wh@tev3r"));
+    }
+    
+    @Test
+    public void test_validate_vlog(){
+        vlog("vlog");
+        vlog("vlog2");
+        vlog("vlog3");
+        vlog_options("vlog_option", "myOpt");
+        vlog_options_bool("vlog_option_bool", true);
+        vlog_options_bool("vlog_option_bool", false);
+    }
+    
+    // ====================================================================== //
+    
+    /* re-enable later
+    @Test
+    public void test_user_exists(){
+    	assertTrue(user_exists("root"));
+    	assertFalse(user_exists("nonexistent"));
+    }
+     */
+    
+    @Test
+    public void test_version(){
+    	version();
+    }
+    
+    @Test
+    public void test_version_string(){
+    	version_string();
+    }
+    
+    // ====================================================================== //    
+    @Test
+    public void test_validate_which(){
     	if(isLinuxOrMac()){
-    		assertEquals("resolve_ip(a.resolvers.level3.net)", 	"4.2.2.1", 	resolve_ip("a.resolvers.level3.net"));
+    		assertEquals("which(sh)",                           "/bin/sh",      which("sh"));
+    		assertEquals("which(/bin/bash)",                    "/bin/bash",    which("/bin/bash"));
     	}
-    	assertEquals("resolve_ip(4.2.2.1)",					"4.2.2.1", 	resolve_ip("4.2.2.1"));
+        assertEquals("which(/explicit/nonexistent/path",    null,           which("/explicit/nonexistent/path"));
+        assertEquals("which(nonexistentprogram",            null,           which("nonexistentprogram"));
     }
     
     // ====================================================================== //
@@ -818,83 +939,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_sec2min_exception_nonnumeric(){
     	sec2min("aa");
     }
-    */
-    
-    // This is highly dependent on JDK version and fails on Oracle JDK 8 in Travis, TODO: review
-    /*
-    @Test
-    public void test_uniq_array(){
-    	assertEquals("uniq_array(one,two,three,,one)",	new String[]{ "", "two", "one", "three"}, uniq_array(new String[]{"one","two","three","","one"}));
-    }
-    */
+     */
     
     // ====================================================================== //
-    @Test
-    public void test_uniq_array2(){
-    	assertEquals("uniq_array2(one,two,three,,one)",	new String[]{ "one", "two", "three", ""}, uniq_array2(new String[]{"one","two","three","","one"}));
-    }
-    
-    // ====================================================================== //
-    /* re-enable later
-    @Test
-    public void test_user_exists(){
-    	assertTrue(user_exists("root"));
-    	assertFalse(user_exists("nonexistent"));
-    }
-    */
-    
-    // ====================================================================== //
-    @Test
-    public void test_strip_scheme(){
-    	assertEquals("strip_scheme(file:/blah)",						"/blah",						strip_scheme("file:/blah"));
-    	assertEquals("strip_scheme(file:///path/to/blah)",				"/path/to/blah",				strip_scheme("file:///path/to/blah"));
-    	assertEquals("strip_scheme(http://blah)",						"blah",							strip_scheme("http://blah"));
-    	assertEquals("strip_scheme(hdfs://namenode/path/to/blah)",		"namenode/path/to/blah",		strip_scheme("hdfs://namenode/path/to/blah"));
-    	assertEquals("strip_scheme(hdfs://namenode:8020/path/to/blah)",	"namenode:8020/path/to/blah",	strip_scheme("hdfs://namenode:8020/path/to/blah"));
-    }
-    
-    // ====================================================================== //
-    @Test
-    public void test_strip_scheme_host(){
-    	assertEquals("strip_scheme_host(file:/blah)",								"/blah",			strip_scheme_host("file:/blah"));
-    	assertEquals("strip_scheme_host(file:///path/to/blah)",						"/path/to/blah",	strip_scheme_host("file:///path/to/blah"));
-    	assertEquals("strip_scheme_host(http://my.domain.com/blah)",				"/blah",			strip_scheme_host("http://my.domain.com/blah"));
-    	assertEquals("strip_scheme_host(hdfs://nameservice1/hdfsfile)",				"/hdfsfile",		strip_scheme_host("hdfs://nameservice1/hdfsfile"));
-    	assertEquals("strip_scheme_host(hdfs://namenode.domain.com:8020/hdfsfile)",	"/hdfsfile",		strip_scheme_host("hdfs://namenode.domain.com:8020/hdfsfile"));
-    }
-
-    // ====================================================================== //
-    
-    @Test
-    public void test_validate_database_query_select_show(){
-    	assertEquals("validate_database_query_select_show(SELECT count(*) from database.table)", "SELECT count(*) from database.table", validate_database_query_select_show("SELECT count(*) from database.table"));
-    }
-
-    @Test
-    public void test_validate_password(){
-        assertEquals("validate_password(wh@tev3r)", "wh@tev3r", validate_password("wh@tev3r"));
-    }
-    
-    @Test
-    public void test_validate_vlog(){
-        vlog("vlog");
-        vlog("vlog2");
-        vlog("vlog3");
-        vlog_options("vlog_option", "myOpt");
-        vlog_options_bool("vlog_option_bool", true);
-        vlog_options_bool("vlog_option_bool", false);
-    }
-    
-    // ====================================================================== //    
-    @Test
-    public void test_validate_which(){
-    	if(isLinuxOrMac()){
-    		assertEquals("which(sh)",                           "/bin/sh",      which("sh"));
-    		assertEquals("which(/bin/bash)",                    "/bin/bash",    which("/bin/bash"));
-    	}
-        assertEquals("which(/explicit/nonexistent/path",    null,           which("/explicit/nonexistent/path"));
-        assertEquals("which(nonexistentprogram",            null,           which("nonexistentprogram"));
-    }
     
     // @Test(expected= IndexOutOfBoundsException.class)
     // public void test_validate_* {

@@ -58,7 +58,7 @@ import org.apache.commons.cli.ParseException;
 
 public class Utils {
 	
-    public static final String utils_version = "1.12.12";
+    private static final String utils_version = "1.12.13";
 	public static boolean stdout = false;
 	public static Options options = new Options();
 	
@@ -280,7 +280,6 @@ public class Utils {
 	}
 
 	
-	// TODO: optional name
 	public static final double expand_units (double num, String units, String name) {
 	    name = name(name);
 	    if(units == null){
@@ -518,8 +517,6 @@ public class Utils {
 			return table.matches("^[A-Za-z0-9]\\w*[A-Za-z0-9]$");
 		}
 	}
-	
-	
 	public static final Boolean isDatabaseTableName (String table) {
 	    return isDatabaseTableName(table, false);
 	}
@@ -528,7 +525,6 @@ public class Utils {
 	public static final Boolean isDatabaseViewName (String view, Boolean allow_qualified) {
 		return isDatabaseTableName(view, allow_qualified);
 	}
-	
 	public static final Boolean isDatabaseViewName (String view) {
 	    return isDatabaseViewName(view, false);
 	}
@@ -794,9 +790,11 @@ public class Utils {
     //
     // ===================================================================== //
     
+    /*
     public static final void print_java_properties(){
         System.getProperties().list(System.out);
     }
+    */
     
     public static final String getOS(){
     	String os = System.getProperty("os.name");
@@ -995,13 +993,13 @@ public class Utils {
 		usage(null);
 	}
 	
-	
+	// because System.out.println is still annoying and Scala has a short version
 	public static final void println (String msg) {
-		if(stdout){
+		//if(stdout){
 			System.out.println(msg);
-		} else {
-			System.err.println(msg);
-		}
+		//} else {
+		//	System.err.println(msg);
+		//}
 	}
 	public static final void println (double num) {
 		println(String.valueOf(num));
@@ -1995,13 +1993,13 @@ public class Utils {
     	return validate_url_path_suffix(url, null);
     }
     
-    /*
-    // TODO: version_string
-    
-    public static final version () {
-        usage(version_string())
+    public static String version_string () {
+    	return utils_version;
     }
-    */
+    
+    public static final void version () {
+        println("Hari Sekhon Java Utils version " + version_string());
+    }
     
     public static final String which (String bin, Boolean quit) {
         if(bin == null || bin.trim().isEmpty()){

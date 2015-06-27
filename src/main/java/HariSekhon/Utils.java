@@ -1717,8 +1717,8 @@ public class Utils {
                 node2 = node2.trim();
                 if(! isHost(node2)){
                     usage("invalid node name '" + node2 + "': must be hostname/FQDN or IP address");
-                    final_nodes.add(node2);
                 }
+                final_nodes.add(node2);
             }
         }
         if(final_nodes.size() < 1){

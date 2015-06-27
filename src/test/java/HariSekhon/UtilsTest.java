@@ -509,6 +509,19 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     // ====================================================================== //
     @Test
+    public void test_validate_double(){
+        validate_double(2.0, "two", 2, 3);
+        validate_double(3.0, "three", 2, 3);
+        validate_double("2.1", "two string", 2, 3);
+        validate_float(2.0f, "two", 2f, 3f);
+        validate_float("2.0", "two string", 2f, 3f);
+        validate_long(2L,   "two", 2L, 3L);
+        validate_long("2", "two string", 2L, 3L);
+        validate_int(2,   "two", 2, 3);
+        validate_int("2", "two string", 2, 3);
+    }
+    // ====================================================================== //
+    @Test
     public void test_isDomain(){
     	assertTrue(isDomain("localDomain"));
     	assertTrue(isDomain("harisekhon.com"));

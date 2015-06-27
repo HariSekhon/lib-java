@@ -1594,6 +1594,18 @@ public class Utils {
         validate_double(f, name, minVal, maxVal);
         return f;
     }
+    public static final double validate_double (String d, String name, double minVal, double maxVal) {
+        name = require_name(name);
+        double d_double = -1;
+        try {
+            d_double = Double.parseDouble(d);
+        } catch (Exception e){
+            usage("invalid " + name + "defined: must be numeric (double)");
+        }
+        // vlog_options done in validate_double
+        validate_double(d_double, name, minVal, maxVal);
+        return d_double;
+    }
     public static final long validate_long (String l, String name, long minVal, long maxVal) {
         name = require_name(name);
         long l_long = -1;

@@ -121,6 +121,38 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
     
 	// ====================================================================== //
+	// tests both array to arraylist at same time
+	@Test
+	public void test_array_to_arraylist(){
+	    String[] a = new String[]{"node1:9200","node2","node3:8080","node4","node5"};
+	    assertArrayEquals("array_to_arraylist()", a, arraylist_to_array(array_to_arraylist(a)));
+	}
+	
+	// ====================================================================== //
+	
+	@Test
+	public void test_name(){
+	    assertEquals("name(null)", "", name(null));
+	    assertEquals("name(blank)", "", name(""));
+	    assertEquals("name(blah)", "blah ", name("blah"));
+	}
+	
+	@Test
+	public void test_require_name(){
+	    assertEquals("require_name(blah)", "blah", require_name("blah"));
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void test_require_name_exception_null() throws IllegalStateException {
+	    assertEquals("require_name(null)", "", require_name(null));
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void test_require_name_exception_blank() throws IllegalStateException {
+	    assertEquals("require_name(blank)", "", require_name(""));
+	}
+	
+	// ====================================================================== //
 	@Test
     public void test_check_regex(){
     	//println(check_regex("test", "test"));
@@ -742,7 +774,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_node_list(){
         assertEquals("validate_node_list(String)", "node1,node2,node3,node4,node5", validate_node_list("node1 ,node2 node3  node4, node5"));
         String[] a = new String[]{"node1","node2","node3","node4","node5"};
-        assertArrayEquals("validate_node_list(ArrayList<String>)",  arraylist_to_array(new ArrayList<String>(Arrays.asList(a))), arraylist_to_array(validate_node_list(new ArrayList<String>(Arrays.asList(a)))));
+        assertArrayEquals("validate_node_list(ArrayList<String>)",  arraylist_to_array(new ArrayList<String>(Arrays.asList(a))), arraylist_to_array(validate_node_list(array_to_arraylist(a))));
         assertArrayEquals("validate_node_list(String[])",  a, validate_node_list(a));
     }
     
@@ -750,7 +782,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_nodeport_list(){
         assertEquals("validate_nodeport_list(String)", "node1:9200,node2,node3:8080,node4,node5", validate_nodeport_list("node1:9200 ,node2 node3:8080 node4, node5"));
         String[] a = new String[]{"node1:9200","node2","node3:8080","node4","node5"};
-        assertArrayEquals("validate_nodeport_list(ArrayList<String>)", arraylist_to_array(new ArrayList<String>(Arrays.asList(a))), arraylist_to_array(validate_nodeport_list(new ArrayList<String>(Arrays.asList(a)))));
+        assertArrayEquals("validate_nodeport_list(ArrayList<String>)", arraylist_to_array(new ArrayList<String>(Arrays.asList(a))), arraylist_to_array(validate_nodeport_list(array_to_arraylist(a))));
         assertArrayEquals("validate_nodeport_list(String[])", a, validate_nodeport_list(a));
     }
     

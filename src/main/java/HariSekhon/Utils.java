@@ -1071,13 +1071,12 @@ public class Utils {
 	}
 	
 	public static final String require_name (String name) {
-	    name = name(name);
-	    if(name.isEmpty()){
+	    if(name == null || name.trim().isEmpty()){
 	        // TODO: improve the feedback location 
 	        //StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace()
 	        code_error("name arg not defined when calling method");
 	    }
-	    return name;
+	    return name.trim();
 	}
 	
 	

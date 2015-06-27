@@ -17,6 +17,10 @@ package HariSekhon;
 
 import static HariSekhon.Utils.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
+
 // JUnit 3
 //import junit.framework.Test;
 //import junit.framework.TestCase;
@@ -71,7 +75,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertSame("getStatus(DEPENDENT)", 		4, 	getStatusCode("DEPENDENT"));
     }
 	
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected=IllegalStateException.class)
 	public void test_getStatusCode_exception(){
 		getStatusCode("somethingInvalid");
 	}
@@ -117,8 +121,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertFalse("check_regex(test,test2)", check_regex("test", "^est"));
     }
     
-    @Test(expected=IllegalArgumentException.class)
-    public void test_check_regex_exception() throws IllegalArgumentException {
+    @Test(expected=IllegalStateException.class)
+    public void test_check_regex_exception() throws IllegalStateException {
     	check_regex("test", "*est");
     }
     
@@ -233,7 +237,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     //import static org.hamcrest.CoreMatchers.
     @Test
     public void test_getOS(){
-    	assertTrue("getOS()", getOS().matches(".*Linux|Mac|Windows.*"));
+    	assertTrue("getOS()", getOS().matches(".*(?:Linux|Mac|Windows).*"));
     }
     
     @Test
@@ -722,6 +726,22 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     // ====================================================================== //
     // TODO: validate_node_list / validate_nodeport_list
+    
+    @Test
+    public void test_validate_node_list(){
+        assertEquals("validate_node_list(String)", "node1,node2,node3,node4,node5", validate_node_list("node1 ,node2 node3  node4, node5"));
+        assertArrayEquals("validate_node_list(ArrayList<String>)",  arraylist_to_array(new ArrayList<String>(Arrays.asList("node1", "node2", "node3", "node4", "node5"))), arraylist_to_array(validate_node_list(new ArrayList<String>(Arrays.asList("node1", "node2", "node3", "node4", "node5")))));
+        String[] a = new String[]{"node1","node2","node3","node4","node5"};
+        assertArrayEquals("validate_node_list(String[])",  a, validate_node_list(a));
+    }
+    
+    @Test
+    public void test_validate_nodeport_list(){
+        assertEquals("validate_nodeport_list(String)", "node1:9200,node2,node3:8080,node4,node5", validate_nodeport_list("node1:9200 ,node2 node3:8080 node4, node5"));
+        assertArrayEquals("validate_nodeport_list(ArrayList<String>)", arraylist_to_array(new ArrayList<String>(Arrays.asList("node1:9200", "node2", "node3:8080", "node4", "node5"))), arraylist_to_array(validate_nodeport_list(new ArrayList<String>(Arrays.asList("node1:9200", "node2", "node3:8080", "node4", "node5")))));
+        String[] a = new String[]{"node1:9200","node2","node3:8080","node4","node5"};
+        assertArrayEquals("validate_nodeport_list(String[])", a, validate_nodeport_list(a));
+    }
     
     // ====================================================================== //
     @Test

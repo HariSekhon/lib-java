@@ -400,17 +400,21 @@ public class Utils {
 	//
 	// ===================================================================== //
 	
+	public static ArrayList<String> array_to_arraylist(String[] array) {
+	    return new ArrayList<String>(Arrays.asList(array));
+	}
+
 	public static String[] arraylist_to_array (ArrayList<String> arrayList) {
 	    String []array = new String[arrayList.size()];
 	    return arrayList.toArray(array);
 	}
 	
-	public static ArrayList<String> array_to_arraylist(String[] array) {
-	    return new ArrayList<String>(Arrays.asList(array));
-	}
-
+	
+	// ===================================================================== //
+	//
+	//                     Non-deterministic Ordering
+	//
 	public static String[] uniq_array (String[] list) {
-	    //HashMap<String, Integer> map = new HashMap<String, Integer>();
 	    HashSet<String> set = new HashSet<String>();
 	    for(String item: list) {
 	        set.add(item);
@@ -419,18 +423,37 @@ public class Utils {
 	    return set.toArray(a);
 	}
 	
+	public static ArrayList<String> uniq_arraylist (ArrayList<String> list) {
+	    HashSet<String> set = new HashSet<String>(list);
+	    ArrayList<String> a = new ArrayList<String>();
+	    a.addAll(set);
+	    return a;
+	}
+
+	// ===================================================================== //
+	//
+	//                     Order Preserving
+	//
 	public static String[] uniq_array2 (String[] list) {
-	    Set<String> set = new LinkedHashSet<String>(array_to_arraylist(list));
+	    Set<String> set = new LinkedHashSet<String>();
+	    for(String item: list) {
+            set.add(item);
+        }
 	    String[] a = {};
 	    return set.toArray(a);
 	}
-	
-	public static ArrayList<String> uniq_arraylist (ArrayList<String> list) {
-	    return array_to_arraylist(uniq_array(arraylist_to_array(list)));
+	public static String[] uniq_array_ordered (String[] list){
+	    return uniq_array2(list);
 	}
 	
 	public static ArrayList<String> uniq_arraylist2 (ArrayList<String> list) {
-	    return array_to_arraylist(uniq_array2(arraylist_to_array(list)));
+	    Set<String> set = new LinkedHashSet<String>(list);
+	    ArrayList<String> a = new ArrayList<String>();
+	    a.addAll(set);
+	    return a;
+	}
+	public static ArrayList<String> uniq_arraylist_ordered (ArrayList<String> list) {
+	    return uniq_arraylist2(list);
 	}
 	
 	
@@ -941,7 +964,7 @@ public class Utils {
     public static final void code_error (String msg) {
         //println("CODE ERROR: " + msg);
         //System.exit(exit_codes.get("UNKNOWN"));
-        throw new IllegalArgumentException(msg);
+        throw new IllegalStateException("CODE ERROR: " + msg);
     }
     
     
@@ -1684,7 +1707,7 @@ public class Utils {
     
     public static final ArrayList<String> validate_node_list (ArrayList<String> nodes){
         ArrayList<String> final_nodes = new ArrayList<String>();
-        nodes = uniq_arraylist(nodes);
+        nodes = uniq_arraylist_ordered(nodes);
         if(nodes.size() < 1){
             usage("node(s) not defined");
         }
@@ -1704,14 +1727,25 @@ public class Utils {
         vlog_options("node list", final_nodes.toString());
         return final_nodes;
     }
-    public static final ArrayList<String> validate_node_list(String[] nodes){
-        return validate_node_list(array_to_arraylist(nodes));
+    public static final String[] validate_node_list(String[] nodes){
+        // don't uniq here it's done in called validate_node_list method
+        return arraylist_to_array(validate_node_list(array_to_arraylist(nodes)));
     }
-    
+    public static final String validate_node_list (String nodelist) {
+        if(nodelist == null || nodelist.trim().isEmpty()){
+            usage("node(s) not defined");
+        }
+        String[] nodelist2 = validate_node_list(nodelist.split("[,\\s]+"));
+        String final_nodes = StringUtils.join(nodelist2, ",");
+        // vlogged in validate_node_list
+        //vlog_options("node list", final_nodes);
+        return final_nodes;
+    }
+
     
     public static final ArrayList<String> validate_nodeport_list (ArrayList<String> nodes) {
         ArrayList<String> final_nodes = new ArrayList<String>();
-        nodes = uniq_arraylist(nodes);
+        nodes = uniq_arraylist_ordered(nodes);
         if(nodes.size() < 1){
             usage("node(s) not defined");
         }
@@ -1725,15 +1759,15 @@ public class Utils {
         vlog_options("nodeport list", final_nodes.toString());
         return final_nodes;
     }
-    public static final ArrayList<String> validate_nodeport_list(String[] nodes){
-        return validate_nodeport_list(array_to_arraylist(nodes));
+    public static final String[] validate_nodeport_list(String[] nodes){
+        // don't uniq here it's done in called validate_nodeport_list method
+        return arraylist_to_array(validate_nodeport_list(array_to_arraylist(nodes)));
     }
-    
     public static final String validate_nodeport_list (String nodelist) {
     	if(nodelist == null || nodelist.trim().isEmpty()){
     		usage("node(s) not defined");
     	}
-    	ArrayList<String> nodelist2 = validate_nodeport_list(nodelist.split("[,\\s]+"));
+    	String[] nodelist2 = validate_nodeport_list(nodelist.split("[,\\s]+"));
     	String final_nodes = StringUtils.join(nodelist2, ",");
     	// vlogged in validate_nodeport_list
     	//vlog_options("node list", final_nodes);

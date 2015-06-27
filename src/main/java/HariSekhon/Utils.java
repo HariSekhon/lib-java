@@ -1571,20 +1571,28 @@ public class Utils {
     }
     
     
-    public static final long validate_long (long l, String name, long minVal, long maxVal) {
+    public static final double validate_double (double d, String name, double  minVal, double maxVal) {
         name = require_name(name);
-        if(l < minVal){
+        if(d < minVal){
             usage("invalid " + name + "defined: cannot be lower than " + minVal);
         }
-        if(l > maxVal){
+        if(d > maxVal){
             usage("invalid " + name + "defined: cannot be greater than " + maxVal);
         }
-        vlog_options(name, String.valueOf(l));
+        vlog_options(name, String.valueOf(d));
+        return d;
+    }
+    public static final long validate_long (long l, String name, long minVal, long maxVal) {
+        validate_double(l, name, minVal, maxVal);
         return l;
     }
     public static final int validate_int (int i, String name, int minVal, int maxVal) {
-        validate_long(i, name, minVal, maxVal);
+        validate_double(i, name, minVal, maxVal);
         return i;
+    }
+    public static final float validate_float (float f, String name, float minVal, float maxVal) {
+        validate_double(f, name, minVal, maxVal);
+        return f;
     }
     public static final long validate_long (String l, String name, long minVal, long maxVal) {
         name = require_name(name);
@@ -1595,7 +1603,8 @@ public class Utils {
             usage("invalid " + name + "defined: must be numeric (long)");
         }
         // vlog_options done in validate_long
-        return validate_long(l_long, name, minVal, maxVal);
+        validate_double(l_long, name, minVal, maxVal);
+        return l_long;
     }
     public static final int validate_int (String i, String name, int minVal, int maxVal) {
         name = require_name(name);
@@ -1606,7 +1615,20 @@ public class Utils {
             usage("invalid " + name + "defined: must be numeric (int)");
         }
         // vlog_options done in pass through to validate_long
-        return validate_int(i_int, name, minVal, maxVal);
+        validate_double(i_int, name, minVal, maxVal);
+        return i_int;
+    }
+    public static final float validate_float (String f, String name, float minVal, float maxVal) {
+        name = require_name(name);
+        float f_float = -1;
+        try {
+            f_float = Float.parseFloat(f);
+        } catch (Exception e){
+            usage("invalid " + name + "defined: must be numeric (float)");
+        }
+        // vlog_options done in pass through to validate_long
+        validate_double(f_float, name, minVal, maxVal);
+        return f_float;
     }
     
     
@@ -1838,7 +1860,7 @@ public class Utils {
             usage(name + " path not defined");
         }
         path = path.trim();
-        if(! path.matches("^[[./]")){
+        if(! path.matches("^[./]")){
             path = which(path);
             if(path == null){
                 usage(name + " program not found in $PATH (" + System.getenv("PATH") + ")");
@@ -1853,8 +1875,8 @@ public class Utils {
         if(validate_filename(path, null, false, true) == null){
             usage("invalid path given for " + name + ", failed filename regex");
         }
-        if(! path.matches("(?:^|/)" + regex + "$")){
-            usage("invalid path given for " + name + ", is not a path to the " + name + " command");
+        if(! path.matches("(?:^|.*/)" + regex + "$")){
+           usage("invalid path given for " + name + ", is not a path to the " + name + " command");
         }
         File f = new File(path);
         if(!(f.exists() && ! f.isDirectory())){
@@ -1865,6 +1887,9 @@ public class Utils {
         }
         vlog_options(name + " program path", path);
         return path;
+    }
+    public static final String validate_program_path (String path, String name) {
+        return validate_program_path(path, name, null);
     }
     
     
@@ -2083,11 +2108,11 @@ public class Utils {
     //
     // ===================================================================== //
     
-    public static int getVerbose(){
+    public static final int getVerbose(){
     	return verbose;
     }
     
-    public static void setVerbose (int v) {
+    public static final void setVerbose (int v) {
     	if(v >= 0){
     		verbose = v;
     	} else {

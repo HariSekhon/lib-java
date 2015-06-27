@@ -842,6 +842,13 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     // ====================================================================== //
     @Test
+    public void test_validate_program_path(){
+        assertEquals("validate_program_path()", "/bin/sh", validate_program_path("/bin/sh", "sh"));
+        assertEquals("validate_program_path()", "/bin/sh", validate_program_path("/bin/sh", "shell", "sh"));
+    }
+    
+    // ====================================================================== //
+    @Test
     public void test_isRegex(){
     	assertTrue(isRegex(".*"));
     	assertTrue(isRegex("(.*)"));
@@ -960,6 +967,17 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertFalse(user_exists("nonexistent"));
     }
      */
+
+    @Test
+    public void test_verbose(){
+        setVerbose(2);
+        assertEquals("getVerbose() 2", 2, getVerbose());
+        setVerbose(1);
+        assertEquals("getVerbose() 1", 1, getVerbose());
+        setVerbose(3);
+        assertEquals("getVerbose() 3", 3, getVerbose());
+    }
+    
     
     @Test
     public void test_version(){

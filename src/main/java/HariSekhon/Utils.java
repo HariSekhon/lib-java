@@ -153,7 +153,7 @@ public class Utils {
 	    if(getStatus() == null){
 	        return false;
 	    }
-		return getStatus().equals("warning");
+		return getStatus().equals("WARNING");
 	}
 	
 	public static final Boolean is_critical(){

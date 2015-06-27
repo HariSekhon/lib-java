@@ -83,30 +83,38 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 	@Test
     public void test_setStatus_getStatus_and_set_shortcuts(){
     	// start unknown - but when repeatedly testing this breaks so reset to UNKNOWN at end
+	    // this isn't inheriting UNKNOWN as default from Utils any more
 		setStatus("UNKNOWN");
-		// this isn't inheriting UNKNOWN as default from Utils any more
-		//println(getStatus());
+		assertTrue(is_unknown());
     	assertTrue(getStatus().equals("UNKNOWN"));
     	warning();
     	status();
     	status2();
     	status3();
+    	assertTrue(is_warning());
     	assertTrue(getStatus().equals("WARNING"));
     	
     	// shouldn't change from warning to unknown
     	unknown();
+    	assertTrue(is_warning());
     	assertTrue(getStatus().equals("WARNING"));
     	
     	// critical should override unknown
     	setStatus("OK");
+    	assertTrue(is_ok());
     	unknown();
+    	assertTrue(is_unknown());
     	critical();
+    	assertTrue(is_critical());
     	assertTrue(getStatus().equals("CRITICAL"));
 
     	// critical should override warning
     	setStatus("WARNING");
+    	assertTrue(is_warning());
     	critical();
+    	assertTrue(is_critical());
     	unknown(); // shouldn't change critical
+    	assertTrue(is_critical());
     	assertTrue(getStatus().equals("CRITICAL"));
     	
     	setStatus("UNKNOWN");

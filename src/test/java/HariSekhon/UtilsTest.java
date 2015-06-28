@@ -230,8 +230,10 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	// this way my continous integration tests still run this one
     	if(isLinuxOrMac()){
     		assertEquals("resolve_ip(a.resolvers.level3.net)", 	"4.2.2.1", 	resolve_ip("a.resolvers.level3.net"));
+    		assertEquals("validate_resolvable()", "4.2.2.1",  validate_resolvable("a.resolvers.level3.net"));
     	}
-    	assertEquals("resolve_ip(4.2.2.1)",					"4.2.2.1", 	resolve_ip("4.2.2.1"));
+    	assertEquals("resolve_ip(4.2.2.1)",	   "4.2.2.1",  resolve_ip("4.2.2.1"));
+    	assertEquals("validate_resolvable()",  "4.2.2.2",  validate_resolvable("4.2.2.2"));
     }
     
     // ====================================================================== //

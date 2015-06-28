@@ -178,6 +178,12 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     // ====================================================================== //
     @Test
+    public void test_get_options(){
+        get_options(new String[]{});
+    }
+    
+    // ====================================================================== //
+    @Test
     public void test_expand_units(){
     	//println(expand_units(10, "kb")); // => 10240
     	//println(10240L);
@@ -634,6 +640,33 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertEquals("validate_host(myHost)",	   "myHost",	  validate_host("myHost"));
     	assertEquals("validate_host(myHost.myDomain.com)",	"myHost.myDomain.com",	validate_host("myHost.myDomain.com"));
     }
+    
+    @Test
+    public void test_validate_hosts(){
+        String[] a = new String[]{"node1:9200","node2:80","node3","node4","node5"};
+        String[] b = new String[]{"node1:9200","node2:80","node3:8080","node4:8080","node5:8080"};
+        assertArrayEquals("validate_hosts()", b, validate_hosts(a, "8080"));
+        assertArrayEquals("validate_hosts()", b, validate_hosts(a, 8080));
+        assertArrayEquals("validate_hosts()", b, arraylist_to_array(validate_hosts(array_to_arraylist(a), "8080")));
+        assertArrayEquals("validate_hosts()", b, arraylist_to_array(validate_hosts(array_to_arraylist(a), 8080)));
+        assertEquals("validate_hosts(myHost)",	   "myHost:8080",	  validate_hosts("myHost", 8080));
+        assertEquals("validate_hosts(myHost)",	   "myHost:8081,myHost2:9200",	  validate_hosts("myHost,myHost2:9200", 8081));
+        assertEquals("validate_hosts(myHost.myDomain.com)",	"myHost.myDomain.com:8080",	validate_hosts("myHost.myDomain.com", "8080"));
+    }
+    
+    @Test
+    public void test_validate_hostport(){
+        assertEquals("validate_hostport(10.10.10.10:8080)", "10.10.10.10:8080", validate_hostport("10.10.10.10:8080", "name", true));
+        assertEquals("validate_hostport(myHost)",	   "myHost",	  validate_hostport("myHost"));
+        assertEquals("validate_hostport(myHost2)",	   "myHost2",	  validate_hostport("myHost2", "name2"));
+        assertEquals("validate_hostport(myHost.myDomain.com)",	"myHost.myDomain.com",	validate_hostport("myHost.myDomain.com", "fqdn_host", false, true));
+    }
+    
+    /*
+    @Test
+    public void test_validate_host_port_user_password(){
+    }
+    */
     
     // ====================================================================== //
     @Test

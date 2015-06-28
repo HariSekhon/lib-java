@@ -1477,36 +1477,38 @@ public class Utils {
 	    return validate_host(host, null);
 	}
 	
-	public static final String[] validate_hosts (String hosts, String port) {
-        int port_int = -1;
+	private static final int parse_port (String port){
+	    int port_int = -1;
         try{
             port_int = Integer.parseInt(port);
         } catch (Exception e) {
-            usage("invalid port defined, not an integer between 1 and 65535");
+            usage("invalid port defined, not an integer");
         }
-        return validate_hosts(hosts, port_int);
+        if(!isPort(port)){
+            usage("invalid port defined for hosts, must be between 1 and 65535");
+        }
+        return port_int;
 	}
 	
-	
-	public static final String[] validate_hosts (String hosts, int port) {
+	public static final String[] validate_hosts (String[] hosts, int port) {
 	    if(! isPort(port)){
 	        usage("invalid port defined, integer must be between 1 and 65535");
 	    }
-	    if(hosts == null || hosts.trim().isEmpty()){
-	        usage("hosts not defined");
-	    }
-	    hosts = hosts.trim();
-	    String[] hosts2 = hosts.split("\\s*,\\s*");
+	    hosts = uniq_array_ordered(hosts);
+        if(hosts.length < 1){
+            usage("hosts not defined");
+        }
+	    String[] hosts2 = hosts;
 	    Pattern p = Pattern.compile(":(\\d+)$");
 	    for(int i=0; i < hosts2.length; i++){
 	        String node_port = null;
 	        Matcher m = p.matcher(hosts2[i]);
-	        if(m != null){
+	        if(m.find()){
 	            node_port = m.group(1);
 	            if(! isPort(node_port)){
 	                usage("invalid port given for host " + Integer.toString(i+1));
 	            }
-	            hosts2[i].replaceAll(":\\d+$", "");
+	            hosts2[i] = hosts2[i].replaceAll(":\\d+$", "");
 	        }
 	        hosts2[i] = validate_host(hosts2[i]);
 	        //hosts2[i] = validate_resolvable(hosts2[i]);
@@ -1518,6 +1520,32 @@ public class Utils {
 	    }
 	    return hosts2;
 	}
+    public static final String[] validate_hosts(String[] hosts, String port){
+        // don't uniq here it's done in called validate_hosts method
+        return validate_hosts(hosts, parse_port(port));
+    }
+    public static final ArrayList<String> validate_hosts(ArrayList<String> hosts, int port){
+        // don't uniq here it's done in called validate_hosts method
+        return array_to_arraylist(validate_hosts(arraylist_to_array(hosts), port));
+    }
+    public static final ArrayList<String> validate_hosts(ArrayList<String> hosts, String port){
+        // don't uniq here it's done in called validate_hosts method
+        return validate_hosts(hosts, parse_port(port));
+    }
+    public static final String validate_hosts (String hosts, int port) {
+        if(hosts == null || hosts.trim().isEmpty()){
+            usage("hosts not defined");
+        }
+        String[] hosts2 = validate_hosts(hosts.split("[,\\s]+"), port);
+        String final_hosts = StringUtils.join(hosts2, ",");
+        // vlogged in validate_nodeport_list
+        //vlog_options("node list", final_hosts);
+        return final_hosts;
+    }
+    public static final String validate_hosts (String hosts, String port) {
+        return validate_hosts(hosts, parse_port(port));
+    }
+    
 	
     public static final String validate_hostport (String hostport, String name, Boolean port_required, Boolean novlog) {
     	name = name(name);
@@ -1539,8 +1567,12 @@ public class Utils {
     		if(isPort(host_port[1]) == null){
     			usage(String.format("invalid port '%s' defined for " + name + "host:port: must be a positive integer", host_port[1]));
     		}
+    	} else if (port_required) {
+    	    usage("port is required");
     	}
-    	vlog_options(name + "hostport", hostport);
+    	if(!novlog){
+    	    vlog_options(name + "hostport", hostport);
+    	}
     	return hostport;
     }
     public static final String validate_hostport (String host, String name, Boolean port_required) {

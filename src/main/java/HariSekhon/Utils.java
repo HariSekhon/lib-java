@@ -121,7 +121,7 @@ public class Utils {
 		if(exit_codes.containsKey(key)){
 			status = key;
 		} else {
-			code_error("invalid status '" + key + "' passed to setStatus(), must be one of: " + exit_codes.keySet().toString());
+			arg_error("invalid status '" + key + "' passed to setStatus(), must be one of: " + exit_codes.keySet().toString());
 		}
 	}
 	
@@ -175,8 +175,7 @@ public class Utils {
 		if(key != null && exit_codes.containsKey(key)){
 			return exit_codes.get(key);
 		} else {
-		    // TODO: show last caller in code_error
-			code_error("invalid status '" + key + "' passed to getStatusCode()");
+			arg_error("invalid status '" + key + "' passed to getStatusCode()");
 			return exit_codes.get("UNKNOWN"); // appease Java return, won't get called
 		}
 	}
@@ -237,20 +236,20 @@ public class Utils {
 	
 	// ===================================================================== //
 	
-	//public static code_error(String msg){
+	//public static arg_error(String msg){
 	//	throw IllegalArgumentException "Code Error: " + msg;
 	//}
 
 	
 	public static final Boolean check_regex (String string, String regex) {
 		if(string == null){
-		    code_error("undefined string passed to check_regex()");
+		    arg_error("undefined string passed to check_regex()");
 		}
 		if(regex == null){
-		    code_error("undefined regex passed to check_regex()");
+		    arg_error("undefined regex passed to check_regex()");
 		}
 		if(! isRegex(regex)){
-		    code_error("invalid regex passed to check_regex()");
+		    arg_error("invalid regex passed to check_regex()");
 		}
 		if(string.matches(regex)){
 		    return true;
@@ -262,7 +261,7 @@ public class Utils {
 	
 	public static final Boolean check_string (String str, String expected, Boolean no_msg) {
 		if(expected == null){
-			code_error("passed null as expected string to check_string()");
+			arg_error("passed null as expected string to check_string()");
 		}
 		if(str != null && ( str == expected || str.equals(expected) ) ){
 		    return true;
@@ -283,7 +282,7 @@ public class Utils {
 	public static final double expand_units (double num, String units, String name) {
 	    name = name(name);
 	    if(units == null){
-	        code_error("null passed for units to expand_units()");
+	        arg_error("null passed for units to expand_units()");
 	    }
 	    name = name.trim();
 	    units = units.trim();
@@ -299,7 +298,7 @@ public class Utils {
 		} else if(units.matches("(?i)^TB?$")){ power = 4;
 		} else if(units.matches("(?i)^PB?$")){ power = 5; 
 		} else {
-			code_error(String.format("unrecognized units '%s' passed to expand_units()%s", units, name));
+			arg_error(String.format("unrecognized units '%s' passed to expand_units()%s", units, name));
 		}
 		return (num * ( pow(1024, power) ) );
 	}
@@ -329,7 +328,7 @@ public class Utils {
 		}
 		// TODO: remove trailing zeros .00 from doubles
 		if(num >= pow(1024, 7)){
-			code_error(String.format("determined suspicious units for number '%s', larger than Exabytes?!!", num));
+			arg_error(String.format("determined suspicious units for number '%s', larger than Exabytes?!!", num));
 		} else if(num >= pow(1024, 6)){
 			//num_str = String.format("%.2f", num / pow(1024, 6)).replaceFirst("\\.0+$", "");
 			num = num / pow(1024, 6);
@@ -364,7 +363,7 @@ public class Utils {
 				units = " bytes";
 			}
 		} else {
-			code_error("unable to determine units for number num");
+			arg_error("unable to determine units for number num");
 		}
 		String num_str = String.format("%.2f", num).replaceFirst("(\\.\\d+)0$", "$1").replaceFirst("\\.0+$", "");
 		return num_str + units;
@@ -486,7 +485,7 @@ public class Utils {
             return false;
         }
         if(!isRegex(String.format("[%s]", char_range))){
-			code_error("invalid regex char range passed to isChars()");
+			arg_error("invalid regex char range passed to isChars()");
 		}
 		return str.matches(String.format("^[%s]+$", char_range));
 	}
@@ -876,7 +875,7 @@ public class Utils {
     /*
     public static final int month2int (String month) {
         if(month == null){
-            code_error("null passed to month2int");
+            arg_error("null passed to month2int");
         }
         HashMap<String, Integer> month_map = new HashMap<String, Integer>() {{
             put("jan", 1);
@@ -895,7 +894,7 @@ public class Utils {
         if(month_map.containsKey(month.toLowerCase())){
             return month_map.get(month.toLowerCase());
         } else {
-            code_error("invalid month passed to month2int()");
+            arg_error("invalid month passed to month2int()");
         }
         return -1; // purely to appease Java - won't reach here
     }
@@ -916,7 +915,7 @@ public class Utils {
     
     public static final String resolve_ip (String host) {
         if(host == null || host.trim().isEmpty()){
-            code_error("no host passed to resolve_ip");
+            arg_error("no host passed to resolve_ip");
         }
         try {
             InetAddress address = InetAddress.getByName(host);
@@ -954,11 +953,17 @@ public class Utils {
         return false;
     }
     
-    
-    public static final void code_error (String msg) {
+    // TODO: show last caller in arg_error
+    public static final void arg_error (String msg) {
         //println("CODE ERROR: " + msg);
         //System.exit(exit_codes.get("UNKNOWN"));
-        throw new IllegalStateException("CODE ERROR: " + msg);
+        throw new IllegalArgumentException(msg);
+    }
+    
+    public static final void state_error (String msg) {
+        //println("CODE ERROR: " + msg);
+        //System.exit(exit_codes.get("UNKNOWN"));
+        throw new IllegalStateException(msg);
     }
     
     
@@ -968,7 +973,7 @@ public class Utils {
             System.exit(exit_codes.get(status));
         } else {
             // TODO: provide a warning stack trace here
-            code_error(String.format("specified an invalid exit status '%s' to quit()", status));
+            arg_error(String.format("specified an invalid exit status '%s' to quit()", status));
         }
     }
     
@@ -1068,7 +1073,7 @@ public class Utils {
 	    if(name == null || name.trim().isEmpty()){
 	        // TODO: improve the feedback location 
 	        //StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace()
-	        code_error("name arg not defined when calling method");
+	        arg_error("name arg not defined when calling method");
 	    }
 	    return name.trim();
 	}
@@ -1091,7 +1096,7 @@ public class Utils {
 	public static final String validate_chars (String string, String name, String chars) {
 	    name = require_name(name);
 	    if(chars == null || chars.trim().isEmpty()){
-	        code_error("chars field not defined when calling validate_chars()");
+	        arg_error("chars field not defined when calling validate_chars()");
 	    }
 	    chars = chars.trim();
 	    if(string == null || string.isEmpty()){
@@ -1908,7 +1913,7 @@ public class Utils {
             regex = name;
         }
         if(validate_regex(regex, "program path regex", true) == null){
-            code_error("invalid regex given to validate_program_path()");
+            arg_error("invalid regex given to validate_program_path()");
         }
         if(validate_filename(path, null, false, true) == null){
             usage("invalid path given for " + name + ", failed filename regex");
@@ -2023,7 +2028,7 @@ public class Utils {
     public static final String validate_resolvable (String host, String name) {
         name = name(name);
         if(host == null || host.trim().isEmpty()){
-            code_error(name + "host not defined");
+            arg_error(name + "host not defined");
         }
         host = host.trim();
         String ip = resolve_ip(host);
@@ -2099,7 +2104,7 @@ public class Utils {
     
     public static final String which (String bin, Boolean quit) {
         if(bin == null || bin.trim().isEmpty()){
-            code_error("no bin passed to which()");
+            arg_error("no bin passed to which()");
         }
         // TODO: should probably consider switching this to os path sep instead of unix biased /
         if(bin.matches("^(?:/|\\./).*")){
@@ -2154,7 +2159,7 @@ public class Utils {
     	if(v >= 0){
     		verbose = v;
     	} else {
-    		code_error(String.format("invalid verbosity level '%s' passed to setVerbose()", v));
+    		arg_error(String.format("invalid verbosity level '%s' passed to setVerbose()", v));
     	}
     }
     

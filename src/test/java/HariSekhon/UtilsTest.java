@@ -75,7 +75,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertSame("getStatus(DEPENDENT)", 		4, 	getStatusCode("DEPENDENT"));
     }
 	
-	@Test(expected=IllegalStateException.class)
+	@Test(expected=IllegalArgumentException.class)
 	public void test_getStatusCode_exception(){
 		getStatusCode("somethingInvalid");
 	}
@@ -142,14 +142,24 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 	    assertEquals("require_name(blah)", "blah", require_name("blah"));
 	}
 	
-	@Test(expected=IllegalStateException.class)
-	public void test_require_name_exception_null() throws IllegalStateException {
+	@Test(expected=IllegalArgumentException.class)
+	public void test_require_name_exception_null() throws IllegalArgumentException {
 	    assertEquals("require_name(null)", "", require_name(null));
 	}
 	
-	@Test(expected=IllegalStateException.class)
-	public void test_require_name_exception_blank() throws IllegalStateException {
+	@Test(expected=IllegalArgumentException.class)
+	public void test_require_name_exception_blank() throws IllegalArgumentException {
 	    assertEquals("require_name(blank)", "", require_name(""));
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void test_arg_errork() throws IllegalArgumentException {
+	    arg_error("blah");
+	}
+	
+	@Test(expected=IllegalStateException.class)
+	public void test_state_error() throws IllegalStateException {
+	    state_error("blah");
 	}
 	
 	// ====================================================================== //
@@ -161,8 +171,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertFalse("check_regex(test,test2)", check_regex("test", "^est"));
     }
     
-    @Test(expected=IllegalStateException.class)
-    public void test_check_regex_exception() throws IllegalStateException {
+    @Test(expected=IllegalArgumentException.class)
+    public void test_check_regex_exception() throws IllegalArgumentException {
     	check_regex("test", "*est");
     }
     

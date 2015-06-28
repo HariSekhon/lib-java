@@ -268,8 +268,15 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     */
     
     @Test
-    public void test_uniq_array2(){
-    	assertEquals("uniq_array2(one,two,three,,one)",	new String[]{ "one", "two", "three", ""}, uniq_array2(new String[]{"one","two","three","","one"}));
+    public void test_uniq_array_ordered(){
+    	assertArrayEquals("uniq_array_ordered(one,two,three,,one)",	new String[]{ "one", "two", "three", ""}, uniq_array_ordered(new String[]{"one","two","three","","one"}));
+    }
+    
+    @Test
+    public void test_uniq_arraylist_ordered(){
+        String[] a = new String[]{"one","two","three","","one"};
+        String[] b = new String[]{"one","two","three",""};
+        assertArrayEquals("uniq_arraylist_ordered(one,two,three,,one)",	b, arraylist_to_array(uniq_arraylist_ordered(array_to_arraylist(a))));
     }
     
     // ====================================================================== //

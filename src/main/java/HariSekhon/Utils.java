@@ -434,7 +434,7 @@ public class Utils {
 	//
 	//                     Order Preserving
 	//
-	public static String[] uniq_array2 (String[] list) {
+	public static String[] uniq_array_ordered (String[] list){
 	    Set<String> set = new LinkedHashSet<String>();
 	    for(String item: list) {
             set.add(item);
@@ -442,18 +442,12 @@ public class Utils {
 	    String[] a = {};
 	    return set.toArray(a);
 	}
-	public static String[] uniq_array_ordered (String[] list){
-	    return uniq_array2(list);
-	}
 	
-	public static ArrayList<String> uniq_arraylist2 (ArrayList<String> list) {
+	public static ArrayList<String> uniq_arraylist_ordered (ArrayList<String> list) {
 	    Set<String> set = new LinkedHashSet<String>(list);
 	    ArrayList<String> a = new ArrayList<String>();
 	    a.addAll(set);
 	    return a;
-	}
-	public static ArrayList<String> uniq_arraylist_ordered (ArrayList<String> list) {
-	    return uniq_arraylist2(list);
 	}
 	
 	

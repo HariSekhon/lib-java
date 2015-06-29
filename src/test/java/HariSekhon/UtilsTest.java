@@ -908,8 +908,10 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
     @Test
     public void test_validate_program_path(){
-        assertEquals("validate_program_path()", "/bin/sh", validate_program_path("/bin/sh", "sh"));
-        assertEquals("validate_program_path()", "/bin/sh", validate_program_path("/bin/sh", "shell", "sh"));
+    	if(isLinuxOrMac()){
+    		assertEquals("validate_program_path()", "/bin/sh", validate_program_path("/bin/sh", "sh"));
+        	assertEquals("validate_program_path()", "/bin/sh", validate_program_path("/bin/sh", "shell", "sh"));
+    	}
     }
     
     // ====================================================================== //

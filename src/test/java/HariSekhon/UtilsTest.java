@@ -1052,8 +1052,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
     
     @Test
-    public void test_version_string(){
-    	version_string();
+    public void test_getVrsion(){
+    	getVersion();
     }
     
     // ====================================================================== //    

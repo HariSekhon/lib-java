@@ -236,11 +236,6 @@ public class Utils {
 	
 	// ===================================================================== //
 	
-	//public static arg_error(String msg){
-	//	throw IllegalArgumentException "Code Error: " + msg;
-	//}
-
-	
 	public static final Boolean check_regex (String string, String regex) {
 		if(string == null){
 		    arg_error("undefined string passed to check_regex()");
@@ -368,14 +363,14 @@ public class Utils {
 		String num_str = String.format("%.2f", num).replaceFirst("(\\.\\d+)0$", "$1").replaceFirst("\\.0+$", "");
 		return num_str + units;
 	}
-	public static String human_units (double num, String units) {
+	public static final String human_units (double num, String units) {
 		return human_units(num, units, false);
 	}
-	public static String human_units (double num) {
+	public static final String human_units (double num) {
 		return human_units(num, null, false);
 	}
 	
-	public static String strip_scheme (String str) {
+	public static final String strip_scheme (String str) {
 		if(str.matches("^\\w+://[^/].*")){
 			return str.replaceFirst("^\\w+://", "");
 		} else {
@@ -383,7 +378,7 @@ public class Utils {
 		}
 	}
 	
-	public static String strip_scheme_host (String str) {
+	public static final String strip_scheme_host (String str) {
 		if(str.matches("^\\w+:///[^/].*")){
 			return str.replaceFirst("^\\w+:///", "/");
 		} else {
@@ -399,11 +394,11 @@ public class Utils {
 	//
 	// ===================================================================== //
 	
-	public static ArrayList<String> array_to_arraylist(String[] array) {
+	public static final ArrayList<String> array_to_arraylist(String[] array) {
 	    return new ArrayList<String>(Arrays.asList(array));
 	}
 
-	public static String[] arraylist_to_array (ArrayList<String> arrayList) {
+	public static final String[] arraylist_to_array (ArrayList<String> arrayList) {
 	    String []array = new String[arrayList.size()];
 	    return arrayList.toArray(array);
 	}
@@ -413,7 +408,7 @@ public class Utils {
 	//
 	//                     Non-deterministic Ordering
 	//
-	public static String[] uniq_array (String[] list) {
+	public static final String[] uniq_array (String[] list) {
 	    HashSet<String> set = new HashSet<String>();
 	    for(String item: list) {
 	        set.add(item);
@@ -422,7 +417,7 @@ public class Utils {
 	    return set.toArray(a);
 	}
 	
-	public static ArrayList<String> uniq_arraylist (ArrayList<String> list) {
+	public static final ArrayList<String> uniq_arraylist (ArrayList<String> list) {
 	    HashSet<String> set = new HashSet<String>(list);
 	    ArrayList<String> a = new ArrayList<String>();
 	    a.addAll(set);
@@ -433,7 +428,7 @@ public class Utils {
 	//
 	//                     Order Preserving
 	//
-	public static String[] uniq_array_ordered (String[] list){
+	public static final String[] uniq_array_ordered (String[] list){
 	    Set<String> set = new LinkedHashSet<String>();
 	    for(String item: list) {
             set.add(item);
@@ -442,7 +437,7 @@ public class Utils {
 	    return set.toArray(a);
 	}
 	
-	public static ArrayList<String> uniq_arraylist_ordered (ArrayList<String> list) {
+	public static final ArrayList<String> uniq_arraylist_ordered (ArrayList<String> list) {
 	    Set<String> set = new LinkedHashSet<String>(list);
 	    ArrayList<String> a = new ArrayList<String>();
 	    a.addAll(set);
@@ -2094,12 +2089,12 @@ public class Utils {
     	return validate_url_path_suffix(url, null);
     }
     
-    public static String version_string () {
+    public static final String getVersion () {
     	return utils_version;
     }
     
     public static final void version () {
-        println("Hari Sekhon Java Utils version " + version_string());
+        println("Hari Sekhon Java Utils version " + getVersion());
     }
     
     public static final String which (String bin, Boolean quit) {

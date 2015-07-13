@@ -252,6 +252,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     	assertEquals("strip_scheme(file:/blah)",						"/blah",						strip_scheme("file:/blah"));
     	assertEquals("strip_scheme(file:///path/to/blah)",				"/path/to/blah",				strip_scheme("file:///path/to/blah"));
     	assertEquals("strip_scheme(http://blah)",						"blah",							strip_scheme("http://blah"));
+    	assertEquals("strip_scheme(hdfs:///blah)",						"/blah",						strip_scheme("hdfs:///blah"));
     	assertEquals("strip_scheme(hdfs://namenode/path/to/blah)",		"namenode/path/to/blah",		strip_scheme("hdfs://namenode/path/to/blah"));
     	assertEquals("strip_scheme(hdfs://namenode:8020/path/to/blah)",	"namenode:8020/path/to/blah",	strip_scheme("hdfs://namenode:8020/path/to/blah"));
     }
@@ -261,9 +262,13 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_strip_scheme_host(){
     	assertEquals("strip_scheme_host(file:/blah)",								"/blah",			strip_scheme_host("file:/blah"));
     	assertEquals("strip_scheme_host(file:///path/to/blah)",						"/path/to/blah",	strip_scheme_host("file:///path/to/blah"));
+    	assertEquals("strip_scheme_host(hdfs:///path/to/blah)",						"/path/to/blah",	strip_scheme_host("hdfs:///path/to/blah"));
     	assertEquals("strip_scheme_host(http://my.domain.com/blah)",				"/blah",			strip_scheme_host("http://my.domain.com/blah"));
     	assertEquals("strip_scheme_host(hdfs://nameservice1/hdfsfile)",				"/hdfsfile",		strip_scheme_host("hdfs://nameservice1/hdfsfile"));
+    	assertEquals("strip_scheme_host(hdfs://nameservice1:8020/hdfsfile)",		"/hdfsfile",		strip_scheme_host("hdfs://nameservice1:8020/hdfsfile"));
+    	assertEquals("strip_scheme_host(hdfs://namenode.domain.com/hdfsfile)",	    "/hdfsfile",		strip_scheme_host("hdfs://namenode.domain.com/hdfsfile"));
     	assertEquals("strip_scheme_host(hdfs://namenode.domain.com:8020/hdfsfile)",	"/hdfsfile",		strip_scheme_host("hdfs://namenode.domain.com:8020/hdfsfile"));
+    	assertEquals("strip_scheme_host(hdfs://nameservice1/path/to/hdfsfile)",		"/path/to/hdfsfile", strip_scheme_host("hdfs://nameservice1/path/to/hdfsfile"));
     }
     
     // ====================================================================== //

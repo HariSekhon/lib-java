@@ -205,10 +205,13 @@ public class Utils {
 	// years and years of Regex expertise and testing has gone in to this, do not edit!
 	// This also gives flexibility to work around some situations where domain names may not be quite valid (eg .local/.intranet) but still keep things quite tight
 	// There are certain scenarios where Google Guava and Apache Commons libraries don't help with these
+	// AWS regex from http://blogs.aws.amazon.com/security/blog/tag/key+rotation
+	public static final String aws_access_key_regex     = "(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])";
+    public static final String aws_secret_key_regex     = "(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])";
 	public static final String ip_prefix_regex 			= "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}";
 	// now allowing 0 or 255 as the final octet due to CIDR
 	public static final String ip_regex 				= ip_prefix_regex + "(?:25[0-5]|2[0-4][0-9]|[01]?[1-9][0-9]|[01]?0[1-9]|[12]00|[0-9])\\b";
-	public static final String hostname_component_regex = "\\b[A-Za-z](?:[A-Za-z0-9_\\-]{0,61}[a-zA-Z0-9])?\\b";
+	public static final String hostname_component_regex = "\\b[A-Za-z0-9](?:[A-Za-z0-9_\\-]{0,61}[a-zA-Z0-9])?\\b";
 	// TODO: replace this with IANA TLDs as done in my Perl lib
 	public static final String tld_regex				= "\\b(?i:[A-Za-z]{2,4}|london|museum|travel|local|localdomain|intra)\\b";
 	public static final String domain_component			= "\\b[a-zA-Z0-9](?:[a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\b";
@@ -463,7 +466,7 @@ public class Utils {
 	    if(str == null){
             return false;
         }
-        return str.matches("^[A-Za-z0-9]{20}$");
+        return str.matches("^" + aws_access_key_regex + "$");
 	}
 	
 	
@@ -471,7 +474,7 @@ public class Utils {
 	    if(str == null){
             return false;
         }
-		return str.matches("^[A-Za-z0-9]{40}$");
+		return str.matches("^" + aws_secret_key_regex + "$");
 	}
 	
 	

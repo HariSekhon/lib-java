@@ -10,11 +10,11 @@ Uses Maven as standard, just call
 mvn clean package
 ```
 
-Continuous Integration is run on this repo to build and unit test it.
+Continuous Integration is run on this repo to build and unit test it (JUnit).
 
 #### See Also ####
 
 * [Advanced Nagios Plugins Collection](https://github.com/harisekhon/nagios-plugins) - largest repo of monitoring code for Hadoop & NoSQL technologies, every Hadoop vendor's management API and every major NoSQL technology (HBase, Cassandra, MongoDB, Elasticsearch, Solr, Riak, Redis etc.) as well as traditional Linux and infrastructure
 * [Toolbox](https://github.com/harisekhon/toolbox) - Hadoop, NoSQL, Solr, Elasticsearch, Pig, Hive, Web, Linux CLI tools
 * [Perl / Python / Jython Lib](https://github.com/harisekhon/lib) - custom libraries used in my projects
-* [Spark => Elasticsearch](https://github.com/harisekhon/spark-to-elasticsearch) - Ready built indexers from Spark to Elasticsearch for both real-time and batch indexing including Kafka and Hadoop HDFS
+* [Spark => Elasticsearch](https://github.com/harisekhon/spark-to-elasticsearch) - Ready built indexers from Spark to Elasticsearch for both real-time and batch indexing including Kafka and Hadoop / HDFS

@@ -207,29 +207,32 @@ public class Utils {
 	// There are certain scenarios where Google Guava and Apache Commons libraries don't help with these
 	// AWS regex from http://blogs.aws.amazon.com/security/blog/tag/key+rotation
 	public static final String aws_access_key_regex     = "(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])";
+	public static final String aws_host_component       = "ip-(?:10-\\d+-\\d+-\\d+|172-1[6-9]-\\d+-\\d+|172-2[0-9]-\\d+-\\d+|172-3[0-1]-\\d+-\\d+|192-168-\\d+-\\d+)";
     public static final String aws_secret_key_regex     = "(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])";
 	public static final String ip_prefix_regex 			= "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}";
 	// now allowing 0 or 255 as the final octet due to CIDR
 	public static final String ip_regex 				= ip_prefix_regex + "(?:25[0-5]|2[0-4][0-9]|[01]?[1-9][0-9]|[01]?0[1-9]|[12]00|[0-9])\\b";
 	public static final String hostname_component_regex = "\\b[A-Za-z0-9](?:[A-Za-z0-9_\\-]{0,61}[a-zA-Z0-9])?\\b";
 	// TODO: replace this with IANA TLDs as done in my Perl lib
-	public static final String tld_regex				= "\\b(?i:[A-Za-z]{2,4}|london|museum|travel|local|localdomain|intra)\\b";
+	public static final String tld_regex				= "\\b(?i:[A-Za-z]{2,4}|london|museum|travel|local|localdomain|intra|intranet|internal)\\b";
 	public static final String domain_component			= "\\b[a-zA-Z0-9](?:[a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\b";
 	public static final String domain_regex				= "(?:" + domain_component + "\\.)*" + tld_regex;
 	public static final String domain_regex_strict 		= "(?:" + domain_component + "\\.)+" + tld_regex;
 	public static final String hostname_regex			= String.format("%s(?:\\.%s)?", hostname_component_regex, domain_regex);
+	public static final String aws_hostname_regex       = aws_host_component + "(?:\\." + domain_regex + ")?";
 	public static final String host_regex 	  			= String.format("\\b(?:%s|%s)\\b", hostname_regex, ip_regex);
 	public static final String dirname_regex 			= "[/\\w\\s\\\\.:,*()=%?+-]+";
 	public static final String filename_regex 			= dirname_regex + "[^/]";
 	public static final String rwxt_regex 	  	 		= "[r-][w-][x-][r-][w-][x-][r-][w-][xt-]";
 	public static final String fqdn_regex 	  	 		= hostname_component_regex + "\\." + domain_regex;
+	public static final String aws_fqdn_regex           = aws_host_component + "\\." + domain_regex;
 	public static final String email_regex 	  	 		= "\\b[A-Za-z0-9](?:[A-Za-z0-9\\._\\%\\'\\+-]{0,62}[A-Za-z0-9\\._\\%\\+-])?@" + domain_regex + "\\b";
 	public static final String subnet_mask_regex 		= "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[1-9][0-9]|[01]?0[1-9]|[12]00|[0-9])\\b";
 	public static final String mac_regex				= "\\b[0-9A-F-af]{1,2}[:-](?:[0-9A-Fa-f]{1,2}[:-]){4}[0-9A-Fa-f]{1,2}\\b";
 	public static final String process_name_regex		= "[\\w\\s./<>-]+";
 	public static final String url_path_suffix_regex	= "/(?:[\\w.,:/%&?!=*|\\[\\]~+-]+)?"; // there is an RFC3987 regex but it's gigantic, this is easier to reason about and serves my needs
 	public static final String url_regex				= "\\b(?i:https?://)?" + host_regex + "(?::\\d{1,5})?(?:" + url_path_suffix_regex + ")?";
-	public static final String user_regex				= "\\b[A-Za-z][A-Za-z0-9-]*[A-Za-z0-9]\\b";
+	public static final String user_regex				= "\\b[A-Za-z][A-Za-z0-9_-]*[A-Za-z0-9]\\b";
 	public static final String column_regex				= "\\b[\\w:]+\\b";
 	public static final String ldap_dn_regex			= "\\b\\w+=[\\w\\s]+(?:,\\w+=[\\w\\s]+)*\\b";
 	public static final String krb5_principal_regex		= String.format("%s(?:/%s)?(?:@%s)?", user_regex, hostname_regex, domain_regex);
@@ -467,6 +470,20 @@ public class Utils {
             return false;
         }
         return str.matches("^" + aws_access_key_regex + "$");
+	}
+	
+	public static final Boolean isAwsHostname (String str) {
+	    if(str == null){
+	        return false;
+	    }
+	    return str.matches("^" + aws_hostname_regex + "$");
+	}
+	
+	public static final Boolean isAwsFqdn (String str) {
+	    if(str == null){
+	        return false;
+	    }
+	    return str.matches("^" + aws_fqdn_regex + "$");
 	}
 	
 	

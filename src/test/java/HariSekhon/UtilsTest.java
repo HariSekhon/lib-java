@@ -369,6 +369,21 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
     
     @Test
+    public void test_isAwsHostname(){
+        assertTrue(isAwsHostname("ip-172-31-1-1"));
+        assertTrue(isAwsHostname("ip-172-31-1-1.eu-west-1.compute.internal"));
+        assertFalse(isAwsHostname("harisekhon"));
+        assertFalse(isAwsHostname("10.10.10.1"));
+        assertFalse(isAwsHostname(repeat_string("A",40)));
+    }
+    
+    @Test
+    public void test_isAwsFqdn(){
+        assertTrue(isAwsFqdn("ip-172-31-1-1.eu-west-1.compute.internal"));
+        assertFalse(isAwsFqdn("ip-172-31-1-1"));
+    }
+    
+    @Test
     public void test_isAwsSecretKey(){
         assertTrue(isAwsSecretKey(repeat_string("A",40)));
         assertTrue(isAwsSecretKey(repeat_string("1",40)));
@@ -557,6 +572,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isDomain("harisekhon.com"));
         assertTrue(isDomain("1harisekhon.com"));
         assertTrue(isDomain("com"));
+        assertTrue(isDomain("compute.internal"));
+        assertTrue(isDomain("eu-west-1.compute.internal"));
         assertTrue(isDomain(repeat_string("a",63) + ".com"));
         assertFalse(isDomain(repeat_string("a",64) + ".com"));
         assertFalse(isDomain("harisekhon")); // not a valid TLD
@@ -654,6 +671,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isHost("10.10.10.100"));
         assertTrue(isHost("10.10.10.0"));
         assertTrue(isHost("10.10.10.255"));
+        assertTrue(isHost("ip-172-31-1-1"));
         assertFalse(isHost("10.10.10.256"));
         assertFalse(isHost(repeat_string("a", 256)));
     }
@@ -978,7 +996,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isUser(){
         assertTrue(isUser("hadoop"));
         assertTrue(isUser("hari1983"));
-        assertTrue(isUser("cloudera-scm"));
+        assertTrue(isUser("mysql_test"));
         assertTrue(isUser("cloudera-scm"));
         assertFalse(isUser("-hari"));
         assertFalse(isUser("1983hari"));

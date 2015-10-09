@@ -58,7 +58,7 @@ import org.apache.commons.cli.ParseException;
 
 public class Utils {
 	
-    private static final String utils_version = "1.12.13";
+    private static final String utils_version = "1.13.0";
 	public static boolean stdout = false;
 	public static Options options = new Options();
 	

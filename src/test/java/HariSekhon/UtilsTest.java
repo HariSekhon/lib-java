@@ -188,7 +188,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     // ====================================================================== //
     @Test
-    public void test_get_options(){
+    public void test_get_options() throws Exception {
         get_options(new String[]{});
     }
     
@@ -554,7 +554,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     
     // ====================================================================== //
     @Test
-    public void test_validate_double(){
+    public void test_validate_double() throws Exception {
         validate_double(2.0, "two", 2, 3);
         validate_double(3.0, "three", 2, 3);
         validate_double("2.1", "two string", 2, 3);

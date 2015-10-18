@@ -58,7 +58,7 @@ import org.apache.commons.cli.ParseException;
 
 public class Utils {
 	
-    private static final String utils_version = "1.13.0";
+    private static final String utils_version = "1.13.1";
 	public static boolean stdout = false;
 	public static Options options = new Options();
 	
@@ -69,6 +69,8 @@ public class Utils {
     private static final HashMap<String, Integer> exit_codes = new HashMap<String, Integer>();
     private static String status = "UNKNOWN";
 	private static int verbose = 0;
+	private static int timeout = -1;
+	private static boolean debug = false;
 	
 	// keeping this lowercase to make it easier to do String.toLowerCase() case insensitive matches
 	private static final ArrayList<String> valid_units = new ArrayList<String>(Arrays.asList(
@@ -97,6 +99,7 @@ public class Utils {
 		// .create() must come last as it generates Option on which we cannot add long opt etc
 		//options.addOption(OptionBuilder.create("t").withLongOpt("timeout").withArgName("secs").withDescription("Timeout for program (Optional)").create("t"));
 		options.addOption(OptionBuilder.withLongOpt("timeout").withArgName("secs").hasArg().withDescription("Timeout for program (Optional)").create("t"));
+		options.addOption(OptionBuilder.withLongOpt("debug").withDescription("Debug mode (Optional)").create("D"));
 		options.addOption("v", "verbose", false, "Verbose mode");
 		options.addOption("h", "help", false, "Print usage help and exit");
 		//CommandLine cmd = get_options(new String[]{"test", "test2"});
@@ -998,7 +1001,7 @@ public class Utils {
     }
     
     
-	public static final CommandLine get_options (String[] args) {
+	public static final CommandLine get_options (String[] args) throws ParseException {
 		// 1.3+ API problem with Spark, go back to older API for commons-cli
 		//CommandLineParser parser = new DefaultParser();
 		CommandLineParser parser = new GnuParser();
@@ -1008,7 +1011,20 @@ public class Utils {
 			if(cmd.hasOption("h")){
 				usage();
 			}
+			if(cmd.hasOption("D")){
+				debug = true;
+			}
+			if(cmd.hasOption("V")){
+				verbose += 1;
+			}
+			if(cmd.hasOption("T")){
+				// fix this
+				timeout = Integer.valueOf(cmd.getOptionValue("T", "-1"));
+			}
 		} catch (ParseException e){
+			if(debug){
+				throw e;
+			}
 			println(e + "\n");
 			usage();
 		}
@@ -1063,6 +1079,28 @@ public class Utils {
 	    return string.toString();
 	}
 	
+	
+	// ===================================================================== //
+	//
+	//                          O p t i o n s
+	//
+	// ===================================================================== //
+	
+	public static final void HostOptions(){
+		OptionBuilder.withLongOpt("host");
+		OptionBuilder.withArgName("host");
+		OptionBuilder.withDescription("Host ($HOST)");
+		OptionBuilder.hasArg();
+		OptionBuilder.isRequired();
+		options.addOption(OptionBuilder.create("H"));
+		
+		OptionBuilder.withLongOpt("port");
+		OptionBuilder.withArgName("port");
+		OptionBuilder.withDescription("Port ($PORT)");
+		OptionBuilder.hasArg();
+		OptionBuilder.isRequired();
+		options.addOption(OptionBuilder.create("P"));
+	}
 	
 	// ===================================================================== //
 	//
@@ -1620,10 +1658,10 @@ public class Utils {
     public static final double validate_double (double d, String name, double  minVal, double maxVal) {
         name = require_name(name);
         if(d < minVal){
-            usage("invalid " + name + "defined: cannot be lower than " + minVal);
-        }
+            usage("invalid " + name + " defined: cannot be lower than " + minVal);
+        }n
         if(d > maxVal){
-            usage("invalid " + name + "defined: cannot be greater than " + maxVal);
+            usage("invalid " + name + " defined: cannot be greater than " + maxVal);
         }
         vlog_options(name, String.valueOf(d));
         return d;
@@ -1646,7 +1684,7 @@ public class Utils {
         try {
             d_double = Double.parseDouble(d);
         } catch (Exception e){
-            usage("invalid " + name + "defined: must be numeric (double)");
+            usage("invalid " + name + " defined: must be numeric (double)");
         }
         // vlog_options done in validate_double
         validate_double(d_double, name, minVal, maxVal);
@@ -1658,19 +1696,22 @@ public class Utils {
         try {
             l_long = Long.parseLong(l);
         } catch (Exception e){
-            usage("invalid " + name + "defined: must be numeric (long)");
+            usage("invalid " + name + " defined: must be numeric (long)");
         }
         // vlog_options done in validate_long
         validate_double(l_long, name, minVal, maxVal);
         return l_long;
     }
-    public static final int validate_int (String i, String name, int minVal, int maxVal) {
+    public static final int validate_int (String i, String name, int minVal, int maxVal) throws Exception {
         name = require_name(name);
         int i_int = -1;
         try {
             i_int = Integer.parseInt(i);
         } catch (Exception e){
-            usage("invalid " + name + "defined: must be numeric (int)");
+        	if(debug){
+        		throw e;
+        	}
+            usage("invalid " + name + " defined: must be numeric (int)");
         }
         // vlog_options done in pass through to validate_long
         validate_double(i_int, name, minVal, maxVal);
@@ -1682,7 +1723,7 @@ public class Utils {
         try {
             f_float = Float.parseFloat(f);
         } catch (Exception e){
-            usage("invalid " + name + "defined: must be numeric (float)");
+            usage("invalid " + name + " defined: must be numeric (float)");
         }
         // vlog_options done in pass through to validate_long
         validate_double(f_float, name, minVal, maxVal);

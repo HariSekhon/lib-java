@@ -1017,9 +1017,9 @@ public class Utils {
 			if(cmd.hasOption("V")){
 				verbose += 1;
 			}
-			if(cmd.hasOption("T")){
+			if(cmd.hasOption("t")){
 				// fix this
-				timeout = Integer.valueOf(cmd.getOptionValue("T", "-1"));
+				timeout = Integer.valueOf(cmd.getOptionValue("t", "-1"));
 			}
 		} catch (ParseException e){
 			if(debug){

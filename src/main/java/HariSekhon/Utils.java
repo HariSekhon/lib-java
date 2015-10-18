@@ -1659,7 +1659,7 @@ public class Utils {
         name = require_name(name);
         if(d < minVal){
             usage("invalid " + name + " defined: cannot be lower than " + minVal);
-        }n
+        }
         if(d > maxVal){
             usage("invalid " + name + " defined: cannot be greater than " + maxVal);
         }

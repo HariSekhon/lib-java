@@ -56,7 +56,7 @@ import org.apache.commons.cli.ParseException;
 
 // Methods should not allow unhandled Exceptions since we want to catch and provide concise one liner errors
 
-public class Utils {
+public final class Utils {
 	
     private static final String utils_version = "1.13.1";
 	public static boolean stdout = false;
@@ -71,6 +71,7 @@ public class Utils {
 	private static int verbose = 0;
 	private static int timeout = -1;
 	private static boolean debug = false;
+	public static boolean nagios_plugin = false;
 	
 	// keeping this lowercase to make it easier to do String.toLowerCase() case insensitive matches
 	private static final ArrayList<String> valid_units = new ArrayList<String>(Arrays.asList(
@@ -135,13 +136,13 @@ public class Utils {
 	}
 	
 	public static final void unknown(){
-		if(getStatus() == null || getStatus().equals("OK")){
+		if(getStatus() == null || "OK".equalsIgnoreCase(getStatus())){
 			setStatus("UNKNOWN");
 		}
 	}
 	
 	public static final void warning(){
-		if(getStatus() == null || ! getStatus().equals("CRITICAL")){
+		if(getStatus() == null || ! "CRITICAL".equalsIgnoreCase(getStatus())){
 			setStatus("WARNING");
 		}
 	}
@@ -154,7 +155,7 @@ public class Utils {
 	    if(getStatus() == null){
 	        return false;
 	    }
-		return getStatus().equals("OK");
+		return "OK".equals(getStatus());
 	}
 	
 	
@@ -162,21 +163,21 @@ public class Utils {
 	    if(getStatus() == null){
 	        return false;
 	    }
-		return getStatus().equals("WARNING");
+		return "WARNING".equalsIgnoreCase(getStatus());
 	}
 	
 	public static final Boolean is_critical(){
 	    if(getStatus() == null){
 	        return false;
 	    }
-		return getStatus().equals("CRITICAL");
+		return "CRITICAL".equalsIgnoreCase(getStatus());
 	}
 	
 	public static final Boolean is_unknown(){
 	    if(getStatus() == null){
 	        return false;
 	    }
-		return getStatus().equals("UNKNOWN");
+		return "UNKNOWN".equalsIgnoreCase(getStatus());
 	}
 
 	
@@ -1028,8 +1029,8 @@ public class Utils {
 				timeout = Integer.valueOf(cmd.getOptionValue("t", "-1"));
 			}
 		} catch (ParseException e){
-			if(debug){
-				throw e;
+			if(!nagios_plugin || debug){
+				e.printStackTrace();
 			}
 			println(e + "\n");
 			usage();

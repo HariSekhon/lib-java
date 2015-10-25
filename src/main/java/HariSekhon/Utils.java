@@ -20,6 +20,7 @@ package HariSekhon;
 import java.io.File;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,6 +29,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 import static java.lang.Math.pow;
 
 import org.apache.commons.lang.StringUtils;
@@ -42,6 +45,7 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+// Stuff to still be ported:
 // TODO: if progname check_* stderr to stdout and trap exit codes to 2
 // TODO: predefined options
 // TODO: env support
@@ -96,9 +100,8 @@ public final class Utils {
 		exit_codes.put("DEPENDENT", 4);
 		
 		// 1.3+ API doesn't work in Spark which embeds older commons-cli
-		//options.addOption(Option.builder("t").longOpt("timeout").argName("secs").required(false).desc("Timeout for program (Optional)").build());
-		// .create() must come last as it generates Option on which we cannot add long opt etc
-		//options.addOption(OptionBuilder.create("t").withLongOpt("timeout").withArgName("secs").withDescription("Timeout for program (Optional)").create("t"));
+		// so have to use this older static Builder style, which is actually more horrible in Scala
+		// which doesn't allow static method chaining
 		options.addOption(OptionBuilder.withLongOpt("timeout")
 									   .hasArg()
 									   .withArgName("secs")
@@ -730,7 +733,7 @@ public final class Utils {
             int octet_int;
             try{
                 octet_int = Integer.parseInt(octet);
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 return false;
             }
             if(octet_int < 0 || octet_int > 255){
@@ -748,7 +751,7 @@ public final class Utils {
         int port_int;
         try{
             port_int = Integer.parseInt(port);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return false;
         }
         return isPort(port_int);
@@ -774,7 +777,7 @@ public final class Utils {
     public static final Boolean isRegex (String regex) {
         try {
             "".matches(regex);
-        } catch (Exception e){
+        } catch (PatternSyntaxException e){
             return false;
         }
         return true;
@@ -945,7 +948,7 @@ public final class Utils {
         try {
             InetAddress address = InetAddress.getByName(host);
             return address.getHostAddress();
-        } catch (Exception e) {
+        } catch (UnknownHostException e) {
             return null;
         }
     }
@@ -1008,7 +1011,7 @@ public final class Utils {
     }
     
     
-	public static final CommandLine get_options (String[] args) throws ParseException {
+	public static final CommandLine get_options (String[] args) {
 		// 1.3+ API problem with Spark, go back to older API for commons-cli
 		//CommandLineParser parser = new DefaultParser();
 		CommandLineParser parser = new GnuParser();
@@ -1029,7 +1032,7 @@ public final class Utils {
 				timeout = Integer.valueOf(cmd.getOptionValue("t", "-1"));
 			}
 		} catch (ParseException e){
-			if(!nagios_plugin || debug){
+			if(debug){
 				e.printStackTrace();
 			}
 			println(e + "\n");
@@ -1540,7 +1543,7 @@ public final class Utils {
 	    int port_int = -1;
         try{
             port_int = Integer.parseInt(port);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             usage("invalid port defined, not an integer");
         }
         if(!isPort(port)){
@@ -1690,7 +1693,7 @@ public final class Utils {
         double d_double = -1;
         try {
             d_double = Double.parseDouble(d);
-        } catch (Exception e){
+        } catch (NumberFormatException e){
             usage("invalid " + name + " defined: must be numeric (double)");
         }
         // vlog_options done in validate_double
@@ -1702,22 +1705,22 @@ public final class Utils {
         long l_long = -1;
         try {
             l_long = Long.parseLong(l);
-        } catch (Exception e){
+        } catch (NumberFormatException e){
             usage("invalid " + name + " defined: must be numeric (long)");
         }
         // vlog_options done in validate_long
         validate_double(l_long, name, minVal, maxVal);
         return l_long;
     }
-    public static final int validate_int (String i, String name, int minVal, int maxVal) throws Exception {
+    public static final int validate_int (String i, String name, int minVal, int maxVal) {
         name = require_name(name);
         int i_int = -1;
         try {
             i_int = Integer.parseInt(i);
-        } catch (Exception e){
-        	if(debug){
-        		throw e;
-        	}
+        } catch (NumberFormatException e){
+        	//if(debug){
+        	//	e.printStackTrace();
+        	//}
             usage("invalid " + name + " defined: must be numeric (int)");
         }
         // vlog_options done in pass through to validate_long
@@ -1729,7 +1732,7 @@ public final class Utils {
         float f_float = -1;
         try {
             f_float = Float.parseFloat(f);
-        } catch (Exception e){
+        } catch (NumberFormatException e){
             usage("invalid " + name + " defined: must be numeric (float)");
         }
         // vlog_options done in pass through to validate_long
@@ -1931,7 +1934,7 @@ public final class Utils {
         int port_int = -1;
         try {
             port_int = Integer.parseInt(port);
-        } catch (Exception e){
+        } catch (NumberFormatException e){
             usage("invalid " + name + "port specified: must be numeric");
         }
         return String.valueOf(validate_port(port_int, name));
@@ -2020,7 +2023,7 @@ public final class Utils {
         } else {
             try {
                 "".matches(regex);
-            } catch (Exception e) {
+            } catch (PatternSyntaxException e) {
                 usage("invalid " + name + "regex defined");
             }
         }

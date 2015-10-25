@@ -6,10 +6,12 @@
 #
 
 language: java
+# doesn't provide oraclejdk6 any more because it's EOL as of Nov 2012
 jdk:
   - oraclejdk8
   - oraclejdk7
   - openjdk6
+  - openjdk7
 
 after_success:
   # JaCoCo gives error, skip for now and just use Cobertura:

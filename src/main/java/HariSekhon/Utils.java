@@ -20,6 +20,7 @@ package HariSekhon;
 import java.io.File;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -28,6 +29,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
+
 import static java.lang.Math.pow;
 
 import org.apache.commons.lang.StringUtils;
@@ -42,6 +45,7 @@ import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
+// Stuff to still be ported:
 // TODO: if progname check_* stderr to stdout and trap exit codes to 2
 // TODO: predefined options
 // TODO: env support
@@ -56,9 +60,9 @@ import org.apache.commons.cli.ParseException;
 
 // Methods should not allow unhandled Exceptions since we want to catch and provide concise one liner errors
 
-public class Utils {
+public final class Utils {
 	
-    private static final String utils_version = "1.13.0";
+    private static final String utils_version = "1.13.1";
 	public static boolean stdout = false;
 	public static Options options = new Options();
 	
@@ -69,6 +73,9 @@ public class Utils {
     private static final HashMap<String, Integer> exit_codes = new HashMap<String, Integer>();
     private static String status = "UNKNOWN";
 	private static int verbose = 0;
+	private static int timeout = -1;
+	private static boolean debug = false;
+	public static boolean nagios_plugin = false;
 	
 	// keeping this lowercase to make it easier to do String.toLowerCase() case insensitive matches
 	private static final ArrayList<String> valid_units = new ArrayList<String>(Arrays.asList(
@@ -93,10 +100,16 @@ public class Utils {
 		exit_codes.put("DEPENDENT", 4);
 		
 		// 1.3+ API doesn't work in Spark which embeds older commons-cli
-		//options.addOption(Option.builder("t").longOpt("timeout").argName("secs").required(false).desc("Timeout for program (Optional)").build());
-		// .create() must come last as it generates Option on which we cannot add long opt etc
-		//options.addOption(OptionBuilder.create("t").withLongOpt("timeout").withArgName("secs").withDescription("Timeout for program (Optional)").create("t"));
-		options.addOption(OptionBuilder.withLongOpt("timeout").withArgName("secs").hasArg().withDescription("Timeout for program (Optional)").create("t"));
+		// so have to use this older static Builder style, which is actually more horrible in Scala
+		// which doesn't allow static method chaining
+		options.addOption(OptionBuilder.withLongOpt("timeout")
+									   .hasArg()
+									   .withArgName("secs")
+									   .withDescription("Timeout for program (Optional)")
+									   .create("t"));
+		options.addOption(OptionBuilder.withLongOpt("debug")
+									   .withDescription("Debug mode (Optional)")
+									   .create("D"));
 		options.addOption("v", "verbose", false, "Verbose mode");
 		options.addOption("h", "help", false, "Print usage help and exit");
 		//CommandLine cmd = get_options(new String[]{"test", "test2"});
@@ -126,13 +139,13 @@ public class Utils {
 	}
 	
 	public static final void unknown(){
-		if(getStatus() == null || getStatus().equals("OK")){
+		if(getStatus() == null || "OK".equalsIgnoreCase(getStatus())){
 			setStatus("UNKNOWN");
 		}
 	}
 	
 	public static final void warning(){
-		if(getStatus() == null || ! getStatus().equals("CRITICAL")){
+		if(getStatus() == null || ! "CRITICAL".equalsIgnoreCase(getStatus())){
 			setStatus("WARNING");
 		}
 	}
@@ -145,7 +158,7 @@ public class Utils {
 	    if(getStatus() == null){
 	        return false;
 	    }
-		return getStatus().equals("OK");
+		return "OK".equals(getStatus());
 	}
 	
 	
@@ -153,21 +166,21 @@ public class Utils {
 	    if(getStatus() == null){
 	        return false;
 	    }
-		return getStatus().equals("WARNING");
+		return "WARNING".equalsIgnoreCase(getStatus());
 	}
 	
 	public static final Boolean is_critical(){
 	    if(getStatus() == null){
 	        return false;
 	    }
-		return getStatus().equals("CRITICAL");
+		return "CRITICAL".equalsIgnoreCase(getStatus());
 	}
 	
 	public static final Boolean is_unknown(){
 	    if(getStatus() == null){
 	        return false;
 	    }
-		return getStatus().equals("UNKNOWN");
+		return "UNKNOWN".equalsIgnoreCase(getStatus());
 	}
 
 	
@@ -720,7 +733,7 @@ public class Utils {
             int octet_int;
             try{
                 octet_int = Integer.parseInt(octet);
-            } catch (Exception e) {
+            } catch (NumberFormatException e) {
                 return false;
             }
             if(octet_int < 0 || octet_int > 255){
@@ -738,7 +751,7 @@ public class Utils {
         int port_int;
         try{
             port_int = Integer.parseInt(port);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             return false;
         }
         return isPort(port_int);
@@ -764,7 +777,7 @@ public class Utils {
     public static final Boolean isRegex (String regex) {
         try {
             "".matches(regex);
-        } catch (Exception e){
+        } catch (PatternSyntaxException e){
             return false;
         }
         return true;
@@ -935,7 +948,7 @@ public class Utils {
         try {
             InetAddress address = InetAddress.getByName(host);
             return address.getHostAddress();
-        } catch (Exception e) {
+        } catch (UnknownHostException e) {
             return null;
         }
     }
@@ -1008,7 +1021,20 @@ public class Utils {
 			if(cmd.hasOption("h")){
 				usage();
 			}
+			if(cmd.hasOption("D")){
+				debug = true;
+			}
+			if(cmd.hasOption("V")){
+				verbose += 1;
+			}
+			if(cmd.hasOption("t")){
+				// fix this
+				timeout = Integer.valueOf(cmd.getOptionValue("t", "-1"));
+			}
 		} catch (ParseException e){
+			if(debug){
+				e.printStackTrace();
+			}
 			println(e + "\n");
 			usage();
 		}
@@ -1063,6 +1089,28 @@ public class Utils {
 	    return string.toString();
 	}
 	
+	
+	// ===================================================================== //
+	//
+	//                          O p t i o n s
+	//
+	// ===================================================================== //
+	
+	public static final void HostOptions(){
+		OptionBuilder.withLongOpt("host");
+		OptionBuilder.withArgName("host");
+		OptionBuilder.withDescription("Host ($HOST)");
+		OptionBuilder.hasArg();
+		OptionBuilder.isRequired();
+		options.addOption(OptionBuilder.create("H"));
+		
+		OptionBuilder.withLongOpt("port");
+		OptionBuilder.withArgName("port");
+		OptionBuilder.withDescription("Port ($PORT)");
+		OptionBuilder.hasArg();
+		OptionBuilder.isRequired();
+		options.addOption(OptionBuilder.create("P"));
+	}
 	
 	// ===================================================================== //
 	//
@@ -1495,7 +1543,7 @@ public class Utils {
 	    int port_int = -1;
         try{
             port_int = Integer.parseInt(port);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             usage("invalid port defined, not an integer");
         }
         if(!isPort(port)){
@@ -1620,10 +1668,10 @@ public class Utils {
     public static final double validate_double (double d, String name, double  minVal, double maxVal) {
         name = require_name(name);
         if(d < minVal){
-            usage("invalid " + name + "defined: cannot be lower than " + minVal);
+            usage("invalid " + name + " defined: cannot be lower than " + minVal);
         }
         if(d > maxVal){
-            usage("invalid " + name + "defined: cannot be greater than " + maxVal);
+            usage("invalid " + name + " defined: cannot be greater than " + maxVal);
         }
         vlog_options(name, String.valueOf(d));
         return d;
@@ -1645,8 +1693,8 @@ public class Utils {
         double d_double = -1;
         try {
             d_double = Double.parseDouble(d);
-        } catch (Exception e){
-            usage("invalid " + name + "defined: must be numeric (double)");
+        } catch (NumberFormatException e){
+            usage("invalid " + name + " defined: must be numeric (double)");
         }
         // vlog_options done in validate_double
         validate_double(d_double, name, minVal, maxVal);
@@ -1657,8 +1705,8 @@ public class Utils {
         long l_long = -1;
         try {
             l_long = Long.parseLong(l);
-        } catch (Exception e){
-            usage("invalid " + name + "defined: must be numeric (long)");
+        } catch (NumberFormatException e){
+            usage("invalid " + name + " defined: must be numeric (long)");
         }
         // vlog_options done in validate_long
         validate_double(l_long, name, minVal, maxVal);
@@ -1669,8 +1717,11 @@ public class Utils {
         int i_int = -1;
         try {
             i_int = Integer.parseInt(i);
-        } catch (Exception e){
-            usage("invalid " + name + "defined: must be numeric (int)");
+        } catch (NumberFormatException e){
+        	//if(debug){
+        	//	e.printStackTrace();
+        	//}
+            usage("invalid " + name + " defined: must be numeric (int)");
         }
         // vlog_options done in pass through to validate_long
         validate_double(i_int, name, minVal, maxVal);
@@ -1681,8 +1732,8 @@ public class Utils {
         float f_float = -1;
         try {
             f_float = Float.parseFloat(f);
-        } catch (Exception e){
-            usage("invalid " + name + "defined: must be numeric (float)");
+        } catch (NumberFormatException e){
+            usage("invalid " + name + " defined: must be numeric (float)");
         }
         // vlog_options done in pass through to validate_long
         validate_double(f_float, name, minVal, maxVal);
@@ -1883,7 +1934,7 @@ public class Utils {
         int port_int = -1;
         try {
             port_int = Integer.parseInt(port);
-        } catch (Exception e){
+        } catch (NumberFormatException e){
             usage("invalid " + name + "port specified: must be numeric");
         }
         return String.valueOf(validate_port(port_int, name));
@@ -1972,7 +2023,7 @@ public class Utils {
         } else {
             try {
                 "".matches(regex);
-            } catch (Exception e) {
+            } catch (PatternSyntaxException e) {
                 usage("invalid " + name + "regex defined");
             }
         }

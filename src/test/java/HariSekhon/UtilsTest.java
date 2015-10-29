@@ -739,6 +739,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isInterface("eth0"));
         assertTrue(isInterface("bond3"));
         assertTrue(isInterface("lo"));
+        assertTrue(isInterface("docker0"));
+        assertTrue(isInterface("vethfa1b2c3"));
+        assertFalse(isInterface("vethfa1b2z3"));
         assertFalse(isInterface("b@interface"));
     }
     

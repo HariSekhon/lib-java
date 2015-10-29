@@ -664,7 +664,7 @@ public final class Utils {
 	
 	
 	public static final Boolean isInterface (String networkInterface) {
-	    if(networkInterface != null && networkInterface.matches("^((?:em|eth|bond|lo)\\d+|lo)$")){
+	    if(networkInterface != null && networkInterface.matches("^(?:em|eth|bond|lo|docker)\\d+|lo|veth[A-Fa-f0-9]+$")){
 	        return true;
 	    } else {
 	        return false;

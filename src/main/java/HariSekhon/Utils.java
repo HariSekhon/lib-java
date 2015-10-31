@@ -98,7 +98,7 @@ public final class Utils {
 		exit_codes.put("CRITICAL", 	2);
 		exit_codes.put("UNKNOWN", 	3);
 		exit_codes.put("DEPENDENT", 4);
-		
+
 		// 1.3+ API doesn't work in Spark which embeds older commons-cli
 		// so have to use this older static Builder style, which is actually more horrible in Scala
 		// which doesn't allow static method chaining
@@ -1043,13 +1043,22 @@ public final class Utils {
 	
 	
 	public static final void usage (String msg) {
-		if(msg != null){
-			println(msg + "\n");
+		if(msg == null){
+			msg = "";
+		} else {
+			msg += "\n";
 		}
 		HelpFormatter formatter = new HelpFormatter();
-		// TODO: get caller's class name to populate this
-		formatter.printHelp("<className> [options]", options);
-		System.exit(exit_codes.get("UNKNOWN"));
+//		Class<?> enclosingClass = getClass().getEnclosingClass();
+//		if (enclosingClass != null) {
+//			System.out.println(enclosingClass.getName());
+//		} else {
+//			System.out.println(getClass().getName());
+//		}
+//		msg = msg + formatter.printHelp(enclosingClass + " [options]", options);
+		formatter.printHelp(msg, options);
+		//System.exit(exit_codes.get("UNKNOWN"));
+		throw new IllegalArgumentException("");
 	}
 	
 	public static final void usage(){
@@ -1121,7 +1130,7 @@ public final class Utils {
 	// these methods are intentionally not throwing exceptions as they are designed for CLI usage and exit with usage()
 	// for try and recover behaviour use the corresponding is* methods which return Boolean
 	
-	public static final String name (String name) {
+	protected static final String name (String name) {
 	    if(name == null){
 	        return "";
 	    }
@@ -1132,7 +1141,7 @@ public final class Utils {
 	    return name;
 	}
 	
-	public static final String require_name (String name) {
+	protected static final String require_name (String name) {
 	    if(name == null || name.trim().isEmpty()){
 	        // TODO: improve the feedback location 
 	        //StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace()

@@ -17,37 +17,31 @@
 
 package HariSekhon;
 
+import org.apache.commons.cli.*;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Set;
-//import java.util.logging.Level;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import static java.lang.Math.pow;
 
-import org.apache.log4j.Logger;
-import org.apache.log4j.Level;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
 // 1.3+ API causes problems with Spark, use older API for commons-cli
 //import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.HelpFormatter;
 //import org.apache.commons.cli.Option;
-import org.apache.commons.cli.OptionBuilder;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+
+//import java.util.logging.Level;
+// 1.3+ API causes problems with Spark, use older API for commons-cli
+//import org.apache.commons.cli.DefaultParser;
+//import org.apache.commons.cli.Option;
 
 // Stuff to still be ported:
 // TODO: if progname check_* stderr to stdout and trap exit codes to 2
@@ -101,6 +95,82 @@ public final class Utils {
     public static final Logger log = Logger.getLogger(HariSekhon.Utils.class.getName());
 //    public static final Logger log = Logger.getLogger("HariSekhon.Utils");
 
+    // ===================================================================== //
+    //
+    //                             R e g e x
+    //
+    // ===================================================================== //
+
+    // neither Google's com.Guava google.common.net.HostSpecifier nor Apache Commons org.apache.commons.validator.routines.DomainValidator are suitable for my needs here, must port the more flexible regex methods from my old Perl library
+
+    // years and years of Regex expertise and testing has gone in to this, do not edit!
+    // This also gives flexibility to work around some situations where domain names may not be quite valid (eg .local/.intranet) but still keep things quite tight
+    // There are certain scenarios where Google Guava and Apache Commons libraries don't help with these
+    // AWS regex from http://blogs.aws.amazon.com/security/blog/tag/key+rotation
+    public static final String aws_access_key_regex     = "(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])";
+    public static final String aws_host_component       = "ip-(?:10-\\d+-\\d+-\\d+|172-1[6-9]-\\d+-\\d+|172-2[0-9]-\\d+-\\d+|172-3[0-1]-\\d+-\\d+|192-168-\\d+-\\d+)";
+    public static final String aws_secret_key_regex     = "(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])";
+    public static final String ip_prefix_regex 			= "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}";
+    // now allowing 0 or 255 as the final octet due to CIDR
+    public static final String ip_regex 				= ip_prefix_regex + "(?:25[0-5]|2[0-4][0-9]|[01]?[1-9][0-9]|[01]?0[1-9]|[12]00|[0-9])\\b";
+    public static final String hostname_component_regex = "\\b[A-Za-z0-9](?:[A-Za-z0-9_\\-]{0,61}[a-zA-Z0-9])?\\b";
+    public static final String domain_component			= "\\b[a-zA-Z0-9](?:[a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\b";
+    public static final String domain_regex;
+    public static final String domain_regex_strict;
+    public static final String hostname_regex;
+    public static final String aws_hostname_regex;
+    public static final String host_regex;
+    public static final String dirname_regex 			= "[/\\w\\s\\\\.:,*()=%?+-]+";
+    public static final String filename_regex 			= dirname_regex + "[^/]";
+    public static final String rwxt_regex 	  	 		= "[r-][w-][x-][r-][w-][x-][r-][w-][xt-]";
+    public static final String fqdn_regex;
+    public static final String aws_fqdn_regex;
+    public static final String email_regex;
+    public static final String subnet_mask_regex 		= "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[1-9][0-9]|[01]?0[1-9]|[12]00|[0-9])\\b";
+    public static final String mac_regex				= "\\b[0-9A-F-af]{1,2}[:-](?:[0-9A-Fa-f]{1,2}[:-]){4}[0-9A-Fa-f]{1,2}\\b";
+    public static final String process_name_regex		= "[\\w\\s./<>-]+";
+    public static final String url_path_suffix_regex	= "/(?:[\\w.,:/%&?!=*|\\[\\]~+-]+)?"; // there is an RFC3987 regex but it's gigantic, this is easier to reason about and serves my needs
+    public static final String user_regex				= "\\b[A-Za-z][A-Za-z0-9_-]*[A-Za-z0-9]\\b";
+    public static final String url_regex;
+    public static final String column_regex				= "\\b[\\w:]+\\b";
+    public static final String ldap_dn_regex			= "\\b\\w+=[\\w\\s]+(?:,\\w+=[\\w\\s]+)*\\b";
+    public static final String krb5_principal_regex;
+    public static final String threshold_range_regex	= "^(@)?(-?\\d+(?:\\.\\d+)?)(:)(-?\\d+(?:\\.\\d+)?)?$";
+    public static final String threshold_simple_regex	= "^(-?\\d+(?:\\.\\d+)?)$";
+    public static final String version_regex            = "\\d(\\.\\d+)*";
+
+    public static final String tld_regex;
+    private static String tld_regex_builder = "\\b(?i:";
+
+    private static int total_tld_count = 0;
+
+    public static final void load_tlds (String filename) {
+        int tld_count = 0;
+        try {
+            File file = new File(HariSekhon.Utils.class.getResource("/" + filename).getFile());
+            Scanner scanner = new Scanner(file);
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                line = line.replaceFirst("[#;].*", "");
+                line = line.trim();
+                if (line.matches("^\\s*$")) {
+                    continue;
+                }
+                if (line.matches("^[A-Za-z0-9-]+$")) {
+                    tld_regex_builder = tld_regex_builder + line + "|";
+                    tld_count += 1;
+                } else {
+                    log.warn("TLD: '" + line + "' from tld file '" + filename + "' not validated, skipping that TLD");
+                }
+            }
+            scanner.close();
+        } catch (Exception e){
+            log.error(e.getMessage());
+        }
+        log.info(tld_count + " TLDs loaded from '" + filename + "'");
+        total_tld_count += tld_count;
+    }
+
     static {
         // java autoboxing
         exit_codes.put("OK", 0);
@@ -110,7 +180,6 @@ public final class Utils {
         exit_codes.put("DEPENDENT", 4);
 
         log.setLevel(Level.INFO);
-        log.info("test");
 
         // 1.3+ API doesn't work in Spark which embeds older commons-cli
         // so have to use this older static Builder style, which is actually more horrible in Scala
@@ -126,6 +195,36 @@ public final class Utils {
         options.addOption("v", "verbose", false, "Verbose mode");
         options.addOption("h", "help", false, "Print usage help and exit");
         //CommandLine cmd = get_options(new String[]{"test", "test2"});
+
+        // Don't catch it, let the class fail to initialize via exception to prevent relying on the regexes which won't match
+//        try {
+            load_tlds("tlds-alpha-by-domain.txt");
+            if (total_tld_count < 900) {
+                String err_msg =  total_tld_count + " TLDs loaded, expected > 900";
+                log.fatal(err_msg);
+                throw new IllegalStateException(err_msg);
+            }
+            load_tlds("custom_tlds.txt");
+            tld_regex_builder = tld_regex_builder.replaceFirst("\\|$", "");
+            tld_regex_builder += ")\\b";
+            tld_regex = tld_regex_builder;
+            log.info("tld_regex = " + tld_regex_builder);
+            log.info(total_tld_count + " TLDS loaded from resources");
+//        } catch(Exception e){
+//            log.error(e.getMessage());
+//        }
+
+        //tld_regex				      = "\\b(?i:[A-Za-z]{2,4}|london|museum|travel|local|localdomain|intra|intranet|internal)\\b";
+        domain_regex				= "(?:" + domain_component + "\\.)*" + tld_regex;
+        domain_regex_strict 		= "(?:" + domain_component + "\\.)+" + tld_regex;
+        hostname_regex              = String.format("%s(?:\\.%s)?", hostname_component_regex, domain_regex);
+        aws_hostname_regex          = aws_host_component + "(?:\\." + domain_regex + ")?";
+        aws_fqdn_regex              = aws_host_component + "\\." + domain_regex;
+        host_regex 	  			    = String.format("\\b(?:%s|%s)\\b", hostname_regex, ip_regex);
+        fqdn_regex 	  	 		    = hostname_component_regex + "\\." + domain_regex;
+        krb5_principal_regex        = String.format("%s(?:/%s)?(?:@%s)?", user_regex, hostname_regex, domain_regex);
+        email_regex 	  	 		= "\\b[A-Za-z0-9](?:[A-Za-z0-9\\._\\%\\'\\+-]{0,62}[A-Za-z0-9\\._\\%\\+-])?@" + domain_regex + "\\b";
+        url_regex				    = "\\b(?i:https?://)?" + host_regex + "(?::\\d{1,5})?(?:" + url_path_suffix_regex + ")?";
     }
 
     // ===================================================================== //
@@ -218,52 +317,6 @@ public final class Utils {
         vlog3("status: " + getStatus());
     }
 
-
-    // ===================================================================== //
-    //
-    //                             R e g e x
-    //
-    // ===================================================================== //
-
-    // neither Google's com.Guava google.common.net.HostSpecifier nor Apache Commons org.apache.commons.validator.routines.DomainValidator are suitable for my needs here, must port the more flexible regex methods from my Perl library
-
-    // years and years of Regex expertise and testing has gone in to this, do not edit!
-    // This also gives flexibility to work around some situations where domain names may not be quite valid (eg .local/.intranet) but still keep things quite tight
-    // There are certain scenarios where Google Guava and Apache Commons libraries don't help with these
-    // AWS regex from http://blogs.aws.amazon.com/security/blog/tag/key+rotation
-    public static final String aws_access_key_regex     = "(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])";
-    public static final String aws_host_component       = "ip-(?:10-\\d+-\\d+-\\d+|172-1[6-9]-\\d+-\\d+|172-2[0-9]-\\d+-\\d+|172-3[0-1]-\\d+-\\d+|192-168-\\d+-\\d+)";
-    public static final String aws_secret_key_regex     = "(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])";
-    public static final String ip_prefix_regex 			= "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}";
-    // now allowing 0 or 255 as the final octet due to CIDR
-    public static final String ip_regex 				= ip_prefix_regex + "(?:25[0-5]|2[0-4][0-9]|[01]?[1-9][0-9]|[01]?0[1-9]|[12]00|[0-9])\\b";
-    public static final String hostname_component_regex = "\\b[A-Za-z0-9](?:[A-Za-z0-9_\\-]{0,61}[a-zA-Z0-9])?\\b";
-    // TODO: replace this with IANA TLDs as done in my Perl lib
-    public static final String tld_regex				= "\\b(?i:[A-Za-z]{2,4}|london|museum|travel|local|localdomain|intra|intranet|internal)\\b";
-    public static final String domain_component			= "\\b[a-zA-Z0-9](?:[a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\b";
-    public static final String domain_regex				= "(?:" + domain_component + "\\.)*" + tld_regex;
-    public static final String domain_regex_strict 		= "(?:" + domain_component + "\\.)+" + tld_regex;
-    public static final String hostname_regex = String.format("%s(?:\\.%s)?", hostname_component_regex, domain_regex);
-    public static final String aws_hostname_regex       = aws_host_component + "(?:\\." + domain_regex + ")?";
-    public static final String host_regex 	  			= String.format("\\b(?:%s|%s)\\b", hostname_regex, ip_regex);
-    public static final String dirname_regex 			= "[/\\w\\s\\\\.:,*()=%?+-]+";
-    public static final String filename_regex 			= dirname_regex + "[^/]";
-    public static final String rwxt_regex 	  	 		= "[r-][w-][x-][r-][w-][x-][r-][w-][xt-]";
-    public static final String fqdn_regex 	  	 		= hostname_component_regex + "\\." + domain_regex;
-    public static final String aws_fqdn_regex           = aws_host_component + "\\." + domain_regex;
-    public static final String email_regex 	  	 		= "\\b[A-Za-z0-9](?:[A-Za-z0-9\\._\\%\\'\\+-]{0,62}[A-Za-z0-9\\._\\%\\+-])?@" + domain_regex + "\\b";
-    public static final String subnet_mask_regex 		= "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[1-9][0-9]|[01]?0[1-9]|[12]00|[0-9])\\b";
-    public static final String mac_regex				= "\\b[0-9A-F-af]{1,2}[:-](?:[0-9A-Fa-f]{1,2}[:-]){4}[0-9A-Fa-f]{1,2}\\b";
-    public static final String process_name_regex		= "[\\w\\s./<>-]+";
-    public static final String url_path_suffix_regex	= "/(?:[\\w.,:/%&?!=*|\\[\\]~+-]+)?"; // there is an RFC3987 regex but it's gigantic, this is easier to reason about and serves my needs
-    public static final String url_regex				= "\\b(?i:https?://)?" + host_regex + "(?::\\d{1,5})?(?:" + url_path_suffix_regex + ")?";
-    public static final String user_regex				= "\\b[A-Za-z][A-Za-z0-9_-]*[A-Za-z0-9]\\b";
-    public static final String column_regex				= "\\b[\\w:]+\\b";
-    public static final String ldap_dn_regex			= "\\b\\w+=[\\w\\s]+(?:,\\w+=[\\w\\s]+)*\\b";
-    public static final String krb5_principal_regex = String.format("%s(?:/%s)?(?:@%s)?", user_regex, hostname_regex, domain_regex);
-    public static final String threshold_range_regex	= "^(@)?(-?\\d+(?:\\.\\d+)?)(:)(-?\\d+(?:\\.\\d+)?)?$";
-    public static final String threshold_simple_regex	= "^(-?\\d+(?:\\.\\d+)?)$";
-    public static final String version_regex 			= "\\d(\\.\\d+)*";
 
     // ===================================================================== //
 

@@ -27,11 +27,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
+//import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import static java.lang.Math.pow;
+
+import org.apache.log4j.Logger;
+import org.apache.log4j.Level;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.cli.CommandLine;
@@ -62,12 +66,14 @@ import org.apache.commons.cli.ParseException;
 
 public final class Utils {
 
-    private static final String utils_version = "1.13.1";
+    private static final String utils_version = "1.15.0";
     public static boolean stdout = false;
     public static Options options = new Options();
 
     public static String msg = "";
     public static final String nagios_plugins_support_msg = "Please try latest version from https://github.com/harisekhon/nagios-plugins, re-run on command line with -vvv and if problem persists paste full output from -vvv mode in to a ticket requesting a fix/update at https://github.com/harisekhon/nagios-plugins/issues/new";
+    public static final String option_format_calling_method = "%-50s %-25s %s";
+    public static final String option_format = "%-25s %s";
     public static final String nagios_plugins_support_msg_api = "API may have changed. " + nagios_plugins_support_msg;
 
     private static final HashMap<String, Integer> exit_codes = new HashMap<String, Integer>();
@@ -78,38 +84,46 @@ public final class Utils {
     public static boolean nagios_plugin = false;
 
     // keeping this lowercase to make it easier to do String.toLowerCase() case insensitive matches
-    private static final ArrayList<String> valid_units = new ArrayList<String>(Arrays.asList(
-                                                                                                "%",
-                                                                                                "s",
-                                                                                                "ms",
-                                                                                                "us",
-                                                                                                "b",
-                                                                                                "kb",
-                                                                                                "mb",
-                                                                                                "gb",
-                                                                                                "tb",
-                                                                                                "c"
-    ));
+    private static final ArrayList<String> valid_units = new ArrayList<String>(
+        Arrays.asList(
+            "%",
+            "s",
+            "ms",
+            "us",
+            "b",
+            "kb",
+            "mb",
+            "gb",
+            "tb",
+            "c"
+        )
+    );
+
+    public static final Logger log = Logger.getLogger(HariSekhon.Utils.class.getName());
+//    public static final Logger log = Logger.getLogger("HariSekhon.Utils");
 
     static {
         // java autoboxing
-        exit_codes.put("OK", 		0);
-        exit_codes.put("WARNING", 	1);
-        exit_codes.put("CRITICAL", 	2);
-        exit_codes.put("UNKNOWN", 	3);
+        exit_codes.put("OK", 0);
+        exit_codes.put("WARNING", 1);
+        exit_codes.put("CRITICAL", 2);
+        exit_codes.put("UNKNOWN", 3);
         exit_codes.put("DEPENDENT", 4);
+
+        log.setLevel(Level.INFO);
+        log.info("test");
 
         // 1.3+ API doesn't work in Spark which embeds older commons-cli
         // so have to use this older static Builder style, which is actually more horrible in Scala
         // which doesn't allow static method chaining
         options.addOption(OptionBuilder.withLongOpt("timeout")
-                                       .hasArg()
-                                       .withArgName("secs")
-                                       .withDescription("Timeout for program (Optional)")
-                                       .create("t"));
+                .hasArg()
+                .withArgName("secs")
+                .withDescription("Timeout for program (Optional)")
+                .create("t"));
         options.addOption(OptionBuilder.withLongOpt("debug")
-                                       .withDescription("Debug mode (Optional)")
-                                       .create("D"));
+                .withDescription("Debug mode (Optional)")
+                .create("D"));
         options.addOption("v", "verbose", false, "Verbose mode");
         options.addOption("h", "help", false, "Print usage help and exit");
         //CommandLine cmd = get_options(new String[]{"test", "test2"});
@@ -134,7 +148,7 @@ public final class Utils {
         if(exit_codes.containsKey(key)){
             status = key;
         } else {
-            arg_error("invalid status '" + key + "' passed to setStatus(), must be one of: " + exit_codes.keySet().toString());
+            throw new IllegalArgumentException("invalid status '" + key + "' passed to setStatus(), must be one of: " + exit_codes.keySet().toString());
         }
     }
 
@@ -188,8 +202,7 @@ public final class Utils {
         if(key != null && exit_codes.containsKey(key)){
             return exit_codes.get(key);
         } else {
-            arg_error("invalid status '" + key + "' passed to getStatusCode()");
-            return exit_codes.get("UNKNOWN"); // appease Java return, won't get called
+            throw new IllegalArgumentException("invalid status '" + key + "' passed to getStatusCode()");
         }
     }
 
@@ -231,7 +244,7 @@ public final class Utils {
     public static final String domain_component			= "\\b[a-zA-Z0-9](?:[a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\b";
     public static final String domain_regex				= "(?:" + domain_component + "\\.)*" + tld_regex;
     public static final String domain_regex_strict 		= "(?:" + domain_component + "\\.)+" + tld_regex;
-    public static final String hostname_regex			= String.format("%s(?:\\.%s)?", hostname_component_regex, domain_regex);
+    public static final String hostname_regex = String.format("%s(?:\\.%s)?", hostname_component_regex, domain_regex);
     public static final String aws_hostname_regex       = aws_host_component + "(?:\\." + domain_regex + ")?";
     public static final String host_regex 	  			= String.format("\\b(?:%s|%s)\\b", hostname_regex, ip_regex);
     public static final String dirname_regex 			= "[/\\w\\s\\\\.:,*()=%?+-]+";
@@ -248,7 +261,7 @@ public final class Utils {
     public static final String user_regex				= "\\b[A-Za-z][A-Za-z0-9_-]*[A-Za-z0-9]\\b";
     public static final String column_regex				= "\\b[\\w:]+\\b";
     public static final String ldap_dn_regex			= "\\b\\w+=[\\w\\s]+(?:,\\w+=[\\w\\s]+)*\\b";
-    public static final String krb5_principal_regex		= String.format("%s(?:/%s)?(?:@%s)?", user_regex, hostname_regex, domain_regex);
+    public static final String krb5_principal_regex = String.format("%s(?:/%s)?(?:@%s)?", user_regex, hostname_regex, domain_regex);
     public static final String threshold_range_regex	= "^(@)?(-?\\d+(?:\\.\\d+)?)(:)(-?\\d+(?:\\.\\d+)?)?$";
     public static final String threshold_simple_regex	= "^(-?\\d+(?:\\.\\d+)?)$";
     public static final String version_regex 			= "\\d(\\.\\d+)*";
@@ -257,13 +270,13 @@ public final class Utils {
 
     public static final Boolean check_regex (String string, String regex) {
         if(string == null){
-            arg_error("undefined string passed to check_regex()");
+            throw new IllegalArgumentException("undefined string passed to check_regex()");
         }
         if(regex == null){
-            arg_error("undefined regex passed to check_regex()");
+            throw new IllegalArgumentException("undefined regex passed to check_regex()");
         }
         if(! isRegex(regex)){
-            arg_error("invalid regex passed to check_regex()");
+            throw new IllegalArgumentException("invalid regex passed to check_regex()");
         }
         if(string.matches(regex)){
             return true;
@@ -275,7 +288,7 @@ public final class Utils {
 
     public static final Boolean check_string (String str, String expected, Boolean no_msg) {
         if(expected == null){
-            arg_error("passed null as expected string to check_string()");
+            throw new IllegalArgumentException("passed null as expected string to check_string()");
         }
         if(str != null && ( str == expected || str.equals(expected) ) ){
             return true;
@@ -296,7 +309,7 @@ public final class Utils {
     public static final double expand_units (double num, String units, String name) {
         name = name(name);
         if(units == null){
-            arg_error("null passed for units to expand_units()");
+            throw new IllegalArgumentException("null passed for units to expand_units()");
         }
         name = name.trim();
         units = units.trim();
@@ -310,9 +323,10 @@ public final class Utils {
         } else if(units.matches("(?i)^MB?$")){ power = 2;
         } else if(units.matches("(?i)^GB?$")){ power = 3;
         } else if(units.matches("(?i)^TB?$")){ power = 4;
-        } else if(units.matches("(?i)^PB?$")){ power = 5;
+        } else if(units.matches("(?i)^PB?$")) {
+            power = 5;
         } else {
-            arg_error(String.format("unrecognized units '%s' passed to expand_units()%s", units, name));
+            throw new IllegalArgumentException(String.format("unrecognized units '%s' passed to expand_units()%s", units, name));
         }
         return (num * ( pow(1024, power) ) );
     }
@@ -328,7 +342,7 @@ public final class Utils {
 
 
     public static final void hr(){
-        println("# " + StringUtils.repeat("=", 76) + " #");
+        log.info("# " + StringUtils.repeat("=", 76) + " #");
     }
 
 
@@ -341,8 +355,8 @@ public final class Utils {
             num = expand_units(num, units, "human_units");
         }
         // TODO: remove trailing zeros .00 from doubles
-        if(num >= pow(1024, 7)){
-            arg_error(String.format("determined suspicious units for number '%s', larger than Exabytes?!!", num));
+        if (num >= pow(1024, 7)) {
+            throw new IllegalArgumentException(String.format("determined suspicious units for number '%s', larger than Exabytes?!!", num));
         } else if(num >= pow(1024, 6)){
             //num_str = String.format("%.2f", num / pow(1024, 6)).replaceFirst("\\.0+$", "");
             num = num / pow(1024, 6);
@@ -377,7 +391,7 @@ public final class Utils {
                 units = " bytes";
             }
         } else {
-            arg_error("unable to determine units for number num");
+            throw new IllegalArgumentException("unable to determine units for number num");
         }
         String num_str = String.format("%.2f", num).replaceFirst("(\\.\\d+)0$", "$1").replaceFirst("\\.0+$", "");
         return num_str + units;
@@ -485,6 +499,11 @@ public final class Utils {
         return str.matches("^" + aws_access_key_regex + "$");
     }
 
+    public static final Boolean isAwsBucket (String arg) {
+        return isDnsShortName(arg);
+    }
+
+
     public static final Boolean isAwsHostname (String str) {
         if(str == null){
             return false;
@@ -509,11 +528,11 @@ public final class Utils {
 
 
     public static final Boolean isChars (String str, String char_range) {
-        if(str == null || char_range == null){
+        if(str == null || char_range == null) {
             return false;
         }
         if(!isRegex(String.format("[%s]", char_range))){
-            arg_error("invalid regex char range passed to isChars()");
+            throw new IllegalArgumentException("invalid regex char range passed to isChars()");
         }
         return str.matches(String.format("^[%s]+$", char_range));
     }
@@ -874,20 +893,20 @@ public final class Utils {
     public static final String supported_os_msg = "this program is only supported on %s at this time";
  
     // TODO: change these to raise UnsupportedOperatingSystemException + then unit test
-    public static final void linux_only(){
-        if( ! isLinux() ){
+    public static final void linux_only() {
+        if (!isLinux() ){
             quit("UNKNOWN", String.format(supported_os_msg, "Linux"));
         }
     }
 
-    public static final void mac_only(){
-        if( ! isMac() ){
+    public static final void mac_only() {
+        if (!isMac()) {
             quit("UNKNOWN", String.format(supported_os_msg, "Mac OS X"));
         }
     }
 
     public static final void linux_mac_only(){
-        if( ! ( isLinux() || isMac() ) ){
+        if(!(isLinux() || isMac())) {
             quit("UNKNOWN", String.format(supported_os_msg, "Linux or Mac OS X"));
         }
     }
@@ -903,7 +922,7 @@ public final class Utils {
     /*
     public static final int month2int (String month) {
         if(month == null){
-            arg_error("null passed to month2int");
+            throw new IllegalArgumentException("null passed to month2int");
         }
         HashMap<String, Integer> month_map = new HashMap<String, Integer>() {{
             put("jan", 1);
@@ -922,7 +941,7 @@ public final class Utils {
         if(month_map.containsKey(month.toLowerCase())){
             return month_map.get(month.toLowerCase());
         } else {
-            arg_error("invalid month passed to month2int()");
+            throw new IllegalArgumentException("invalid month passed to month2int()");
         }
         return -1; // purely to appease Java - won't reach here
     }
@@ -943,7 +962,7 @@ public final class Utils {
 
     public static final String resolve_ip (String host) {
         if(host == null || host.trim().isEmpty()){
-            arg_error("no host passed to resolve_ip");
+            throw new IllegalArgumentException("no host passed to resolve_ip");
         }
         try {
             InetAddress address = InetAddress.getByName(host);
@@ -981,32 +1000,31 @@ public final class Utils {
         return false;
     }
 
-    // TODO: show last caller in arg_error
-    public static final void arg_error (String msg) {
-        //println("CODE ERROR: " + msg);
-        //System.exit(exit_codes.get("UNKNOWN"));
-        throw new IllegalArgumentException(msg);
-    }
+//    public static final void arg_error (String msg) {
+//        println("CODE ERROR: " + msg);
+//        System.exit(exit_codes.get("UNKNOWN"));
+//        throw new IllegalArgumentException(msg);
+//    }
 
-    public static final void state_error (String msg) {
-        //println("CODE ERROR: " + msg);
-        //System.exit(exit_codes.get("UNKNOWN"));
-        throw new IllegalStateException(msg);
-    }
+//    public static final void state_error (String msg) {
+//        println("CODE ERROR: " + msg);
+//        System.exit(exit_codes.get("UNKNOWN"));
+//        throw new IllegalStateException(msg);
+//    }
 
 
     public static final void quit (String status, String msg) {
-        println(status + ": " + msg);
+        log.error(status + ": " + msg);
         if(exit_codes.containsKey(status)) {
             System.exit(exit_codes.get(status));
         } else {
             // TODO: provide a warning stack trace here
-            arg_error(String.format("specified an invalid exit status '%s' to quit()", status));
+            throw new IllegalArgumentException(String.format("specified an invalid exit status '%s' to quit()", status));
         }
     }
 
     public static final void quit (String msg){
-        println("CRITICAL: " + msg);
+        log.error("CRITICAL: " + msg);
         System.exit(exit_codes.get("CRITICAL"));
     }
 
@@ -1035,7 +1053,7 @@ public final class Utils {
             if(debug){
                 e.printStackTrace();
             }
-            println(e + "\n");
+            log.error(e + "\n");
             usage();
         }
         return cmd;
@@ -1058,7 +1076,7 @@ public final class Utils {
 //		msg = msg + formatter.printHelp(enclosingClass + " [options]", options);
         formatter.printHelp(msg, options);
         //System.exit(exit_codes.get("UNKNOWN"));
-        throw new IllegalArgumentException("");
+        throw new IllegalArgumentException(msg);
     }
 
     public static final void usage(){
@@ -1145,7 +1163,7 @@ public final class Utils {
         if(name == null || name.trim().isEmpty()){
             // TODO: improve the feedback location
             //StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace()
-            arg_error("name arg not defined when calling method");
+            throw new IllegalArgumentException("name arg not defined when calling method");
         }
         return name.trim();
     }
@@ -1158,27 +1176,27 @@ public final class Utils {
         }
         arg = arg.trim();
         if(! arg.matches("^[A-Za-z0-9]+$")){
-            usage("invalid " + name + "defined: must be alphanumeric");
+            usage("invalid " + name + " defined: must be alphanumeric");
         }
-        vlog_options(name, arg);
+        vlog_option(name, arg);
         return arg;
     }
 
 
-    public static final String validate_chars (String string, String name, String chars) {
+    public static final String validate_chars (String arg, String name, String chars) {
         name = require_name(name);
         if(chars == null || chars.trim().isEmpty()){
-            arg_error("chars field not defined when calling validate_chars()");
+            throw new IllegalArgumentException("chars field not defined when calling validate_chars()");
         }
         chars = chars.trim();
-        if(string == null || string.isEmpty()){
+        if(arg == null || arg.isEmpty()){
             usage(name + "not defined");
         }
-        if(! isChars(string, chars)){
-            usage("invalid " + name + "defined: must be one of the following chars - " + chars);
+        if(! isChars(arg, chars)){
+            usage("invalid " + name + " defined: must be one of the following chars - " + chars);
         }
-        vlog_options(name, string);
-        return string;
+        vlog_option(name, arg);
+        return arg;
     }
 
 
@@ -1190,7 +1208,7 @@ public final class Utils {
         if(! isAwsAccessKey(key)){
             usage("invalid aws access key defined: must be 20 alphanumeric chars");
         }
-        vlog_options("aws access key", repeat_string("X", 18) + key.substring(18, 20));
+        vlog_option("aws access key", repeat_string("X", 18) + key.substring(18, 20));
         return key;
     }
 
@@ -1204,12 +1222,41 @@ public final class Utils {
             usage("invalid aws bucket name defined: must be alphanumeric between 3 and 63 characters long");
         }
         if(isIP(bucket)){
-            usage("invalid aws bucket name defained: may not be formmatted as an IP address");
+            usage("invalid aws bucket name defined: may not be formmatted as an IP address");
         }
-        vlog_options("aws bucket", bucket);
+        vlog_option("aws bucket:", bucket);
         return bucket;
     }
 
+    public static final String validate_aws_hostname (String arg) {
+        if(arg == null || arg.trim().isEmpty()){
+            usage("aws hostname not defined");
+        }
+        arg = arg.trim();
+        if(! isAwsHostname(arg)){
+            usage("invalid aws hostname name defined: must be alphanumeric between 3 and 63 characters long");
+        }
+        if(isIP(arg)){
+            usage("invalid aws hostname arg name defined: may not be formmatted as an IP address");
+        }
+        vlog_option("aws hostname:", arg);
+        return arg;
+    }
+
+    public static final String validate_aws_fqdn (String arg) {
+        if(arg == null || arg.trim().isEmpty()){
+            usage("aws fqdn not defined");
+        }
+        arg = arg.trim();
+        if(! isAwsFqdn(arg)){
+            usage("invalid aws fqdn name defined: must be alphanumeric between 3 and 63 characters long hostname followed by domain");
+        }
+        if(isIP(arg)){
+            usage("invalid aws fqdn arg name defined: may not be formmatted as an IP address");
+        }
+        vlog_option("aws fqdn:", arg);
+        return arg;
+    }
 
     public static final String validate_aws_secret_key (String key) {
        if(key == null || key.trim().isEmpty()){
@@ -1219,7 +1266,7 @@ public final class Utils {
         if(! isAwsSecretKey(key)){
             usage("invalid aws secret key defined: must be 20 alphanumeric chars");
         }
-        vlog_options("aws secret key", repeat_string("X", 38) + key.substring(38, 40));
+        vlog_option("aws secret key", repeat_string("X", 38) + key.substring(38, 40));
         return key;
     }
 
@@ -1233,7 +1280,7 @@ public final class Utils {
         if(! isCollection(collection)){
             usage("invalid " + name + "collection defined: must be alphanumeric, with optional periods in the middle");
         }
-        vlog_options(name + "collection", collection);
+        vlog_option(name + "collection", collection);
         return collection;
     }
     public static final String validate_collection (String collection) {
@@ -1250,7 +1297,7 @@ public final class Utils {
         if(! isDatabaseName(database)){
             usage("invalid " + name + "database defined: must be alphanumeric");
         }
-        vlog_options(name + "database", database);
+        vlog_option(name + "database", database);
         return database;
     }
     public static final String validate_database (String database) {
@@ -1267,7 +1314,7 @@ public final class Utils {
         if(! isDatabaseTableName(table, allow_qualified)){
             usage("invalid " + name + "table defined: must be alphanumeric");
         }
-        vlog_options(name + "table", table);
+        vlog_option(name + "table", table);
         return table;
     }
     public static final String validate_database_tablename (String table, String name) {
@@ -1290,7 +1337,7 @@ public final class Utils {
         if(! isDatabaseViewName(view, allow_qualified)){
             usage("invalid " + name + "view defined: must be alphanumeric");
         }
-        vlog_options(name + "view", view);
+        vlog_option(name + "view", view);
         return view;
     }
     public static final String validate_database_viewname (String view, String name) {
@@ -1312,7 +1359,7 @@ public final class Utils {
         if(! isDatabaseColumnName(column)){
             usage("invalid column defined: must be alphanumeric");
         }
-        vlog_options("column", column);
+        vlog_option("column", column);
         return column;
     }
 
@@ -1325,7 +1372,7 @@ public final class Utils {
         if(! isDatabaseFieldName(field)){
             usage("invalid field defined: must be alphanumeric");
         }
-        vlog_options("field", field);
+        vlog_option("field", field);
         return field;
     }
 
@@ -1342,7 +1389,7 @@ public final class Utils {
         if(query.matches("insert|update|delete|create|drop|alter|truncate|;|--")){
             usage("invalid " + name + "query defined: DML statement or suspect chars detected in query");
         }
-        vlog_options(name + "query", query);
+        vlog_option(name + "query", query);
         return query;
     }
     public static final String validate_database_query_select_show (String query) {
@@ -1359,7 +1406,7 @@ public final class Utils {
         if(! isDomain(domain)){
             usage("invalid " + name + "domain name defined ('" + domain + "')");
         }
-        vlog_options(name + "domain", domain);
+        vlog_option(name + "domain", domain);
         return domain;
     }
     public static final String validate_domain (String domain) {
@@ -1380,7 +1427,7 @@ public final class Utils {
             usage("invalid " + name + "directory (does not match regex criteria): '" + dir + "'");
         }
         if(! novlog){
-            vlog_options(name + "directory", dir);
+            vlog_option(name + "directory", dir);
         }
         return dir;
     }
@@ -1447,7 +1494,7 @@ public final class Utils {
         if(! isEmail(email)){
             usage("invalid email address defined: failed regex validation");
         }
-        vlog_options("email", email);
+        vlog_option("email", email);
         return email;
     }
 
@@ -1491,7 +1538,7 @@ public final class Utils {
             usage("invalid " + name + "(does not match regex criteria): '" + filename + "'");
         }
         if(! novlog){
-            vlog_options(name.trim(), filename);
+            vlog_option(name.trim(), filename);
         }
         return filename;
     }
@@ -1518,7 +1565,7 @@ public final class Utils {
         if(! isFqdn(fqdn)){
             usage("invalid " + name + "FQDN defined");
         }
-        vlog_options(name + "fqdn", fqdn);
+        vlog_option(name + "fqdn", fqdn);
         return fqdn;
     }
     public static final String validate_fqdn (String fqdn) {
@@ -1541,7 +1588,7 @@ public final class Utils {
         if(! isHost(host)){
             usage("invalid " + name + "host defined: not a valid hostname or IP address");
         }
-        vlog_options(name + "host", host);
+        vlog_option(name + "host", host);
         return host;
     }
     public static final String validate_host (String host) {
@@ -1587,7 +1634,7 @@ public final class Utils {
                 node_port = Integer.toString(port);
             }
             hosts2[i] = hosts2[i] + ":" + node_port;
-            vlog_options("port", node_port);
+            vlog_option("port", node_port);
         }
         return hosts2;
     }
@@ -1610,7 +1657,7 @@ public final class Utils {
         String[] hosts2 = validate_hosts(hosts.split("[,\\s]+"), port);
         String final_hosts = StringUtils.join(hosts2, ",");
         // vlogged in validate_nodeport_list
-        //vlog_options("node list", final_hosts);
+        //vlog_option("node list", final_hosts);
         return final_hosts;
     }
     public static final String validate_hosts (String hosts, String port) {
@@ -1635,14 +1682,14 @@ public final class Utils {
             usage("invalid " + name + "host:port '" + hostport + "' defined: host portion '" + host_port[0] + "' is not a valid hostname or IP address");
         }
         if(host_port.length > 1){
-            if(isPort(host_port[1]) == null){
+            if (isPort(host_port[1]) == null) {
                 usage(String.format("invalid port '%s' defined for " + name + "host:port: must be a positive integer", host_port[1]));
             }
         } else if (port_required) {
             usage("port is required");
         }
         if(!novlog){
-            vlog_options(name + "hostport", hostport);
+            vlog_option(name + "hostport", hostport);
         }
         return hostport;
     }
@@ -1666,7 +1713,7 @@ public final class Utils {
         if(! isHostname(hostname)){
             usage("invalid " + name + "hostname '" + hostname + "' defined");
         }
-        vlog_options(name + "hostname", hostname);
+        vlog_option(name + "hostname", hostname);
         return hostname;
     }
     public static final String validate_hostname (String hostname) {
@@ -1682,7 +1729,7 @@ public final class Utils {
         if(d > maxVal){
             usage("invalid " + name + " defined: cannot be greater than " + maxVal);
         }
-        vlog_options(name, String.valueOf(d));
+        vlog_option(name, String.valueOf(d));
         return d;
     }
     public static final long validate_long (long l, String name, long minVal, long maxVal) {
@@ -1705,7 +1752,7 @@ public final class Utils {
         } catch (NumberFormatException e){
             usage("invalid " + name + " defined: must be numeric (double)");
         }
-        // vlog_options done in validate_double
+        // log.info(String.format(option_format, option + ":", value)); done in validate_double
         validate_double(d_double, name, minVal, maxVal);
         return d_double;
     }
@@ -1717,7 +1764,7 @@ public final class Utils {
         } catch (NumberFormatException e){
             usage("invalid " + name + " defined: must be numeric (long)");
         }
-        // vlog_options done in validate_long
+        // log.info(String.format(option_format, option + ":", value)); done in validate_long
         validate_double(l_long, name, minVal, maxVal);
         return l_long;
     }
@@ -1732,7 +1779,7 @@ public final class Utils {
             //}
             usage("invalid " + name + " defined: must be numeric (int)");
         }
-        // vlog_options done in pass through to validate_long
+        // log.info(String.format(option_format, option + ":", value)); done in pass through to validate_long
         validate_double(i_int, name, minVal, maxVal);
         return i_int;
     }
@@ -1744,7 +1791,7 @@ public final class Utils {
         } catch (NumberFormatException e){
             usage("invalid " + name + " defined: must be numeric (float)");
         }
-        // vlog_options done in pass through to validate_long
+        // log.info(String.format(option_format, option + ":", value)); done in pass through to validate_long
         validate_double(f_float, name, minVal, maxVal);
         return f_float;
     }
@@ -1758,7 +1805,7 @@ public final class Utils {
         if(! isInterface(networkInterface)){
             usage("invalid network interface defined: must be either eth<N>, bond<N> or lo<N>");
         }
-        vlog_options("interface", networkInterface);
+        vlog_option("interface", networkInterface);
         return networkInterface;
     }
 
@@ -1772,7 +1819,7 @@ public final class Utils {
         if(! isIP(ip)){
             usage("invalid " + name + "IP defined");
         }
-        vlog_options(name + "ip", ip);
+        vlog_option(name + "ip", ip);
         return ip;
     }
     public static final String validate_ip (String ip) {
@@ -1789,7 +1836,7 @@ public final class Utils {
         if(! isKrb5Princ(princ)){
             usage("invalid " + name + "krb5 principal defined");
         }
-        vlog_options(name + "krb5 principal", princ);
+        vlog_option(name + "krb5 principal", princ);
         return princ;
     }
     public static final String validate_krb5_princ (String princ) {
@@ -1806,7 +1853,7 @@ public final class Utils {
         if(! isDomain(realm)){
             usage("invalid " + name + "realm defined");
         }
-        vlog_options(name + "realm", realm);
+        vlog_option(name + "realm", realm);
         return realm;
     }
     public static final String validate_krb5_realm (String realm) {
@@ -1822,7 +1869,7 @@ public final class Utils {
         if(! isLabel(label)){
             usage("invalid label defined: must be an alphanumeric identifier");
         }
-        vlog_options("label", label);
+        vlog_option("label", label);
         return label;
     }
 
@@ -1836,7 +1883,7 @@ public final class Utils {
         if(! isLdapDn(dn)){
             usage("invalid " + name + "ldap dn defined");
         }
-        vlog_options("ldap " + name + "dn", dn);
+        vlog_option("ldap " + name + "dn", dn);
         return dn;
     }
     public static final String validate_ldap_dn (String dn) {
@@ -1863,7 +1910,7 @@ public final class Utils {
         if(final_nodes.size() < 1){
             usage("node(s) not defined (empty nodes given)");
         }
-        vlog_options("node list", final_nodes.toString());
+        vlog_option("node list", final_nodes.toString());
         return final_nodes;
     }
     public static final String[] validate_node_list(String[] nodes){
@@ -1877,7 +1924,7 @@ public final class Utils {
         String[] nodelist2 = validate_node_list(nodelist.split("[,\\s]+"));
         String final_nodes = StringUtils.join(nodelist2, ",");
         // vlogged in validate_node_list
-        //vlog_options("node list", final_nodes);
+        //vlog_option("node list", final_nodes);
         return final_nodes;
     }
 
@@ -1895,7 +1942,7 @@ public final class Utils {
                 final_nodes.add( validate_hostport(node2) );
             }
         }
-        vlog_options("nodeport list", final_nodes.toString());
+        vlog_option("nodeport list", final_nodes.toString());
         return final_nodes;
     }
     public static final String[] validate_nodeport_list(String[] nodes){
@@ -1909,7 +1956,7 @@ public final class Utils {
         String[] nodelist2 = validate_nodeport_list(nodelist.split("[,\\s]+"));
         String final_nodes = StringUtils.join(nodelist2, ",");
         // vlogged in validate_nodeport_list
-        //vlog_options("node list", final_nodes);
+        //vlog_option("node list", final_nodes);
         return final_nodes;
     }
 
@@ -1923,7 +1970,7 @@ public final class Utils {
         if(! isNoSqlKey(key)){
             usage("invalid " + name + "key defined: may only contain characters: alphanumeric, commas, colons, underscores, pluses and dashes");
         }
-        vlog_options(name + "key", key);
+        vlog_option(name + "key", key);
         return key;
     }
     public static final String validate_nosql_key (String key) {
@@ -1936,7 +1983,7 @@ public final class Utils {
         if(! isPort(port)){
             usage("invalid " + name + "port defined");
         }
-        vlog_options(name + "port", String.valueOf(port));
+        vlog_option(name + "port", String.valueOf(port));
         return port;
     }
     public static final String validate_port (String port, String name){
@@ -1988,7 +2035,7 @@ public final class Utils {
             regex = name;
         }
         if(validate_regex(regex, "program path regex", true) == null){
-            arg_error("invalid regex given to validate_program_path()");
+            throw new IllegalArgumentException("invalid regex given to validate_program_path()");
         }
         if(validate_filename(path, null, false, true) == null){
             usage("invalid path given for " + name + ", failed filename regex");
@@ -2003,7 +2050,7 @@ public final class Utils {
         if(!f.canExecute()){
             usage(path + " not executable");
         }
-        vlog_options(name + " program path", path);
+        vlog_option(name + " program path", path);
         return path;
     }
     public static final String validate_program_path (String path, String name) {
@@ -2037,7 +2084,7 @@ public final class Utils {
             }
         }
         if(! noquit){
-            vlog_options(name + "regex", regex);
+            vlog_option(name + "regex", regex);
         }
         return regex;
     }
@@ -2058,7 +2105,7 @@ public final class Utils {
         if(! isUser(user)){
             usage("invalid " + name + "username defined: must be alphanumeric");
         }
-        vlog_options(name + "user", user);
+        vlog_option(name + "user", user);
         return user;
     }
     public static final String validate_user (String user) {
@@ -2103,7 +2150,7 @@ public final class Utils {
     public static final String validate_resolvable (String host, String name) {
         name = name(name);
         if(host == null || host.trim().isEmpty()){
-            arg_error(name + "host not defined");
+            throw new IllegalArgumentException(name + "host not defined");
         }
         host = host.trim();
         String ip = resolve_ip(host);
@@ -2126,7 +2173,7 @@ public final class Utils {
         if(! isNagiosUnit(units)){
             usage("invalid " + name + "units '" + units + "' defined, must be one of: " + valid_units.toString());
         }
-        vlog_options(name + "units", units);
+        vlog_option(name + "units", units);
         return units;
     }
     public static final String validate_units (String units) {
@@ -2146,7 +2193,7 @@ public final class Utils {
         if(! isUrl(url)){
             usage("invalid " + name + "url defined: '" + url + "'");
         }
-        vlog_options(name + "url", url);
+        vlog_option(name + "url", url);
         return url;
     }
     public static final String validate_url (String url) {
@@ -2179,7 +2226,7 @@ public final class Utils {
 
     public static final String which (String bin, Boolean quit) {
         if(bin == null || bin.trim().isEmpty()){
-            arg_error("no bin passed to which()");
+            throw new IllegalArgumentException("no bin passed to which()");
         }
         // TODO: should probably consider switching this to os path sep instead of unix biased /
         if(bin.matches("^(?:/|\\./).*")){
@@ -2226,52 +2273,63 @@ public final class Utils {
     //
     // ===================================================================== //
 
-    public static final int getVerbose(){
-        return verbose;
-    }
+    // use verbose to set log.setLogLevel one higher
 
-    public static final void setVerbose (int v) {
-        if(v >= 0){
-            verbose = v;
+//    public static final int getVerbose(){
+//        return log.getLogLevel();
+//    }
+
+    public static final void setVerbose(int verbosity){
+        if(verbosity > 4) {
+            log.setLevel(Level.ALL);
+        } else if(verbosity > 3) {
+            log.setLevel(Level.TRACE);
+        } else if(verbosity == 3) {
+            log.setLevel(Level.INFO);
+        } else if (verbosity == 2) {
+            log.setLevel(Level.WARN);
+        } else if (verbosity == 1) {
+            log.setLevel(Level.ERROR);
+        } else if (verbosity == 0) {
+            log.setLevel(Level.FATAL);
         } else {
-            arg_error(String.format("invalid verbosity level '%s' passed to setVerbose()", v));
+            log.setLevel(Level.INFO);
         }
     }
 
-    // TODO: add Log4j here
-
-    public static final void vlog (String str) {
-        if(str == null){
-            str = "<null!>";
+    public static final String get_calling_method(){
+        StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
+        if(stackTraceElements.length < 4){
+            return "Could not find calling method";
         }
-        if(getVerbose() >= 1){
-            println(str);
-        }
+        String parent = String.valueOf(stackTraceElements[3]);
+        return parent.replaceFirst("HariSekhon.Utils.", "");
     }
 
-    public static final void vlog2 (String str) {
-        if(getVerbose() >= 2){
-            println(str);
-        }
+    public static final void vlog (String msg) {
+//        log.info(String.format(get_calling_method() + " - " + msg));
+        log.info(String.format(msg));
     }
 
-    public static final void vlog3 (String str) {
-        if(getVerbose() >= 3){
-            println(str);
-        }
+    public static final void vlog2 (String msg) {
+//        log.debug(String.format(get_calling_method() + " - " + msg));
+        log.debug(String.format(msg));
     }
 
-    public static final void vlog_options (String option, String value) {
-        if(option == null){
-            option = "<null!>";
-        }
-        if(value == null){
-            value = "<null!>";
-        }
-        System.out.printf("%-25s %s\n", option, value);
+    public static final void vlog3 (String msg) {
+//        log.trace(String.format(get_calling_method() + " - " + msg));
+        log.trace(String.format(msg));
     }
 
-    public static final void vlog_options_bool (String option, Boolean value) {
-        vlog_options(option, value.toString());
+    public static final void vlog_option (String name, String value) {
+//        log.info(String.format(option_format_calling_method, get_calling_method(), name + ":", value));
+        log.info(String.format(option_format, name + ":", value));
     }
+    public static final void vlog_option (String name, boolean value){
+        vlog_option(name, String.valueOf(value));
+    }
+
+//    public static final void log.info(String.format(option_format, option + ":", value));_bool (String option, Boolean value) {
+//        vlog_option(option, value.toString());
+//    }
 }

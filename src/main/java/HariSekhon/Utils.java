@@ -172,11 +172,11 @@ public final class Utils {
     }
 
     static {
-        // java autoboxing
-        exit_codes.put("OK", 0);
-        exit_codes.put("WARNING", 1);
-        exit_codes.put("CRITICAL", 2);
-        exit_codes.put("UNKNOWN", 3);
+        // autoboxing
+        exit_codes.put("OK",        0);
+        exit_codes.put("WARNING",   1);
+        exit_codes.put("CRITICAL",  2);
+        exit_codes.put("UNKNOWN",   3);
         exit_codes.put("DEPENDENT", 4);
 
         log.setLevel(Level.INFO);

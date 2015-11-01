@@ -67,7 +67,6 @@ import org.apache.commons.cli.ParseException;
 public final class Utils {
 
     private static final String utils_version = "1.15.0";
-    public static boolean stdout = false;
     public static Options options = new Options();
 
     public static String msg = "";
@@ -994,7 +993,8 @@ public final class Utils {
             return false;
         }
         String id2 = id.toString();
-        if(id2 != null){
+        println("id2" + id2);
+        if(id2 != null && ! id2.isEmpty()){
             return true;
         }
         return false;
@@ -1413,6 +1413,22 @@ public final class Utils {
         return validate_domain(domain, null);
     }
 
+    public static final String validate_domain_strict (String domain, String name) {
+        name = name(name);
+        if(domain == null || domain.trim().isEmpty()){
+            usage(name + "domain not defined");
+        }
+        domain = domain.trim();
+        if(! isDomainStrict(domain)){
+            usage("invalid " + name + "domain name defined ('" + domain + "')");
+        }
+        vlog_option(name + "domain", domain);
+        return domain;
+    }
+    public static final String validate_domain_strict (String domain) {
+        return validate_domain_strict(domain, null);
+    }
+
 
     public static final String validate_dirname (String dir, String name, Boolean noquit, Boolean novlog) {
         name = name(name);
@@ -1682,7 +1698,7 @@ public final class Utils {
             usage("invalid " + name + "host:port '" + hostport + "' defined: host portion '" + host_port[0] + "' is not a valid hostname or IP address");
         }
         if(host_port.length > 1){
-            if (isPort(host_port[1]) == null) {
+            if (!isPort(host_port[1])) {
                 usage(String.format("invalid port '%s' defined for " + name + "host:port: must be a positive integer", host_port[1]));
             }
         } else if (port_required) {
@@ -2010,7 +2026,7 @@ public final class Utils {
         }
         process = process.trim();
         if(! isProcessName(process)){
-            usage("invalid" + name + "process name defined:");
+            usage("invalid " + name + "process name defined:");
         }
         return process;
     }
@@ -2131,12 +2147,13 @@ public final class Utils {
         if(allow_all){
             return password;
         }
-        if(!password.matches("^[^\"'`]+$")){
+        if(password.matches(".*[\"'`].*")){
             usage("invalid " + name + "password defined: may not contain quotes or backticks");
         }
-        if(password.matches(".*$\\(.*")){
-            usage("invalid " + name + "password defined: may not conatina $( as this is a subshell escape and could be dangerous to pass through to programs on the command line");
+        if(password.matches(".*\\$\\(.*")){
+            usage("invalid " + name + "password defined: may not contain $( as this is a subshell escape and could be dangerous to pass through to programs, especially on the command line");
         }
+        vlog_option("password", "<omitted>");
         return password;
     }
     public static final String validate_password (String password, String name) {

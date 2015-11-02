@@ -12,6 +12,18 @@ mvn clean package
 
 Continuous Integration is run on this repo to build and unit test it (JUnit).
 
+#### Configuration ####
+
+Strict validations include host/domain/FQDNs using TLDs which are populated from the official IANA list, a snapshot of which is shipped as part of this project.
+
+To update the bundled official IANA TLD list with the latest valid TLDs do
+```
+make tld
+```
+##### Custom TLDs #####
+
+If using bespoke internal domains such as ```.local``` or ```.intra``` that aren't part of the official IANA TLD list then this is additionally supported via a custom configuration file at the top level called ```custom_tlds.txt``` containing one TLD per line, with support for # comment prefixes. Just add your bespoke internal TLD to the file and it will then pass the host/domain/fqdn validations.
+
 #### See Also ####
 
 * [Perl version of this library](https://github.com/harisekhon/lib)

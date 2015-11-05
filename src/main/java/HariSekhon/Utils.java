@@ -785,7 +785,7 @@ public final class Utils {
             String m1 = matcher.group(1);
             // this will never happen because of the regex
 //            try {
-                // doesn't have to be a double but otherwise >= min comparison fails later for 1.3 vs 1.3
+                // float >= double fails for 1.3 vs 1.3, make detected_version a double too
                 double detected_version = Double.parseDouble(m1);
 //            } except (NumberFormatException, e) {
 //                throw IllegalArgumentException(String.format("failed to detect version from string '%s': %s", version, e));

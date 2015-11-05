@@ -26,9 +26,8 @@ If using bespoke internal domains such as ```.local``` or ```.intranet``` that a
 
 #### See Also ####
 
-* [Perl version of this library](https://github.com/harisekhon/lib)
 * [Python version of this library](https://github.com/harisekhon/pylib)
-
+* [Perl version of this library](https://github.com/harisekhon/lib)
 * [Advanced Nagios Plugins Collection](https://github.com/harisekhon/nagios-plugins) - largest repo of monitoring code for Hadoop & NoSQL technologies, every Hadoop vendor's management API and every major NoSQL technology (HBase, Cassandra, MongoDB, Elasticsearch, Solr, Riak, Redis etc.) as well as traditional Linux and infrastructure
 * [Tools](https://github.com/harisekhon/tools) - Hadoop, NoSQL, Solr, Elasticsearch, Pig, Hive, Web, Linux CLI tools
 * [PyTools](https://github.com/harisekhon/pytools) - Hadoop, PySpark, IPython, Pig Jython UDFs, Linux CLI tools

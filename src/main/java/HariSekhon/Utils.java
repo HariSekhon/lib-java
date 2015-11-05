@@ -138,6 +138,7 @@ public final class Utils {
     public static final String threshold_range_regex	= "^(@)?(-?\\d+(?:\\.\\d+)?)(:)(-?\\d+(?:\\.\\d+)?)?$";
     public static final String threshold_simple_regex	= "^(-?\\d+(?:\\.\\d+)?)$";
     public static final String version_regex            = "\\d(\\.\\d+)*";
+    public static final String version_regex_lax        = version_regex + "-?.*";
 
     public static final String tld_regex;
     private static String tld_regex_builder = "\\b(?i:";
@@ -773,6 +774,29 @@ public final class Utils {
         }
     }
 
+    // doubles are easier as can still call against floats if needed
+    public static final Boolean isMinVersion (String version, Double min) {
+        if(version == null || ! isVersionLax(version)){
+            return false;
+        }
+        Pattern pattern = Pattern.compile("(\\d+(?:\\.\\d+)?)");
+        Matcher matcher = pattern.matcher(version);
+        if(matcher.find()){
+            String m1 = matcher.group(1);
+            // this will never happen because of the regex
+//            try {
+                // doesn't have to be a double but otherwise >= min comparison fails later for 1.3 vs 1.3
+                double detected_version = Double.parseDouble(m1);
+//            } except (NumberFormatException, e) {
+//                throw IllegalArgumentException(String.format("failed to detect version from string '%s': %s", version, e));
+//            }
+            if(detected_version >= min){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public static final Boolean isNagiosUnit (String unit) {
         if(unit != null && valid_units.contains(unit.toLowerCase())){
@@ -892,6 +916,14 @@ public final class Utils {
 
     public static final Boolean isVersion (String version) {
         if(version != null && version.matches("^" + version_regex + "$")){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static final Boolean isVersionLax (String version) {
+        if(version != null && version.matches(version_regex_lax)){
             return true;
         } else {
             return false;

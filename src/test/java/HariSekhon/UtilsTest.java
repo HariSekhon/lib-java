@@ -1091,6 +1091,19 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
     
     // ====================================================================== //
+
+    @Test
+    public void test_isMinVersion(){
+        assertTrue(isMinVersion("1.3.0", 1.3));
+        assertTrue(isMinVersion("1.3.0-alpha", 1.3));
+        assertTrue(isMinVersion("1.3", 1.3));
+        assertTrue(isMinVersion("1.4", 1.3));
+        assertTrue(isMinVersion("1.3.1", 1.2));
+        assertFalse(isMinVersion("1.3.1", 1.4));
+        assertFalse(isMinVersion("1.2.99", 1.3));
+    }
+
+    // ====================================================================== //
     @Test
     public void test_isNagiosUnit(){
         assertTrue(isNagiosUnit("s"));
@@ -1368,6 +1381,19 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isVersion("3a"));
         assertFalse(isVersion("1.0-2"));
         assertFalse(isVersion("1.0-a"));
+    }
+
+    @Test
+    public void test_isVersionLax(){
+        assertTrue(isVersionLax("1"));
+        assertTrue(isVersionLax("2.1.2"));
+            assertTrue(isVersionLax("2.2.0.4"));
+        assertTrue(isVersionLax("3.0"));
+        assertFalse(isVersionLax("a"));
+        assertTrue(isVersionLax("3a"));
+        assertTrue(isVersionLax("1.0-2"));
+        assertTrue(isVersionLax("1.0-a"));
+        assertFalse(isVersionLax("hari"));
     }
     
     // ====================================================================== //

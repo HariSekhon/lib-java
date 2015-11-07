@@ -128,7 +128,7 @@ public final class Utils {
     public static final String email_regex;
     public static final String subnet_mask_regex 		= "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[1-9][0-9]|[01]?0[1-9]|[12]00|[0-9])\\b";
     public static final String mac_regex				= "\\b[0-9A-F-af]{1,2}[:-](?:[0-9A-Fa-f]{1,2}[:-]){4}[0-9A-Fa-f]{1,2}\\b";
-    public static final String process_name_regex		= "[\\w\\s./<>-]+";
+    public static final String process_name_regex		= "\\s*[\\w./<>-][\\w\\s./<>-]+";
     public static final String url_path_suffix_regex	= "/(?:[\\w.,:/%&?!=*|\\[\\]~+-]+)?"; // there is an RFC3987 regex but it's gigantic, this is easier to reason about and serves my needs
     public static final String user_regex				= "\\b[A-Za-z][A-Za-z0-9_-]*[A-Za-z0-9]\\b";
     public static final String url_regex;
@@ -137,7 +137,7 @@ public final class Utils {
     public static final String krb5_principal_regex;
     public static final String threshold_range_regex	= "^(@)?(-?\\d+(?:\\.\\d+)?)(:)(-?\\d+(?:\\.\\d+)?)?$";
     public static final String threshold_simple_regex	= "^(-?\\d+(?:\\.\\d+)?)$";
-    public static final String label_regex              = "\\s*[\\%\\(\\)\\/\\*\\w-][\\%\\(\\)\\/\\*\\w\\s-]+";
+    public static final String label_regex              = "\\s*[\\%\\(\\)\\/\\*\\w-][\\%\\(\\)\\/\\*\\w\\s-]*";
     public static final String version_regex            = "\\d(\\.\\d+)*";
     public static final String version_regex_lax        = version_regex + "-?.*";
 

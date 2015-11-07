@@ -137,6 +137,7 @@ public final class Utils {
     public static final String krb5_principal_regex;
     public static final String threshold_range_regex	= "^(@)?(-?\\d+(?:\\.\\d+)?)(:)(-?\\d+(?:\\.\\d+)?)?$";
     public static final String threshold_simple_regex	= "^(-?\\d+(?:\\.\\d+)?)$";
+    public static final String label_regex              = "\\s*[\\%\\(\\)\\/\\*\\w-][\\%\\(\\)\\/\\*\\w\\s-]+";
     public static final String version_regex            = "\\d(\\.\\d+)*";
     public static final String version_regex_lax        = version_regex + "-?.*";
 
@@ -758,7 +759,7 @@ public final class Utils {
 
 
     public static final Boolean isLabel (String label) {
-        if(label != null && label.matches("^[%()/*\\w\\s-]+$")){
+        if(label != null && label.matches("^" + label_regex + "$")){
             return true;
         } else {
             return false;

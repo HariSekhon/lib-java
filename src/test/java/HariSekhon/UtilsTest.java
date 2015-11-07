@@ -1059,6 +1059,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isLabel(){
         assertTrue(isLabel("st4ts used_(%%)"));
         assertFalse(isLabel("b@dlabel"));
+        assertFalse(isLabel(" "));
+        assertFalse(isLabel(null));
     }
     
     @Test

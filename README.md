@@ -1,5 +1,5 @@
 Hari Sekhon Java Library [![Build Status](https://travis-ci.org/harisekhon/lib-java.svg?branch=master)](https://travis-ci.org/harisekhon/lib-java) [![Coverage Status](https://coveralls.io/repos/harisekhon/lib-java/badge.svg?branch=master&service=github)](https://coveralls.io/github/harisekhon/lib-java?branch=master)
-=====================
+========================
 
 My personal Java library, full of lots of validation code and utility functions, ported from [my previous code and libraries in other languages](https://github.com/harisekhon/lib).
 

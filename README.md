@@ -1,4 +1,4 @@
-Hari Sekhon Java Library [![Build Status](https://travis-ci.org/harisekhon/lib-java.svg?branch=master)](https://travis-ci.org/harisekhon/lib-java)
+Hari Sekhon Java Library [![Build Status](https://travis-ci.org/harisekhon/lib-java.svg?branch=master)](https://travis-ci.org/harisekhon/lib-java) [![Coverage Status](https://coveralls.io/repos/harisekhon/lib-java/badge.svg?branch=master&service=github)](https://coveralls.io/github/harisekhon/lib-java?branch=master)
 =====================
 
 My personal Java library, full of lots of validation code and utility functions, ported from [my previous code and libraries in other languages](https://github.com/harisekhon/lib).
@@ -28,7 +28,8 @@ If using bespoke internal domains such as ```.local``` or ```.intranet``` that a
 
 * [Python version of this library](https://github.com/harisekhon/pylib)
 * [Perl version of this library](https://github.com/harisekhon/lib)
+
 * [Advanced Nagios Plugins Collection](https://github.com/harisekhon/nagios-plugins) - largest repo of monitoring code for Hadoop & NoSQL technologies, every Hadoop vendor's management API and every major NoSQL technology (HBase, Cassandra, MongoDB, Elasticsearch, Solr, Riak, Redis etc.) as well as traditional Linux and infrastructure
 * [Tools](https://github.com/harisekhon/tools) - Hadoop, NoSQL, Solr, Elasticsearch, Pig, Hive, Web, Linux CLI tools
-* [PyTools](https://github.com/harisekhon/pytools) - Hadoop, PySpark, IPython, Pig Jython UDFs, Linux CLI tools
-* [Spark => Elasticsearch](https://github.com/harisekhon/spark-to-elasticsearch) - Ready built indexers from Spark to Elasticsearch for both real-time and batch indexing including Kafka and Hadoop / HDFS
+* [PyTools](https://github.com/harisekhon/pytools) - Hadoop, PySpark, IPython, Pig => Solr / Elasticsearch, Pig Jython UDFs, Ambari, Linux
+* [Spark => Elasticsearch](https://github.com/harisekhon/spark-to-elasticsearch) - Spark Apps including ready built indexers from Spark => Elasticsearch

@@ -486,8 +486,13 @@ public final class Utils {
     }
 
     public static final String[] arraylist_to_array (ArrayList<String> arrayList) {
-        String []array = new String[arrayList.size()];
+        String[] array = new String[arrayList.size()];
         return arrayList.toArray(array);
+    }
+
+    public static final String[] set_to_array(Set<String> set){
+        String[] array = set.toArray(new String[set.size()]);
+        return array;
     }
 
 

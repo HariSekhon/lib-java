@@ -19,7 +19,7 @@ import static HariSekhon.Utils.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.HashSet;
 
 // JUnit 3
 //import junit.framework.Test;
@@ -126,6 +126,14 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_array_to_arraylist(){
         String[] a = new String[]{"node1:9200","node2","node3:8080","node4","node5"};
         assertArrayEquals("array_to_arraylist()", a, arraylist_to_array(array_to_arraylist(a)));
+    }
+
+    @Test
+    public void test_set_to_array(){
+        String[] a = new String[]{"test"};
+        HashSet<String> b = new HashSet<String>();
+        b.add("test");
+        assertArrayEquals("set_to_array()", a, set_to_array(b));
     }
     
     // ====================================================================== //

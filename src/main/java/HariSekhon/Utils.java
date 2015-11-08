@@ -141,12 +141,10 @@ public final class Utils {
     public static final String version_regex            = "\\d(\\.\\d+)*";
     public static final String version_regex_lax        = version_regex + "-?.*";
 
+    public static HashSet<String> tlds = new HashSet<String>();
     public static final String tld_regex;
-    private static String tld_regex_builder = "\\b(?i:";
 
-    private static int total_tld_count = 0;
-
-    public static final void load_tlds (String filename) {
+    private static final void load_tlds (String filename) {
         int tld_count = 0;
         try {
             File file = new File(HariSekhon.Utils.class.getResource("/" + filename).getFile());
@@ -159,7 +157,7 @@ public final class Utils {
                     continue;
                 }
                 if (line.matches("^[A-Za-z0-9-]+$")) {
-                    tld_regex_builder = tld_regex_builder + line + "|";
+                    tlds.add(line);
                     tld_count += 1;
                 } else {
                     log.warn("TLD: '" + line + "' from tld file '" + filename + "' not validated, skipping that TLD");
@@ -170,7 +168,6 @@ public final class Utils {
             log.error(e.getMessage());
         }
         log.info(tld_count + " TLDs loaded from '" + filename + "'");
-        total_tld_count += tld_count;
     }
 
     static {
@@ -201,17 +198,20 @@ public final class Utils {
         // Don't catch it, let the class fail to initialize via exception to prevent relying on the regexes which won't match
 //        try {
             load_tlds("tlds-alpha-by-domain.txt");
-            if (total_tld_count < 900) {
-                String err_msg =  total_tld_count + " TLDs loaded, expected > 900";
+            if (tlds.size() < 1000) {
+                String err_msg =  tlds.size() + " TLDs loaded, expected >= 1000";
                 log.fatal(err_msg);
                 throw new IllegalStateException(err_msg);
             }
             load_tlds("custom_tlds.txt");
-            tld_regex_builder = tld_regex_builder.replaceFirst("\\|$", "");
-            tld_regex_builder += ")\\b";
-            tld_regex = tld_regex_builder;
-            log.info("tld_regex = " + tld_regex_builder);
-            log.info(total_tld_count + " TLDS loaded from resources");
+            tld_regex = "\\b(?i:" + StringUtils.join(tlds.iterator(), "|") + ")\\b";
+//            log.trace("tld_regex = " + tld_regex);
+            log.info(tlds.size() + " total unique TLDS loaded from resources");
+            if (tlds.size() > 2000) {
+                String err_msg =  tlds.size() + " TLDs loaded, expected <= 2000";
+                log.fatal(err_msg);
+                throw new IllegalStateException(err_msg);
+            }
 //        } catch(Exception e){
 //            log.error(e.getMessage());
 //        }

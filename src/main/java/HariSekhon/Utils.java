@@ -2411,22 +2411,22 @@ public final class Utils {
 
     public static final void vlog (String msg) {
 //        log.info(String.format(get_calling_method() + " - " + msg));
-        log.info(String.format(msg));
+        log.warn(msg);
     }
 
     public static final void vlog2 (String msg) {
 //        log.debug(String.format(get_calling_method() + " - " + msg));
-        log.debug(String.format(msg));
+        log.info(msg);
     }
 
     public static final void vlog3 (String msg) {
 //        log.trace(String.format(get_calling_method() + " - " + msg));
-        log.trace(String.format(msg));
+        log.debug(msg);
     }
 
     public static final void vlog_option (String name, String value) {
 //        log.info(String.format(option_format_calling_method, get_calling_method(), name + ":", value));
-        log.info(String.format(option_format, name + ":", value));
+        vlog2(String.format(option_format, name + ":", value));
     }
     public static final void vlog_option (String name, boolean value){
         vlog_option(name, String.valueOf(value));

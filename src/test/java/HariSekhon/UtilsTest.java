@@ -50,7 +50,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         super( testName );
     }
     */
-    
+
     /**
      * @return the suite of tests being tested
      *
@@ -59,7 +59,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         return new TestSuite( UtilsTest.class );
     }
     */
-    
+
     // no method called should take 1 sec
     @Rule
     public Timeout globalTimeout = Timeout.seconds(1);
@@ -76,7 +76,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertSame("getStatus(UNKNOWN)",        3,  getStatusCode("UNKNOWN"));
         assertSame("getStatus(DEPENDENT)",      4,  getStatusCode("DEPENDENT"));
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void test_getStatusCode_exception(){
         getStatusCode("somethingInvalid");
@@ -195,31 +195,31 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         b.add("test");
         assertArrayEquals("set_to_array()", a, set_to_array(b));
     }
-    
+
     // ====================================================================== //
-    
+
     @Test
     public void test_name(){
         assertEquals("name(null)", "", name(null));
         assertEquals("name(blank)", "", name(""));
         assertEquals("name(blah)", "blah ", name("blah"));
     }
-    
+
     @Test
     public void test_require_name(){
         assertEquals("require_name(blah)", "blah", require_name("blah"));
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void test_require_name_exception_null() throws IllegalArgumentException {
         assertEquals("require_name(null)", "", require_name(null));
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void test_require_name_exception_blank() throws IllegalArgumentException {
         assertEquals("require_name(blank)", "", require_name(""));
     }
-    
+
 //    @Test(expected=IllegalArgumentException.class)
 //    public void test_arg_error() throws IllegalArgumentException {
 //        arg_error("blah");
@@ -229,7 +229,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 //    public void test_state_error() throws IllegalStateException {
 //        state_error("blah");
 //    }
-    
+
     // ====================================================================== //
     @Test
     public void test_check_regex(){
@@ -271,7 +271,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_get_options() {
         get_options(new String[]{});
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_expand_units(){
@@ -302,7 +302,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_hr(){
         hr();
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_human_units(){
@@ -314,7 +314,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("human units TB",      "1023.31TB",    human_units(1023.31  * pow(1024,4)));
         assertEquals("human units PB",      "1023.01PB",    human_units(1023.012 * pow(1024,5)));
         assertEquals("human units EB",      "1023EB",       human_units(1023     * pow(1024,6)));
-        
+
         assertEquals("human_units(1023)",   "1023 bytes",   human_units(1023,       "b"));
         assertEquals("human_units(1023)",   "1023B",        human_units(1023,       "b", true));
         assertEquals("human units KB",      "1023KB",       human_units(1023,       "KB"));
@@ -341,7 +341,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("resolve_ip(4.2.2.1)",    "4.2.2.1",  resolve_ip("4.2.2.1"));
         assertEquals("validate_resolvable()",  "4.2.2.2",  validate_resolvable("4.2.2.2"));
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_strip_scheme(){
@@ -352,7 +352,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("strip_scheme(hdfs://namenode/path/to/blah)",      "namenode/path/to/blah",        strip_scheme("hdfs://namenode/path/to/blah"));
         assertEquals("strip_scheme(hdfs://namenode:8020/path/to/blah)", "namenode:8020/path/to/blah",   strip_scheme("hdfs://namenode:8020/path/to/blah"));
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_strip_scheme_host(){
@@ -383,7 +383,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     // ====================================================================== //
-    
+
 
     @Test
     public void test_uniq_array(){
@@ -418,11 +418,11 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         String[] b = new String[]{"one","two","three",""};
         assertArrayEquals("uniq_arraylist_ordered(one,two,three,,one)", b, arraylist_to_array(uniq_arraylist_ordered(array_to_arraylist(a))));
     }
-    
+
     // ====================================================================== //
     //                          O S   H e l p e r s
     // ====================================================================== //
-    
+
     /*
     @Test
     public void print_java_properties(){
@@ -434,12 +434,12 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_getOS(){
         assertTrue("getOS()", getOS().matches(".*(?:Linux|Mac|Windows).*"));
     }
-    
+
     @Test
     public void test_isOS(){
         assertTrue(isOS(System.getProperty("os.name")));
     }
-    
+
     @Test
     public void test_isLinux(){
         if(isLinux()){
@@ -447,7 +447,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
             linux_only();
         }
     }
-    
+
     @Test
     public void test_isMac(){
         if(isMac()){
@@ -455,7 +455,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
             mac_only();
         }
     }
-    
+
     @Test
     public void test_isLinuxOrMac(){
         if(isLinuxOrMac()){
@@ -463,11 +463,11 @@ public class UtilsTest { // extends TestCase { // JUnit 3
             linux_mac_only();
         }
     }
-    
+
     // ====================================================================== //
     //             V a l i d a t i o n    M e t h o d s
     // ====================================================================== //
-    
+
     @Test
     public void test_isAlNum(){
         assertTrue("isAlNum(ABC123efg)", isAlNum("ABC123efg"));
@@ -477,7 +477,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse("isAlNum(null)",     isAlNum(null));
         assertFalse("isAlNum(hari@domain.com)",     isAlNum("hari@domain.com"));
     }
-    
+
     @Test
     public void test_validate_alnum(){
         assertEquals("validate_alnum(Alnum2Test99, alnum test)", "Alnum2Test99", validate_alnum("Alnum2Test99", "alnum test"));
@@ -691,7 +691,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isDatabaseFieldName("@something"));
         assertFalse(isDatabaseFieldName(null));
     }
-    
+
     @Test
     public void test_validate_database_fieldname(){
         assertEquals("validate_database_fieldname(age)", "age", validate_database_fieldname("age"));
@@ -703,7 +703,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_database_fieldname_fail(){
         validate_database_fieldname("@something");
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_isDatabaseTableName(){
@@ -714,7 +714,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isDatabaseTableName("default.myTable_1"));
         assertFalse(isDatabaseTableName(null));
     }
-    
+
     @Test
     public void test_validate_database_tablename(){
         assertEquals("validate_database_tablename(myTable)", "myTable", validate_database_tablename("myTable"));
@@ -736,7 +736,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isDatabaseViewName("default.myView_1", false));
         assertFalse(isDatabaseViewName("default.myView_1"));
     }
-    
+
     @Test
     public void test_validate_database_viewname(){
         assertEquals("validate_database_viewname(myView)", "myView", validate_database_viewname("myView"));
@@ -748,9 +748,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_database_viewname_fail(){
         validate_database_viewname("default.myView");
     }
-    
+
     // ====================================================================== //
-    
+
     @Test
     public void test_isDirname(){
         assertTrue("isDirname(test_Dir)", isDirname("test_Dir"));
@@ -759,7 +759,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse("isDirname(@me)", isDirname("@me"));
         assertFalse("isDirname(@me)", isDirname(null));
     }
-    
+
     @Test
     public void test_validate_dirname(){
         assertEquals("validate_dirname(./src)",     "./src",    validate_dirname("./src", "dirname"));
@@ -774,7 +774,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_dirname_fail(){
         validate_dirname("b@dDir");
     }
-    
+
     @Test
     public void test_validate_directory(){
         if(isLinuxOrMac()){
@@ -808,7 +808,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_dir_fail(){
         validate_dir("b@dDir");
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_validate_double() {
@@ -857,7 +857,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isDomain("harisekhon")); // not a valid TLD
         assertFalse(isDomain(null)); // not a valid TLD
     }
-    
+
     @Test
     public void test_validate_domain(){
         assertEquals("validate_domain(harisekhon.com)", "harisekhon.com", validate_domain("harisekhon.com"));
@@ -894,7 +894,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_domain_strict_fail() {
         validate_domain_strict("com");
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_isDnsShortName(){
@@ -902,7 +902,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isDnsShortName("myHost.domain.com"));
         assertFalse(isDnsShortName(null));
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_isEmail(){
@@ -911,7 +911,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isEmail("harisekhon"));
         assertFalse(isEmail(null));
     }
-    
+
     @Test
     public void test_validate_email(){
         assertEquals("validate_email(hari@domain.com)", "hari@domain.com", validate_email("hari@domain.com"));
@@ -930,7 +930,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isFilename("@me"));
         assertFalse(isFilename(null));
     }
-    
+
     @Test
     public void test_validate_filename(){
         assertEquals("validate_filename(./pom.xml)", "./pom.xml", validate_filename("./pom.xml"));
@@ -945,7 +945,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_filename_fail() {
         validate_filename("@me");
     }
-    
+
     @Test
     public void test_validate_file(){
         assertEquals("validate_file(./pom.xml)", "./pom.xml", validate_file("./pom.xml"));
@@ -956,7 +956,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_file_fail() {
         validate_file("/nonexistent");
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_isFqdn(){
@@ -985,7 +985,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isHex("0xhari"));
         assertFalse(isHex(null));
     }
-    
+
     // ====================================================================== //
     //@Test(timeout=1000)
     @Test
@@ -1002,7 +1002,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isHost(repeat_string("a", 256)));
         assertFalse(isHost(null));
     }
-    
+
     @Test
     public void test_validate_host(){
         assertEquals("validate_host(10.10.10.10)", "10.10.10.10", validate_host("10.10.10.10", "name"));
@@ -1015,7 +1015,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_host_fail() {
         validate_host("10.10.10.256");
     }
-    
+
     @Test
     public void test_validate_hosts(){
         String[] a = new String[]{"node1:9200","node2:80","node3","node4","node5"};
@@ -1067,7 +1067,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_host_port_user_password(){
     }
     */
-    
+
     // ====================================================================== //
     @Test
     public void test_isHostname(){
@@ -1083,7 +1083,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isHostname("hari~sekhon"));
         assertFalse(isHostname(null));
     }
-    
+
     @Test
     public void test_validate_hostname(){
         assertEquals("validate_hostname(myHost)",      "myHost",      validate_hostname("myHost", "name"));
@@ -1096,7 +1096,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_hostname_fail() {
         validate_hostname("hari~sekhon");
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_isInterface(){
@@ -1109,7 +1109,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isInterface("b@interface"));
         assertFalse(isInterface(null));
     }
-    
+
     @Test
     public void test_validate_interface(){
         assertEquals("validate_interface(eth0)",  "eth0",  validate_interface("eth0"));
@@ -1123,7 +1123,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_interface_fail() {
         validate_interface("hvethfa1b2z3");
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_isIP(){
@@ -1167,7 +1167,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isKrb5Princ("hari$HARI.COM"));
         assertFalse(isKrb5Princ(null));
     }
-    
+
     @Test
     public void test_validate_krb5_princ(){
         assertEquals("validate_krb5_princ(tgt/HARI.COM@HARI.COM)", "tgt/HARI.COM@HARI.COM", validate_krb5_princ("tgt/HARI.COM@HARI.COM", "name"));
@@ -1204,7 +1204,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isLabel(" "));
         assertFalse(isLabel(null));
     }
-    
+
     @Test
     public void test_validate_label(){
         assertEquals("validate_label(st4ts_used (%%))", "st4ts_used (%%)", validate_label("st4ts_used (%%)"));
@@ -1222,7 +1222,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isLdapDn("uid=hari,cn=users,cn=accounts,dc=local"));
         assertFalse(isLdapDn("hari@LOCAL"));
     }
-    
+
     @Test
     public void test_validate_ldap_dn(){
         assertEquals("validate_ldap_dn(uid=hari,cn=users,cn=accounts,dc=local)", "uid=hari,cn=users,cn=accounts,dc=local", validate_ldap_dn("uid=hari,cn=users,cn=accounts,dc=local"));
@@ -1233,7 +1233,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_ldap_dn_fail() {
         validate_ldap_dn("hari@LOCAL");
     }
-    
+
     // ====================================================================== //
 
     @Test
@@ -1265,7 +1265,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isNagiosUnit("Kbps"));
         assertFalse(isNagiosUnit(null));
     }
-    
+
     @Test
     public void test_validate_units(){
         assertEquals("validate_units(s)",   "s",    validate_units("s", "name"));
@@ -1284,7 +1284,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_units_fail() {
         validate_units("Kbps");
     }
-    
+
     // ====================================================================== //
 
     @Test
@@ -1294,7 +1294,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertArrayEquals("validate_node_list(ArrayList<String>)",  arraylist_to_array(new ArrayList<String>(Arrays.asList(a))), arraylist_to_array(validate_node_list(array_to_arraylist(a))));
         assertArrayEquals("validate_node_list(String[])",  a, validate_node_list(a));
     }
-    
+
     @Test
     public void test_validate_nodeport_list(){
         assertEquals("validate_nodeport_list(String)", "node1:9200,node2,node3:8080,node4,node5", validate_nodeport_list("node1:9200 ,node2 node3:8080 node4, node5"));
@@ -1330,7 +1330,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isNoSqlKey("HariSekhon@check_riak_write.pl"));
         assertFalse(isNoSqlKey(null));
     }
-    
+
     @Test
     public void test_validate_nosql_key(){
         assertEquals("validate_nosql_key(HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc)", "HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc", validate_nosql_key("HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc"));
@@ -1341,7 +1341,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_nosql_key_fail() {
         validate_nosql_key("HariSekhon@check_riak_write.pl");
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_isPort(){
@@ -1417,7 +1417,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isRegex("(.*"));
         assertFalse(isRegex(null));
     }
-    
+
     @Test
     public void test_validate_regex(){
         assertEquals("validate_regex(some[Rr]egex.*(capture))", "some[Rr]egex.*(capture)",  validate_regex("some[Rr]egex.*(capture)", "myRegex"));
@@ -1439,7 +1439,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isUrl("-help"));
         assertFalse(isUrl(null));
     }
-    
+
     @Test
     public void test_validate_url(){
         assertEquals("validate_url(www.google.com)",        "http://www.google.com", validate_url(" www.google.com ", "name"));
@@ -1452,7 +1452,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_url_fail() {
         validate_url("-help");
     }
-    
+
     // ====================================================================== //
     @Test
     public void test_isUrlPathSuffix(){
@@ -1464,7 +1464,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isUrlPathSuffix("hari"));
         assertFalse(isUrlPathSuffix(null));
     }
-    
+
     @Test
     public void test_validate_url_path_suffix(){
         assertEquals("validate_url_path_suffix(/)", "/", validate_url_path_suffix("/", "name"));
@@ -1492,7 +1492,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isUser("null"));
         assertFalse(isUser(null));
     }
-    
+
     @Test
     public void test_validate_user(){
         assertEquals("validate_user(hadoop, name)", "hadoop", validate_user("hadoop", "name"));
@@ -1552,9 +1552,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isVersionLax("hari"));
         assertFalse(isVersionLax(null));
     }
-    
+
     // ====================================================================== //
-    
+
     @Test
     public void test_validate_database_query_select_show(){
         assertEquals("validate_database_query_select_show(SELECT count(*) from database.table)", "SELECT count(*) from database.table", validate_database_query_select_show("SELECT count(*) from database.table"));
@@ -1612,9 +1612,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         vlog_option(null, "myOpt");
         vlog_option(null, false);
     }
-    
+
     // ====================================================================== //
-    
+
     @Test
     public void test_user_exists(){
         assertTrue(user_exists("root"));
@@ -1630,32 +1630,50 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 //        assertEquals("getVerbose() 1", 1, getVerbose());
         setVerbose(3);
 //        assertEquals("getVerbose() 3", 3, getVerbose());
+        setVerbose(4);
+        setVerbose(5);
+        setVerbose(-1);
     }
-    
-    
+
+
     @Test
     public void test_version(){
         version();
     }
-    
+
     @Test
     public void test_getVersion(){
         getVersion();
     }
-    
+
     // ====================================================================== //    
     @Test
-    public void test_validate_which(){
+    public void test_validate_which() throws IOException {
         if(isLinuxOrMac()){
             assertEquals("which(sh)",                           "/bin/sh",      which("sh"));
             assertEquals("which(/bin/bash)",                    "/bin/bash",    which("/bin/bash"));
         }
-        assertEquals("which(/explicit/nonexistent/path",    null,           which("/explicit/nonexistent/path"));
-        assertEquals("which(nonexistentprogram",            null,           which("nonexistentprogram"));
+    }
+
+    @Test(expected=IOException.class)
+    public void test_which_nonexecutable_exception() throws IOException {
+//        if(isLinuxOrMac()) {
+            which("/etc/resolv.conf");
+//        }
+    }
+
+    @Test(expected=IOException.class)
+    public void test_which_nonexistent_exception() throws IOException {
+        which("nonexistentprogram");
+    }
+
+    @Test(expected=IOException.class)
+    public void test_which_fullpath_nonexistent_exception() throws IOException {
+        which("/explicit/nonexistent/path");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_which_null_exception() {
+    public void test_which_null_exception() throws IOException {
         which(null);
     }
 

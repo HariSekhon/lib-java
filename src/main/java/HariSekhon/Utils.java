@@ -2176,9 +2176,11 @@ public final class Utils {
         }
         path = path.trim();
         if(! path.matches("^[./]")){
-            path = which(path);
-            if(path == null){
-                usage(name + " program not found in $PATH (" + System.getenv("PATH") + ")");
+            try {
+                path = which(path);
+            } catch (IOException e){
+//                usage(name + " program not found in $PATH (" + System.getenv("PATH") + ")");
+                usage(e.getMessage());
             }
         }
         if(regex == null || regex.trim().isEmpty()){
@@ -2375,47 +2377,36 @@ public final class Utils {
         println("Hari Sekhon Java Utils version " + getVersion());
     }
 
-    public static final String which (String bin, Boolean quit) {
+    public static final String which (String bin) throws IOException {
         if(bin == null || bin.trim().isEmpty()){
             throw new IllegalArgumentException("no bin passed to which()");
         }
         // TODO: should probably consider switching this to os path sep instead of unix biased /
         if(bin.matches("^(?:/|\\./).*")){
             File f = new File(bin);
-            if(f.exists() && ! f.isDirectory()){
+            if(f.isFile()){
                 if(f.canExecute()){
                    return bin;
                 } else {
-                    if(quit){
-                        quit("UNKNOWN", "'" + bin + "' is not executable!");
-                    }
+                    throw new IOException(String.format("'%s' is not executable!", bin));
                 }
             } else {
-                if(quit){
-                    quit("UNKNOWN", "couldn't find executable '" + bin + "'");
-                }
+                throw new IOException(String.format("couldn't find executable '%s'", bin));
             }
         } else {
             for(String path: System.getenv("PATH").split(":")){
                 String fullpath = path + "/" + bin;
                 File f = new File(fullpath);
-                if((f.exists() && ! f.isDirectory())){
-                    if(! f.canExecute()){
-                        if(quit){
-                            quit("UNKNOWN", "'" + bin + "' is not executable!");
-                        }
-                    }
+//                if(f.exists() && ! f.isDirectory()){
+//                    if(! f.canExecute()){
+//                        throw new IOException(String.format("'%s' is not executable!", bin);
+//                    }
+                if(f.isFile() && f.canExecute()){
                     return fullpath;
                 }
             }
-            if(quit){
-                quit("UNKNOWN", "couldn't find '" + bin + "' in PATH (" + System.getenv("PATH") + ")");
-            }
+            throw new IOException(String.format("couldn't find '%s' in PATH (%s)", bin, System.getenv("PATH")));
         }
-        return null;
-    }
-    public static final String which (String bin) {
-        return which(bin, false);
     }
 
     // ===================================================================== //

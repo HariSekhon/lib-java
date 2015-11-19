@@ -17,6 +17,8 @@ package HariSekhon;
 
 import static HariSekhon.Utils.*;
 
+import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -79,26 +81,31 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_getStatusCode_exception(){
         getStatusCode("somethingInvalid");
     }
-    
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_setStatus_exception(){
+        setStatus("somethingInvalid");
+    }
+
     @Test
     public void test_setStatus_getStatus_and_set_shortcuts(){
         // start unknown - but when repeatedly testing this breaks so reset to UNKNOWN at end
-        // this isn't inheriting UNKNOWN as default from Utils any more
-        setStatus("UNKNOWN");
         assertTrue(is_unknown());
         assertTrue(getStatus().equals("UNKNOWN"));
+        assertEquals(getStatusCode(), 3);
         warning();
         status();
         status2();
         status3();
         assertTrue(is_warning());
         assertTrue(getStatus().equals("WARNING"));
-        
+
         // shouldn't change from warning to unknown
         unknown();
         assertTrue(is_warning());
         assertTrue(getStatus().equals("WARNING"));
-        
+        assertEquals(getStatusCode(), 1);
+
         // critical should override unknown
         setStatus("OK");
         assertTrue(is_ok());
@@ -107,6 +114,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         critical();
         assertTrue(is_critical());
         assertTrue(getStatus().equals("CRITICAL"));
+        assertEquals(getStatusCode(), 2);
 
         // critical should override warning
         setStatus("WARNING");
@@ -116,10 +124,55 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         unknown(); // shouldn't change critical
         assertTrue(is_critical());
         assertTrue(getStatus().equals("CRITICAL"));
-        
+
         setStatus("UNKNOWN");
     }
-    
+
+    @Test
+    public void test_load_tlds_nodups() throws IOException {
+        load_tlds("tlds-alpha-by-domain.txt");
+        load_tlds("tlds-alpha-by-domain.txt");
+        assertTrue(tlds.size() > 1000);
+        assertTrue(tlds.size() < 2000);
+    }
+
+    @Test
+    public void test_load_tlds_skip() throws IOException, IllegalStateException {
+        String filename = "faketld.txt";
+        File f = new File("src/main/resources/" + filename);
+        FileWriter fw = new FileWriter(f);
+        BufferedWriter bw = new BufferedWriter(fw);
+        bw.write("=");
+        bw.close();
+        load_tlds(filename);
+        if(tlds.contains("=")){
+            throw new IllegalStateException("tlds contain '=' which should have been excluded by load_tlds()");
+        }
+        f.delete();
+    }
+
+    @Test(expected=IOException.class)
+    public void test_load_tlds_nonexistent() throws Exception {
+        load_tlds("nonexistentfile.txt");
+        // shouldn't reach here
+        throw new Exception("load_tlds() failed to thrown an IOException for a nonexistent file");
+    }
+
+    @Test(expected=IllegalStateException.class)
+    public void test_check_tldcount_too_high() throws IOException {
+        load_tlds("tlds-alpha-by-domain.txt");
+        for(int i=0; i<1000; i++){
+            tlds.add(String.format("%d", i));
+        }
+        check_tldcount();
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void test_check_tldcount_too_low(){
+        tlds.clear();
+        check_tldcount();
+    }
+
     // ====================================================================== //
     // tests both array to arraylist at same time
     @Test
@@ -177,13 +230,19 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue("check_regex(test,test)",   check_regex("test", "test"));
         assertTrue("check_regex(test,test)",   check_regex("test", "te.t"));
         assertFalse("check_regex(test,test2)", check_regex("test", "^est"));
+        assertFalse("check_regex(null,test)",  check_regex(null, "test"));
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void test_check_regex_exception() throws IllegalArgumentException {
         check_regex("test", "*est");
     }
-    
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_check_regex_null_regex_exception() throws IllegalArgumentException {
+        check_regex("test", null);
+    }
+
     // ====================================================================== //
     @Test
     public void test_check_string(){
@@ -192,8 +251,14 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue("check_string(test,test)",   check_string("test", "test", true));
         assertTrue("check_string(test,test)",   check_string("test", new String("test"))); // will use .equals()
         assertFalse("check_string(test,test2)", check_string("test", "test2"));
+        assertFalse("check_string(null,test2)", check_string(null, "test2"));
     }
-    
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_check_string_null_exception() throws IllegalArgumentException {
+        check_string("test", null);
+    }
+
     // ====================================================================== //
     @Test
     public void test_get_options() {
@@ -214,7 +279,17 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("expand_units(10, KB, name)",  10240.0,        expand_units(10.0, "KB", "name"),   0);
         assertEquals("expand_units(10, KB)",    10240.0,            expand_units(10.0, "KB"),   0);
     }
-    
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_expand_units_null_exception() throws IllegalArgumentException {
+        expand_units(10, null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_expand_units_invalid_units_exception() throws IllegalArgumentException {
+        expand_units(10, "Kbps");
+    }
+
     // ====================================================================== //
     @Test
     public void test_hr(){
@@ -234,13 +309,19 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("human units EB",      "1023EB",       human_units(1023     * pow(1024,6)));
         
         assertEquals("human_units(1023)",   "1023 bytes",   human_units(1023,       "b"));
+        assertEquals("human_units(1023)",   "1023B",        human_units(1023,       "b", true));
         assertEquals("human units KB",      "1023KB",       human_units(1023,       "KB"));
         assertEquals("human_units MB",      "1023.1MB",     human_units(1023.1,     "MB"));
         assertEquals("human units GB",      "1023.2GB",     human_units(1023.2,     "GB"));
         assertEquals("human units TB",      "1023.31TB",    human_units(1023.31,    "TB"));
         assertEquals("human units PB",      "1023.01PB",    human_units(1023.012,   "PB"));
     }
-    
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_human_units_invalid_units_exception() throws IllegalArgumentException {
+        human_units(pow(1024, 7), "");
+    }
+
     // ====================================================================== //
     @Test
     public void test_resolve_ip(){
@@ -297,19 +378,33 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
     
 
-    // This is highly dependent on JDK version and fails on Oracle JDK 8 in Travis, TODO: review
-    /*
     @Test
     public void test_uniq_array(){
-        assertEquals("uniq_array(one,two,three,,one)",  new String[]{ "", "two", "one", "three"}, uniq_array(new String[]{"one","two","three","","one"}));
+        String[] myArray = new String[]{"one","two","three","","one"};
+        String[] myArray_deduped = new String[]{"one","two","three",""};
+        String[] myArray_test = uniq_array(myArray);
+        // The ordering is highly dependent on JDK version and fails on Oracle JDK 8 in Travis so must sort the arrays for comparison
+        Arrays.sort(myArray_deduped);
+        Arrays.sort(myArray_test);
+        assertArrayEquals(myArray_deduped, myArray_test);
     }
-    */
-    
+
+    @Test
+    public void test_uniq_arraylist(){
+        String[] myArray = new String[]{"one","two","three","","one"};
+        String[] myArray_deduped = new String[]{"one","two","three",""};
+        String[] myArray_test = arraylist_to_array(uniq_arraylist(array_to_arraylist(myArray)));
+        // The ordering is highly dependent on JDK version and fails on Oracle JDK 8 in Travis so must sort the arrays for comparison
+        Arrays.sort(myArray_deduped);
+        Arrays.sort(myArray_test);
+        assertArrayEquals(myArray_deduped, myArray_test);
+    }
+
     @Test
     public void test_uniq_array_ordered(){
         assertArrayEquals("uniq_array_ordered(one,two,three,,one)", new String[]{ "one", "two", "three", ""}, uniq_array_ordered(new String[]{"one","two","three","","one"}));
     }
-    
+
     @Test
     public void test_uniq_arraylist_ordered(){
         String[] a = new String[]{"one","two","three","","one"};
@@ -372,6 +467,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue("isAlNum(0)",         isAlNum("0"));
         assertFalse("isAlNum(1.2)",      isAlNum("1.2"));
         assertFalse("isAlNum(\"\")",     isAlNum(""));
+        assertFalse("isAlNum(null)",     isAlNum(null));
         assertFalse("isAlNum(hari@domain.com)",     isAlNum("hari@domain.com"));
     }
     
@@ -394,6 +490,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isAwsAccessKey(repeat_string("A1",10)));
         assertFalse(isAwsAccessKey(repeat_string("@",20)));
         assertFalse(isAwsAccessKey(repeat_string("A",40)));
+        assertFalse(isAwsAccessKey(null));
     }
 
     @Test
@@ -412,6 +509,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isAwsBucket(){
         assertTrue("isAwsBucket(BucKeT63)", isAwsBucket("BucKeT63"));
         assertFalse("isAwsBucket(BucKeT63)", isAwsBucket("B@cKeT63"));
+        assertFalse("isAwsBucket(null)", isAwsBucket(null));
     }
 
     @Test
@@ -433,6 +531,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isAwsHostname("harisekhon"));
         assertFalse(isAwsHostname("10.10.10.1"));
         assertFalse(isAwsHostname(repeat_string("A",40)));
+        assertFalse(isAwsHostname(null));
     }
 
     @Test
@@ -460,6 +559,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isAwsFqdn(){
         assertTrue(isAwsFqdn("ip-172-31-1-1.eu-west-1.compute.internal"));
         assertFalse(isAwsFqdn("ip-172-31-1-1"));
+        assertFalse(isAwsFqdn(null));
     }
 
     @Test
@@ -481,6 +581,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isAwsSecretKey(repeat_string("A1",20)));
         assertFalse(isAwsSecretKey(repeat_string("@",40)));
         assertFalse(isAwsSecretKey(repeat_string("A",20)));
+        assertFalse(isAwsSecretKey(null));
     }
 
     @Test
@@ -498,8 +599,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isChars(){
         assertTrue(isChars("Alpha-01_", "A-Za-z0-9_-"));
         assertFalse(isChars("Alpha-01_*", "A-Za-z0-9_-"));
+        assertFalse(isChars("Alpha-01_*", null));
+        assertFalse(isChars(null, "A-Za-z0-9_-"));
+        assertFalse(isChars(null, null));
     }
-    
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_isChars_exception(){
+        isChars("Alpha-01_*", "B-A");
+    }
+
     @Test
     public void test_validate_chars(){
         assertEquals("validate_chars(...)", "log_date=2015-05-23_10", validate_chars("log_date=2015-05-23_10", "validate chars", "A-Za-z0-9_=-"));
@@ -515,6 +624,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isCollection(){
         assertTrue(isCollection("students.grades"));
         assertFalse(isCollection("wrong@.grades"));
+        assertFalse(isCollection(null));
     }
 
     @Test
@@ -533,6 +643,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isDatabaseName(){
         assertTrue(isDatabaseName("mysql1"));
         assertFalse(isDatabaseName("my@sql"));
+        assertFalse(isDatabaseName(null));
     }
 
     @Test
@@ -551,6 +662,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isDatabaseColumnName(){
         assertTrue(isDatabaseColumnName("myColumn_1"));
         assertFalse(isDatabaseColumnName("'column'"));
+        assertFalse(isDatabaseColumnName(null));
     }
 
     @Test
@@ -570,6 +682,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isDatabaseFieldName("age"));
         assertTrue(isDatabaseFieldName("count(*)"));
         assertFalse(isDatabaseFieldName("@something"));
+        assertFalse(isDatabaseFieldName(null));
     }
     
     @Test
@@ -592,6 +705,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isDatabaseTableName("'table'"));
         assertFalse(isDatabaseTableName("default.myTable_1", false));
         assertFalse(isDatabaseTableName("default.myTable_1"));
+        assertFalse(isDatabaseTableName(null));
     }
     
     @Test
@@ -636,6 +750,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue("isDirname(/tmp/test)", isDirname("/tmp/test"));
         assertTrue("isDirname(./test)", isDirname("./test"));
         assertFalse("isDirname(@me)", isDirname("@me"));
+        assertFalse("isDirname(@me)", isDirname(null));
     }
     
     @Test
@@ -733,6 +848,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isDomain(repeat_string("a",63) + ".com"));
         assertFalse(isDomain(repeat_string("a",64) + ".com"));
         assertFalse(isDomain("harisekhon")); // not a valid TLD
+        assertFalse(isDomain(null)); // not a valid TLD
     }
     
     @Test
@@ -759,6 +875,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isDomainStrict("domain1.com"));
         assertTrue(isDomainStrict("domain.local"));
         assertTrue(isDomainStrict("domain.localDomain"));
+        assertFalse(isDomainStrict(null));
     }
 
     @Test
@@ -776,6 +893,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isDnsShortName(){
         assertTrue(isDnsShortName("myHost"));
         assertFalse(isDnsShortName("myHost.domain.com"));
+        assertFalse(isDnsShortName(null));
     }
     
     // ====================================================================== //
@@ -784,6 +902,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isEmail("hari'sekhon@gmail.com"));
         assertTrue(isEmail("hari@LOCALDOMAIN"));
         assertFalse(isEmail("harisekhon"));
+        assertFalse(isEmail(null));
     }
     
     @Test
@@ -802,6 +921,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isFilename("some_File.txt"));
         assertTrue(isFilename("/tmp/test"));
         assertFalse(isFilename("@me"));
+        assertFalse(isFilename(null));
     }
     
     @Test
@@ -835,6 +955,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isFqdn(){
         assertTrue(isFqdn("hari.sekhon.com"));
         assertFalse(isFqdn("hari@harisekhon.com"));
+        assertFalse(isFqdn(null));
     }
 
     @Test
@@ -855,6 +976,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isHex("0xAf09b"));
         assertFalse(isHex("9"));
         assertFalse(isHex("0xhari"));
+        assertFalse(isHex(null));
     }
     
     // ====================================================================== //
@@ -871,6 +993,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isHost("ip-172-31-1-1"));
         assertFalse(isHost("10.10.10.256"));
         assertFalse(isHost(repeat_string("a", 256)));
+        assertFalse(isHost(null));
     }
     
     @Test
@@ -951,6 +1074,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isHostname(repeat_string("a",64)));
         assertFalse(isHostname("-help"));
         assertFalse(isHostname("hari~sekhon"));
+        assertFalse(isHostname(null));
     }
     
     @Test
@@ -976,6 +1100,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isInterface("vethfa1b2c3"));
         assertFalse(isInterface("vethfa1b2z3"));
         assertFalse(isInterface("b@interface"));
+        assertFalse(isInterface(null));
     }
     
     @Test
@@ -1004,6 +1129,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue("isIP(10.10.10.255)",      isIP("10.10.10.255"));
         assertFalse("isIP(10.10.10.256)",     isIP("10.10.10.256"));
         assertFalse("isIP(x.x.x.x)",          isIP("x.x.x.x"));
+        assertFalse("isIP(null)",             isIP(null));
     }
 
     @Test
@@ -1032,6 +1158,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isKrb5Princ("cloudera-scm/admin@SUB.REALM.COM"));
         assertTrue(isKrb5Princ("hari@hari.com"));
         assertFalse(isKrb5Princ("hari$HARI.COM"));
+        assertFalse(isKrb5Princ(null));
     }
     
     @Test
@@ -1111,6 +1238,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isMinVersion("1.3.1", 1.2));
         assertFalse(isMinVersion("1.3.1", 1.4));
         assertFalse(isMinVersion("1.2.99", 1.3));
+        assertFalse(isMinVersion("1.3", null));
+        assertFalse(isMinVersion(null, 1.3));
     }
 
     // ====================================================================== //
@@ -1127,6 +1256,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isNagiosUnit("c"));
         assertTrue(isNagiosUnit("%"));
         assertFalse(isNagiosUnit("Kbps"));
+        assertFalse(isNagiosUnit(null));
     }
     
     @Test
@@ -1191,6 +1321,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isNoSqlKey(){
         assertTrue(isNoSqlKey("HariSekhon:check_riak_write.pl:riak1:1385226607.02182:20abc"));
         assertFalse(isNoSqlKey("HariSekhon@check_riak_write.pl"));
+        assertFalse(isNoSqlKey(null));
     }
     
     @Test
@@ -1216,6 +1347,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isPort("0"));
         assertFalse(isPort(-1));
         assertFalse(isPort(0));
+        assertFalse(isPort(null));
     }
 
     @Test
@@ -1241,6 +1373,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isProcessName("sh <defunct>"));
         assertFalse(isProcessName("./b@dfile"));
         assertFalse(isProcessName("[init] 3"));
+        assertFalse(isProcessName(null));
     }
 
     @Test
@@ -1275,6 +1408,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isRegex(".*"));
         assertTrue(isRegex("(.*)"));
         assertFalse(isRegex("(.*"));
+        assertFalse(isRegex(null));
     }
     
     @Test
@@ -1296,6 +1430,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isUrl("1"));
         assertTrue(isUrl("http://cdh43:50070/dfsnodelist.jsp?whatNodes=LIVE"));
         assertFalse(isUrl("-help"));
+        assertFalse(isUrl(null));
     }
     
     @Test
@@ -1320,6 +1455,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isUrlPathSuffix("/*"));
         assertTrue(isUrlPathSuffix("/~hari"));
         assertFalse(isUrlPathSuffix("hari"));
+        assertFalse(isUrlPathSuffix(null));
     }
     
     @Test
@@ -1346,6 +1482,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isUser("nonexistentuser"));
         assertFalse(isUser("-hari"));
         assertFalse(isUser("1hari"));
+        assertTrue(isUser("null"));
+        assertFalse(isUser(null));
     }
     
     @Test
@@ -1391,6 +1529,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isVersion("3a"));
         assertFalse(isVersion("1.0-2"));
         assertFalse(isVersion("1.0-a"));
+        assertFalse(isVersion(null));
     }
 
     @Test
@@ -1404,6 +1543,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isVersionLax("1.0-2"));
         assertTrue(isVersionLax("1.0-a"));
         assertFalse(isVersionLax("hari"));
+        assertFalse(isVersionLax(null));
     }
     
     // ====================================================================== //
@@ -1411,6 +1551,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_validate_database_query_select_show(){
         assertEquals("validate_database_query_select_show(SELECT count(*) from database.table)", "SELECT count(*) from database.table", validate_database_query_select_show("SELECT count(*) from database.table"));
+        assertEquals("validate_database_query_select_show(SELECT count(*) from database.created_date)", "SELECT count(*) from database.created_date", validate_database_query_select_show("SELECT count(*) from database.created_date"));
+        assertEquals("validate_database_query_select_show(SELECT count(*) from product_updates)", "SELECT count(*) from product_updates", validate_database_query_select_show("SELECT count(*) from product_updates"));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -1454,9 +1596,14 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         vlog("vlog");
         vlog("vlog2");
         vlog("vlog3");
+        vlog(null);
+        vlog(null);
+        vlog(null);
         vlog_option("vlog_option", "myOpt");
         vlog_option("vlog_option", true);
         vlog_option("vlog_option", false);
+        vlog_option(null, "myOpt");
+        vlog_option(null, false);
     }
     
     // ====================================================================== //
@@ -1465,6 +1612,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_user_exists(){
         assertTrue(user_exists("root"));
         assertFalse(user_exists("nonexistent"));
+        assertFalse(user_exists(null));
     }
 
     @Test
@@ -1498,7 +1646,12 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("which(/explicit/nonexistent/path",    null,           which("/explicit/nonexistent/path"));
         assertEquals("which(nonexistentprogram",            null,           which("nonexistentprogram"));
     }
-    
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_which_null_exception() {
+        which(null);
+    }
+
     // ====================================================================== //
     /*
     @Test

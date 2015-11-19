@@ -26,6 +26,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
+import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -60,7 +61,7 @@ import static java.lang.Math.pow;
 
 public final class Utils {
 
-    private static final String utils_version = "1.15.0";
+    private static final String utils_version = "1.16.0";
     public static Options options = new Options();
 
     public static String msg = "";
@@ -144,10 +145,14 @@ public final class Utils {
     public static HashSet<String> tlds = new HashSet<String>();
     public static final String tld_regex;
 
-    private static final void load_tlds (String filename) {
+    protected static final void load_tlds (String filename) throws IOException {
         int tld_count = 0;
         try {
-            File file = new File(HariSekhon.Utils.class.getResource("/" + filename).getFile());
+            URL url = HariSekhon.Utils.class.getResource("/" + filename);
+            if (url == null) {
+                throw new IOException(String.format("file '%s' does not exist under resources!", filename));
+            }
+            File file = new File(url.getFile());
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -160,16 +165,33 @@ public final class Utils {
                     tlds.add(line);
                     tld_count += 1;
                 } else {
-                    log.warn("TLD: '" + line + "' from tld file '" + filename + "' not validated, skipping that TLD");
+                    log.warn(String.format("TLD: '%s' from tld file '%s' not validated, skipping that TLD", line, filename));
                 }
             }
             scanner.close();
-        } catch (Exception e){
+        } catch (IOException e){
             log.error(e.getMessage());
+            throw e;
         }
-        log.info(tld_count + " TLDs loaded from '" + filename + "'");
+        log.debug(tld_count + " TLDs loaded from '" + filename + "'");
     }
 
+    public static void check_tldcount() throws IllegalStateException {
+        long tld_count = tlds.size();
+        log.debug(String.format("%d total unique TLDs loaded from resources", tld_count));
+        if (tld_count < 1000) {
+            String err_msg = String.format("%d TLDs loaded, expected >= 1000", tld_count);
+            log.fatal(err_msg);
+            throw new IllegalStateException(err_msg);
+        }
+        if (tld_count > 2000) {
+            String err_msg =  String.format("%d TLDs loaded, expected <= 2000", tld_count);
+            log.fatal(err_msg);
+            throw new IllegalStateException(err_msg);
+        }
+    }
+
+    // can't throw any Exception up from static initializer
     static {
         // autoboxing
         exit_codes.put("OK",        0);
@@ -195,26 +217,21 @@ public final class Utils {
         options.addOption("h", "help", false, "Print usage help and exit");
         //CommandLine cmd = get_options(new String[]{"test", "test2"});
 
-        // Don't catch it, let the class fail to initialize via exception to prevent relying on the regexes which won't match
-//        try {
+        // let the class fail to initialize if missing a resource to prevent relying on the regexes which won't match
+        try {
             load_tlds("tlds-alpha-by-domain.txt");
-            if (tlds.size() < 1000) {
-                String err_msg =  tlds.size() + " TLDs loaded, expected >= 1000";
-                log.fatal(err_msg);
-                throw new IllegalStateException(err_msg);
-            }
+            check_tldcount();
             load_tlds("custom_tlds.txt");
-            tld_regex = "\\b(?i:" + StringUtils.join(tlds.iterator(), "|") + ")\\b";
+            // XXX: TODO: this fails correctly but doesn't give stack trace or file name
+//            load_tlds("custom_tldsa.txt");
 //            log.trace("tld_regex = " + tld_regex);
-            log.info(tlds.size() + " total unique TLDS loaded from resources");
-            if (tlds.size() > 2000) {
-                String err_msg =  tlds.size() + " TLDs loaded, expected <= 2000";
-                log.fatal(err_msg);
-                throw new IllegalStateException(err_msg);
-            }
-//        } catch(Exception e){
-//            log.error(e.getMessage());
-//        }
+        } catch(IOException e){
+            log.error(e.getMessage());
+            quit("UNKNOWN", String.format("unable to load a resource file containing TLDs for generated domain/fqdn regex generation:", e.getStackTrace().toString()));
+//            throw e;
+        }
+
+        tld_regex = "\\b(?i:" + StringUtils.join(tlds.iterator(), "|") + ")\\b";
 
         //tld_regex				      = "\\b(?i:[A-Za-z]{2,4}|london|museum|travel|local|localdomain|intra|intranet|internal)\\b";
         domain_regex				= "(?:" + domain_component + "\\.)*" + tld_regex;
@@ -269,31 +286,35 @@ public final class Utils {
     }
 
     public static final Boolean is_ok(){
-        if(getStatus() == null){
-            return false;
-        }
+        // encapsulated and cannot return null, also reversed equality below cannot get NPE
+//        if(getStatus() == null){
+//            return false;
+//        }
         return "OK".equals(getStatus());
     }
 
 
     public static final Boolean is_warning(){
-        if(getStatus() == null){
-            return false;
-        }
+        // encapsulated and cannot return null, also reversed equality below cannot get NPE
+//        if(getStatus() == null){
+//            return false;
+//        }
         return "WARNING".equalsIgnoreCase(getStatus());
     }
 
     public static final Boolean is_critical(){
-        if(getStatus() == null){
-            return false;
-        }
+        // encapsulated and cannot return null, also reversed equality below cannot get NPE
+//        if(getStatus() == null){
+//            return false;
+//        }
         return "CRITICAL".equalsIgnoreCase(getStatus());
     }
 
     public static final Boolean is_unknown(){
-        if(getStatus() == null){
-            return false;
-        }
+        // encapsulated and cannot return null, also reversed equality below cannot get NPE
+//        if(getStatus() == null){
+//            return false;
+//        }
         return "UNKNOWN".equalsIgnoreCase(getStatus());
     }
 
@@ -324,7 +345,8 @@ public final class Utils {
 
     public static final Boolean check_regex (String string, String regex) {
         if(string == null){
-            throw new IllegalArgumentException("undefined string passed to check_regex()");
+//            throw new IllegalArgumentException("undefined string passed to check_regex()");
+            return false;
         }
         if(regex == null){
             throw new IllegalArgumentException("undefined regex passed to check_regex()");
@@ -335,7 +357,7 @@ public final class Utils {
         if(string.matches(regex)){
             return true;
         }
-        critical();
+//        critical();
         return false;
     }
 
@@ -344,10 +366,13 @@ public final class Utils {
         if(expected == null){
             throw new IllegalArgumentException("passed null as expected string to check_string()");
         }
-        if(str != null && ( str == expected || str.equals(expected) ) ){
+        if(str == null) {
+            return false;
+        }
+        if (str.equals(expected)){
             return true;
         }
-        critical();
+//        critical();
         /* implement when msg and thresholds are done
         if(nomsg){
 
@@ -408,7 +433,6 @@ public final class Utils {
         if(!units.isEmpty()){
             num = expand_units(num, units, "human_units");
         }
-        // TODO: remove trailing zeros .00 from doubles
         if (num >= pow(1024, 7)) {
             throw new IllegalArgumentException(String.format("determined suspicious units for number '%s', larger than Exabytes?!!", num));
         } else if(num >= pow(1024, 6)){
@@ -444,9 +468,11 @@ public final class Utils {
                 //return String.format("%s bytes", num);
                 units = " bytes";
             }
-        } else {
-            throw new IllegalArgumentException("unable to determine units for number num");
+        // unreachable
+//        } else {
+//            throw new IllegalArgumentException(String.format("unable to determine units for number '%s'", num));
         }
+        // remove trailing zeros past the decimal point
         String num_str = String.format("%.2f", num).replaceFirst("(\\.\\d+)0$", "$1").replaceFirst("\\.0+$", "");
         return num_str + units;
     }
@@ -718,7 +744,7 @@ public final class Utils {
     // at casual glance this looks like it's duplicating isHostname but it's using a different unified regex of isHostname + isIP
     public static final Boolean isHost (String host) {
         if(host == null || host.trim().isEmpty()){
-            return null;
+            return false;
         }
         if(host.length() > 255){
             return false;
@@ -782,7 +808,13 @@ public final class Utils {
 
     // doubles are easier as can still call against floats if needed
     public static final Boolean isMinVersion (String version, Double min) {
-        if(version == null || ! isVersionLax(version)){
+        if(version == null) {
+            return false;
+        }
+        if(min == null){
+            return false;
+        }
+        if(!isVersionLax(version)){
             return false;
         }
         Pattern pattern = Pattern.compile("(\\d+(?:\\.\\d+)?)");
@@ -846,7 +878,10 @@ public final class Utils {
 
 
     public static final Boolean isPort (String port) {
-        if(port == null || ! port.matches("^\\d+$")){
+        if(port == null){
+            return false;
+        }
+        if(! port.matches("^\\d+$")){
             return false;
         }
         int port_int;
@@ -876,12 +911,17 @@ public final class Utils {
 
 
     public static final Boolean isRegex (String regex) {
-        try {
-            "".matches(regex);
-        } catch (PatternSyntaxException e){
+        if (regex == null){
             return false;
         }
-        return true;
+        try {
+            // this seems to allow null, so catch above
+            "".matches(regex);
+            return true;
+        } catch (PatternSyntaxException e){
+            // pass
+        }
+        return false;
     }
 
 
@@ -912,11 +952,13 @@ public final class Utils {
 
 
     public static final Boolean isUser (String user) {
-        if(user != null && user.matches("^" + user_regex + "$")){
-            return true;
-        } else {
+        if(user == null){
             return false;
         }
+        if(user.matches("^" + user_regex + "$")){
+            return true;
+        }
+        return false;
     }
 
 
@@ -1105,17 +1147,18 @@ public final class Utils {
 
 
     public static final void quit (String status, String msg) {
-        log.error(status + ": " + msg);
+//        log.error(status + ": " + msg);
+        println(status + ": " + msg);
         if(exit_codes.containsKey(status)) {
             System.exit(exit_codes.get(status));
         } else {
-            // TODO: provide a warning stack trace here
-            throw new IllegalArgumentException(String.format("specified an invalid exit status '%s' to quit()", status));
+            throw new IllegalArgumentException(String.format("specified an invalid exit status '%s' to quit(), message was '%s'", status, msg));
         }
     }
 
     public static final void quit (String msg){
-        log.error("CRITICAL: " + msg);
+//        log.error("CRITICAL: " + msg);
+        println("CRITICAL: " + msg);
         System.exit(exit_codes.get("CRITICAL"));
     }
 
@@ -1477,7 +1520,7 @@ public final class Utils {
         if(! query.matches("^\\s*((?:SHOW|SELECT)\\s+(?!.*(?:INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|TRUNCATE|;|--)).+)$")){
             usage("invalid " + name + "query defined: may only be a SELECT or SHOW statement");
         }
-        if(query.matches("insert|update|delete|create|drop|alter|truncate|;|--")){
+        if(query.matches("\\b(?:insert|update|delete|create|drop|alter|truncate)\\b")){
             usage("invalid " + name + "query defined: DML statement or suspect chars detected in query");
         }
         vlog_option(name + "query", query);

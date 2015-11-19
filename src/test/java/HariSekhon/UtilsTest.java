@@ -128,6 +128,30 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         setStatus("UNKNOWN");
     }
 
+    // JUnit 4.9+ requires System Rules for system exit checks
+//    @Rule
+//    public final ExpectedSystemExit exit = ExpectedSystemExit.none();
+
+//    @Test
+//    public void test_quit_status_msg() {
+//        exit.expectSystemExit();
+//        quit("CRITICAL", "test");
+//    }
+//
+//    @Test
+//    public void test_quit_msg() {
+//        exit.expectSystemExit();
+//        quit("test");
+//    }
+
+    @Test
+    public void test_println(){
+        println("test");
+        println(1.0);
+        println(1L);
+        println(true);
+    }
+
     @Test
     public void test_load_tlds_nodups() throws IOException {
         load_tlds("tlds-alpha-by-domain.txt");
@@ -343,6 +367,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
+    public void test_validate_resolve_ip_null_exception() throws IllegalArgumentException {
+        resolve_ip(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_resolve_ip_blank_exception() throws IllegalArgumentException {
+        resolve_ip(" ");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
     public void test_validate_resolvable_null_exception() throws IllegalArgumentException {
         validate_resolvable(null);
     }
@@ -495,8 +529,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_alnum_err(){
+    public void test_validate_alnum_exception(){
         validate_alnum("1.2", "alnum fail");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_alnum_null_exception(){
+        validate_alnum(null, "alnum fail");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_alnum_blank_exception(){
+        validate_alnum(" ", "alnum fail");
     }
 
     // ====================================================================== //
@@ -516,8 +560,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_access_key_fail(){
+    public void test_validate_aws_access_key_exception(){
         validate_aws_access_key(repeat_string("A", 21));
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_access_key_null_exception(){
+        validate_aws_access_key(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_access_key_blank_exception(){
+        validate_aws_access_key(" ");
     }
 
     // ====================================================================== //
@@ -535,8 +589,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_bucket_fail(){
+    public void test_validate_aws_bucket_exception(){
         validate_aws_bucket("B@cKeT63");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_bucket_null_exception(){
+        validate_aws_bucket(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_bucket_blank_exception(){
+        validate_aws_bucket(" ");
     }
 
     // ====================================================================== //
@@ -558,16 +622,27 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_hostname_fail() {
+    public void test_validate_aws_hostname_exception() {
         validate_aws_hostname("harisekhon");
     }
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_hostname_fail2() {
+    public void test_validate_aws_hostname_exception2() {
         validate_aws_hostname("10.10.10.1");
     }
+
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_hostname_fail3() {
+    public void test_validate_aws_hostname_exception3() {
         validate_aws_hostname(repeat_string("A", 40));
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_hostname_null_exception() {
+        validate_aws_hostname(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_hostname_blank_exception() {
+        validate_aws_hostname(" ");
     }
 
     // ====================================================================== //
@@ -632,8 +707,28 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_chars_fail(){
+    public void test_validate_chars_exception(){
         validate_chars("Alpha-01_*", "validate chars", "A-Za-z0-9_-");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_chars_null_exception(){
+        validate_chars("Alpha-01_*", "validate chars", null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_chars_null_arg_exception(){
+        validate_chars(null, "validate chars", "A-Za-z0-9_-");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_chars_blank_exception(){
+        validate_chars("Alpha-01_*", "validate chars", " ");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_chars_blank_arg_exception(){
+        validate_chars(null, "validate chars", "A-Za-z0-9_-");
     }
 
     // ====================================================================== //
@@ -1256,6 +1351,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(isMinVersion("1.3.1", 1.4));
         assertFalse(isMinVersion("1.2.99", 1.3));
         assertFalse(isMinVersion("1.3", null));
+        assertFalse(isMinVersion("hari", 1.3));
         assertFalse(isMinVersion(null, 1.3));
     }
 
@@ -1671,6 +1767,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_user_exists(){
         assertTrue(user_exists("root"));
         assertFalse(user_exists("nonexistent"));
+        assertFalse(user_exists("b@d"));
+        assertFalse(user_exists(" "));
         assertFalse(user_exists(null));
     }
 

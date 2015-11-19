@@ -748,9 +748,9 @@ public final class Utils {
         }
         if(host.length() > 255){
             return false;
-        } else if(host.matches("^" + host_regex + "$")){
-            return true;
         } else if(isIP(host)){
+            return true;
+        } else if(host.matches("^" + host_regex + "$")){
             return true;
         } else {
             return false;
@@ -855,7 +855,7 @@ public final class Utils {
 
 
     public static final Boolean isIP (String ip) {
-        if(ip == null || ! ip.matches("^" + ip_regex + "$")){
+        if(ip == null){
             return false;
         }
         String[] octets = ip.split("\\.");
@@ -873,15 +873,15 @@ public final class Utils {
                 return false;
             }
         }
-        return true;
+        if(ip.matches("^" + ip_regex + "$")){
+            return true;
+        }
+        return false;
     }
 
 
     public static final Boolean isPort (String port) {
         if(port == null){
-            return false;
-        }
-        if(! port.matches("^\\d+$")){
             return false;
         }
         int port_int;
@@ -890,7 +890,10 @@ public final class Utils {
         } catch (NumberFormatException e) {
             return false;
         }
-        return isPort(port_int);
+        if(port.matches("^\\d+$")){
+            return isPort(port_int);
+        }
+        return false;
     }
 
     public static final Boolean isPort (int port_int) {
@@ -1026,7 +1029,7 @@ public final class Utils {
  
     // TODO: change these to raise UnsupportedOperatingSystemException + then unit test
     public static final void linux_only() {
-        if (!isLinux() ){
+        if (!isLinux()){
             quit("UNKNOWN", String.format(supported_os_msg, "Linux"));
         }
     }
@@ -1093,8 +1096,11 @@ public final class Utils {
 
 
     public static final String resolve_ip (String host) {
-        if(host == null || host.trim().isEmpty()){
-            throw new IllegalArgumentException("no host passed to resolve_ip");
+        if(host == null){
+            throw new IllegalArgumentException("no host passed to resolve_ip (null)");
+        }
+        if(host.trim().isEmpty()){
+            throw new IllegalArgumentException("no host passed to resolve_ip (blank)");
         }
         try {
             InetAddress address = InetAddress.getByName(host);
@@ -1107,7 +1113,10 @@ public final class Utils {
     // only works on unix systems
     public static final Boolean user_exists (String user){
         linux_mac_only();
-        if(user == null || user.trim().isEmpty()){
+        if(user == null) {
+            return false;
+        }
+        if(user.trim().isEmpty()){
             return false;
         }
         if(! isUser(user)){
@@ -1122,11 +1131,11 @@ public final class Utils {
                 id.append((char)c);
             }
             in.close();
-        } catch (Exception e){
+        } catch (IOException e){
             return false;
         }
         String id2 = id.toString();
-        println("id2" + id2);
+//        println("id2" + id2);
         if(id2 != null && ! id2.isEmpty()){
             return true;
         }
@@ -1305,8 +1314,11 @@ public final class Utils {
 
     public static final String validate_alnum (String arg, String name){
         name = require_name(name);
-        if(arg == null || arg.trim().isEmpty()){
-            usage(name + "not defined");
+        if(arg == null){
+            usage(name + "not defined (null)");
+        }
+        if(arg.trim().isEmpty()){
+            usage(name + "not defined (blank)");
         }
         arg = arg.trim();
         if(! arg.matches("^[A-Za-z0-9]+$")){
@@ -1319,8 +1331,11 @@ public final class Utils {
 
     public static final String validate_chars (String arg, String name, String chars) {
         name = require_name(name);
-        if(chars == null || chars.trim().isEmpty()){
-            throw new IllegalArgumentException("chars field not defined when calling validate_chars()");
+        if(chars == null) {
+            throw new IllegalArgumentException("chars field not defined (null) when calling validate_chars()");
+        }
+        if(chars.trim().isEmpty()){
+            throw new IllegalArgumentException("chars field not defined (blank) when calling validate_chars()");
         }
         chars = chars.trim();
         if(arg == null || arg.isEmpty()){
@@ -1335,8 +1350,11 @@ public final class Utils {
 
 
     public static final String validate_aws_access_key (String key) {
-        if(key == null || key.trim().isEmpty()){
-            usage("aws access key not defined");
+        if(key == null){
+            usage("aws access key not defined (null)");
+        }
+        if(key.trim().isEmpty()){
+            usage("aws access key not defined (blank)");
         }
         key = key.trim();
         if(! isAwsAccessKey(key)){
@@ -1348,8 +1366,11 @@ public final class Utils {
 
 
     public static final String validate_aws_bucket (String bucket) {
-        if(bucket == null || bucket.trim().isEmpty()){
-            usage("aws bucket not defined");
+        if(bucket == null){
+            usage("aws bucket not defined (null)");
+        }
+        if(bucket.trim().isEmpty()){
+            usage("aws bucket not defined (blank)");
         }
         bucket = bucket.trim();
         if(! isDnsShortName(bucket)){
@@ -1363,8 +1384,11 @@ public final class Utils {
     }
 
     public static final String validate_aws_hostname (String arg) {
-        if(arg == null || arg.trim().isEmpty()){
-            usage("aws hostname not defined");
+        if(arg == null){
+            usage("aws hostname not defined (null)");
+        }
+        if(arg.trim().isEmpty()){
+            usage("aws hostname not defined (blank)");
         }
         arg = arg.trim();
         if(! isAwsHostname(arg)){

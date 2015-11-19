@@ -139,7 +139,14 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_load_tlds_skip() throws IOException, IllegalStateException {
         String filename = "faketld.txt";
-        File f = new File("src/main/resources/" + filename);
+//        URL url = HariSekhon.Utils.class.getResource("/tlds-alpha-by-domain.txt");
+        URL url = HariSekhon.Utils.class.getResource("/");
+        if(url == null){
+            throw new IOException("can't get resource directory path!");
+        }
+//        String resourcePath = new File(url.getFile()).getParent();
+//        File f = new File(String.format("%s/%s". resourcePath, filename));
+        File f = new File(String.format("%s/%s", url.getFile(), filename));
         FileWriter fw = new FileWriter(f);
         BufferedWriter bw = new BufferedWriter(fw);
         bw.write("=");

@@ -1402,8 +1402,11 @@ public final class Utils {
     }
 
     public static final String validate_aws_fqdn (String arg) {
-        if(arg == null || arg.trim().isEmpty()){
-            usage("aws fqdn not defined");
+        if(arg == null) {
+            usage("aws fqdn not defined (null)");
+        }
+        if(arg.trim().isEmpty()){
+            usage("aws fqdn not defined (blank)");
         }
         arg = arg.trim();
         if(! isAwsFqdn(arg)){
@@ -1417,8 +1420,11 @@ public final class Utils {
     }
 
     public static final String validate_aws_secret_key (String key) {
-       if(key == null || key.trim().isEmpty()){
-            usage("aws secret key not defined");
+        if(key == null) {
+            usage("aws secret key not defined (null)");
+        }
+        if(key.trim().isEmpty()){
+            usage("aws secret key not defined (blank)");
         }
         key = key.trim();
         if(! isAwsSecretKey(key)){
@@ -1431,8 +1437,11 @@ public final class Utils {
 
     public static final String validate_collection (String collection, String name) {
         name = name(name);
-        if(collection == null || collection.trim().isEmpty()){
-            usage(name + "collection not defined");
+        if(collection == null) {
+            usage(name + "collection not defined (null)");
+        }
+        if(collection.trim().isEmpty()){
+            usage(name + "collection not defined (blank)");
         }
         collection = collection.trim();
         if(! isCollection(collection)){
@@ -1448,8 +1457,11 @@ public final class Utils {
 
     public static final String validate_database (String database, String name) {
         name = name(name);
-        if(database == null || database.trim().isEmpty()){
-            usage(name + "database not defined");
+        if(database == null) {
+            usage(name + "database not defined (null)");
+        }
+        if(database.trim().isEmpty()){
+            usage(name + "database not defined (blank)");
         }
         database.trim();
         if(! isDatabaseName(database)){
@@ -1463,10 +1475,68 @@ public final class Utils {
     }
 
 
+    public static final String validate_database_columnname (String column) {
+        if(column == null) {
+            usage("column not defined (null)");
+        }
+        if(column.trim().isEmpty()){
+            usage("column not defined (blank)");
+        }
+        column = column.trim();
+        if(! isDatabaseColumnName(column)){
+            usage("invalid column defined: must be alphanumeric");
+        }
+        vlog_option("column", column);
+        return column;
+    }
+
+
+    public static final String validate_database_fieldname (String field) {
+        if(field == null) {
+            usage("field not defined (null)");
+        }
+        if(field.trim().isEmpty()){
+            usage("field not defined (blank)");
+        }
+        field = field.trim();
+        if(! isDatabaseFieldName(field)){
+            usage("invalid field defined: must be alphanumeric");
+        }
+        vlog_option("field", field);
+        return field;
+    }
+
+
+    public static final String validate_database_query_select_show (String query, String name) {
+        name = name(name);
+        if(query == null) {
+            usage(name + "query not defined (null)");
+        }
+        if(query.trim().isEmpty()){
+            usage(name + "query not defined (blank)");
+        }
+        query = query.trim();
+        if(! query.matches("^\\s*((?:SHOW|SELECT)\\s+(?!.*(?:INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|TRUNCATE|;|--)).+)$")){
+            usage("invalid " + name + "query defined: may only be a SELECT or SHOW statement");
+        }
+        if(query.matches("\\b(?:insert|update|delete|create|drop|alter|truncate)\\b")){
+            usage("invalid " + name + "query defined: DML statement or suspect chars detected in query");
+        }
+        vlog_option(name + "query", query);
+        return query;
+    }
+    public static final String validate_database_query_select_show (String query) {
+        return validate_database_query_select_show(query, null);
+    }
+
+
     public static final String validate_database_tablename (String table, String name, Boolean allow_qualified){
         name = name(name);
-        if(table == null || table.trim().isEmpty()){
-            usage(name + "table not defined");
+        if(table == null) {
+            usage(name + "table not defined (null)");
+        }
+        if(table.trim().isEmpty()){
+            usage(name + "table not defined (blank)");
         }
         table = table.trim();
         if(! isDatabaseTableName(table, allow_qualified)){
@@ -1488,8 +1558,11 @@ public final class Utils {
 
     public static final String validate_database_viewname (String view, String name, Boolean allow_qualified){
         name = name(name);
-        if(view == null || view.trim().isEmpty()){
-            usage(name + "view not defined");
+        if(view == null) {
+            usage(name + "view not defined (null)");
+        }
+        if(view.trim().isEmpty()){
+            usage(name + "view not defined (blank)");
         }
         view = view.trim();
         if(! isDatabaseViewName(view, allow_qualified)){
@@ -1509,56 +1582,13 @@ public final class Utils {
     }
 
 
-    public static final String validate_database_columnname (String column) {
-        if(column == null || column.trim().isEmpty()){
-            usage("column not defined");
-        }
-        column = column.trim();
-        if(! isDatabaseColumnName(column)){
-            usage("invalid column defined: must be alphanumeric");
-        }
-        vlog_option("column", column);
-        return column;
-    }
-
-
-    public static final String validate_database_fieldname (String field) {
-        if(field == null || field.trim().isEmpty()){
-            usage("field not defined");
-        }
-        field = field.trim();
-        if(! isDatabaseFieldName(field)){
-            usage("invalid field defined: must be alphanumeric");
-        }
-        vlog_option("field", field);
-        return field;
-    }
-
-
-    public static final String validate_database_query_select_show (String query, String name) {
-        name = name(name);
-        if(query == null || query.trim().isEmpty()){
-            usage(name + "query not defined");
-        }
-        query = query.trim();
-        if(! query.matches("^\\s*((?:SHOW|SELECT)\\s+(?!.*(?:INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|TRUNCATE|;|--)).+)$")){
-            usage("invalid " + name + "query defined: may only be a SELECT or SHOW statement");
-        }
-        if(query.matches("\\b(?:insert|update|delete|create|drop|alter|truncate)\\b")){
-            usage("invalid " + name + "query defined: DML statement or suspect chars detected in query");
-        }
-        vlog_option(name + "query", query);
-        return query;
-    }
-    public static final String validate_database_query_select_show (String query) {
-        return validate_database_query_select_show(query, null);
-    }
-
-
     public static final String validate_domain (String domain, String name) {
         name = name(name);
-        if(domain == null || domain.trim().isEmpty()){
-            usage(name + "domain not defined");
+        if(domain == null) {
+            usage(name + "domain not defined (null)");
+        }
+        if(domain.trim().isEmpty()){
+            usage(name + "domain not defined (blank)");
         }
         domain = domain.trim();
         if(! isDomain(domain)){
@@ -1573,8 +1603,11 @@ public final class Utils {
 
     public static final String validate_domain_strict (String domain, String name) {
         name = name(name);
-        if(domain == null || domain.trim().isEmpty()){
-            usage(name + "domain not defined");
+        if(domain == null) {
+            usage(name + "domain not defined (null)");
+        }
+        if(domain.trim().isEmpty()){
+            usage(name + "domain not defined (blank)");
         }
         domain = domain.trim();
         if(! isDomainStrict(domain)){

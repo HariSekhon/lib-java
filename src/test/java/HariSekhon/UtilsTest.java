@@ -660,8 +660,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_fqdn_fail() {
+    public void test_validate_aws_fqdn_exception() {
         validate_aws_fqdn("ip-172-31-1-1");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_fqdn_null_exception() {
+        validate_aws_fqdn(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_fqdn_blank_exception() {
+        validate_aws_fqdn(" ");
     }
 
     // ====================================================================== //
@@ -682,8 +692,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_secret_key_fail(){
+    public void test_validate_aws_secret_key_exception(){
         validate_aws_secret_key(repeat_string("A", 41));
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_secret_key_null_exception(){
+        validate_aws_secret_key(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_secret_key_blank_exception(){
+        validate_aws_secret_key(" ");
     }
 
     // ====================================================================== //
@@ -746,8 +766,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_collection_fail(){
+    public void test_validate_collection_exception(){
         validate_collection("wrong@grades", "name");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_collection_null_exception(){
+        validate_collection(null, "name");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_collection_blank_exception(){
+        validate_collection(" ", "name");
     }
 
     // ====================================================================== //
@@ -765,8 +795,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_database_fail(){
+    public void test_validate_database_exception(){
         validate_database("my@sql", "name");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_null_exception(){
+        validate_database(null, "name");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_blank_exception(){
+        validate_database(" ", "name");
     }
 
     // ====================================================================== //
@@ -783,8 +823,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_database_columname_fail(){
+    public void test_validate_database_columname_exception(){
         validate_database_columnname("'column'");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_columname_null_exception(){
+        validate_database_columnname(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_columname_blank_exception(){
+        validate_database_columnname(" ");
     }
 
     // ====================================================================== //
@@ -805,8 +855,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_database_fieldname_fail(){
+    public void test_validate_database_fieldname_exception(){
         validate_database_fieldname("@something");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_fieldname_null_exception(){
+        validate_database_fieldname(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_fieldname_blank_exception(){
+        validate_database_fieldname(" ");
     }
 
     // ====================================================================== //
@@ -828,8 +888,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_database_tablename_fail(){
+    public void test_validate_database_tablename_exception(){
         validate_database_tablename("default.myTable");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_tablename_null_exception(){
+        validate_database_tablename(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_tablename_blank_exception(){
+        validate_database_tablename(" ");
     }
 
     // ====================================================================== //
@@ -850,8 +920,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_database_viewname_fail(){
+    public void test_validate_database_viewname_exception(){
         validate_database_viewname("default.myView");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_viewname_null_exception(){
+        validate_database_viewname(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_viewname_blank_exception(){
+        validate_database_viewname(" ");
     }
 
     // ====================================================================== //
@@ -969,13 +1049,23 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_domain_fail() {
+    public void test_validate_domain_exception() {
         validate_domain(repeat_string("a",64) + ".com");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_domain_fail2() {
+    public void test_validate_domain_exception2() {
         validate_domain("harisekhon");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_domain_null_exception() {
+        validate_domain(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_domain_blank_exception() {
+        validate_domain(" ");
     }
 
     // ====================================================================== //
@@ -996,8 +1086,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_domain_strict_fail() {
+    public void test_validate_domain_strict_exception() {
         validate_domain_strict("com");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_domain_strict_null_exception() {
+        validate_domain_strict(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_domain_strict_blank_exception() {
+        validate_domain_strict(" ");
     }
 
     // ====================================================================== //
@@ -1699,13 +1799,23 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_database_query_select_show_fail_delete() {
+    public void test_validate_database_query_select_show_delete_exception() {
         validate_database_query_select_show("DELETE * FROM myTable;");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_database_query_select_show_fail_drop() {
+    public void test_validate_database_query_select_show_drop_exception() {
         validate_database_query_select_show("DROP myTable;");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_query_select_show_null_exception() {
+        validate_database_query_select_show(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_query_select_show_blank_exception() {
+        validate_database_query_select_show(" ");
     }
 
     // ====================================================================== //

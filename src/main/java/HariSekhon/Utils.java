@@ -2277,8 +2277,11 @@ public final class Utils {
 
     public static final String validate_password (String password, String name, Boolean allow_all) {
         name = name(name);
-        if(password == null || password.trim().isEmpty()){
-            usage(name + "password not defined");
+        if(password == null){
+            usage(name + "password not defined (null)");
+        }
+        if(password.trim().isEmpty()){
+            usage(name + "password not defined (blank)");
         }
         if(allow_all){
             return password;
@@ -2302,8 +2305,11 @@ public final class Utils {
 
     public static final String validate_resolvable (String host, String name) {
         name = name(name);
-        if(host == null || host.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "host not defined");
+        if(host == null) {
+            throw new IllegalArgumentException(name + "host not defined (null)");
+        }
+        if(host.trim().isEmpty()){
+            throw new IllegalArgumentException(name + "host not defined (blank)");
         }
         host = host.trim();
         String ip = resolve_ip(host);
@@ -2319,8 +2325,11 @@ public final class Utils {
 
     public static final String validate_units (String units, String name) {
         name = name(name);
-        if(units == null || units.trim().isEmpty()){
-            usage(name + "units not defined");
+        if(units == null) {
+            usage(name + "units not defined (null)");
+        }
+        if(units.trim().isEmpty()){
+            usage(name + "units not defined (blank)");
         }
         units = units.trim();
         if(! isNagiosUnit(units)){
@@ -2336,8 +2345,11 @@ public final class Utils {
 
     public static final String validate_url (String url, String name) {
         name = name(name);
-        if(url == null || url.trim().isEmpty()){
-            usage(name + "url not defined");
+        if(url == null) {
+            usage(name + "url not defined (null)");
+        }
+        if(url.trim().isEmpty()){
+            usage(name + "url not defined (blank)");
         }
         url = url.trim();
         if(!url.contains("://")){
@@ -2356,8 +2368,11 @@ public final class Utils {
 
     public static final String validate_url_path_suffix (String url, String name) {
         name = name(name);
-        if(url == null || url.trim().isEmpty()){
-           usage(name + "url not defined");
+        if(url == null) {
+            usage(name + "url not defined (null)");
+        }
+        if(url.trim().isEmpty()){
+           usage(name + "url not defined (blank)");
         }
         url = url.trim();
         if(! isUrlPathSuffix(url)){

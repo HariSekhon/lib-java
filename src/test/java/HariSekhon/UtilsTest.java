@@ -342,6 +342,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("validate_resolvable()",  "4.2.2.2",  validate_resolvable("4.2.2.2"));
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_resolvable_null_exception() throws IllegalArgumentException {
+        validate_resolvable(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_resolvable_blank_exception() throws IllegalArgumentException {
+        validate_resolvable(" ");
+    }
+
     // ====================================================================== //
     @Test
     public void test_strip_scheme(){
@@ -1285,6 +1295,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_units("Kbps");
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_units_null_exception() {
+        validate_units(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_units_blank_exception() {
+        validate_units(" ");
+    }
+
     // ====================================================================== //
 
     @Test
@@ -1453,6 +1473,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_url("-help");
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_url_null_exception() {
+        validate_url(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_url_blank_exception() {
+        validate_url(" ");
+    }
+
     // ====================================================================== //
     @Test
     public void test_isUrlPathSuffix(){
@@ -1475,8 +1505,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_url_path_suffix_fail() {
+    public void test_validate_url_path_suffix_exception() {
         validate_url_path_suffix("hari");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_url_path_suffix_blank_exception() {
+        validate_url_path_suffix(" ");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_url_path_suffix_null_exception() {
+        validate_url_path_suffix(null);
     }
 
     // ====================================================================== //
@@ -1577,6 +1617,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_validate_password(){
         assertEquals("validate_password(wh@tev3r)", "wh@tev3r", validate_password("wh@tev3r"));
+        assertEquals("validate_password(wh@tev3r)", "wh@tev3r", validate_password("wh@tev3r", "name"));
+        assertEquals("validate_password(wh@tev3r)", "$(badcommand)", validate_password("$(badcommand)", "name", true));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -1587,6 +1629,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_password_fail2() {
         validate_password("$(badcommand)");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_password_null_exception() {
+        validate_password(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_password_blank_exception() {
+        validate_password(" ");
     }
 
     // ====================================================================== //

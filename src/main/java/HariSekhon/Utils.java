@@ -1786,7 +1786,7 @@ public final class Utils {
         return validate_host(host, null);
     }
 
-    private static final int parse_port (String port){
+    protected static final int parse_port (String port){
         int port_int = -1;
         try{
             port_int = Integer.parseInt(port);
@@ -1868,9 +1868,6 @@ public final class Utils {
             usage(name + "host:port not defined (blank)");
         }
         hostport = hostport.trim();
-        if(hostport.isEmpty()){
-            usage(name + "host:port not defined");
-        }
         String[] host_port = hostport.split(":");
         if(host_port.length > 2){
             usage("invalid " + name + "host:port supplied (too many colon separated components)");

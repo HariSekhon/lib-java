@@ -1344,6 +1344,23 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_hosts(" ", 8080);
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_hosts_invalid_port_exception() {
+        validate_hosts("10.10.10.10", 80000);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_hosts_invalid_hostport_exception() {
+        validate_hosts("10.10.10.10:80000", 8000);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_hosts_null_exception() {
+        String s = new String("");
+        s = null;
+        validate_hosts(s, 8000);
+    }
+
     @Test
     public void test_validate_hostport(){
         assertEquals("validate_hostport(10.10.10.10:8080)", "10.10.10.10:8080", validate_hostport("10.10.10.10:8080", "name", true));
@@ -1756,6 +1773,11 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_port_exception() {
         validate_port(65536);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_parse_port_exception() {
+        parse_port("test");
     }
 
     // ====================================================================== //

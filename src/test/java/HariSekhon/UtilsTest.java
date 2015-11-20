@@ -20,6 +20,7 @@ import static HariSekhon.Utils.*;
 import java.io.*;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -67,6 +68,12 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // specified in millis - this should never take even 1 second
     //@Test(timeout=1000)
     // done at global level above now
+
+    // not really designed to be instantiated since there's no state but anyway
+    @Test
+    public void test_utils_instance(){
+        HariSekhon.Utils u = new HariSekhon.Utils();
+    }
 
     @Test
     public void test_getStatusCode(){
@@ -146,11 +153,26 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 //    }
 
     @Test
-    public void test_println(){
+    public void test_println() {
         println("test");
         println(1.0);
         println(1L);
         println(true);
+    }
+
+//    @Test(expected=QuitException.class)
+//    public void test_quit_exception(){
+//        quit("CRITICAL", "blah");
+//    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_quit_invalid_status_exception(){
+        quit("INVALID_STATUS", "blah");
+    }
+
+    @Test
+    public void test_HostOptions(){
+        HostOptions();
     }
 
     @Test
@@ -294,7 +316,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
     @Test
     public void test_get_options() {
-        get_options(new String[]{});
+        get_options(new String[]{"-H", "host1.internal", "-P", "80"});
     }
 
     // ====================================================================== //
@@ -912,12 +934,19 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_database_tablename(){
         assertEquals("validate_database_tablename(myTable)", "myTable", validate_database_tablename("myTable"));
         assertEquals("validate_database_tablename(myTable, Hive)", "myTable", validate_database_tablename("myTable", "Hive"));
+        assertEquals("validate_database_tablename(myTable, Hive)", "myTable", validate_database_tablename("myTable", false));
         assertEquals("validate_database_tablename(default.myTable, Hive, true)", "default.myTable", validate_database_tablename("default.myTable", "Hive", true));
+        assertEquals("validate_database_tablename(default.myTable, true)", "default.myTable", validate_database_tablename("default.myTable", true));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_tablename_exception(){
         validate_database_tablename("default.myTable");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_database_tablename_qualified_exception(){
+        validate_database_tablename("default.myTable", false);
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -1021,6 +1050,10 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_directory_blank_exception(){
         validate_directory(" ");
     }
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_directory_nonexistent_exception(){
+        validate_directory("/etc/nonexistent");
+    }
 
     @Test
     public void test_validate_dir(){
@@ -1054,6 +1087,21 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_double_exception(){
         validate_double("a", "non-double", 2, 3);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_double_lower_exception(){
+        validate_double(2.0, "name", 3, 4);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_double_higher_exception(){
+        validate_double(4.0, "name", 2, 3);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_double_inverted_thresholds_exception(){
+        validate_double(2.0, "name", 3, 2);
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -1385,6 +1433,11 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
+    public void test_validate_hostport_port_required_exception() {
+        validate_hostport("10.10.10.10", "name", true);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
     public void test_validate_hostport_null_exception() {
         validate_hostport(null);
     }
@@ -1427,6 +1480,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_hostname_exception() {
         validate_hostname("hari~sekhon");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_hostname_null_exception() {
+        validate_hostname(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_hostname_blank_exception() {
+        validate_hostname(" ");
     }
 
     // ====================================================================== //
@@ -1556,6 +1619,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_krb5_realm_exception() {
         validate_krb5_realm("hari$HARI.COM");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_krb5_realm_null_exception() {
+        validate_krb5_realm(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_krb5_realm_blank_exception() {
+        validate_krb5_realm(" ");
     }
 
     // ====================================================================== //
@@ -1701,20 +1774,50 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_node_list("bad~host");
     }
 
-//    @Test(expected=IllegalArgumentException.class)
-//    public void test_validate_node_list_exception2() {
-//        validate_node_list(null);
-//    }
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_node_list_empty_exception() {
+        validate_node_list(new ArrayList<String>());
+    }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_nodeport_exception() {
+    public void test_validate_node_list_emptyfinal_exception() {
+        ArrayList<String> a = new ArrayList<String>();
+        a.add(" ");
+        validate_node_list(a);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_node_list_null_exception() {
+        String n = null;
+        validate_node_list(n);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_node_list_blank_exception() {
+        validate_node_list(" ");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_nodeport_list_exception() {
         validate_nodeport_list("bad@host");
     }
 
-//    @Test(expected=IllegalArgumentException.class)
-//    public void test_validate_nodeport_exception2() {
-//        validate_nodeport_list(null);
-//    }
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_nodeport_list_empty_exception() {
+        ArrayList<String> a = new ArrayList<String>();
+        validate_nodeport_list(a);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_nodeport_list_nullstring_exception() {
+        String n = null;
+        validate_nodeport_list(n);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_nodeport_list_emptystring_exception() {
+        validate_nodeport_list(" ");
+    }
 
     // ====================================================================== //
     @Test
@@ -1780,6 +1883,11 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         parse_port("test");
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_parse_port_parse_exception() {
+        validate_port("test");
+    }
+
     // ====================================================================== //
     @Test
     public void test_isProcessName(){
@@ -1819,12 +1927,34 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         if(isLinuxOrMac()){
             assertEquals("validate_program_path()", "/bin/sh", validate_program_path("/bin/sh", "sh"));
             assertEquals("validate_program_path()", "/bin/sh", validate_program_path("/bin/sh", "shell", "sh"));
+            validate_program_path("/bin/sh", "sh", ".*/sh$");
+            validate_program_path("/bin/sh", "sh", "/bin/sh$");
         }
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_program_path_exception() {
         validate_program_path("/bin/sh-nonexistent", "sh-nonexistent");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_program_path_dir_exception() {
+        validate_program_path("/bin", "/bin");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_program_path_nonexecutable_exception() {
+        validate_program_path("/etc/hosts", "/etc/hosts");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_program_path_invalidregex_exception() {
+        validate_program_path("/bin/sh", "sh", "(.*");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_program_path_nomatchregex_exception() {
+        validate_program_path("/bin/sh", "sh", ".*/bash$");
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -1854,21 +1984,32 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_validate_regex(){
         assertEquals("validate_regex(some[Rr]egex.*(capture))", "some[Rr]egex.*(capture)",  validate_regex("some[Rr]egex.*(capture)", "myRegex"));
+        assertEquals("validate_regex(some[Rr]egex.*(capture), null, true)", "some[Rr]egex.*(capture)",  validate_regex("some[Rr]egex.*(capture)", null, true));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_regex_exception() {
-        validate_regex("(.*", "myBrokenRegex");
+        validate_regex("(.*", "myString");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_regex_posixshellescapes_exception() {
+        validate_regex("$(badcommand)", "myString", true);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_regex_posixshellescapes2_exception() {
+        validate_regex("`badcommand`", "myString", true);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_regex_null_exception() {
-        validate_regex(null, "myBrokenRegex");
+        validate_regex(null, "myString");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_regex_blank_exception() {
-        validate_regex(" ", "myBrokenRegex");
+        validate_regex(" ", "myString");
     }
 
     // ====================================================================== //
@@ -2130,6 +2271,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         setVerbose(4);
         setVerbose(5);
         setVerbose(-1);
+        setVerbose(0);
+        setVerbose(2);
     }
 
 

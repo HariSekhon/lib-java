@@ -1154,21 +1154,21 @@ public final class Utils {
 //        throw new IllegalStateException(msg);
 //    }
 
-
-    public static final void quit (String status, String msg) {
+    public static final void quit (String status, String message) {
 //        log.error(status + ": " + msg);
         if(exit_codes.containsKey(status)) {
             println(status + ": " + msg);
             System.exit(exit_codes.get(status));
+//            throw new HariSekhon.QuitException(status, message);
         } else {
-            throw new IllegalArgumentException(String.format("specified an invalid exit status '%s' to quit(), message was '%s'", status, msg));
+            throw new IllegalArgumentException(String.format("specified an invalid exit status '%s' to quit(), message was '%s'", status, message));
         }
     }
-
     public static final void quit (String msg){
 //        log.error("CRITICAL: " + msg);
-        println("CRITICAL: " + msg);
-        System.exit(exit_codes.get("CRITICAL"));
+//        println("CRITICAL: " + msg);
+//        System.exit(exit_codes.get("CRITICAL"));
+        quit("CRITICAL", msg);
     }
 
 
@@ -1373,11 +1373,11 @@ public final class Utils {
             usage("aws bucket not defined (blank)");
         }
         bucket = bucket.trim();
+        if(isIP(bucket)){
+            usage("invalid aws bucket name defined: may not be formatted as an IP address");
+        }
         if(! isDnsShortName(bucket)){
             usage("invalid aws bucket name defined: must be alphanumeric between 3 and 63 characters long");
-        }
-        if(isIP(bucket)){
-            usage("invalid aws bucket name defined: may not be formmatted as an IP address");
         }
         vlog_option("aws bucket:", bucket);
         return bucket;
@@ -1391,11 +1391,11 @@ public final class Utils {
             usage("aws hostname not defined (blank)");
         }
         arg = arg.trim();
-        if(! isAwsHostname(arg)){
-            usage("invalid aws hostname name defined: must be alphanumeric between 3 and 63 characters long");
-        }
         if(isIP(arg)){
             usage("invalid aws hostname arg name defined: may not be formmatted as an IP address");
+        }
+        if(! isAwsHostname(arg)){
+            usage("invalid aws hostname name defined: must be alphanumeric between 3 and 63 characters long");
         }
         vlog_option("aws hostname:", arg);
         return arg;
@@ -1409,11 +1409,11 @@ public final class Utils {
             usage("aws fqdn not defined (blank)");
         }
         arg = arg.trim();
-        if(! isAwsFqdn(arg)){
-            usage("invalid aws fqdn name defined: must be alphanumeric between 3 and 63 characters long hostname followed by domain");
-        }
         if(isIP(arg)){
             usage("invalid aws fqdn arg name defined: may not be formmatted as an IP address");
+        }
+        if(! isAwsFqdn(arg)){
+            usage("invalid aws fqdn name defined: must be alphanumeric between 3 and 63 characters long hostname followed by domain");
         }
         vlog_option("aws fqdn:", arg);
         return arg;
@@ -1920,6 +1920,9 @@ public final class Utils {
 
     public static final double validate_double (double d, String name, double  minVal, double maxVal) {
         name = require_name(name);
+        if(minVal > maxVal){
+            throw new IllegalArgumentException("minVal cannot be > maxVal");
+        }
         if(d < minVal){
             usage("invalid " + name + " defined: cannot be lower than " + minVal);
         }
@@ -2133,8 +2136,11 @@ public final class Utils {
         return arraylist_to_array(validate_node_list(array_to_arraylist(nodes)));
     }
     public static final String validate_node_list (String nodelist) {
-        if(nodelist == null || nodelist.trim().isEmpty()){
-            usage("node(s) not defined");
+        if(nodelist == null) {
+            usage("node(s) not defined (null)");
+        }
+        if(nodelist.trim().isEmpty()){
+            usage("node(s) not defined (blank)");
         }
         String[] nodelist2 = validate_node_list(nodelist.split("[,\\s]+"));
         String final_nodes = StringUtils.join(nodelist2, ",");
@@ -2165,8 +2171,11 @@ public final class Utils {
         return arraylist_to_array(validate_nodeport_list(array_to_arraylist(nodes)));
     }
     public static final String validate_nodeport_list (String nodelist) {
-        if(nodelist == null || nodelist.trim().isEmpty()){
-            usage("node(s) not defined");
+        if(nodelist == null) {
+            usage("node(s) not defined (null)");
+        }
+        if(nodelist.trim().isEmpty()){
+            usage("node(s) not defined (blank)");
         }
         String[] nodelist2 = validate_nodeport_list(nodelist.split("[,\\s]+"));
         String final_nodes = StringUtils.join(nodelist2, ",");
@@ -2263,14 +2272,15 @@ public final class Utils {
         if(validate_regex(regex, "program path regex", true) == null){
             throw new IllegalArgumentException("invalid regex given to validate_program_path()");
         }
-        if(validate_filename(path, null, true) == null){
-            usage("invalid path given for " + name + ", failed filename regex");
-        }
+        validate_filename(path, null, true);
+//        if(validate_filename(path, null, true) == null){
+//            usage("invalid path given for " + name + ", failed filename regex");
+//        }
         if(! path.matches("(?:^|.*/)" + regex + "$")){
            usage("invalid path given for " + name + ", is not a path to the " + name + " command");
         }
         File f = new File(path);
-        if(!(f.exists() && ! f.isDirectory())){
+        if( ! ( f.exists() && f.isFile() ) ){
             usage(path + " not found");
         }
         if(!f.canExecute()){
@@ -2294,7 +2304,7 @@ public final class Utils {
             usage(name + "regex not defined (blank)");
         }
         if(posix){
-            if(regex.matches("$\\(|`")){
+            if(regex.matches(".*(?:\\$\\(|`).*")){
                 usage("invalid " + name + "posix regex supplied: contains sub shell metachars ( $( / ` ) that would be dangerous to pass to shell");
             }
             // TODO: cmd("egrep '$regex' < /dev/null") and check for any output signifying error with the regex
@@ -2380,10 +2390,11 @@ public final class Utils {
             throw new IllegalArgumentException(name + "host not defined (blank)");
         }
         host = host.trim();
+        // throws exception now, no nulls
         String ip = resolve_ip(host);
-        if(ip == null){
-            quit("CRITICAL", "failed to resolve " + name + "host '" + host + "'");
-        }
+//        if(ip == null){
+//            quit("CRITICAL", "failed to resolve " + name + "host '" + host + "'");
+//        }
         return ip;
     }
     public static final String validate_resolvable (String host) throws UnknownHostException {
@@ -2524,10 +2535,10 @@ public final class Utils {
 
     public static final String get_calling_method(){
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
-        if(stackTraceElements.length < 4){
-            return "Could not find calling method";
+        String parent = "Could not find calling method";
+        if(stackTraceElements.length > 3){
+            parent = String.valueOf(stackTraceElements[3]);
         }
-        String parent = String.valueOf(stackTraceElements[3]);
         return parent.replaceFirst("HariSekhon.Utils.", "");
     }
 

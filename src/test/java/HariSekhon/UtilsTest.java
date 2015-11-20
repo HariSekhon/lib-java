@@ -23,6 +23,7 @@ import java.net.UnknownHostException;
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 
 // JUnit 3
@@ -479,10 +480,19 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_uniq_arraylist(){
         String[] myArray = new String[]{"one","two","three","","one"};
         String[] myArray_deduped = new String[]{"one","two","three",""};
-        String[] myArray_test = arraylist_to_array(uniq_arraylist(array_to_arraylist(myArray)));
+        // look how much shorter this is as a one liner than below using my utils
+        ArrayList<String> myArrayList = uniq_arraylist(array_to_arraylist(myArray));
+//        ArrayList<String> myArrayList = new ArrayList<String>();
+//        myArrayList.add("one");
+//        myArrayList.add("two");
+//        myArrayList.add("three");
+//        myArrayList.add("");
+//        myArrayList.add("one");
+//        myArrayList = uniq_arraylist(myArrayList);
         // The ordering is highly dependent on JDK version and fails on Oracle JDK 8 in Travis so must sort the arrays for comparison
         Arrays.sort(myArray_deduped);
-        Arrays.sort(myArray_test);
+        Collections.sort(myArrayList);
+        String[] myArray_test = arraylist_to_array(myArrayList);
         assertArrayEquals(myArray_deduped, myArray_test);
     }
 

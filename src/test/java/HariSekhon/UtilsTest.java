@@ -530,17 +530,17 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_alnum_exception(){
-        validate_alnum("1.2", "alnum fail");
+        validate_alnum("1.2", "alnum exception");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_alnum_null_exception(){
-        validate_alnum(null, "alnum fail");
+        validate_alnum(null, "alnum exception");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_alnum_blank_exception(){
-        validate_alnum(" ", "alnum fail");
+        validate_alnum(" ", "alnum exception");
     }
 
     // ====================================================================== //
@@ -956,8 +956,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_dirname_fail(){
+    public void test_validate_dirname_exception(){
         validate_dirname("b@dDir");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_dirname_null_exception(){
+        validate_dirname(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_dirname_blank_exception(){
+        validate_dirname(" ");
     }
 
     @Test
@@ -973,8 +983,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_directory_fail(){
+    public void test_validate_directory_exception(){
         validate_directory("b@dDir");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_directory_null_exception(){
+        validate_directory(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_directory_blank_exception(){
+        validate_directory(" ");
     }
 
     @Test
@@ -990,7 +1010,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_dir_fail(){
+    public void test_validate_dir_exception(){
         validate_dir("b@dDir");
     }
 
@@ -1009,22 +1029,22 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_double_fail(){
+    public void test_validate_double_exception(){
         validate_double("a", "non-double", 2, 3);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_float_fail(){
+    public void test_validate_float_exception(){
         validate_float("a", "non-float", 2f, 3f);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_long_fail(){
+    public void test_validate_long_exception(){
         validate_long("a", "non-long", 2L, 3L);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_int_fail(){
+    public void test_validate_int_exception(){
         validate_int("a", "non-int", 2, 3);
     }
 
@@ -1123,8 +1143,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_email_fail() {
+    public void test_validate_email_exception() {
         validate_email("harisekhon");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_email_null_exception() {
+        validate_email(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_email_blank_exception() {
+        validate_email(" ");
     }
 
     // ====================================================================== //
@@ -1145,10 +1175,19 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("validate_filename(/nonexistentfile)", "/nonexistentfile", validate_filename("/nonexistentfile", "nonexistentfile", true));
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_filename_exception() {
+        validate_filename("@me");
+    }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_filename_fail() {
-        validate_filename("@me");
+    public void test_validate_filename_null_exception() {
+        validate_filename(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_filename_blank_exception() {
+        validate_filename(" ");
     }
 
     @Test
@@ -1158,7 +1197,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_file_fail() {
+    public void test_validate_file_exception() {
         validate_file("/nonexistent");
     }
 
@@ -1178,8 +1217,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_fqdn_fail() {
+    public void test_validate_fqdn_exception() {
         validate_fqdn("hari@harisekhon.com");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_fqdn_null_exception() {
+        validate_fqdn(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_fqdn_blank_exception() {
+        validate_fqdn(" ");
     }
 
     // ====================================================================== //
@@ -1215,10 +1264,19 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("validate_host(myHost.myDomain.com)",  "myHost.myDomain.com",  validate_host("myHost.myDomain.com"));
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_host_exception() {
+        validate_host("10.10.10.256");
+    }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_host_fail() {
-        validate_host("10.10.10.256");
+    public void test_validate_host_null_exception() {
+        validate_host(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_host_blank_exception() {
+        validate_host(" ");
     }
 
     @Test
@@ -1235,13 +1293,28 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_hosts_fail() {
+    public void test_validate_hosts_exception() {
         validate_hosts("10.10.10.254", "80800");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_hosts_fail2() {
+    public void test_validate_hosts_exception2() {
         validate_hosts("10.10.10.256", "8080");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_hosts_emptyarray_exception() {
+        validate_hosts(new String[]{}, 8080);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_hosts_emptyarraylist_exception() {
+        validate_hosts(new ArrayList<String>(), 8080);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_hosts_blank_exception() {
+        validate_hosts(" ", 8080);
     }
 
     @Test
@@ -1253,18 +1326,28 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_hostport_fail() {
+    public void test_validate_hostport_exception() {
         validate_hostport("10.10.10.256:8080");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_hostport_fail2() {
+    public void test_validate_hostport_exception2() {
         validate_hostport("10.10.10.10:80800");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_hostport_fail3() {
+    public void test_validate_hostport_exception3() {
         validate_hostport("10.10.10.10:8080:8080");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_hostport_null_exception() {
+        validate_hostport(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_hostport_blank_exception() {
+        validate_hostport(" ");
     }
 
     /*
@@ -1298,7 +1381,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_hostname_fail() {
+    public void test_validate_hostname_exception() {
         validate_hostname("hari~sekhon");
     }
 
@@ -1325,7 +1408,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_interface_fail() {
+    public void test_validate_interface_exception() {
         validate_interface("hvethfa1b2z3");
     }
 
@@ -1355,7 +1438,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_ip_fail() {
+    public void test_validate_ip_exception() {
         validate_ip("10.10.10.256");
     }
 
@@ -1385,7 +1468,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_krb5_princ_fail() {
+    public void test_validate_krb5_princ_exception() {
         validate_krb5_princ("hari$HARI.COM");
     }
 
@@ -1397,7 +1480,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_krb5_realm_fail() {
+    public void test_validate_krb5_realm_exception() {
         validate_krb5_realm("hari$HARI.COM");
     }
 
@@ -1417,7 +1500,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_label_fail() {
+    public void test_validate_label_exception() {
         validate_label("b@dlabel");
     }
 
@@ -1435,7 +1518,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_ldap_dn_fail() {
+    public void test_validate_ldap_dn_exception() {
         validate_ldap_dn("hari@LOCAL");
     }
 
@@ -1487,7 +1570,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_units_fail() {
+    public void test_validate_units_exception() {
         validate_units("Kbps");
     }
 
@@ -1520,22 +1603,22 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_node_list_fail() {
+    public void test_validate_node_list_exception() {
         validate_node_list("bad~host");
     }
 
 //    @Test(expected=IllegalArgumentException.class)
-//    public void test_validate_node_list_fail2() {
+//    public void test_validate_node_list_exception2() {
 //        validate_node_list(null);
 //    }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_nodeport_fail() {
+    public void test_validate_nodeport_exception() {
         validate_nodeport_list("bad@host");
     }
 
 //    @Test(expected=IllegalArgumentException.class)
-//    public void test_validate_nodeport_fail2() {
+//    public void test_validate_nodeport_exception2() {
 //        validate_nodeport_list(null);
 //    }
 
@@ -1554,7 +1637,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_nosql_key_fail() {
+    public void test_validate_nosql_key_exception() {
         validate_nosql_key("HariSekhon@check_riak_write.pl");
     }
 
@@ -1584,7 +1667,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_port_fail() {
+    public void test_validate_port_exception() {
         validate_port(65536);
     }
 
@@ -1607,7 +1690,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_process_fail() {
+    public void test_validate_process_exception() {
         validate_process_name("./b@dfile");
     }
 
@@ -1621,7 +1704,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_program_path_fail() {
+    public void test_validate_program_path_exception() {
         validate_program_path("/bin/sh-nonexistent", "sh-nonexistent");
     }
 
@@ -1640,7 +1723,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_regex_fail() {
+    public void test_validate_regex_exception() {
         validate_regex("(.*", "myBrokenRegex");
     }
 
@@ -1665,7 +1748,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_url_fail() {
+    public void test_validate_url_exception() {
         validate_url("-help");
     }
 
@@ -1736,12 +1819,12 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_user_fail() {
+    public void test_validate_user_exception() {
         validate_user("-hari");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_user_fail2() {
+    public void test_validate_user_exception2() {
         validate_user("1hari");
     }
 
@@ -1755,7 +1838,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_user_exists_fail() {
+    public void test_validate_user_exists_exception() {
         if(isLinuxOrMac()) {
             validate_user_exists("nonexistentuser", "nonexistentuser");
         }
@@ -1828,12 +1911,12 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_password_fail() {
+    public void test_validate_password_exception() {
         validate_password("`badcommand`");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_password_fail2() {
+    public void test_validate_password_exception2() {
         validate_password("$(badcommand)");
     }
 

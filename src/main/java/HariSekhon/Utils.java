@@ -1331,7 +1331,7 @@ public final class Utils {
 
     public static final String validate_chars (String arg, String name, String chars) {
         name = require_name(name);
-        if(chars == null) {
+        if(chars == null){
             throw new IllegalArgumentException("chars field not defined (null) when calling validate_chars()");
         }
         if(chars.trim().isEmpty()){
@@ -1402,7 +1402,7 @@ public final class Utils {
     }
 
     public static final String validate_aws_fqdn (String arg) {
-        if(arg == null) {
+        if(arg == null){
             usage("aws fqdn not defined (null)");
         }
         if(arg.trim().isEmpty()){
@@ -1420,7 +1420,7 @@ public final class Utils {
     }
 
     public static final String validate_aws_secret_key (String key) {
-        if(key == null) {
+        if(key == null){
             usage("aws secret key not defined (null)");
         }
         if(key.trim().isEmpty()){
@@ -1437,7 +1437,7 @@ public final class Utils {
 
     public static final String validate_collection (String collection, String name) {
         name = name(name);
-        if(collection == null) {
+        if(collection == null){
             usage(name + "collection not defined (null)");
         }
         if(collection.trim().isEmpty()){
@@ -1457,7 +1457,7 @@ public final class Utils {
 
     public static final String validate_database (String database, String name) {
         name = name(name);
-        if(database == null) {
+        if(database == null){
             usage(name + "database not defined (null)");
         }
         if(database.trim().isEmpty()){
@@ -1476,7 +1476,7 @@ public final class Utils {
 
 
     public static final String validate_database_columnname (String column) {
-        if(column == null) {
+        if(column == null){
             usage("column not defined (null)");
         }
         if(column.trim().isEmpty()){
@@ -1492,7 +1492,7 @@ public final class Utils {
 
 
     public static final String validate_database_fieldname (String field) {
-        if(field == null) {
+        if(field == null){
             usage("field not defined (null)");
         }
         if(field.trim().isEmpty()){
@@ -1509,7 +1509,7 @@ public final class Utils {
 
     public static final String validate_database_query_select_show (String query, String name) {
         name = name(name);
-        if(query == null) {
+        if(query == null){
             usage(name + "query not defined (null)");
         }
         if(query.trim().isEmpty()){
@@ -1532,7 +1532,7 @@ public final class Utils {
 
     public static final String validate_database_tablename (String table, String name, Boolean allow_qualified){
         name = name(name);
-        if(table == null) {
+        if(table == null){
             usage(name + "table not defined (null)");
         }
         if(table.trim().isEmpty()){
@@ -1558,7 +1558,7 @@ public final class Utils {
 
     public static final String validate_database_viewname (String view, String name, Boolean allow_qualified){
         name = name(name);
-        if(view == null) {
+        if(view == null){
             usage(name + "view not defined (null)");
         }
         if(view.trim().isEmpty()){
@@ -1584,7 +1584,7 @@ public final class Utils {
 
     public static final String validate_domain (String domain, String name) {
         name = name(name);
-        if(domain == null) {
+        if(domain == null){
             usage(name + "domain not defined (null)");
         }
         if(domain.trim().isEmpty()){
@@ -1603,7 +1603,7 @@ public final class Utils {
 
     public static final String validate_domain_strict (String domain, String name) {
         name = name(name);
-        if(domain == null) {
+        if(domain == null){
             usage(name + "domain not defined (null)");
         }
         if(domain.trim().isEmpty()){
@@ -1623,8 +1623,11 @@ public final class Utils {
 
     public static final String validate_dirname (String dir, String name, Boolean noquit, Boolean novlog) {
         name = name(name);
-        if(dir == null || dir.trim().isEmpty()){
-            usage(name + "directory not defined");
+        if(dir == null){
+            usage(name + "directory not defined (null)");
+        }
+        if(dir.trim().isEmpty()){
+            usage(name + "directory not defined (blank)");
         }
         dir = dir.trim();
         if(! isDirname(dir)){
@@ -1655,8 +1658,11 @@ public final class Utils {
             // XXX: call validate_filename with noquit
             return validate_dirname(dir, name, true);
         }
-        if(dir == null || dir.trim().isEmpty()){
-            usage(name + "directory not defined");
+        if(dir == null) {
+            usage(name + "directory not defined (null)");
+        }
+        if(dir.trim().isEmpty()){
+            usage(name + "directory not defined (blank)");
         }
         dir = dir.trim();
         if(null == validate_dirname(dir, name, noquit, novlog)){
@@ -1694,8 +1700,11 @@ public final class Utils {
 
 
     public static final String validate_email (String email) {
-        if(email == null || email.trim().isEmpty()){
-            usage("email not defined");
+        if(email == null) {
+            usage("email not defined (null)");
+        }
+        if(email.trim().isEmpty()){
+            usage("email not defined (blank)");
         }
         email = email.trim();
         if(! isEmail(email)){
@@ -1734,8 +1743,11 @@ public final class Utils {
         if(name.isEmpty()){
             name = "filename ";
         }
-        if(filename == null || filename.trim().isEmpty()){
-            usage(name + " not defined");
+        if(filename == null) {
+            usage(name + " not defined (null)");
+        }
+        if(filename.trim().isEmpty()){
+            usage(name + " not defined (blank)");
         }
         filename = filename.trim();
         if(! isFilename(filename)){
@@ -1765,8 +1777,11 @@ public final class Utils {
 
     public static final String validate_fqdn (String fqdn, String name) {
         name = name(name);
-        if(fqdn == null || fqdn.trim().isEmpty()){
-            usage(name + "FQDN not defined");
+        if(fqdn == null) {
+            usage(name + "FQDN not defined (null)");
+        }
+        if(fqdn.trim().isEmpty()){
+            usage(name + "FQDN not defined (blank)");
         }
         fqdn = fqdn.trim();
         if(! isFqdn(fqdn)){
@@ -1788,8 +1803,11 @@ public final class Utils {
 
     public static final String validate_host (String host, String name) {
         name = name(name);
-        if(host == null || host.trim().isEmpty()){
-            usage(name + "host not defined");
+        if(host == null) {
+            usage(name + "host not defined (null)");
+        }
+        if(host.trim().isEmpty()){
+            usage(name + "host not defined (blank)");
         }
         host = host.trim();
         if(! isHost(host)){
@@ -1858,8 +1876,11 @@ public final class Utils {
         return validate_hosts(hosts, parse_port(port));
     }
     public static final String validate_hosts (String hosts, int port) {
-        if(hosts == null || hosts.trim().isEmpty()){
-            usage("hosts not defined");
+        if(hosts == null) {
+            usage("hosts not defined (null)");
+        }
+        if(hosts.trim().isEmpty()){
+            usage("hosts not defined (blank)");
         }
         String[] hosts2 = validate_hosts(hosts.split("[,\\s]+"), port);
         String final_hosts = StringUtils.join(hosts2, ",");
@@ -1874,8 +1895,11 @@ public final class Utils {
 
     public static final String validate_hostport (String hostport, String name, Boolean port_required, Boolean novlog) {
         name = name(name);
-        if(hostport == null || hostport.trim().isEmpty()){
-            usage(name + "host:port not defined");
+        if(hostport == null) {
+            usage(name + "host:port not defined (null)");
+        }
+        if(hostport.trim().isEmpty()){
+            usage(name + "host:port not defined (blank)");
         }
         hostport = hostport.trim();
         if(hostport.isEmpty()){

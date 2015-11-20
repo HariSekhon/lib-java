@@ -1095,23 +1095,23 @@ public final class Utils {
     // set_timeout
 
 
-    public static final String resolve_ip (String host) {
+    public static final String resolve_ip (String host) throws UnknownHostException {
         if(host == null){
             throw new IllegalArgumentException("no host passed to resolve_ip (null)");
         }
         if(host.trim().isEmpty()){
             throw new IllegalArgumentException("no host passed to resolve_ip (blank)");
         }
-        try {
+//        try {
             InetAddress address = InetAddress.getByName(host);
             return address.getHostAddress();
-        } catch (UnknownHostException e) {
-            return null;
-        }
+//        } catch (UnknownHostException e) {
+//            return null;
+//        }
     }
 
     // only works on unix systems
-    public static final Boolean user_exists (String user){
+    public static final Boolean user_exists (String user) throws IOException {
         linux_mac_only();
         if(user == null) {
             return false;
@@ -1123,7 +1123,7 @@ public final class Utils {
             return false;
         }
         StringBuilder id = new StringBuilder();
-        try {
+//        try {
             Process child = Runtime.getRuntime().exec("id -u " + user);
             InputStream in = child.getInputStream();
             int c;
@@ -1131,9 +1131,9 @@ public final class Utils {
                 id.append((char)c);
             }
             in.close();
-        } catch (IOException e){
-            return false;
-        }
+//        } catch (IOException e){
+//            return false;
+//        }
         String id2 = id.toString();
 //        println("id2" + id2);
         if(id2 != null && ! id2.isEmpty()){
@@ -1157,8 +1157,8 @@ public final class Utils {
 
     public static final void quit (String status, String msg) {
 //        log.error(status + ": " + msg);
-        println(status + ": " + msg);
         if(exit_codes.containsKey(status)) {
+            println(status + ": " + msg);
             System.exit(exit_codes.get(status));
         } else {
             throw new IllegalArgumentException(String.format("specified an invalid exit status '%s' to quit(), message was '%s'", status, msg));
@@ -1516,10 +1516,11 @@ public final class Utils {
             usage(name + "query not defined (blank)");
         }
         query = query.trim();
-        if(! query.matches("^\\s*((?:SHOW|SELECT)\\s+(?!.*(?:INSERT|UPDATE|DELETE|CREATE|DROP|ALTER|TRUNCATE|;|--)).+)$")){
+        // XXX: fix this to be case insensitive and re-enable case insensitive unit test
+        if(! query.matches("^(?i)\\s*(?:SHOW|SELECT)\\s+.+$")){
             usage("invalid " + name + "query defined: may only be a SELECT or SHOW statement");
         }
-        if(query.matches("\\b(?:insert|update|delete|create|drop|alter|truncate)\\b")){
+        if(query.matches("(?i).*\\b(?:insert|update|delete|create|drop|alter|truncate)\\b.*")){
             usage("invalid " + name + "query defined: DML statement or suspect chars detected in query");
         }
         vlog_option(name + "query", query);
@@ -1621,7 +1622,7 @@ public final class Utils {
     }
 
 
-    public static final String validate_dirname (String dir, String name, Boolean noquit, Boolean novlog) {
+    public static final String validate_dirname (String dir, String name, Boolean novlog) {
         name = name(name);
         if(dir == null){
             usage(name + "directory not defined (null)");
@@ -1631,9 +1632,6 @@ public final class Utils {
         }
         dir = dir.trim();
         if(! isDirname(dir)){
-            if(noquit){
-                return null;
-            }
             usage("invalid " + name + "directory (does not match regex criteria): '" + dir + "'");
         }
         if(! novlog){
@@ -1641,23 +1639,16 @@ public final class Utils {
         }
         return dir;
     }
-    public static final String validate_dirname (String dir, String name, Boolean quit) {
-        return validate_dirname(dir, name, quit, false);
-    }
     public static final String validate_dirname (String dir, String name) {
-        return validate_dirname(dir, name, false, false);
+        return validate_dirname(dir, name, false);
     }
     public static final String validate_dirname (String dir) {
-        return validate_dirname(dir, null, false, false);
+        return validate_dirname(dir, null, false);
     }
 
 
-    public static final String validate_directory (String dir, String name, Boolean noquit, Boolean novlog){
+    public static final String validate_directory (String dir, String name, Boolean novlog){
         name = name(name);
-        if(noquit){
-            // XXX: call validate_filename with noquit
-            return validate_dirname(dir, name, true);
-        }
         if(dir == null){
             usage(name + "directory not defined (null)");
         }
@@ -1665,37 +1656,27 @@ public final class Utils {
             usage(name + "directory not defined (blank)");
         }
         dir = dir.trim();
-        if(null == validate_dirname(dir, name, noquit, novlog)){
-            usage("invalid " + name + "directory (does not match regex criteria): '" + dir + "'");
+        dir = validate_dirname(dir, name, novlog);
+        File d = new File(dir);
+        if(! d.isDirectory()){
+            throw new IllegalArgumentException(String.format("directory '%s' does not exist", dir));
         }
         return dir;
     }
-    public static final String validate_directory (String dir, String name, Boolean noquit) {
-        return validate_directory(dir, name, noquit, false);
-    }
     public static final String validate_directory (String dir, String name) {
-        return validate_directory(dir, name, false, false);
-    }
-    public static final String validate_directory (String dir, Boolean noquit) {
-        return validate_directory(dir, null, noquit, false);
+        return validate_directory(dir, name, false);
     }
     public static final String validate_directory (String dir) {
-        return validate_directory(dir, null, false, false);
+        return validate_directory(dir, null, false);
     }
-    public static final String validate_dir (String dir, String name, Boolean noquit, Boolean novlog) {
-        return validate_directory(dir, name, noquit, novlog);
-    }
-    public static final String validate_dir (String dir, String name, Boolean noquit) {
-        return validate_directory(dir, name, noquit, false);
+    public static final String validate_dir (String dir, String name, Boolean novlog) {
+        return validate_directory(dir, name, novlog);
     }
     public static final String validate_dir (String dir, String name) {
-        return validate_directory(dir, name, false, false);
-    }
-    public static final String validate_dir (String dir, Boolean noquit) {
-        return validate_directory(dir, null, noquit, false);
+        return validate_directory(dir, name, false);
     }
     public static final String validate_dir (String dir) {
-        return validate_directory(dir, null, false, false);
+        return validate_directory(dir, null, false);
     }
 
 
@@ -1715,30 +1696,24 @@ public final class Utils {
     }
 
 
-    public static final String validate_file (String filename, String name, Boolean noquit, Boolean novlog){
+    public static final String validate_file (String filename, String name, Boolean novlog){
         name = name(name);
-        validate_filename(filename, name, noquit, novlog);
+        validate_filename(filename, name, novlog);
         File f = new File(filename);
         if(!(f.exists() && ! f.isDirectory())){
             usage(name + "file not found: " + filename);
         }
         return filename;
     }
-    public static final String validate_file (String filename, String name, Boolean noquit) {
-        return validate_file(filename, name, noquit, false);
-    }
     public static final String validate_file (String filename, String name) {
-        return validate_file(filename, name, false, false);
-    }
-    public static final String validate_file (String filename, Boolean noquit) {
-        return validate_file(filename, null, noquit, false);
+        return validate_file(filename, name, false);
     }
     public static final String validate_file (String filename) {
-        return validate_file(filename, null, false, false);
+        return validate_file(filename, null, false);
     }
 
 
-    public static final String validate_filename (String filename, String name, Boolean noquit, Boolean novlog) {
+    public static final String validate_filename (String filename, String name, Boolean novlog) {
         name = name(name);
         if(name.isEmpty()){
             name = "filename ";
@@ -1751,9 +1726,6 @@ public final class Utils {
         }
         filename = filename.trim();
         if(! isFilename(filename)){
-            if(noquit){
-                return null;
-            }
             usage("invalid " + name + "(does not match regex criteria): '" + filename + "'");
         }
         if(! novlog){
@@ -1761,17 +1733,11 @@ public final class Utils {
         }
         return filename;
     }
-    public static final String validate_filename (String filename, String name, Boolean noquit) {
-        return validate_filename(filename, name, noquit, false);
-    }
     public static final String validate_filename (String filename, String name) {
-        return validate_filename(filename, name, false, false);
-    }
-    public static final String validate_filename (String filename, Boolean noquit) {
-        return validate_filename(filename, null, noquit, false);
+        return validate_filename(filename, name, false);
     }
     public static final String validate_filename (String filename) {
-        return validate_filename(filename, null, false, false);
+        return validate_filename(filename, null, false);
     }
 
 
@@ -2300,7 +2266,7 @@ public final class Utils {
         if(validate_regex(regex, "program path regex", true) == null){
             throw new IllegalArgumentException("invalid regex given to validate_program_path()");
         }
-        if(validate_filename(path, null, false, true) == null){
+        if(validate_filename(path, null, true) == null){
             usage("invalid path given for " + name + ", failed filename regex");
         }
         if(! path.matches("(?:^|.*/)" + regex + "$")){
@@ -2370,7 +2336,7 @@ public final class Utils {
     }
 
 
-    public static final String validate_user_exists (String user, String name) {
+    public static final String validate_user_exists (String user, String name) throws IOException {
         user = validate_user(user, name);
         name = name(name);
         if(! user_exists(user)){
@@ -2408,7 +2374,7 @@ public final class Utils {
     }
 
 
-    public static final String validate_resolvable (String host, String name) {
+    public static final String validate_resolvable (String host, String name) throws UnknownHostException {
         name = name(name);
         if(host == null) {
             throw new IllegalArgumentException(name + "host not defined (null)");
@@ -2423,7 +2389,7 @@ public final class Utils {
         }
         return ip;
     }
-    public static final String validate_resolvable (String host) {
+    public static final String validate_resolvable (String host) throws UnknownHostException {
         return validate_resolvable(host, null);
     }
 

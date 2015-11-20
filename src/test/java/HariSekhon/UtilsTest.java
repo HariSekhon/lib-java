@@ -19,6 +19,7 @@ import static HariSekhon.Utils.*;
 
 import java.io.*;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -355,36 +356,48 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     // ====================================================================== //
     @Test
-    public void test_resolve_ip(){
+    public void test_resolve_ip() throws UnknownHostException {
         // if not on a decent OS assume I'm somewhere lame like a bank where internal resolvers don't resolve internet addresses
         // this way my continous integration tests still run this one
-        if(isLinuxOrMac()){
+//        if(isLinuxOrMac()){
             assertEquals("resolve_ip(a.resolvers.level3.net)",  "4.2.2.1",  resolve_ip("a.resolvers.level3.net"));
             assertEquals("validate_resolvable()", "4.2.2.1",  validate_resolvable("a.resolvers.level3.net"));
-        }
+//        }
         assertEquals("resolve_ip(4.2.2.1)",    "4.2.2.1",  resolve_ip("4.2.2.1"));
         assertEquals("validate_resolvable()",  "4.2.2.2",  validate_resolvable("4.2.2.2"));
     }
 
+    // Some DNS servers return default answers for anything that doesn't resolve in order to redirect you to a landing page
+//    @Test(expected=UnknownHostException.class)
+//    public void test_resolve_ip_nonexistenthost_exception() throws UnknownHostException {
+//        resolve_ip("nonexistenthost.local");
+//    }
+
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_resolve_ip_null_exception() throws IllegalArgumentException {
+    public void test_validate_resolve_ip_null_exception() throws IllegalArgumentException, UnknownHostException {
         resolve_ip(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_resolve_ip_blank_exception() throws IllegalArgumentException {
+    public void test_validate_resolve_ip_blank_exception() throws IllegalArgumentException, UnknownHostException {
         resolve_ip(" ");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_resolvable_null_exception() throws IllegalArgumentException {
+    public void test_validate_resolvable_null_exception() throws IllegalArgumentException, UnknownHostException {
         validate_resolvable(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_resolvable_blank_exception() throws IllegalArgumentException {
+    public void test_validate_resolvable_blank_exception() throws IllegalArgumentException, UnknownHostException {
         validate_resolvable(" ");
     }
+
+    // Some DNS servers return default answers for anything that doesn't resolve in order to redirect you to a landing page
+//    @Test(expected=UnknownHostException.class)
+//    public void test_validate_resolvable_blank_exception() throws IllegalArgumentException, UnknownHostException {
+//        validate_resolvable("nonexistenthost.local");
+//    }
 
     // ====================================================================== //
     @Test
@@ -603,6 +616,11 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_aws_bucket(" ");
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_bucket_ip_exception(){
+        validate_aws_bucket("4.2.2.1");
+    }
+
     // ====================================================================== //
 
     @Test
@@ -645,6 +663,11 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_aws_hostname(" ");
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_hostname_ip_exception() {
+        validate_aws_hostname("4.2.2.1");
+    }
+
     // ====================================================================== //
 
     @Test
@@ -672,6 +695,11 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_fqdn_blank_exception() {
         validate_aws_fqdn(" ");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_aws_fqdn_ip_exception() {
+        validate_aws_fqdn("4.2.2.1");
     }
 
     // ====================================================================== //
@@ -917,6 +945,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("validate_database_viewname(myView)", "myView", validate_database_viewname("myView"));
         assertEquals("validate_database_viewname(myView, Hive)", "myView", validate_database_viewname("myView", "Hive"));
         assertEquals("validate_database_viewname(default.myView, Hive, true)", "default.myView", validate_database_viewname("default.myView", "Hive", true));
+        assertEquals("validate_database_viewname(default.myView, Hive, true)", "default.myView", validate_database_viewname("default.myView", true));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -949,10 +978,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_dirname(){
         assertEquals("validate_dirname(./src)",     "./src",    validate_dirname("./src", "dirname"));
         assertEquals("validate_dirname(./src, true)",   "./src",    validate_dirname("./src", "dirname", true));
-        assertEquals("validate_dirname(./src, true, true)",     "./src",    validate_dirname("./src", "dirname", true, true));
         assertEquals("validate_dirname(/etc)",  "/etc",     validate_dirname("/etc", "dirname"));
         assertEquals("validate_dirname(/etc/)",     "/etc/",    validate_dirname("/etc/", "dirname"));
-        assertEquals("validate_dirname(b@dDir)",    null,       validate_dirname("b@dDir", "invalid dir", true));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -975,11 +1002,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         if(isLinuxOrMac()){
             assertEquals("validate_directory(./src)",   "./src",    validate_directory("./src", "directory"));
             assertEquals("validate_directory(./src, true)",     "./src",    validate_directory("./src", "directory", true));
-            assertEquals("validate_directory(./src, true, true)",   "./src",    validate_directory("./src", "directory", true, true));
             assertEquals("validate_directory(/etc)",    "/etc",     validate_directory("/etc", "directory"));
             assertEquals("validate_directory(/etc/)",   "/etc/",    validate_directory("/etc/", "directory"));
         }
-        assertEquals("validate_directory(b@dDir)",  null,       validate_directory("b@dDir", "invalid dir", true));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -1002,11 +1027,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         if(isLinuxOrMac()){
             assertEquals("validate_dir(./src)",     "./src",    validate_dir("./src", "directory"));
             assertEquals("validate_dir(./src, true)",   "./src",    validate_dir("./src", "directory", true));
-            assertEquals("validate_dir(./src, true, true)",     "./src",    validate_dir("./src", "directory", true, true));
             assertEquals("validate_dir(/etc)",      "/etc",     validate_dir("/etc", "dir"));
             assertEquals("validate_dir(/etc/)",     "/etc/",    validate_dir("/etc/", "dir"));
         }
-        assertEquals("validate_dir(b@dDir)",    null,       validate_dir("b@dDir", "invalid dir", true));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -1171,7 +1194,6 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("validate_filename(./pom.xml)", "./pom.xml", validate_filename("./pom.xml"));
         assertEquals("validate_filename(/etc/passwd)", "/etc/passwd", validate_filename("/etc/passwd"));
         assertEquals("validate_filename(/etc/passwd, name)", "/etc/passwd", validate_filename("/etc/passwd", "name"));
-        assertEquals("validate_filename(/etc/passwd/)", null, validate_filename("/etc/passwd/", "/etc/passwd/", true));
         assertEquals("validate_filename(/nonexistentfile)", "/nonexistentfile", validate_filename("/nonexistentfile", "nonexistentfile", true));
     }
 
@@ -1199,6 +1221,11 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_file_exception() {
         validate_file("/nonexistent");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_file_trailingslash_exception() {
+        validate_filename("/etc/passwd/", "/etc/passwd/");
     }
 
     // ====================================================================== //
@@ -1799,6 +1826,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isRegex(".*"));
         assertTrue(isRegex("(.*)"));
         assertFalse(isRegex("(.*"));
+        assertFalse(isRegex(null));
     }
 
     @Test
@@ -1935,14 +1963,14 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
 
     @Test
-    public void test_validate_user_exists(){
+    public void test_validate_user_exists() throws IOException {
         if(isLinuxOrMac()){
             assertEquals("validate_user_exists(root)", "root", validate_user_exists("root", "root"));
         }
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_user_exists_exception() {
+    public void test_validate_user_exists_exception() throws IOException {
         if(isLinuxOrMac()) {
             validate_user_exists("nonexistentuser", "nonexistentuser");
         }
@@ -1980,8 +2008,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_database_query_select_show(){
-        assertEquals("validate_database_query_select_show(SELECT count(*) from database.table)", "SELECT count(*) from database.table", validate_database_query_select_show("SELECT count(*) from database.table"));
-        assertEquals("validate_database_query_select_show(SELECT count(*) from database.created_date)", "SELECT count(*) from database.created_date", validate_database_query_select_show("SELECT count(*) from database.created_date"));
+        assertEquals("validate_database_query_select_show(SELECT count(*) from database.table)", "SELECT count(*) from database.table;", validate_database_query_select_show("SELECT count(*) from database.table;"));
+        assertEquals("validate_database_query_select_show(select count(*) from database.created_date)", "select count(*) from database.created_date", validate_database_query_select_show("select count(*) from database.created_date"));
         assertEquals("validate_database_query_select_show(SELECT count(*) from product_updates)", "SELECT count(*) from product_updates", validate_database_query_select_show("SELECT count(*) from product_updates"));
     }
 
@@ -1992,7 +2020,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_query_select_show_drop_exception() {
-        validate_database_query_select_show("DROP myTable;");
+        validate_database_query_select_show("select * from (DROP myTable);");
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -2061,7 +2089,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
 
     @Test
-    public void test_user_exists(){
+    public void test_user_exists() throws IOException {
         assertTrue(user_exists("root"));
         assertFalse(user_exists("nonexistent"));
         assertFalse(user_exists("b@d"));

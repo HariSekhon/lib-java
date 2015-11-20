@@ -1412,6 +1412,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_interface("hvethfa1b2z3");
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_interface_null_exception() {
+        validate_interface(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_interface_blank_exception() {
+        validate_interface(" ");
+    }
+
     // ====================================================================== //
     @Test
     public void test_isIP(){
@@ -1442,6 +1452,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_ip("10.10.10.256");
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_ip_null_exception() {
+        validate_ip(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_ip_blank_exception() {
+        validate_ip(" ");
+    }
+
     // ====================================================================== //
     @Test
     public void test_isKrb5Princ(){
@@ -1470,6 +1490,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_krb5_princ_exception() {
         validate_krb5_princ("hari$HARI.COM");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_krb5_princ_null_exception() {
+        validate_krb5_princ(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_krb5_princ_blank_exception() {
+        validate_krb5_princ(" ");
     }
 
     // ====================================================================== //
@@ -1504,6 +1534,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_label("b@dlabel");
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_label_null_exception() {
+        validate_label(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_label_blank_exception() {
+        validate_label(" ");
+    }
+
     // ====================================================================== //
     @Test
     public void test_isLdapDn(){
@@ -1520,6 +1560,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_ldap_dn_exception() {
         validate_ldap_dn("hari@LOCAL");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_ldap_dn_null_exception() {
+        validate_ldap_dn(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_ldap_dn_blank_exception() {
+        validate_ldap_dn(" ");
     }
 
     // ====================================================================== //
@@ -1641,6 +1691,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_nosql_key("HariSekhon@check_riak_write.pl");
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_nosql_key_null_exception() {
+        validate_nosql_key(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_nosql_key_blank_exception() {
+        validate_nosql_key(" ");
+    }
+
     // ====================================================================== //
     @Test
     public void test_isPort(){
@@ -1694,6 +1754,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_process_name("./b@dfile");
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_process_null_exception() {
+        validate_process_name(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_process_blank_exception() {
+        validate_process_name(" ");
+    }
+
     // ====================================================================== //
     @Test
     public void test_validate_program_path(){
@@ -1708,13 +1778,27 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_program_path("/bin/sh-nonexistent", "sh-nonexistent");
     }
 
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_program_path_nullname_exception() {
+        validate_program_path("/bin/sh", null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_program_path_null_exception() {
+        validate_program_path(null, "null");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_program_path_blank_exception() {
+        validate_program_path(" ", "blank");
+    }
+
     // ====================================================================== //
     @Test
     public void test_isRegex(){
         assertTrue(isRegex(".*"));
         assertTrue(isRegex("(.*)"));
         assertFalse(isRegex("(.*"));
-        assertFalse(isRegex(null));
     }
 
     @Test
@@ -1725,6 +1809,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_regex_exception() {
         validate_regex("(.*", "myBrokenRegex");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_regex_null_exception() {
+        validate_regex(null, "myBrokenRegex");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_regex_blank_exception() {
+        validate_regex(" ", "myBrokenRegex");
     }
 
     // ====================================================================== //
@@ -1826,6 +1920,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_user_exception2() {
         validate_user("1hari");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_user_null_exception() {
+        validate_user(null);
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void test_validate_user_blank_exception2() {
+        validate_user(" ");
     }
 
     // ====================================================================== //

@@ -1658,7 +1658,7 @@ public final class Utils {
             // XXX: call validate_filename with noquit
             return validate_dirname(dir, name, true);
         }
-        if(dir == null) {
+        if(dir == null){
             usage(name + "directory not defined (null)");
         }
         if(dir.trim().isEmpty()){
@@ -1700,7 +1700,7 @@ public final class Utils {
 
 
     public static final String validate_email (String email) {
-        if(email == null) {
+        if(email == null){
             usage("email not defined (null)");
         }
         if(email.trim().isEmpty()){
@@ -1743,7 +1743,7 @@ public final class Utils {
         if(name.isEmpty()){
             name = "filename ";
         }
-        if(filename == null) {
+        if(filename == null){
             usage(name + " not defined (null)");
         }
         if(filename.trim().isEmpty()){
@@ -1777,7 +1777,7 @@ public final class Utils {
 
     public static final String validate_fqdn (String fqdn, String name) {
         name = name(name);
-        if(fqdn == null) {
+        if(fqdn == null){
             usage(name + "FQDN not defined (null)");
         }
         if(fqdn.trim().isEmpty()){
@@ -1803,7 +1803,7 @@ public final class Utils {
 
     public static final String validate_host (String host, String name) {
         name = name(name);
-        if(host == null) {
+        if(host == null){
             usage(name + "host not defined (null)");
         }
         if(host.trim().isEmpty()){
@@ -1895,7 +1895,7 @@ public final class Utils {
 
     public static final String validate_hostport (String hostport, String name, Boolean port_required, Boolean novlog) {
         name = name(name);
-        if(hostport == null) {
+        if(hostport == null){
             usage(name + "host:port not defined (null)");
         }
         if(hostport.trim().isEmpty()){
@@ -1937,8 +1937,11 @@ public final class Utils {
 
     public static final String validate_hostname (String hostname, String name) {
         name = name(name);
-        if(hostname == null || hostname.trim().isEmpty()){
-            usage("hostname not defined");
+        if(hostname == null){
+            usage("hostname not defined (null)");
+        }
+        if(hostname.trim().isEmpty()){
+            usage("hostname not defined (blank)");
         }
         hostname = hostname.trim();
         if(! isHostname(hostname)){
@@ -2029,8 +2032,11 @@ public final class Utils {
 
 
     public static final String validate_interface (String networkInterface) {
-        if(networkInterface == null || networkInterface.trim().isEmpty()){
-            usage("network interace not defined");
+        if(networkInterface == null){
+            usage("network interface not defined (null)");
+        }
+        if(networkInterface.trim().isEmpty()){
+            usage("network interface not defined (blank)");
         }
         networkInterface = networkInterface.trim();
         if(! isInterface(networkInterface)){
@@ -2043,8 +2049,11 @@ public final class Utils {
 
     public static final String validate_ip (String ip, String name) {
         name = name(name);
-        if(ip == null || ip.trim().isEmpty()){
-            usage(name + "IP not defined");
+        if(ip == null){
+            usage(name + "IP not defined (null)");
+        }
+        if(ip.trim().isEmpty()){
+            usage(name + "IP not defined (blank)");
         }
         ip = ip.trim();
         if(! isIP(ip)){
@@ -2060,8 +2069,11 @@ public final class Utils {
 
     public static final String validate_krb5_princ (String princ, String name) {
         name = name(name);
-        if(princ == null || princ.trim().isEmpty()){
-            usage(name + "krb5 principal not defined");
+        if(princ == null) {
+            usage(name + "krb5 principal not defined (null)");
+        }
+        if(princ.trim().isEmpty()){
+            usage(name + "krb5 principal not defined (blank)");
         }
         princ = princ.trim();
         if(! isKrb5Princ(princ)){
@@ -2077,8 +2089,11 @@ public final class Utils {
 
     public static final String validate_krb5_realm (String realm, String name) {
         name = name(name);
-        if(realm == null || realm.trim().isEmpty()){
-            usage(name + "realm not defined");
+        if(realm == null){
+            usage(name + "realm not defined (null)");
+        }
+        if(realm.trim().isEmpty()){
+            usage(name + "realm not defined (blank)");
         }
         realm = realm.trim();
         if(! isDomain(realm)){
@@ -2093,8 +2108,11 @@ public final class Utils {
 
 
     public static final String validate_label (String label) {
-        if(label == null || label.trim().isEmpty()){
-            usage("label not defined");
+        if(label == null){
+            usage("label not defined (null)");
+        }
+        if(label.trim().isEmpty()){
+            usage("label not defined (blank)");
         }
         label = label.trim();
         if(! isLabel(label)){
@@ -2107,8 +2125,11 @@ public final class Utils {
 
     public static final String validate_ldap_dn (String dn, String name) {
         name = name(name);
-        if(dn == null || dn.trim().isEmpty()){
-            usage("ldap " + name + "dn not defined");
+        if(dn == null){
+            usage("ldap " + name + "dn not defined (null)");
+        }
+        if(dn.trim().isEmpty()){
+            usage("ldap " + name + "dn not defined (blank)");
         }
         dn = dn.trim();
         if(! isLdapDn(dn)){
@@ -2194,8 +2215,11 @@ public final class Utils {
 
     public static final String validate_nosql_key (String key, String name) {
         name = name(name);
-        if(key == null || key.trim().isEmpty()){
-            usage(name + "key not defined");
+        if(key == null){
+            usage(name + "key not defined (null)");
+        }
+        if(key.trim().isEmpty()){
+            usage(name + "key not defined (blank)");
         }
         key = key.trim();
         if(! isNoSqlKey(key)){
@@ -2236,8 +2260,11 @@ public final class Utils {
 
     public static final String validate_process_name (String process, String name) {
         name = name(name);
-        if(process == null || process.trim().isEmpty()){
-            usage(name + "process name not defined");
+        if(process == null){
+            usage(name + "process name not defined (null)");
+        }
+        if(process.trim().isEmpty()){
+            usage(name + "process name not defined (blank)");
         }
         process = process.trim();
         if(! isProcessName(process)){
@@ -2252,8 +2279,11 @@ public final class Utils {
 
     public static final String validate_program_path (String path, String name, String regex) {
         name = require_name(name).trim();
-        if(path == null || path.trim().isEmpty()){
-            usage(name + " path not defined");
+        if(path == null){
+            usage(name + " path not defined (null)");
+        }
+        if(path.trim().isEmpty()){
+            usage(name + " path not defined (blank)");
         }
         path = path.trim();
         if(! path.matches("^[./]")){
@@ -2291,21 +2321,17 @@ public final class Utils {
     }
 
 
-    public static final String validate_regex (String regex, String name, Boolean noquit, Boolean posix) {
+    public static final String validate_regex (String regex, String name, Boolean posix) {
         name = name(name);
         // intentionally not trimming
-        if(regex == null || regex.isEmpty()){
-            if(noquit){
-                return null;
-            } else {
-                usage(name + "regex not defined");
-            }
+        if(regex == null){
+            usage(name + "regex not defined (null)");
+        }
+        if(regex.trim().isEmpty()){
+            usage(name + "regex not defined (blank)");
         }
         if(posix){
             if(regex.matches("$\\(|`")){
-                if(noquit){
-                    return null;
-                }
                 usage("invalid " + name + "posix regex supplied: contains sub shell metachars ( $( / ` ) that would be dangerous to pass to shell");
             }
             // TODO: cmd("egrep '$regex' < /dev/null") and check for any output signifying error with the regex
@@ -2316,23 +2342,21 @@ public final class Utils {
                 usage("invalid " + name + "regex defined");
             }
         }
-        if(! noquit){
-            vlog_option(name + "regex", regex);
-        }
+        vlog_option(name + "regex", regex);
         return regex;
     }
-    public static final String validate_regex (String regex, String name, Boolean noquit) {
-        return validate_regex(regex, name, noquit, false);
-    }
     public static final String validate_regex (String regex, String name) {
-        return validate_regex(regex, name, false, false);
+        return validate_regex(regex, name, false);
     }
 
 
     public static final String validate_user (String user, String name) {
         name = name(name);
-        if(user == null || user.trim().isEmpty()){
-            usage(name + "user not defined");
+        if(user == null){
+            usage(name + "user not defined (null)");
+        }
+        if(user.trim().isEmpty()){
+            usage(name + "user not defined (blank)");
         }
         user = user.trim();
         if(! isUser(user)){

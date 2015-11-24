@@ -226,8 +226,9 @@ public final class Utils {
 //            load_tlds("custom_tldsa.txt");
 //            log.trace("tld_regex = " + tld_regex);
         } catch(IOException e){
-            log.error(e.getMessage());
-            quit("UNKNOWN", String.format("unable to load a resource file containing TLDs for generated domain/fqdn regex generation:", e.getStackTrace().toString()));
+            // logged by load_tlds when throwing exception
+//            log.error(e.getMessage());
+            quit("UNKNOWN", String.format("unable to load a resource file containing TLDs for generated domain/fqdn regex generation:\n%s", e.getStackTrace().toString()));
 //            throw e;
         }
 
@@ -535,7 +536,8 @@ public final class Utils {
         return set.toArray(a);
     }
 
-    public static final ArrayList<String> uniq_arraylist (ArrayList<String> list) {
+    // TODO: change this to be uniq_list instead and use List<String>
+    public static final ArrayList<String> uniq_arraylist (List<String> list) {
         HashSet<String> set = new HashSet<String>(list);
         ArrayList<String> a = new ArrayList<String>();
         a.addAll(set);

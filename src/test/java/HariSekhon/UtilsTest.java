@@ -24,6 +24,7 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 // JUnit 3
 //import junit.framework.Test;
@@ -231,13 +232,13 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // tests both array to arraylist at same time
     @Test
     public void test_array_to_arraylist(){
-        String[] a = new String[]{"node1:9200","node2","node3:8080","node4","node5"};
+        String[] a = {"node1:9200","node2","node3:8080","node4","node5"};
         assertArrayEquals("array_to_arraylist()", a, arraylist_to_array(array_to_arraylist(a)));
     }
 
     @Test
     public void test_set_to_array(){
-        String[] a = new String[]{"test"};
+        String[] a = {"test"};
         HashSet<String> b = new HashSet<String>();
         b.add("test");
         assertArrayEquals("set_to_array()", a, set_to_array(b));
@@ -466,8 +467,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_uniq_array(){
-        String[] myArray = new String[]{"one","two","three","","one"};
-        String[] myArray_deduped = new String[]{"one","two","three",""};
+        String[] myArray = {"one","two","three","","one"};
+        String[] myArray_deduped = {"one","two","three",""};
         String[] myArray_test = uniq_array(myArray);
         // The ordering is highly dependent on JDK version and fails on Oracle JDK 8 in Travis so must sort the arrays for comparison
         Arrays.sort(myArray_deduped);
@@ -477,9 +478,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_uniq_arraylist(){
-        String[] myArray = new String[]{"one","two","three","","one"};
-        String[] myArray_deduped = new String[]{"one","two","three",""};
-        String[] myArray_test = arraylist_to_array(uniq_arraylist(array_to_arraylist(myArray)));
+        List<String> myList = Arrays.asList("one", "two", "three", "", "one");
+        String[] myArray_deduped = {"one","two","three",""};
+        String[] myArray_test = arraylist_to_array(uniq_arraylist(myList));
         // The ordering is highly dependent on JDK version and fails on Oracle JDK 8 in Travis so must sort the arrays for comparison
         Arrays.sort(myArray_deduped);
         Arrays.sort(myArray_test);
@@ -493,8 +494,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_uniq_arraylist_ordered(){
-        String[] a = new String[]{"one","two","three","","one"};
-        String[] b = new String[]{"one","two","three",""};
+        String[] a = {"one","two","three","","one"};
+        String[] b = {"one","two","three",""};
         assertArrayEquals("uniq_arraylist_ordered(one,two,three,,one)", b, arraylist_to_array(uniq_arraylist_ordered(array_to_arraylist(a))));
     }
 
@@ -1356,8 +1357,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_hosts(){
-        String[] a = new String[]{"node1:9200","node2:80","node3","node4","node5"};
-        String[] b = new String[]{"node1:9200","node2:80","node3:8080","node4:8080","node5:8080"};
+        String[] a = {"node1:9200","node2:80","node3","node4","node5"};
+        String[] b = {"node1:9200","node2:80","node3:8080","node4:8080","node5:8080"};
         assertArrayEquals("validate_hosts()", b, validate_hosts(a, "8080"));
         assertArrayEquals("validate_hosts()", b, validate_hosts(a, 8080));
         assertArrayEquals("validate_hosts()", b, arraylist_to_array(validate_hosts(array_to_arraylist(a), "8080")));
@@ -1756,7 +1757,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_validate_node_list(){
         assertEquals("validate_node_list(String)", "node1,node2,node3,node4,node5", validate_node_list("node1 ,node2 node3  node4, node5"));
-        String[] a = new String[]{"node1","node2","node3","node4","node5"};
+        String[] a = {"node1","node2","node3","node4","node5"};
         assertArrayEquals("validate_node_list(ArrayList<String>)",  arraylist_to_array(new ArrayList<String>(Arrays.asList(a))), arraylist_to_array(validate_node_list(array_to_arraylist(a))));
         assertArrayEquals("validate_node_list(String[])",  a, validate_node_list(a));
     }
@@ -1764,7 +1765,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_validate_nodeport_list(){
         assertEquals("validate_nodeport_list(String)", "node1:9200,node2,node3:8080,node4,node5", validate_nodeport_list("node1:9200 ,node2 node3:8080 node4, node5"));
-        String[] a = new String[]{"node1:9200","node2","node3:8080","node4","node5"};
+        String[] a = {"node1:9200","node2","node3:8080","node4","node5"};
         assertArrayEquals("validate_nodeport_list(ArrayList<String>)", arraylist_to_array(new ArrayList<String>(Arrays.asList(a))), arraylist_to_array(validate_nodeport_list(array_to_arraylist(a))));
         assertArrayEquals("validate_nodeport_list(String[])", a, validate_nodeport_list(a));
     }
@@ -2178,7 +2179,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_query_select_show_delete_exception() {
-        validate_database_query_select_show("DELETE * FROM myTable;");
+        validate_database_query_select_show("DELETE FROM myTable;");
     }
 
     @Test(expected=IllegalArgumentException.class)

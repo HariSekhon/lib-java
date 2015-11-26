@@ -15,7 +15,8 @@
 
 // Port of my personal libraries from other languages I've been using for several years
 
-package HariSekhon;
+// my linkedin account is unique and will outlast my personal domains
+package com.linkedin.harisekhon;
 
 import org.apache.commons.cli.*;
 import org.apache.commons.lang.StringUtils;
@@ -93,8 +94,8 @@ public final class Utils {
         )
     );
 
-    public static final Logger log = Logger.getLogger(HariSekhon.Utils.class.getName());
-//    public static final Logger log = Logger.getLogger("HariSekhon.Utils");
+    public static final Logger log = Logger.getLogger(com.linkedin.harisekhon.Utils.class.getName());
+//    public static final Logger log = Logger.getLogger("com.linkedin.harisekhon.Utils");
 
     // ===================================================================== //
     //
@@ -148,7 +149,7 @@ public final class Utils {
     protected static final void load_tlds (String filename) throws IOException {
         int tld_count = 0;
         try {
-            URL url = HariSekhon.Utils.class.getResource("/" + filename);
+            URL url = com.linkedin.harisekhon.Utils.class.getResource("/" + filename);
             if (url == null) {
                 throw new IOException(String.format("file '%s' does not exist under resources!", filename));
             }
@@ -2541,7 +2542,7 @@ public final class Utils {
         if(stackTraceElements.length > 3){
             parent = String.valueOf(stackTraceElements[3]);
         }
-        return parent.replaceFirst("HariSekhon.Utils.", "");
+        return parent.replaceFirst("com.linkedin.harisekhon.Utils.", "");
     }
 
     public static final void vlog (String msg) {

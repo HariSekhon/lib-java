@@ -13,9 +13,11 @@
 //  http://www.linkedin.com/in/harisekhon
 //
 
-package HariSekhon;
+// my linkedin account is unique and will outlast my personal domains
 
-import static HariSekhon.Utils.*;
+package com.linkedin.harisekhon;
+
+import static com.linkedin.harisekhon.Utils.*;
 
 import java.io.*;
 import java.net.URL;
@@ -40,7 +42,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static java.lang.Math.pow;
 
 /**
- * Unit tests for HariSekhon.Utils
+ * Unit tests for com.linkedin.harisekhon.Utils
  */
 public class UtilsTest { // extends TestCase { // JUnit 3
     /**
@@ -73,7 +75,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // not really designed to be instantiated since there's no state but anyway
     @Test
     public void test_utils_instance(){
-        HariSekhon.Utils u = new HariSekhon.Utils();
+        com.linkedin.harisekhon.Utils u = new com.linkedin.harisekhon.Utils();
     }
 
     @Test
@@ -187,8 +189,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_load_tlds_skip() throws IOException, IllegalStateException {
         String filename = "faketld.txt";
-//        URL url = HariSekhon.Utils.class.getResource("/tlds-alpha-by-domain.txt");
-        URL url = HariSekhon.Utils.class.getResource("/");
+//        URL url = com.linkedin.harisekhon.Utils.class.getResource("/tlds-alpha-by-domain.txt");
+        URL url = com.linkedin.harisekhon.Utils.class.getResource("/");
         if(url == null){
             throw new IOException("can't get resource directory path!");
         }
@@ -325,12 +327,12 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_expand_units(){
         //println(expand_units(10, "kb")); // => 10240
         //println(10240L);
-        assertEquals("expand_units(10, KB)",    10240L,             expand_units(10L,  "KB"));
-        assertEquals("expand_units(10, mB)",    10485760,           expand_units(10,   "mB"));
-        assertEquals("expand_units(10, Gb)",    10737418240L,       expand_units(10L,  "Gb"));
-        assertEquals("expand_units(10, tb)",    10995116277760L,    expand_units(10L,  "tb"));
-        assertEquals("expand_units(10, Pb)",    11258999068426240L, expand_units(10L,  "Pb"));
-        assertEquals("expand_units(10, KB, name)",  1024L,          expand_units(1L,   "KB", "name"));
+        assertEquals("expand_units(10, KB)",    10240L,             expand_units(10L, "KB"));
+        assertEquals("expand_units(10, mB)",    10485760,           expand_units(10, "mB"));
+        assertEquals("expand_units(10, Gb)",    10737418240L,       expand_units(10L, "Gb"));
+        assertEquals("expand_units(10, tb)",    10995116277760L,    expand_units(10L, "tb"));
+        assertEquals("expand_units(10, Pb)",    11258999068426240L, expand_units(10L, "Pb"));
+        assertEquals("expand_units(10, KB, name)",  1024L,          expand_units(1L, "KB", "name"));
         assertEquals("expand_units(10, KB, name)",  10240.0,        expand_units(10.0, "KB", "name"),   0);
         assertEquals("expand_units(10, KB)",    10240.0,            expand_units(10.0, "KB"),   0);
     }
@@ -356,20 +358,20 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_human_units(){
         //println(human_units(1023     * pow(1024,1)));
         assertEquals("human_units(1023)",   "1023 bytes",   human_units(1023));
-        assertEquals("human units KB",      "1023KB",       human_units(1023     * pow(1024,1)));
-        assertEquals("human_units MB",      "1023.1MB",     human_units(1023.1   * pow(1024,2)));
-        assertEquals("human units GB",      "1023.2GB",     human_units(1023.2   * pow(1024,3)));
-        assertEquals("human units TB",      "1023.31TB",    human_units(1023.31  * pow(1024,4)));
-        assertEquals("human units PB",      "1023.01PB",    human_units(1023.012 * pow(1024,5)));
-        assertEquals("human units EB",      "1023EB",       human_units(1023     * pow(1024,6)));
+        assertEquals("human units KB",      "1023KB",       human_units(1023 * pow(1024, 1)));
+        assertEquals("human_units MB",      "1023.1MB",     human_units(1023.1 * pow(1024, 2)));
+        assertEquals("human units GB",      "1023.2GB",     human_units(1023.2 * pow(1024, 3)));
+        assertEquals("human units TB",      "1023.31TB",    human_units(1023.31 * pow(1024, 4)));
+        assertEquals("human units PB",      "1023.01PB",    human_units(1023.012 * pow(1024, 5)));
+        assertEquals("human units EB",      "1023EB",       human_units(1023 * pow(1024, 6)));
 
-        assertEquals("human_units(1023)",   "1023 bytes",   human_units(1023,       "b"));
-        assertEquals("human_units(1023)",   "1023B",        human_units(1023,       "b", true));
-        assertEquals("human units KB",      "1023KB",       human_units(1023,       "KB"));
-        assertEquals("human_units MB",      "1023.1MB",     human_units(1023.1,     "MB"));
-        assertEquals("human units GB",      "1023.2GB",     human_units(1023.2,     "GB"));
-        assertEquals("human units TB",      "1023.31TB",    human_units(1023.31,    "TB"));
-        assertEquals("human units PB",      "1023.01PB",    human_units(1023.012,   "PB"));
+        assertEquals("human_units(1023)",   "1023 bytes",   human_units(1023, "b"));
+        assertEquals("human_units(1023)",   "1023B",        human_units(1023, "b", true));
+        assertEquals("human units KB",      "1023KB",       human_units(1023, "KB"));
+        assertEquals("human_units MB",      "1023.1MB",     human_units(1023.1, "MB"));
+        assertEquals("human units GB",      "1023.2GB",     human_units(1023.2, "GB"));
+        assertEquals("human units TB",      "1023.31TB",    human_units(1023.31, "TB"));
+        assertEquals("human units PB",      "1023.01PB",    human_units(1023.012, "PB"));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -488,8 +490,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_uniq_array_ordered(){
-        assertArrayEquals("uniq_array_ordered(one,two,three,,one)", new String[]{ "one", "two", "three", ""}, uniq_array_ordered(new String[]{"one","two","three","","one"}));
+    public void test_uniq_array_ordered() {
+        assertArrayEquals("uniq_array_ordered(one,two,three,,one)", new String[]{ "one", "two", "three", ""}, uniq_array_ordered(new String[]{"one", "two", "three", "", "one"}));
     }
 
     @Test
@@ -583,16 +585,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_isAwsAccessKey(){
         assertTrue(isAwsAccessKey(repeat_string("A", 20)));
-        assertTrue(isAwsAccessKey(repeat_string("1",20)));
-        assertTrue(isAwsAccessKey(repeat_string("A1",10)));
-        assertFalse(isAwsAccessKey(repeat_string("@",20)));
-        assertFalse(isAwsAccessKey(repeat_string("A",40)));
+        assertTrue(isAwsAccessKey(repeat_string("1", 20)));
+        assertTrue(isAwsAccessKey(repeat_string("A1", 10)));
+        assertFalse(isAwsAccessKey(repeat_string("@", 20)));
+        assertFalse(isAwsAccessKey(repeat_string("A", 40)));
         assertFalse(isAwsAccessKey(null));
     }
 
     @Test
     public void test_validate_aws_access_key(){
-        assertEquals("validate_aws_access_key(A * 20)", repeat_string("A", 20), validate_aws_access_key(repeat_string("A",20)));
+        assertEquals("validate_aws_access_key(A * 20)", repeat_string("A", 20), validate_aws_access_key(repeat_string("A", 20)));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -652,7 +654,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isAwsHostname("ip-172-31-1-1.eu-west-1.compute.internal"));
         assertFalse(isAwsHostname("harisekhon"));
         assertFalse(isAwsHostname("10.10.10.1"));
-        assertFalse(isAwsHostname(repeat_string("A",40)));
+        assertFalse(isAwsHostname(repeat_string("A", 40)));
         assertFalse(isAwsHostname(null));
     }
 
@@ -729,11 +731,11 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_isAwsSecretKey(){
-        assertTrue(isAwsSecretKey(repeat_string("A",40)));
-        assertTrue(isAwsSecretKey(repeat_string("1",40)));
-        assertTrue(isAwsSecretKey(repeat_string("A1",20)));
-        assertFalse(isAwsSecretKey(repeat_string("@",40)));
-        assertFalse(isAwsSecretKey(repeat_string("A",20)));
+        assertTrue(isAwsSecretKey(repeat_string("A", 40)));
+        assertTrue(isAwsSecretKey(repeat_string("1", 40)));
+        assertTrue(isAwsSecretKey(repeat_string("A1", 20)));
+        assertFalse(isAwsSecretKey(repeat_string("@", 40)));
+        assertFalse(isAwsSecretKey(repeat_string("A", 20)));
         assertFalse(isAwsSecretKey(null));
     }
 
@@ -1079,9 +1081,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         validate_double("2.1", "two string", 2, 3);
         validate_float(2.0f, "two", 2f, 3f);
         validate_float("2.0", "two string", 2f, 3f);
-        validate_long(2L,   "two", 2L, 3L);
+        validate_long(2L, "two", 2L, 3L);
         validate_long("2", "two string", 2L, 3L);
-        validate_int(2,   "two", 2, 3);
+        validate_int(2, "two", 2, 3);
         validate_int("2", "two string", 2, 3);
     }
 
@@ -1129,8 +1131,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isDomain("com"));
         assertTrue(isDomain("compute.internal"));
         assertTrue(isDomain("eu-west-1.compute.internal"));
-        assertTrue(isDomain(repeat_string("a",63) + ".com"));
-        assertFalse(isDomain(repeat_string("a",64) + ".com"));
+        assertTrue(isDomain(repeat_string("a", 63) + ".com"));
+        assertFalse(isDomain(repeat_string("a", 64) + ".com"));
         assertFalse(isDomain("harisekhon")); // not a valid TLD
         assertFalse(isDomain(null)); // not a valid TLD
     }
@@ -1142,7 +1144,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_domain_exception() {
-        validate_domain(repeat_string("a",64) + ".com");
+        validate_domain(repeat_string("a", 64) + ".com");
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -1463,8 +1465,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isHostname("harisekhon1.com"));
         assertTrue(isHostname("1"));
         assertTrue(isHostname("1harisekhon.com"));
-        assertTrue(isHostname(repeat_string("a",63)));
-        assertFalse(isHostname(repeat_string("a",64)));
+        assertTrue(isHostname(repeat_string("a", 63)));
+        assertFalse(isHostname(repeat_string("a", 64)));
         assertFalse(isHostname("-help"));
         assertFalse(isHostname("hari~sekhon"));
         assertFalse(isHostname(null));
@@ -1475,7 +1477,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("validate_hostname(myHost)",      "myHost",      validate_hostname("myHost", "name"));
         assertEquals("validate_hostname(myHost.myDomain.com)",  "myHost.myDomain.com",  validate_hostname("myHost.myDomain.com"));
         assertEquals("validate_hostname(harisekhon1.com)",  "harisekhon1.com",  validate_hostname("harisekhon1.com"));
-        assertEquals("validate_hostname(repeat_string(a))", repeat_string("a",63),  validate_hostname(repeat_string("a",63)));
+        assertEquals("validate_hostname(repeat_string(a))", repeat_string("a", 63),  validate_hostname(repeat_string("a", 63)));
     }
 
     @Test(expected=IllegalArgumentException.class)

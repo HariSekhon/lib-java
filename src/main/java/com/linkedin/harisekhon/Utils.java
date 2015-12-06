@@ -147,7 +147,7 @@ public final class Utils {
     public static HashSet<String> tlds = new HashSet<String>();
     public static final String tld_regex;
 
-    protected static final void load_tlds (String filename) throws IOException {
+    static final void load_tlds (String filename) throws IOException {
         int tld_count = 0;
         try {
             URL url = com.linkedin.harisekhon.Utils.class.getResource("/" + filename);
@@ -1295,7 +1295,7 @@ public final class Utils {
     // these methods are intentionally not throwing exceptions as they are designed for CLI usage and exit with usage()
     // for try and recover behaviour use the corresponding is* methods which return Boolean
 
-    protected static final String name (String name) {
+    static final String name (String name) {
         if(name == null){
             return "";
         }
@@ -1306,7 +1306,7 @@ public final class Utils {
         return name;
     }
 
-    protected static final String require_name (String name) {
+    static final String require_name (String name) {
         if(name == null || name.trim().isEmpty()){
             // TODO: improve the feedback location
             //StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace()
@@ -1790,7 +1790,7 @@ public final class Utils {
         return validate_host(host, null);
     }
 
-    protected static final int parse_port (String port){
+    static final int parse_port (String port){
         int port_int = -1;
         try{
             port_int = Integer.parseInt(port);

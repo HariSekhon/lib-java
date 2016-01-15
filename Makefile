@@ -11,20 +11,31 @@
 #  http://www.linkedin.com/in/harisekhon
 #
 
+.PHONY: make
 make:
 	mvn clean package
 
+.PHONY: clean
 clean:
 	mvn clean
 
+.PHONY: update
 update:
 	git pull
 	make
 
+.PHONY: p
 p:
 	mvn package
+.PHONY: package
 package:
 	mvn package
 
+.PHONY: test
+test:
+	mvn test
+	tests/travis.sh
+
+.PHONY: tld
 tld:
 	wget -O src/main/resources/tlds-alpha-by-domain.txt http://data.iana.org/TLD/tlds-alpha-by-domain.txt

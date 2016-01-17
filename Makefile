@@ -13,6 +13,8 @@
 
 .PHONY: make
 make:
+	git submodule init
+	git submodule update --remote --recursive
 	mvn clean package
 
 .PHONY: clean
@@ -22,6 +24,7 @@ clean:
 .PHONY: update
 update:
 	git pull
+	git submodule update --init --remote --recursive
 	make
 
 .PHONY: p

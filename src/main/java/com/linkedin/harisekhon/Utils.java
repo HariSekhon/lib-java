@@ -1723,10 +1723,10 @@ public final class Utils {
             name = "filename ";
         }
         if(filename == null){
-            usage(name + " not defined (null)");
+            usage(name + "not defined (null)");
         }
         if(filename.trim().isEmpty()){
-            usage(name + " not defined (blank)");
+            usage(name + "not defined (blank)");
         }
         filename = filename.trim();
         if(! isFilename(filename)){

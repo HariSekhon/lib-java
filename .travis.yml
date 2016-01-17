@@ -13,6 +13,8 @@ jdk:
   - openjdk6
   - openjdk7
 
+sudo: false
+
 notifications:
   email: false
 

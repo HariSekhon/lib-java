@@ -13,6 +13,9 @@ jdk:
   - openjdk6
   - openjdk7
 
+notifications:
+  email: false
+
 after_success:
   # JaCoCo gives error, skip for now and just use Cobertura:
   # [WARNING] Classes in bundle 'Utils' do no match with execution data. For report

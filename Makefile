@@ -11,8 +11,8 @@
 #  http://www.linkedin.com/in/harisekhon
 #
 
-.PHONY: make
-make:
+.PHONY: build
+build:
 	git submodule init
 	git submodule update --remote --recursive
 	mvn clean package

@@ -65,9 +65,10 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
     */
 
-    // no method called should take 1 sec
+    // no method called should take 1 sec, but occasionally this causes build failures on slower systems like Travis VMs
+    // or Docker containers so setting a little higher to 3 secs
     @Rule
-    public Timeout globalTimeout = Timeout.seconds(1);
+    public Timeout globalTimeout = Timeout.seconds(3);
     // specified in millis - this should never take even 1 second
     //@Test(timeout=1000)
     // done at global level above now

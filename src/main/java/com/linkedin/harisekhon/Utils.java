@@ -2218,6 +2218,7 @@ public final class Utils {
         return port;
     }
     public static final String validate_port (String port, String name){
+        name = name(name);
         int port_int = -1;
         try {
             port_int = Integer.parseInt(port);

@@ -34,7 +34,7 @@ package:
 .PHONY: test
 test:
 	mvn test
-	tests/travis.sh
+	bash-tools/travis.sh
 
 .PHONY: tld
 tld:

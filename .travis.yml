@@ -18,6 +18,10 @@ sudo: false
 notifications:
   email: false
 
+branches:
+  only:
+    - master
+
 after_success:
   # JaCoCo gives error, skip for now and just use Cobertura:
   # [WARNING] Classes in bundle 'Utils' do no match with execution data. For report

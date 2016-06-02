@@ -14,20 +14,34 @@
 #  https://www.linkedin.com/in/harisekhon
 #
 
-make:
+.PHONY: build
+build:
+	git submodule init
+	git submodule update --remote --recursive
 	mvn clean package
 
+.PHONY: clean
 clean:
 	mvn clean
 
+.PHONY: update
 update:
 	git pull
+	git submodule update --init --remote --recursive
 	make
 
+.PHONY: p
 p:
 	mvn package
+.PHONY: package
 package:
 	mvn package
 
+.PHONY: test
+test:
+	mvn test
+	bash-tools/all.sh
+
+.PHONY: tld
 tld:
 	wget -O src/main/resources/tlds-alpha-by-domain.txt http://data.iana.org/TLD/tlds-alpha-by-domain.txt

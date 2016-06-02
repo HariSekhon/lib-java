@@ -1,4 +1,4 @@
-Hari Sekhon Java Library [![Build Status](https://travis-ci.org/harisekhon/lib-java.svg?branch=master)](https://travis-ci.org/harisekhon/lib-java) [![Coverage Status](https://coveralls.io/repos/harisekhon/lib-java/badge.svg?branch=master&service=github)](https://coveralls.io/github/harisekhon/lib-java?branch=master)
+Hari Sekhon Java Library [![Build Status](https://travis-ci.org/HariSekhon/lib-java.svg?branch=master)](https://travis-ci.org/HariSekhon/lib-java) [![Coverage Status](https://coveralls.io/repos/HariSekhon/lib-java/badge.svg?branch=master&service=github)](https://coveralls.io/github/HariSekhon/lib-java?branch=master) [![DockerHub](https://img.shields.io/badge/docker-available-blue.svg)](https://hub.docker.com/r/harisekhon/centos-github/)
 ========================
 
 My personal Java library, full of lots of validation code and utility functions.

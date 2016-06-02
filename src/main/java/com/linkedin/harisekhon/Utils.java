@@ -10,7 +10,7 @@
 //
 //  If you're using my code you're welcome to connect with me on LinkedIn and optionally send me feedback to help improve or steer this or other code I publish
 //
-//  http://www.linkedin.com/in/harisekhon
+//  https://www.linkedin.com/in/harisekhon
 //
 
 // Port of my personal libraries from other languages I've been using for several years
@@ -115,6 +115,7 @@ public final class Utils {
     public static final String ip_prefix_regex 			= "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}";
     // now allowing 0 or 255 as the final octet due to CIDR
     public static final String ip_regex 				= ip_prefix_regex + "(?:25[0-5]|2[0-4][0-9]|[01]?[1-9][0-9]|[01]?0[1-9]|[12]00|[0-9])\\b";
+    // must permit numbers as valid host identifiers that are being used in the wild in FQDNs
     public static final String hostname_component_regex = "\\b[A-Za-z0-9](?:[A-Za-z0-9_\\-]{0,61}[a-zA-Z0-9])?\\b";
     public static final String domain_component			= "\\b[a-zA-Z0-9](?:[a-zA-Z0-9\\-]{0,61}[a-zA-Z0-9])?\\b";
     public static final String domain_regex;
@@ -146,7 +147,7 @@ public final class Utils {
     public static HashSet<String> tlds = new HashSet<String>();
     public static final String tld_regex;
 
-    protected static final void load_tlds (String filename) throws IOException {
+    static final void load_tlds (String filename) throws IOException {
         int tld_count = 0;
         try {
             URL url = com.linkedin.harisekhon.Utils.class.getResource("/" + filename);
@@ -1294,7 +1295,7 @@ public final class Utils {
     // these methods are intentionally not throwing exceptions as they are designed for CLI usage and exit with usage()
     // for try and recover behaviour use the corresponding is* methods which return Boolean
 
-    protected static final String name (String name) {
+    static final String name (String name) {
         if(name == null){
             return "";
         }
@@ -1305,7 +1306,7 @@ public final class Utils {
         return name;
     }
 
-    protected static final String require_name (String name) {
+    static final String require_name (String name) {
         if(name == null || name.trim().isEmpty()){
             // TODO: improve the feedback location
             //StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace()
@@ -1722,10 +1723,10 @@ public final class Utils {
             name = "filename ";
         }
         if(filename == null){
-            usage(name + " not defined (null)");
+            usage(name + "not defined (null)");
         }
         if(filename.trim().isEmpty()){
-            usage(name + " not defined (blank)");
+            usage(name + "not defined (blank)");
         }
         filename = filename.trim();
         if(! isFilename(filename)){
@@ -1789,7 +1790,7 @@ public final class Utils {
         return validate_host(host, null);
     }
 
-    protected static final int parse_port (String port){
+    static final int parse_port (String port){
         int port_int = -1;
         try{
             port_int = Integer.parseInt(port);
@@ -2217,6 +2218,7 @@ public final class Utils {
         return port;
     }
     public static final String validate_port (String port, String name){
+        name = name(name);
         int port_int = -1;
         try {
             port_int = Integer.parseInt(port);

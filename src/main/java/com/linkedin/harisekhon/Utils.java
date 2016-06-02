@@ -15,7 +15,8 @@
 
 // Port of my personal libraries from other languages I've been using for several years
 
-package HariSekhon;
+// my linkedin account is unique and will outlast my personal domains
+package com.linkedin.harisekhon;
 
 import org.apache.commons.cli.*;
 import org.apache.commons.lang.StringUtils;
@@ -93,8 +94,8 @@ public final class Utils {
         )
     );
 
-    public static final Logger log = Logger.getLogger(HariSekhon.Utils.class.getName());
-//    public static final Logger log = Logger.getLogger("HariSekhon.Utils");
+    public static final Logger log = Logger.getLogger(com.linkedin.harisekhon.Utils.class.getName());
+//    public static final Logger log = Logger.getLogger("com.linkedin.harisekhon.Utils");
 
     // ===================================================================== //
     //
@@ -148,7 +149,7 @@ public final class Utils {
     protected static final void load_tlds (String filename) throws IOException {
         int tld_count = 0;
         try {
-            URL url = HariSekhon.Utils.class.getResource("/" + filename);
+            URL url = com.linkedin.harisekhon.Utils.class.getResource("/" + filename);
             if (url == null) {
                 throw new IOException(String.format("file '%s' does not exist under resources!", filename));
             }
@@ -226,8 +227,9 @@ public final class Utils {
 //            load_tlds("custom_tldsa.txt");
 //            log.trace("tld_regex = " + tld_regex);
         } catch(IOException e){
-            log.error(e.getMessage());
-            quit("UNKNOWN", String.format("unable to load a resource file containing TLDs for generated domain/fqdn regex generation:", e.getStackTrace().toString()));
+            // logged by load_tlds when throwing exception
+//            log.error(e.getMessage());
+            quit("UNKNOWN", String.format("unable to load a resource file containing TLDs for generated domain/fqdn regex generation:\n%s", e.getStackTrace().toString()));
 //            throw e;
         }
 
@@ -535,7 +537,8 @@ public final class Utils {
         return set.toArray(a);
     }
 
-    public static final ArrayList<String> uniq_arraylist (ArrayList<String> list) {
+    // TODO: change this to be uniq_list instead and use List<String>
+    public static final ArrayList<String> uniq_arraylist (List<String> list) {
         HashSet<String> set = new HashSet<String>(list);
         ArrayList<String> a = new ArrayList<String>();
         a.addAll(set);
@@ -2539,7 +2542,7 @@ public final class Utils {
         if(stackTraceElements.length > 3){
             parent = String.valueOf(stackTraceElements[3]);
         }
-        return parent.replaceFirst("HariSekhon.Utils.", "");
+        return parent.replaceFirst("com.linkedin.harisekhon.Utils.", "");
     }
 
     public static final void vlog (String msg) {

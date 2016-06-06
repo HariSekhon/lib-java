@@ -487,8 +487,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         String[] myArray_test = arraylist_to_array(uniq_arraylist(myList));
         // The ordering is highly dependent on JDK version and fails on Oracle JDK 8 in Travis so must sort the arrays for comparison
         Arrays.sort(myArray_deduped);
-        Collections.sort(myArrayList);
-        String[] myArray_test = arraylist_to_array(myArrayList);
+        Arrays.sort(myArray_test);
+//        Collections.sort(myList);
+//        String[] myArray_test = arraylist_to_array(myList);
         assertArrayEquals(myArray_deduped, myArray_test);
     }
 

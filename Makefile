@@ -17,7 +17,7 @@
 .PHONY: build
 build:
 	git submodule init
-	git submodule update --remote --recursive
+	git submodule update --recursive
 	mvn clean package
 
 .PHONY: clean
@@ -27,8 +27,15 @@ clean:
 .PHONY: update
 update:
 	git pull
-	git submodule update --init --remote --recursive
+	git submodule update --init --recursive
 	make
+
+.PHONY: update-submodules
+update-submodules:
+	git submodule update --init --remote
+.PHONY: updatem
+updatem:
+	make update-submodules
 
 .PHONY: p
 p:

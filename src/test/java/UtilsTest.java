@@ -349,6 +349,20 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         expand_units(10, "Kbps");
     }
 
+    @Test
+    public void test_plural(){
+        assertEquals("plural(1)", "", plural(1));
+        assertEquals("plural('1')", "", plural("1"));
+        assertEquals("plural()", "", plural(""));
+        assertEquals("plural( )", "", plural(" "));
+        assertEquals("plural(null)", "", plural(null));
+        assertEquals("plural(0)", "s", plural(0));
+        assertEquals("plural('0')", "s", plural("0"));
+        assertEquals("plural(2)", "s", plural(2));
+        assertEquals("plural(3.0)", "s", plural(3.0));
+        assertEquals("plural(4.0)", "s", plural("4.0"));
+    }
+
     // ====================================================================== //
     @Test
     public void test_hr(){

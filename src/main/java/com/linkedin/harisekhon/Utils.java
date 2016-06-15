@@ -29,6 +29,7 @@ import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1098,6 +1099,24 @@ public final class Utils {
     // set_sudo
     // set_timeout
 
+    public static final String plural (String arg) {
+        if (arg == null) {
+            return "";
+        }
+        try {
+            double a = Double.valueOf(arg);
+            if(a == 1.0){
+                return "";
+            } else {
+                return "s";
+            }
+        } catch (NumberFormatException e){
+            return "";
+        }
+    }
+    public static final String plural(double arg){
+        return plural(Double.toString(arg));
+    }
 
     public static final String resolve_ip (String host) throws UnknownHostException {
         if(host == null){
@@ -1292,7 +1311,7 @@ public final class Utils {
     //
     // ===================================================================== //
 
-    // these methods are intentionally not throwing exceptions as they are designed for CLI usage and exit with usage()
+    // these methods are intentionally not throwing exceptions as they are designed for CLI.java usage and exit with usage()
     // for try and recover behaviour use the corresponding is* methods which return Boolean
 
     static final String name (String name) {

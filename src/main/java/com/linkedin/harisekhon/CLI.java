@@ -5,7 +5,7 @@
 //
 //  https://github.com/harisekhon/lib-java
 //
-//  Port of Python version from https://github.com/harisekhon/pylib
+//  Port of Python version from https://github.com/harisekhon/pylib repo
 //
 //  License: see accompanying Hari Sekhon LICENSE file
 //
@@ -18,13 +18,15 @@
 package com.linkedin.harisekhon;
 
 import static com.linkedin.harisekhon.Utils.*;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+//import java.util.UnknownFormatConversionException;
+import org.apache.commons.cli.*;
+// 1.3+ API causes problems with Spark, use older API for commons-cli
+//import org.apache.commons.cli.DefaultParser;
+//import org.apache.commons.cli.Option;
 
-import java.util.UnknownFormatConversionException;
-
-abstract class CLI {
+class CLI {
 
     private boolean debug = false;
     private int verbose = 0;
@@ -32,30 +34,106 @@ abstract class CLI {
     private int timeout = 0;
     private int timeout_default = 10;
     private int timeout_max = 86400;
-    private static String usage_msg = "usage: <prog> <options>";
+    private String usage_msg = "usage: <prog> <options>";
+    private Options options = new Options();
+    private CommandLine cmd;
 
-    public static final Logger log = Logger.getLogger(com.linkedin.harisekhon.Utils.class.getName());
+    public final Logger log = Logger.getLogger(com.linkedin.harisekhon.Utils.class.getName());
 
-    public CLI(){
+    public CLI() {
+        // 1.3+ API doesn't work in Spark which embeds older commons-cli
+        // so have to use this older static Builder style, which is actually more horrible in Scala
+        // which doesn't allow static method chaining
+//        options.addOption(OptionBuilder.withLongOpt("timeout")
+//                .hasArg()
+//                .withArgName("secs")
+//                .withDescription("Timeout for program (Optional)")
+//                .create("t"));
+//        options.addOption(OptionBuilder.withLongOpt("debug")
+//                .withDescription("Debug mode (Optional)")
+//                .create("D"));
+//        options.addOption("v", "verbose", false, "Verbose mode");
+//        options.addOption("h", "help", false, "Print usage help and exit");
+        options.addOption("t", "timeout", true, String.format("Timeout in secs (default: %s)", timeout_default));
+        options.addOption("D", "debug", false, "Debug mode");
+        options.addOption("v", "verbose", false, "Verbose mode (-v, -vv, -vvv)");
+//        options.addOption("V", "version", false, "Print version and exit");
     }
 
-    void setup(){
+    // TODO: add logic for default host + port support
+    public final void addHostOption(String name, String default_host, String default_port) {
+        String name2 = "";
+        if (name != null) {
+            name2 = name + " ";
+        }
+//        if default_port is not None:
+//            // assert isPort(default_port)
+//            if not isPort(default_port):
+//                raise CodingError("invalid default port supplied to add_hostoption()")
+//        (host_envs, default_host) = getenvs2("HOST", default_host, name)
+//        (port_envs, default_port) = getenvs2("PORT", default_port, name)
+//        self.add_opt("-H", "--host", dest="host", help="%sHost (%s)" % (name2, host_envs), default=default_host)
+//        self.add_opt("-P", "--port", dest="port", help="%sPort (%s)" % (name2, port_envs), default=default_port)
+
+//        OptionBuilder.withLongOpt("host");
+//        OptionBuilder.withArgName("host");
+//        OptionBuilder.withDescription("Host ($HOST)");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.isRequired();
+//        options.addOption(OptionBuilder.create("H"));
+
+//        OptionBuilder.withLongOpt("port");
+//        OptionBuilder.withArgName("port");
+//        OptionBuilder.withDescription("Port ($PORT)");
+//        OptionBuilder.hasArg();
+//        OptionBuilder.isRequired();
+//        options.addOption(OptionBuilder.create("P"));
+
+        options.addOption("H", "host", true, "Host ($HOST)");
+        options.addOption("P", "port", true, "Port ($PORT)");
+    }
+    public final void addHostOption() {
+        addHostOption(null, null, null);
     }
 
-    public void main() {
+    public final void addUserOption(String name, String default_user, String default_password) {
+        String name2 = "";
+        if (name != null) {
+            name2 = name + " ";
+        }
+//        (user_envs, default_user) = getenvs2(["USERNAME", "USER"], default_user, name)
+//        (pw_envs, default_password) = getenvs2("PASSWORD", default_password, name)
+//        self.add_opt("-u", "--user", dest="user", help="%sUsername (%s)" % (name2, user_envs), default=default_user)
+//        self.add_opt("-p", "--password", dest="password", help="%sPassword (%s)" % (name2, pw_envs),
+//                     default=default_password)
+        options.addOption("u", "user", true, "Username");
+        options.addOption("p", "password", true, "Password");
+    }
+    public final void addUserOption(){
+        addUserOption(null, null, null);
+    }
+
+    public void setup(){
+    }
+
+    public static void main(String[] args) {
+        CLI c = new CLI();
+        c.main2(args);
+    }
+
+    public final void main2(String[] args){
         log.debug("running main()");
         log.setLevel(Level.DEBUG);
         setup();
         try {
-//            add_options();
+//            addOptions();
 //            add_default_opts();
         } catch (IllegalArgumentException e) {
             usage(e);
         }
         try {
-            parse_args_private();
+            parseArgs2(args);
 //            autoflush();
-//            verbose = get_opt("verbose");
             if(verbose > 2) {
                 log.setLevel(Level.DEBUG);
             } else if(verbose > 1){
@@ -76,7 +154,7 @@ abstract class CLI {
 //            System.exit(exit_codes.get("UNKNOWN"));
 //        }
         try {
-            process_args();
+            processArgs();
             run();
             end();
         } catch (IllegalArgumentException e){
@@ -88,56 +166,75 @@ abstract class CLI {
         }
     }
 
-    abstract void run();
-
-    void end(){
+    // can't make this abstract as conflicts with static
+    public void run() {
     }
 
-    void usage(String msg, String status){
-        if(msg != null && ! "".equals(msg)){
-            println(msg);
+    public void end(){
+    }
+
+    public final void usage (String msg, String status) {
+        if(msg == null){
+            msg = "";
         } else {
-            println(usage_msg);
+            msg += "\n";
         }
-        // parser.print_help()
-        quit(status);
+        if(status == null){
+            status = "UNKNOWN";
+        }
+//        if(msg != null && ! "".equals(msg)){
+//            println(msg);
+//        } else {
+//            println(usage_msg);
+//        }
+        HelpFormatter formatter = new HelpFormatter();
+//		Class<?> enclosingClass = getClass().getEnclosingClass();
+//		if (enclosingClass != null) {
+//			System.out.println(enclosingClass.getName());
+//		} else {
+//			System.out.println(getClass().getName());
+//		}
+//		msg = msg + formatter.printHelp(enclosingClass + " [options]", options);
+        formatter.printHelp(msg, options);
+        System.exit(getStatusCode("UNKNOWN"));
+//        throw new IllegalArgumentException(msg);
     }
-    void usage(String msg){
-        usage(msg, "UNKNOWN");
+    public final void usage(String msg){
+        usage(msg, null);
     }
-    void usage(Exception e){
-        usage(e.getMessage(), "UNKNOWN");
+    public final void usage(Exception e){
+        usage(e.getMessage(), null);
     }
-    void usage(){
-        usage("");
+    public final void usage(){
+        usage(null, null);
     }
 
-//    void no_args(){
+//  public static void no_args(String[] args){
 //        if(args != null){
 //            usage("invalid non-switch arguments supplied on command line");
 //        }
 //    }
 
     // leave this as optional not abstract as some cli tools may not need to add additional options
-    void add_options(){
+    public void addOptions(){
     }
 
     public int getVerbose(){
         return verbose;
     }
 
-    public void setVerbose(int verbose){
+    public void setVerbose(int v){
 //        log.debug("setting verbose to %s", verbose);
-        this.verbose = verbose;
+        verbose = v;
     }
 
-    public int getVerbose_default(){
+    public int getVerboseDefault(){
         return verbose_default;
     }
 
-    public void setVerbose_default(int verbose){
+    public void setVerboseDefault(int v){
 //        log.debug("setting default verbose to %s", verbose);
-        this.verbose_default = verbose;
+        verbose_default = v;
     }
 
     public int getTimeout(){
@@ -147,7 +244,7 @@ abstract class CLI {
     public void setTimeout(int secs){
         validate_int(secs, "timeout", 0, timeout_max);
 //        log.debug("setting timeout to %s secs", secs);
-        this.timeout = secs;
+        timeout = secs;
     }
 
     public int getTimeout_default(){
@@ -155,24 +252,24 @@ abstract class CLI {
     }
 
     // null prevents --timeout switch becoming exposed, whereas 0 will allow
-    public void setTimeout_default(int secs){
+    public void setTimeoutDefault(int secs){
 //        validate_int(secs, "timeout default", 0, timeout_max);
         if (secs > timeout_max) {
             throw new IllegalArgumentException("set default timeout > timeout max");
         }
 //        log.debug("setting default timeout to %s secs", secs);
-        this.timeout_default = secs;
+        timeout_default = secs;
     }
 
     public int getTimeout_max(){
         return timeout_max;
     }
 
-    public void setTimeout_max(int secs) {
+    public void setTimeoutMax(int secs) {
         // leave this to be able to set max to any amount
         // validate_int(secs, "timeout default", 0, timeout_max)
 //        log.debug("setting max timeout to %s secs", secs);
-        this.timeout_max = secs;
+        timeout_max = secs;
     }
 
 //    def add_opt(self, *args, **kwargs):
@@ -188,7 +285,7 @@ abstract class CLI {
 //    def is_option_defined(self, name):
 //        return name in dir(self.options)
 //
-    void timeout_handler(Exception e){
+    public void timeoutHandler(Exception e){
         // consider letting exception propagage
         quit("UNKNOWN", String.format("self timeout out after %s second%s", timeout, plural(timeout)));
     }
@@ -212,16 +309,37 @@ abstract class CLI {
 //        // self.__parser.add_option("-h", "--help", action="help")
 //        self.add_opt("-h", "--help", action="store_true", help="Show full help and exit")
 //        self.add_opt("-D", "--debug", action="store_true", help=SUPPRESS_HELP, default=bool(os.getenv("DEBUG")))
-//
-    void parse_args_private() {
-//            (self.options, self.args) = self.__parser.parse_args()
-//        // I don"t agree with zero exit code from OptionParser for help/usage,
-//        // and want UNKNOWN not CRITICAL(2) for switch mis-usage...
-//        except SystemExit:  // pragma: no cover
-//            sys.exit(ERRORS["UNKNOWN"])
-//        if self.options.help:  // pragma: no cover
-//            self.usage()
-//        if self.options.version:  // pragma: no cover
+
+    private void parseArgs2(String[] args) {
+            // 1.3+ API problem with Spark, go back to older API for commons-cli
+            //CommandLineParser parser = new DefaultParser();
+            CommandLineParser parser = new GnuParser();
+            try {
+                cmd = parser.parse(options, args);
+                if(cmd.hasOption("h")){
+                    usage();
+                }
+                if(cmd.hasOption("D")){
+                    debug = true;
+                }
+                if(cmd.hasOption("v")){
+                    verbose += 1;
+                }
+                // TODO:
+//                if(cmd.hasOption("V")){
+//                    println("%s version %s");
+//                    System.exit(getStatusCode("UNKNOWN"));
+//                }
+                if(cmd.hasOption("t")){
+                    timeout = Integer.valueOf(cmd.getOptionValue("t", String.valueOf(timeout_default)));
+                }
+            } catch (ParseException e){
+                if(debug){
+                    e.printStackTrace();
+                }
+                log.error(e + "\n");
+                usage();
+            }
 //            print("%(version)s" % self.__dict__)
 //            sys.exit(ERRORS["UNKNOWN"])
 //        if "timeout" in dir(self.options):
@@ -240,42 +358,15 @@ abstract class CLI {
 //                log.warn(String.format("$VERBOSE environment variable is not an integer ('{}')", env_verbose));
             }
         }
-        parse_args();
+        parseArgs();
     }
 
-    void parse_args() {
+    public void parseArgs() {
     }
 
-    void process_args() {
+    public void processArgs() {
     }
 }
-
-//    def add_hostoption(self, name="", default_host=None, default_port=None):
-//        name2 = ""
-//        // if isList(name):
-//        //     name2 = "%s " % name[0]
-//        // elif not isBlankOrNone(name):
-//        if not isBlankOrNone(name):
-//            name2 = "%s " % name
-//        if default_port is not None:
-//            // assert isPort(default_port)
-//            if not isPort(default_port):
-//                raise CodingError("invalid default port supplied to add_hostoption()")
-//        (host_envs, default_host) = getenvs2("HOST", default_host, name)
-//        (port_envs, default_port) = getenvs2("PORT", default_port, name)
-//        self.add_opt("-H", "--host", dest="host", help="%sHost (%s)" % (name2, host_envs), default=default_host)
-//        self.add_opt("-P", "--port", dest="port", help="%sPort (%s)" % (name2, port_envs), default=default_port)
-//
-//    def add_useroption(self, name="", default_user=None, default_password=None):
-//        name2 = ""
-//        if not isBlankOrNone(name):
-//            name2 = "%s " % name
-//        (user_envs, default_user) = getenvs2(["USERNAME", "USER"], default_user, name)
-//        (pw_envs, default_password) = getenvs2("PASSWORD", default_password, name)
-//        self.add_opt("-u", "--user", dest="user", help="%sUsername (%s)" % (name2, user_envs), default=default_user)
-//        self.add_opt("-p", "--password", dest="password", help="%sPassword (%s)" % (name2, pw_envs),
-//                     default=default_password)
-
 
 ////////////////
 

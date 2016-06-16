@@ -8,7 +8,8 @@
 //
 //  License: see accompanying Hari Sekhon LICENSE file
 //
-//  If you're using my code you're welcome to connect with me on LinkedIn and optionally send me feedback to help improve or steer this or other code I publish
+//  If you're using my code you're welcome to connect with me on LinkedIn and optionally send me feedback
+//  to help improve or steer this or other code I publish
 //
 //  https://www.linkedin.com/in/harisekhon
 //
@@ -175,10 +176,10 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         quit("INVALID_STATUS", "blah");
     }
 
-    @Test
-    public void test_HostOptions(){
-        HostOptions();
-    }
+//    @Test
+//    public void test_HostOptions(){
+//        HostOptions();
+//    }
 
     @Test
     public void test_load_tlds_nodups() throws IOException {
@@ -319,10 +320,10 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     // ====================================================================== //
-    @Test
-    public void test_get_options() {
-        get_options(new String[]{"-H", "host1.internal", "-P", "80"});
-    }
+//    @Test
+//    public void test_get_options() {
+//        get_options(new String[]{"-H", "host1.internal", "-P", "80"});
+//    }
 
     // ====================================================================== //
     @Test
@@ -465,20 +466,20 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("strip_scheme_host(hdfs://nameservice1/path/to/hdfsfile)",     "/path/to/hdfsfile", strip_scheme_host("hdfs://nameservice1/path/to/hdfsfile"));
     }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void test_usage(){
-        usage("test");
-    }
+//    @Test(expected=IllegalArgumentException.class)
+//    public void test_usage(){
+//        usage("test");
+//    }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void test_usage_blank(){
-        usage("");
-    }
+//    @Test(expected=IllegalArgumentException.class)
+//    public void test_usage_blank(){
+//        usage("");
+//    }
 
-    @Test(expected=IllegalArgumentException.class)
-    public void test_usage_empty(){
-        usage();
-    }
+//    @Test(expected=IllegalArgumentException.class)
+//    public void test_usage_empty(){
+//        usage();
+//    }
 
     // ====================================================================== //
 

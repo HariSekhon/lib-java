@@ -21,9 +21,9 @@
                              http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>HariSekhon</groupId>
-  <artifactId>Utils</artifactId>
-  <version>1.15.0</version>
+  <groupId>com.linkedin.harisekhon</groupId>
+  <artifactId>harisekhon-utils</artifactId>
+  <version>1.16.0</version>
   <packaging>jar</packaging>
 
   <name>Utils</name>

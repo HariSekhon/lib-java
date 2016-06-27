@@ -25,7 +25,7 @@ class UnsupportedOSException extends RuntimeException {
     }
 
     public UnsupportedOSException(String supportedOSs) {
-        super(message.format(supportedOSs));
+        super(String.format(message, supportedOSs));
     }
 
     public UnsupportedOSException(Throwable cause) {
@@ -33,12 +33,13 @@ class UnsupportedOSException extends RuntimeException {
     }
 
     public UnsupportedOSException(String supportedOSs, Throwable cause) {
-        super(message.format(supportedOSs), cause);
+        super(String.format(message, supportedOSs), cause);
     }
 
-    public UnsupportedOSException(String supportedOSs, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message.format(supportedOSs), cause, enableSuppression, writableStackTrace);
-    }
+//    1.7+, breaks openjdk6 CI tests
+//    public UnsupportedOSException(String supportedOSs, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+//        super(String.format(message, supportedOSs), cause, enableSuppression, writableStackTrace);
+//    }
 
     public UnsupportedOSException(String status, String message) {
         super(message);

@@ -1002,25 +1002,22 @@ public final class Utils {
     public static final Boolean isLinuxOrMac(){
         return isLinux() || isMac();
     }
-
-    public static final String supported_os_msg = "this program is only supported on %s at this time";
  
-    // TODO: change these to raise UnsupportedOperatingSystemException + then unit test
-    public static final void linux_only() {
+    public static final void linux_only() throws UnsupportedOSException {
         if (!isLinux()){
-            quit("UNKNOWN", String.format(supported_os_msg, "Linux"));
+            throw new UnsupportedOSException("Linux");
         }
     }
 
-    public static final void mac_only() {
+    public static final void mac_only() throws UnsupportedOSException {
         if (!isMac()) {
-            quit("UNKNOWN", String.format(supported_os_msg, "Mac OS X"));
+            throw new UnsupportedOSException("Mac OS X");
         }
     }
 
-    public static final void linux_mac_only(){
+    public static final void linux_mac_only() throws UnsupportedOSException {
         if(!(isLinux() || isMac())) {
-            quit("UNKNOWN", String.format(supported_os_msg, "Linux or Mac OS X"));
+            throw new UnsupportedOSException("Linux or Mac OS X");
         }
     }
 
@@ -1090,6 +1087,21 @@ public final class Utils {
     public static final String plural(double arg){
         return plural(Double.toString(arg));
     }
+    // not using any more as both List<Object> and Object[] makes plural(null) calls ambiguous with plural(String) :-/
+//    public static final String plural(List<Object> args){
+//        if(args.size() == 1){
+//            return "";
+//        } else {
+//            return "s";
+//        }
+//    }
+//    public static final String plural(Object[] args){
+//        if(args.length == 1){
+//            return "";
+//        } else {
+//            return "s";
+//        }
+//    }
 
     public static final String resolve_ip (String host) throws UnknownHostException {
         if(host == null){
@@ -1107,7 +1119,7 @@ public final class Utils {
     }
 
     // only works on unix systems
-    public static final Boolean user_exists (String user) throws IOException {
+    public static final Boolean user_exists (String user) throws IOException, UnsupportedOSException {
         linux_mac_only();
         if(user == null) {
             return false;
@@ -2263,7 +2275,7 @@ public final class Utils {
     }
 
 
-    public static final String validate_user_exists (String user, String name) throws IOException {
+    public static final String validate_user_exists (String user, String name) throws IOException, UnsupportedOSException {
         user = validate_user(user, name);
         name = name(name);
         if(! user_exists(user)){

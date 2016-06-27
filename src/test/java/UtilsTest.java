@@ -362,6 +362,20 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("plural(2)", "s", plural(2));
         assertEquals("plural(3.0)", "s", plural(3.0));
         assertEquals("plural(4.0)", "s", plural("4.0"));
+        // list tests
+//        ArrayList a = new ArrayList();
+//        assertEquals("plural(arraylist_0)", "s", plural(a));
+//        a.add(1);
+//        assertEquals("plural(arraylist_1)", "", plural(a));
+//        a.add(2);
+//        assertEquals("plural(arraylist_2)", "s", plural(a));
+        // raw array tests
+//        String[] b = new String[]{};
+//        assertEquals("plural(array_0)", "s", plural(b));
+//        b.add(1);
+//        assertEquals("plural(array_1)", "", plural(b));
+//        b.add(2);
+//        assertEquals("plural(array_2)", "s", plural(b));
     }
 
     // ====================================================================== //
@@ -542,10 +556,22 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_isLinux(){
+    public void test_isLinux() throws UnsupportedOSException {
         if(isLinux()){
             assertEquals("isLinux()", "Linux", getOS());
             linux_only();
+        }
+    }
+
+    @Test
+    public void test_isLinux_exception() throws Exception {
+        if(!isLinux()){
+            try {
+                linux_only();
+                throw new Exception("failed to raise UnsupportedOSException");
+            } catch (UnsupportedOSException e){
+                // pass
+            }
         }
     }
 
@@ -558,10 +584,34 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
+    public void test_isMac_exception() throws Exception {
+        if(!isMac()){
+            try {
+                mac_only();
+                throw new Exception("failed to raise UnsupportedOSException");
+            } catch (UnsupportedOSException e){
+                // pass
+            }
+        }
+    }
+
+    @Test
     public void test_isLinuxOrMac(){
         if(isLinuxOrMac()){
             assertTrue("isLinuxOrMac()", getOS().matches("Linux|Mac OS X"));
             linux_mac_only();
+        }
+    }
+
+    @Test
+    public void test_isLinuxOrMac_exception() throws Exception {
+        if(!isLinuxOrMac()){
+            try {
+                linux_mac_only();
+                throw new Exception("failed to raise UnsupportedOSException");
+            } catch (UnsupportedOSException e){
+                // pass
+            }
         }
     }
 

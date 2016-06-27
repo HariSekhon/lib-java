@@ -26,7 +26,7 @@ import org.apache.commons.cli.*;
 //import org.apache.commons.cli.DefaultParser;
 //import org.apache.commons.cli.Option;
 
-class CLI {
+public class CLI {
 
     private boolean debug = false;
     private int verbose = 0;
@@ -143,7 +143,10 @@ class CLI {
                 log.setLevel(Level.DEBUG);
             }
         } catch(Exception e){
-            usage(e);
+            if(log.isDebugEnabled()){
+                e.printStackTrace();
+            }
+            usage(e.getMessage());
         }
 //        log.info("verbose level: %s".format(verbose));
         validate_int(timeout, "timeout", 0, timeout_max);
@@ -158,7 +161,10 @@ class CLI {
             run();
             end();
         } catch (IllegalArgumentException e){
-            usage(e);
+            if(log.isDebugEnabled()){
+                e.printStackTrace();
+            }
+            usage(e.getMessage());
         // not thrown by try block, how is Control-C thrown?
 //        } catch (InterruptedException e){
 //            System.out.println("Caught control-c...");

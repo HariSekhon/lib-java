@@ -41,11 +41,12 @@ class QuitException extends RuntimeException {
         this.message = message;
     }
 
-    public QuitException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-        this.status = "CRITICAL";
-        this.message = message;
-    }
+    //    1.7+, breaks openjdk6 CI tests
+//    public QuitException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+//        super(message, cause, enableSuppression, writableStackTrace);
+//        this.status = "CRITICAL";
+//        this.message = message;
+//    }
 
     public QuitException (String status, String message) {
         super(message);

@@ -23,11 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.InetAddress;
-import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -139,14 +136,17 @@ public final class Utils {
     static final void load_tlds (String filename) throws IOException {
         int tld_count = 0;
         try {
-            URL url = com.linkedin.harisekhon.Utils.class.getResource("/" + filename);
-            if (url == null) {
+            final InputStream resourceAsStream = Utils.class.getResourceAsStream("/" + filename);
+            if (resourceAsStream == null) {
                 throw new IOException(String.format("file '%s' does not exist under resources!", filename));
             }
-            File file = new File(url.getFile());
-            Scanner scanner = new Scanner(file);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
+            // works on disk, not on jar
+//            URL url = com.linkedin.harisekhon.Utils.class.getResource("/" + filename);
+//            File file = new File(url.getFile());
+//            Scanner scanner = new Scanner(file);
+            BufferedReader br = new BufferedReader(new InputStreamReader(resourceAsStream));
+            String line;
+            while((line = br.readLine()) != null) {
                 line = line.replaceFirst("[#;].*", "");
                 line = line.trim();
                 if (line.matches("^\\s*$")) {
@@ -159,7 +159,7 @@ public final class Utils {
                     log.warn(String.format("TLD: '%s' from tld file '%s' not validated, skipping that TLD", line, filename));
                 }
             }
-            scanner.close();
+            br.close();
         } catch (IOException e){
             log.error(e.getMessage());
             throw e;
@@ -204,7 +204,7 @@ public final class Utils {
         } catch(IOException e){
             // logged by load_tlds when throwing exception
 //            log.error(e.getMessage());
-            quit("UNKNOWN", String.format("unable to load a resource file containing TLDs for generated domain/fqdn regex generation:\n%s", e.getStackTrace().toString()));
+            quit("UNKNOWN", String.format("unable to load a resource file containing TLDs for generated domain/fqdn regex generation: %s", e.getMessage()));
 //            throw e;
         }
 
@@ -1163,9 +1163,9 @@ public final class Utils {
 //    }
 
     public static final void quit (String status, String message) {
-//        log.error(status + ": " + msg);
+//        log.error(status + ": " + message);
         if(exit_codes.containsKey(status)) {
-            println(status + ": " + msg);
+            println(status + ": " + message);
             System.exit(exit_codes.get(status));
 //            throw new HariSekhon.QuitException(status, message);
         } else {

@@ -1165,18 +1165,19 @@ public final class Utils {
     public static final void quit (String status, String message) {
 //        log.error(status + ": " + message);
         if(exit_codes.containsKey(status)) {
-            println(status + ": " + message);
-            System.exit(exit_codes.get(status));
-//            throw new HariSekhon.QuitException(status, message);
+//            println(status + ": " + message);
+//            System.exit(exit_codes.get(status));
+            throw new QuitException(status, message);
         } else {
             throw new IllegalArgumentException(String.format("specified an invalid exit status '%s' to quit(), message was '%s'", status, message));
         }
     }
-    public static final void quit (String msg){
+    public static final void quit (String message){
 //        log.error("CRITICAL: " + msg);
 //        println("CRITICAL: " + msg);
 //        System.exit(exit_codes.get("CRITICAL"));
-        quit("CRITICAL", msg);
+//        quit("CRITICAL", msg);
+        throw new QuitException("CRITICAL", message);
     }
 
     // because System.out.println is still annoying and Scala has a short version

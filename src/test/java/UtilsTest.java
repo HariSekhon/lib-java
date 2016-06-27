@@ -166,10 +166,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         println(true);
     }
 
-//    @Test(expected=QuitException.class)
-//    public void test_quit_exception(){
-//        quit("CRITICAL", "blah");
-//    }
+    @Test(expected=QuitException.class)
+    public void test_quit_exception(){
+        try {
+            quit("CRITICAL", "blah");
+        } catch (QuitException e){
+            assert "CRITICAL".equals(e.status);
+            assert "blah".equals(e.message);
+            throw e;
+        }
+    }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_quit_invalid_status_exception(){

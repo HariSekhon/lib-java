@@ -2022,7 +2022,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_program_path_nonexecutable_exception() {
-        validate_program_path("/etc/hosts", "/etc/hosts");
+        // one of my colleagues has had an executable /etc/hosts (probably chmod'd everything 777 to try to get stuff working)
+        // so now instead will make this a bit more resilient for such things
+        String path = "/etc/hosts";
+        File f = new File(path);
+        if(!f.canExecute()) {
+            validate_program_path(path, path);
+        } else {
+            // your /etc/hosts has been set as executable, so bypassing test in locally flawed environment
+            throw new IllegalArgumentException();
+        }
     }
 
     @Test(expected=IllegalArgumentException.class)

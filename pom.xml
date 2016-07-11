@@ -27,7 +27,7 @@
   <packaging>jar</packaging>
 
   <name>Utils</name>
-  <url>http://github.com/harisekhon/lib-java</url>
+  <url>https://github.com/harisekhon/lib-java</url>
 
   <!-- stops build from using platform dependent encoding and therefore being non-portable -->
   <properties>

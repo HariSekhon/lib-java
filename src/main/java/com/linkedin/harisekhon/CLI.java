@@ -35,7 +35,7 @@ public class CLI {
     private int timeout_default = 10;
     private int timeout_max = 86400;
     private String usage_msg = "usage: <prog> <options>";
-    private Options options = new Options();
+    protected Options options = new Options();
     private CommandLine cmd;
 
     public final Logger log = Logger.getLogger(com.linkedin.harisekhon.Utils.class.getName());
@@ -74,20 +74,6 @@ public class CLI {
 //        (port_envs, default_port) = getenvs2("PORT", default_port, name)
 //        self.add_opt("-H", "--host", dest="host", help="%sHost (%s)" % (name2, host_envs), default=default_host)
 //        self.add_opt("-P", "--port", dest="port", help="%sPort (%s)" % (name2, port_envs), default=default_port)
-
-//        OptionBuilder.withLongOpt("host");
-//        OptionBuilder.withArgName("host");
-//        OptionBuilder.withDescription("Host ($HOST)");
-//        OptionBuilder.hasArg();
-//        OptionBuilder.isRequired();
-//        options.addOption(OptionBuilder.create("H"));
-
-//        OptionBuilder.withLongOpt("port");
-//        OptionBuilder.withArgName("port");
-//        OptionBuilder.withDescription("Port ($PORT)");
-//        OptionBuilder.hasArg();
-//        OptionBuilder.isRequired();
-//        options.addOption(OptionBuilder.create("P"));
 
         options.addOption("H", "host", true, "Host ($HOST)");
         options.addOption("P", "port", true, "Port ($PORT)");
@@ -336,8 +322,9 @@ public class CLI {
 //                    println("%s version %s");
 //                    System.exit(getStatusCode("UNKNOWN"));
 //                }
+                timeout = timeout_default;
                 if(cmd.hasOption("t")){
-                    timeout = Integer.valueOf(cmd.getOptionValue("t", String.valueOf(timeout_default)));
+                    timeout = Integer.valueOf(cmd.getOptionValue("t", String.valueOf(timeout)));
                 }
             } catch (ParseException e){
                 if(debug){
@@ -350,12 +337,12 @@ public class CLI {
 //            sys.exit(ERRORS["UNKNOWN"])
 //        if "timeout" in dir(self.options):
 //            self.timeout = self.get_opt("timeout")
-        String env_verbose = System.getenv("VERBOSE").trim();
+        String env_verbose = System.getenv("VERBOSE");
         if (env_verbose == null || env_verbose.trim().equals("")) {
             // pass
         } else {
             try{
-                int v = Integer.valueOf(env_verbose);
+                int v = Integer.valueOf(env_verbose.trim());
                 if (Integer.valueOf(v) > verbose) {
 //                    log.debug("environment variable $VERBOSE = %i, increasing verbosity", v);
                     verbose = v;

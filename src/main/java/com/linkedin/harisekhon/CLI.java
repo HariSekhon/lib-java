@@ -137,7 +137,19 @@ public class CLI {
 //        log.info("verbose level: %s".format(verbose));
         validate_int(timeout, "timeout", 0, timeout_max);
 //        log.debug("setting timeout to {} secs", timeout);
-        (new Thread(new Timeout(timeout))).start();
+        Thread t = new Thread(new Timeout(timeout));
+        t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                if(e instanceof QuitException){
+                    println(((QuitException) e).status + ": " + ((QuitException) e).message);
+                } else {
+                    println(e.getMessage());
+                }
+                System.exit(getStatusCode("UNKNOWN"));
+            }
+        });
+        t.start();
 //        if(version){
 //            println(version_string);
 //            System.exit(exit_codes.get("UNKNOWN"));
@@ -278,7 +290,7 @@ public class CLI {
 //        return name in dir(self.options)
 //
     public void timeoutHandler(Exception e){
-        // consider letting exception propagage
+        // consider letting exception propagate
         quit("UNKNOWN", String.format("self timeout out after %s second%s", timeout, plural(timeout)));
     }
 
@@ -303,36 +315,37 @@ public class CLI {
 //        self.add_opt("-D", "--debug", action="store_true", help=SUPPRESS_HELP, default=bool(os.getenv("DEBUG")))
 
     private void parseArgs2(String[] args) {
-            // 1.3+ API problem with Spark, go back to older API for commons-cli
-            //CommandLineParser parser = new DefaultParser();
-            CommandLineParser parser = new GnuParser();
-            try {
-                cmd = parser.parse(options, args);
-                if(cmd.hasOption("h")){
-                    usage();
-                }
-                if(cmd.hasOption("D")){
-                    debug = true;
-                }
-                if(cmd.hasOption("v")){
-                    verbose += 1;
-                }
-                // TODO:
+        log.debug("parseArgs2()");
+        // 1.3+ API problem with Spark, go back to older API for commons-cli
+        //CommandLineParser parser = new DefaultParser();
+        CommandLineParser parser = new GnuParser();
+        try {
+            cmd = parser.parse(options, args);
+            if(cmd.hasOption("h")){
+                usage();
+            }
+            if(cmd.hasOption("D")){
+                debug = true;
+            }
+            if(cmd.hasOption("v")){
+                verbose += 1;
+            }
+            // TODO:
 //                if(cmd.hasOption("V")){
 //                    println("%s version %s");
 //                    System.exit(getStatusCode("UNKNOWN"));
 //                }
-                timeout = timeout_default;
-                if(cmd.hasOption("t")){
-                    timeout = Integer.valueOf(cmd.getOptionValue("t", String.valueOf(timeout)));
-                }
-            } catch (ParseException e){
-                if(debug){
-                    e.printStackTrace();
-                }
-                log.error(e + "\n");
-                usage();
+            timeout = timeout_default;
+            if(cmd.hasOption("t")){
+                timeout = Integer.valueOf(cmd.getOptionValue("t", String.valueOf(timeout)));
             }
+        } catch (ParseException e){
+            if(debug){
+                e.printStackTrace();
+            }
+            log.error(e + "\n");
+            usage();
+        }
 //            print("%(version)s" % self.__dict__)
 //            sys.exit(ERRORS["UNKNOWN"])
 //        if "timeout" in dir(self.options):

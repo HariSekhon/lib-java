@@ -24,6 +24,9 @@ public class Timeout implements Runnable {
     private int secs;
 
     public Timeout(int secs) {
+        if (secs == 0){
+            throw new IllegalArgumentException("Timeout(secs) cannot be zero!");
+        }
         this.secs = secs;
     }
 

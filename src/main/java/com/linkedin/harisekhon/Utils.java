@@ -1256,7 +1256,7 @@ public final class Utils {
         if(! alnum2.matches("^[A-Za-z0-9]+$")){
             throw new IllegalArgumentException("invalid " + name + " defined: must be alphanumeric");
         }
-        vlog_option(name, alnum2);
+        vlogOption(name, alnum2);
         return alnum2;
     }
 
@@ -1276,7 +1276,7 @@ public final class Utils {
         if(! isChars(arg, chars2)){
             throw new IllegalArgumentException("invalid " + name + " defined: must be one of the following chars - " + chars2);
         }
-        vlog_option(name, arg);
+        vlogOption(name, arg);
         return arg;
     }
 
@@ -1292,7 +1292,7 @@ public final class Utils {
         if(! isAwsAccessKey(key2)){
             throw new IllegalArgumentException("invalid aws access key defined: must be 20 alphanumeric chars");
         }
-        vlog_option("aws access key", repeatString("X", 18) + key2.substring(18, 20));
+        vlogOption("aws access key", repeatString("X", 18) + key2.substring(18, 20));
         return key2;
     }
 
@@ -1311,7 +1311,7 @@ public final class Utils {
         if(! isDnsShortName(bucket)){
             throw new IllegalArgumentException("invalid aws bucket name defined: must be alphanumeric between 3 and 63 characters long");
         }
-        vlog_option("aws bucket:", bucket);
+        vlogOption("aws bucket:", bucket);
         return bucket;
     }
 
@@ -1329,7 +1329,7 @@ public final class Utils {
         if(! isAwsHostname(arg)){
             throw new IllegalArgumentException("invalid aws hostname name defined: must be alphanumeric between 3 and 63 characters long");
         }
-        vlog_option("aws hostname:", arg);
+        vlogOption("aws hostname:", arg);
         return arg;
     }
 
@@ -1347,7 +1347,7 @@ public final class Utils {
         if(! isAwsFqdn(arg)){
             throw new IllegalArgumentException("invalid aws fqdn name defined: must be alphanumeric between 3 and 63 characters long hostname followed by domain");
         }
-        vlog_option("aws fqdn:", arg);
+        vlogOption("aws fqdn:", arg);
         return arg;
     }
 
@@ -1362,7 +1362,7 @@ public final class Utils {
         if(! isAwsSecretKey(key)){
             throw new IllegalArgumentException("invalid aws secret key defined: must be 20 alphanumeric chars");
         }
-        vlog_option("aws secret key", repeatString("X", 38) + key.substring(38, 40));
+        vlogOption("aws secret key", repeatString("X", 38) + key.substring(38, 40));
         return key;
     }
 
@@ -1379,7 +1379,7 @@ public final class Utils {
         if(! isCollection(collection)){
             throw new IllegalArgumentException("invalid " + name + "collection defined: must be alphanumeric, with optional periods in the middle");
         }
-        vlog_option(name + "collection", collection);
+        vlogOption(name + "collection", collection);
         return collection;
     }
     public static final String validateCollection(String collection) {
@@ -1399,7 +1399,7 @@ public final class Utils {
         if(! isDatabaseName(database)){
             throw new IllegalArgumentException("invalid " + name + "database defined: must be alphanumeric");
         }
-        vlog_option(name + "database", database);
+        vlogOption(name + "database", database);
         return database;
     }
     public static final String validateDatabase(String database) {
@@ -1418,7 +1418,7 @@ public final class Utils {
         if(! isDatabaseColumnName(column)){
             throw new IllegalArgumentException("invalid column defined: must be alphanumeric");
         }
-        vlog_option("column", column);
+        vlogOption("column", column);
         return column;
     }
 
@@ -1434,7 +1434,7 @@ public final class Utils {
         if(! isDatabaseFieldName(field)){
             throw new IllegalArgumentException("invalid field defined: must be alphanumeric");
         }
-        vlog_option("field", field);
+        vlogOption("field", field);
         return field;
     }
 
@@ -1455,7 +1455,7 @@ public final class Utils {
         if(query.matches("(?i).*\\b(?:insert|update|delete|create|drop|alter|truncate)\\b.*")){
             throw new IllegalArgumentException("invalid " + name + "query defined: DML statement or suspect chars detected in query");
         }
-        vlog_option(name + "query", query);
+        vlogOption(name + "query", query);
         return query;
     }
     public static final String validateDatabaseQuerySelectShow(String query) {
@@ -1475,7 +1475,7 @@ public final class Utils {
         if(! isDatabaseTableName(table, allow_qualified)){
             throw new IllegalArgumentException("invalid " + name + "table defined: must be alphanumeric");
         }
-        vlog_option(name + "table", table);
+        vlogOption(name + "table", table);
         return table;
     }
     public static final String validateDatabaseTablename(String table, String name) {
@@ -1501,7 +1501,7 @@ public final class Utils {
         if(! isDatabaseViewName(view, allow_qualified)){
             throw new IllegalArgumentException("invalid " + name + "view defined: must be alphanumeric");
         }
-        vlog_option(name + "view", view);
+        vlogOption(name + "view", view);
         return view;
     }
     public static final String validateDatabaseViewname(String view, String name) {
@@ -1527,7 +1527,7 @@ public final class Utils {
         if(! isDomain(domain)){
             throw new IllegalArgumentException("invalid " + name + "domain name defined ('" + domain + "')");
         }
-        vlog_option(name + "domain", domain);
+        vlogOption(name + "domain", domain);
         return domain;
     }
     public static final String validateDomain(String domain) {
@@ -1546,7 +1546,7 @@ public final class Utils {
         if(! isDomainStrict(domain)){
             throw new IllegalArgumentException("invalid " + name + "domain name defined ('" + domain + "')");
         }
-        vlog_option(name + "domain", domain);
+        vlogOption(name + "domain", domain);
         return domain;
     }
     public static final String validateDomainStrict(String domain) {
@@ -1567,7 +1567,7 @@ public final class Utils {
             throw new IllegalArgumentException("invalid " + name + "directory (does not match regex criteria): '" + dir + "'");
         }
         if(! novlog){
-            vlog_option(name + "directory", dir);
+            vlogOption(name + "directory", dir);
         }
         return dir;
     }
@@ -1623,7 +1623,7 @@ public final class Utils {
         if(! isEmail(email)){
             throw new IllegalArgumentException("invalid email address defined: failed regex validation");
         }
-        vlog_option("email", email);
+        vlogOption("email", email);
         return email;
     }
 
@@ -1661,7 +1661,7 @@ public final class Utils {
             throw new IllegalArgumentException("invalid " + name + "(does not match regex criteria): '" + filename + "'");
         }
         if(! novlog){
-            vlog_option(name.trim(), filename);
+            vlogOption(name.trim(), filename);
         }
         return filename;
     }
@@ -1685,7 +1685,7 @@ public final class Utils {
         if(! isFqdn(fqdn)){
             throw new IllegalArgumentException("invalid " + name + "FQDN defined");
         }
-        vlog_option(name + "fqdn", fqdn);
+        vlogOption(name + "fqdn", fqdn);
         return fqdn;
     }
     public static final String validateFqdn(String fqdn) {
@@ -1694,7 +1694,7 @@ public final class Utils {
 
     /*
     public static final String[] validate_host_port_user_password(String host, String port, String user, String password){
-        return (validateHost(host), validate_port(port), validate_user(user), validate_password(password));
+        return (validateHost(host), validatePort(port), validateUser(user), validatePassword(password));
     }
     */
 
@@ -1711,7 +1711,7 @@ public final class Utils {
         if(! isHost(host)){
             throw new IllegalArgumentException("invalid " + name + "host defined: not a valid hostname or IP address");
         }
-        vlog_option(name + "host", host);
+        vlogOption(name + "host", host);
         return host;
     }
     public static final String validateHost(String host) {
@@ -1752,12 +1752,12 @@ public final class Utils {
                 hosts2[i] = hosts2[i].replaceAll(":\\d+$", "");
             }
             hosts2[i] = validateHost(hosts2[i]);
-            //hosts2[i] = validate_resolvable(hosts2[i]);
+            //hosts2[i] = validateResolvable(hosts2[i]);
             if(node_port == null){
                 node_port = Integer.toString(port);
             }
             hosts2[i] = hosts2[i] + ":" + node_port;
-            vlog_option("port", node_port);
+            vlogOption("port", node_port);
         }
         return hosts2;
     }
@@ -1782,8 +1782,8 @@ public final class Utils {
         }
         String[] hosts2 = validateHosts(hosts.split("[,\\s]+"), port);
         String final_hosts = StringUtils.join(hosts2, ",");
-        // vlogged in validate_nodeport_list
-        //vlog_option("node list", final_hosts);
+        // vlogged in validateNodePortList
+        //vlogOption("node list", final_hosts);
         return final_hosts;
     }
     public static final String validateHosts(String hosts, String port) {
@@ -1815,7 +1815,7 @@ public final class Utils {
             throw new IllegalArgumentException("port is required");
         }
         if(!novlog){
-            vlog_option(name + "hostport", hostport);
+            vlogOption(name + "hostport", hostport);
         }
         return hostport;
     }
@@ -1842,7 +1842,7 @@ public final class Utils {
         if(! isHostname(hostname)){
             throw new IllegalArgumentException("invalid " + name + "hostname '" + hostname + "' defined");
         }
-        vlog_option(name + "hostname", hostname);
+        vlogOption(name + "hostname", hostname);
         return hostname;
     }
     public static final String validateHostname(String hostname) {
@@ -1861,7 +1861,7 @@ public final class Utils {
         if(d > maxVal){
             throw new IllegalArgumentException("invalid " + name + " defined: cannot be greater than " + maxVal);
         }
-        vlog_option(name, String.valueOf(d));
+        vlogOption(name, String.valueOf(d));
         return d;
     }
     public static final long validateLong(long l, String name, long minVal, long maxVal) {
@@ -1940,7 +1940,7 @@ public final class Utils {
         if(! isInterface(networkInterface)){
             throw new IllegalArgumentException("invalid network interface defined: must be either eth<N>, bond<N> or lo<N>");
         }
-        vlog_option("interface", networkInterface);
+        vlogOption("interface", networkInterface);
         return networkInterface;
     }
 
@@ -1957,7 +1957,7 @@ public final class Utils {
         if(! isIP(ip)){
             throw new IllegalArgumentException("invalid " + name + "IP defined");
         }
-        vlog_option(name + "ip", ip);
+        vlogOption(name + "ip", ip);
         return ip;
     }
     public static final String validateIP(String ip) {
@@ -1977,7 +1977,7 @@ public final class Utils {
         if(! isKrb5Princ(princ)){
             throw new IllegalArgumentException("invalid " + name + "krb5 principal defined");
         }
-        vlog_option(name + "krb5 principal", princ);
+        vlogOption(name + "krb5 principal", princ);
         return princ;
     }
     public static final String validateKrb5Princ(String princ) {
@@ -1997,7 +1997,7 @@ public final class Utils {
         if(! isDomain(realm)){
             throw new IllegalArgumentException("invalid " + name + "realm defined");
         }
-        vlog_option(name + "realm", realm);
+        vlogOption(name + "realm", realm);
         return realm;
     }
     public static final String validateKrb5Realm(String realm) {
@@ -2016,7 +2016,7 @@ public final class Utils {
         if(! isLabel(label)){
             throw new IllegalArgumentException("invalid label defined: must be an alphanumeric identifier");
         }
-        vlog_option("label", label);
+        vlogOption("label", label);
         return label;
     }
 
@@ -2033,7 +2033,7 @@ public final class Utils {
         if(! isLdapDn(dn)){
             throw new IllegalArgumentException("invalid " + name + "ldap dn defined");
         }
-        vlog_option("ldap " + name + "dn", dn);
+        vlogOption("ldap " + name + "dn", dn);
         return dn;
     }
     public static final String validateLdapDn(String dn) {
@@ -2060,7 +2060,7 @@ public final class Utils {
         if(final_nodes.size() < 1){
             throw new IllegalArgumentException("node(s) not defined (empty nodes given)");
         }
-        vlog_option("node list", final_nodes.toString());
+        vlogOption("node list", final_nodes.toString());
         return final_nodes;
     }
     public static final String[] validateNodeList(String[] nodes){
@@ -2077,12 +2077,12 @@ public final class Utils {
         String[] nodelist2 = validateNodeList(nodelist.split("[,\\s]+"));
         String final_nodes = StringUtils.join(nodelist2, ",");
         // vlogged in validateNodeList
-        //vlog_option("node list", final_nodes);
+        //vlogOption("node list", final_nodes);
         return final_nodes;
     }
 
 
-    public static final ArrayList<String> validate_nodeport_list (ArrayList<String> nodes) {
+    public static final ArrayList<String> validateNodePortList(ArrayList<String> nodes) {
         ArrayList<String> final_nodes = new ArrayList<String>();
         nodes = uniqArraylistOrdered(nodes);
         if(nodes.size() < 1){
@@ -2095,29 +2095,29 @@ public final class Utils {
                 final_nodes.add( validateHostPort(node2) );
             }
         }
-        vlog_option("nodeport list", final_nodes.toString());
+        vlogOption("nodeport list", final_nodes.toString());
         return final_nodes;
     }
-    public static final String[] validate_nodeport_list(String[] nodes){
-        // don't uniq here it's done in called validate_nodeport_list method
-        return arraylistToArray(validate_nodeport_list(arrayToArraylist(nodes)));
+    public static final String[] validateNodePortList(String[] nodes){
+        // don't uniq here it's done in called validateNodePortList method
+        return arraylistToArray(validateNodePortList(arrayToArraylist(nodes)));
     }
-    public static final String validate_nodeport_list (String nodelist) {
+    public static final String validateNodePortList(String nodelist) {
         if(nodelist == null) {
             throw new IllegalArgumentException("node(s) not defined (null)");
         }
         if(nodelist.trim().isEmpty()){
             throw new IllegalArgumentException("node(s) not defined (blank)");
         }
-        String[] nodelist2 = validate_nodeport_list(nodelist.split("[,\\s]+"));
+        String[] nodelist2 = validateNodePortList(nodelist.split("[,\\s]+"));
         String final_nodes = StringUtils.join(nodelist2, ",");
-        // vlogged in validate_nodeport_list
-        //vlog_option("node list", final_nodes);
+        // vlogged in validateNodePortList
+        //vlogOption("node list", final_nodes);
         return final_nodes;
     }
 
 
-    public static final String validate_nosql_key (String key, String name) {
+    public static final String validateNoSqlKey(String key, String name) {
         name = name(name);
         if(key == null){
             throw new IllegalArgumentException(name + "key not defined (null)");
@@ -2129,23 +2129,23 @@ public final class Utils {
         if(! isNoSqlKey(key)){
             throw new IllegalArgumentException("invalid " + name + "key defined: may only contain characters: alphanumeric, commas, colons, underscores, pluses and dashes");
         }
-        vlog_option(name + "key", key);
+        vlogOption(name + "key", key);
         return key;
     }
-    public static final String validate_nosql_key (String key) {
-        return validate_nosql_key(key, null);
+    public static final String validateNoSqlKey(String key) {
+        return validateNoSqlKey(key, null);
     }
 
 
-    public static final int validate_port (int port, String name) {
+    public static final int validatePort(int port, String name) {
         name = name(name);
         if(! isPort(port)){
             throw new IllegalArgumentException("invalid " + name + "port defined");
         }
-        vlog_option(name + "port", String.valueOf(port));
+        vlogOption(name + "port", String.valueOf(port));
         return port;
     }
-    public static final String validate_port (String port, String name){
+    public static final String validatePort(String port, String name){
         name = name(name);
         int port_int = -1;
         try {
@@ -2153,17 +2153,17 @@ public final class Utils {
         } catch (NumberFormatException e){
             throw new IllegalArgumentException("invalid " + name + "port specified: must be numeric");
         }
-        return String.valueOf(validate_port(port_int, name));
+        return String.valueOf(validatePort(port_int, name));
     }
-    public static final int validate_port (int port) {
-        return validate_port(port, null);
+    public static final int validatePort(int port) {
+        return validatePort(port, null);
     }
-    public static final String validate_port (String port) {
-        return validate_port(port, null);
+    public static final String validatePort(String port) {
+        return validatePort(port, null);
     }
 
 
-    public static final String validate_process_name (String process, String name) {
+    public static final String validateProcessName(String process, String name) {
         name = name(name);
         if(process == null){
             throw new IllegalArgumentException(name + "process name not defined (null)");
@@ -2177,12 +2177,12 @@ public final class Utils {
         }
         return process;
     }
-    public static final String validate_process_name (String process) {
-        return validate_process_name(process, null);
+    public static final String validateProcessName(String process) {
+        return validateProcessName(process, null);
     }
 
 
-    public static final String validate_program_path (String path, String name, String regex) {
+    public static final String validateProgramPath(String path, String name, String regex) {
         name = requireName(name).trim();
         if(path == null){
             throw new IllegalArgumentException(name + " path not defined (null)");
@@ -2202,8 +2202,8 @@ public final class Utils {
         if(regex == null || regex.trim().isEmpty()){
             regex = name;
         }
-        if(validate_regex(regex, "program path regex", true) == null){
-            throw new IllegalArgumentException("invalid regex given to validate_program_path()");
+        if(validateRegex(regex, "program path regex", true) == null){
+            throw new IllegalArgumentException("invalid regex given to validateProgramPath()");
         }
         validateFilename(path, null, true);
 //        if(validateFilename(path, null, true) == null){
@@ -2219,15 +2219,15 @@ public final class Utils {
         if(!f.canExecute()){
             throw new IllegalArgumentException(path + " not executable");
         }
-        vlog_option(name + " program path", path);
+        vlogOption(name + " program path", path);
         return path;
     }
-    public static final String validate_program_path (String path, String name) {
-        return validate_program_path(path, name, null);
+    public static final String validateProgramPath(String path, String name) {
+        return validateProgramPath(path, name, null);
     }
 
 
-    public static final String validate_regex (String regex, String name, Boolean posix) {
+    public static final String validateRegex(String regex, String name, Boolean posix) {
         name = name(name);
         // intentionally not trimming
         if(regex == null){
@@ -2248,15 +2248,15 @@ public final class Utils {
                 throw new IllegalArgumentException("invalid " + name + "regex defined");
             }
         }
-        vlog_option(name + "regex", regex);
+        vlogOption(name + "regex", regex);
         return regex;
     }
-    public static final String validate_regex (String regex, String name) {
-        return validate_regex(regex, name, false);
+    public static final String validateRegex(String regex, String name) {
+        return validateRegex(regex, name, false);
     }
 
 
-    public static final String validate_user (String user, String name) {
+    public static final String validateUser(String user, String name) {
         name = name(name);
         if(user == null){
             throw new IllegalArgumentException(name + "user not defined (null)");
@@ -2268,16 +2268,16 @@ public final class Utils {
         if(! isUser(user)){
             throw new IllegalArgumentException("invalid " + name + "username defined: must be alphanumeric");
         }
-        vlog_option(name + "user", user);
+        vlogOption(name + "user", user);
         return user;
     }
-    public static final String validate_user (String user) {
-        return validate_user(user, null);
+    public static final String validateUser(String user) {
+        return validateUser(user, null);
     }
 
 
-    public static final String validate_user_exists (String user, String name) throws IOException, UnsupportedOSException {
-        user = validate_user(user, name);
+    public static final String validateUserExists(String user, String name) throws IOException, UnsupportedOSException {
+        user = validateUser(user, name);
         name = name(name);
         if(! userExists(user)){
             throw new IllegalArgumentException("invalid " + name + "user defined, not found on local system");
@@ -2286,7 +2286,7 @@ public final class Utils {
     }
 
 
-    public static final String validate_password (String password, String name, Boolean allow_all) {
+    public static final String validatePassword(String password, String name, Boolean allow_all) {
         name = name(name);
         if(password == null){
             throw new IllegalArgumentException(name + "password not defined (null)");
@@ -2303,18 +2303,18 @@ public final class Utils {
         if(password.matches(".*\\$\\(.*")){
             throw new IllegalArgumentException("invalid " + name + "password defined: may not contain $( as this is a subshell escape and could be dangerous to pass through to programs, especially on the command line");
         }
-        vlog_option("password", "<omitted>");
+        vlogOption("password", "<omitted>");
         return password;
     }
-    public static final String validate_password (String password, String name) {
-        return validate_password(password, name, false);
+    public static final String validatePassword(String password, String name) {
+        return validatePassword(password, name, false);
     }
-    public static final String validate_password (String password) {
-        return validate_password(password, null, false);
+    public static final String validatePassword(String password) {
+        return validatePassword(password, null, false);
     }
 
 
-    public static final String validate_resolvable (String host, String name) throws UnknownHostException {
+    public static final String validateResolvable(String host, String name) throws UnknownHostException {
         name = name(name);
         if(host == null) {
             throw new IllegalArgumentException(name + "host not defined (null)");
@@ -2330,12 +2330,12 @@ public final class Utils {
 //        }
         return ip;
     }
-    public static final String validate_resolvable (String host) throws UnknownHostException {
-        return validate_resolvable(host, null);
+    public static final String validateResolvable(String host) throws UnknownHostException {
+        return validateResolvable(host, null);
     }
 
 
-    public static final String validate_units (String units, String name) {
+    public static final String validateUnits(String units, String name) {
         name = name(name);
         if(units == null) {
             throw new IllegalArgumentException(name + "units not defined (null)");
@@ -2347,15 +2347,15 @@ public final class Utils {
         if(! isNagiosUnit(units)){
             throw new IllegalArgumentException("invalid " + name + "units '" + units + "' defined, must be one of: " + valid_units.toString());
         }
-        vlog_option(name + "units", units);
+        vlogOption(name + "units", units);
         return units;
     }
-    public static final String validate_units (String units) {
-        return validate_units(units, null);
+    public static final String validateUnits(String units) {
+        return validateUnits(units, null);
     }
 
 
-    public static final String validate_url (String url, String name) {
+    public static final String validateUrl(String url, String name) {
         name = name(name);
         if(url == null) {
             throw new IllegalArgumentException(name + "url not defined (null)");
@@ -2370,15 +2370,15 @@ public final class Utils {
         if(! isUrl(url)){
             throw new IllegalArgumentException("invalid " + name + "url defined: '" + url + "'");
         }
-        vlog_option(name + "url", url);
+        vlogOption(name + "url", url);
         return url;
     }
-    public static final String validate_url (String url) {
-        return validate_url(url, null);
+    public static final String validateUrl(String url) {
+        return validateUrl(url, null);
     }
 
 
-    public static final String validate_url_path_suffix (String url, String name) {
+    public static final String validateUrlPathSuffix(String url, String name) {
         name = name(name);
         if(url == null) {
             throw new IllegalArgumentException(name + "url not defined (null)");
@@ -2392,8 +2392,8 @@ public final class Utils {
         }
         return url;
     }
-    public static final String validate_url_path_suffix (String url) {
-        return validate_url_path_suffix(url, null);
+    public static final String validateUrlPathSuffix(String url) {
+        return validateUrlPathSuffix(url, null);
     }
 
     public static final String getVersion () {
@@ -2466,7 +2466,7 @@ public final class Utils {
         }
     }
 
-    public static final String get_calling_method(){
+    public static final String getCallingMethod(){
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();
         String parent = "Could not find calling method";
         if(stackTraceElements.length > 3){
@@ -2476,29 +2476,29 @@ public final class Utils {
     }
 
     public static final void vlog (String msg) {
-//        log.info(String.format(get_calling_method() + " - " + msg));
+//        log.info(String.format(getCallingMethod() + " - " + msg));
         log.warn(msg);
     }
 
     public static final void vlog2 (String msg) {
-//        log.debug(String.format(get_calling_method() + " - " + msg));
+//        log.debug(String.format(getCallingMethod() + " - " + msg));
         log.info(msg);
     }
 
     public static final void vlog3 (String msg) {
-//        log.trace(String.format(get_calling_method() + " - " + msg));
+//        log.trace(String.format(getCallingMethod() + " - " + msg));
         log.debug(msg);
     }
 
-    public static final void vlog_option (String name, String value) {
-//        log.info(String.format(option_format_calling_method, get_calling_method(), name + ":", value));
+    public static final void vlogOption(String name, String value) {
+//        log.info(String.format(option_format_calling_method, getCallingMethod(), name + ":", value));
         vlog2(String.format(option_format, name + ":", value));
     }
-    public static final void vlog_option (String name, boolean value){
-        vlog_option(name, String.valueOf(value));
+    public static final void vlogOption(String name, boolean value){
+        vlogOption(name, String.valueOf(value));
     }
 
 //    public static final void log.info(String.format(option_format, option + ":", value));_bool (String option, Boolean value) {
-//        vlog_option(option, value.toString());
+//        vlogOption(option, value.toString());
 //    }
 }

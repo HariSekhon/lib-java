@@ -207,8 +207,9 @@ public class CLI {
 //        }
 //    }
 
-    // leave this as optional not abstract as some cli tools may not need to add additional options
     public void addOptions(){
+        // client hook
+        // leave this as optional not abstract as some cli tools may not need to add additional options
     }
 
     public int getVerbose(){
@@ -354,9 +355,11 @@ public class CLI {
     }
 
     public void parseArgs() {
+        // client hook
     }
 
     public void processArgs() {
+        // client hook
     }
 }
 

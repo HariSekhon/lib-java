@@ -1440,22 +1440,22 @@ public final class Utils {
 
 
     public static final String validateDatabaseQuerySelectShow(String query, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(query == null){
-            throw new IllegalArgumentException(name + "query not defined (null)");
+            throw new IllegalArgumentException(name2 + "query not defined (null)");
         }
         String query2 = query.trim();
         if(query2.isEmpty()){
-            throw new IllegalArgumentException(name + "query not defined (blank)");
+            throw new IllegalArgumentException(name2 + "query not defined (blank)");
         }
         // XXX: fix this to be case insensitive and re-enable case insensitive unit test
         if(! query2.matches("^(?i)\\s*(?:SHOW|SELECT)\\s+.+$")){
-            throw new IllegalArgumentException("invalid " + name + "query defined: may only be a SELECT or SHOW statement");
+            throw new IllegalArgumentException("invalid " + name2 + "query defined: may only be a SELECT or SHOW statement");
         }
         if(query2.matches("(?i).*\\b(?:insert|update|delete|create|drop|alter|truncate)\\b.*")){
-            throw new IllegalArgumentException("invalid " + name + "query defined: DML statement or suspect chars detected in query");
+            throw new IllegalArgumentException("invalid " + name2 + "query defined: DML statement or suspect chars detected in query");
         }
-        vlogOption(name + "query", query2);
+        vlogOption(name2 + "query", query2);
         return query2;
     }
     public static final String validateDatabaseQuerySelectShow(String query) {
@@ -1464,18 +1464,18 @@ public final class Utils {
 
 
     public static final String validateDatabaseTablename(String table, String name, Boolean allow_qualified){
-        name = name(name);
+        String name2 = name(name);
         if(table == null){
-            throw new IllegalArgumentException(name + "table not defined (null)");
+            throw new IllegalArgumentException(name2 + "table not defined (null)");
         }
         if(table.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "table not defined (blank)");
+            throw new IllegalArgumentException(name2 + "table not defined (blank)");
         }
         table = table.trim();
         if(! isDatabaseTableName(table, allow_qualified)){
-            throw new IllegalArgumentException("invalid " + name + "table defined: must be alphanumeric");
+            throw new IllegalArgumentException("invalid " + name2 + "table defined: must be alphanumeric");
         }
-        vlogOption(name + "table", table);
+        vlogOption(name2 + "table", table);
         return table;
     }
     public static final String validateDatabaseTablename(String table, String name) {
@@ -1490,18 +1490,18 @@ public final class Utils {
 
 
     public static final String validateDatabaseViewname(String view, String name, Boolean allow_qualified){
-        name = name(name);
+        String name2 = name(name);
         if(view == null){
-            throw new IllegalArgumentException(name + "view not defined (null)");
+            throw new IllegalArgumentException(name2 + "view not defined (null)");
         }
         if(view.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "view not defined (blank)");
+            throw new IllegalArgumentException(name2 + "view not defined (blank)");
         }
         view = view.trim();
         if(! isDatabaseViewName(view, allow_qualified)){
-            throw new IllegalArgumentException("invalid " + name + "view defined: must be alphanumeric");
+            throw new IllegalArgumentException("invalid " + name2 + "view defined: must be alphanumeric");
         }
-        vlogOption(name + "view", view);
+        vlogOption(name2 + "view", view);
         return view;
     }
     public static final String validateDatabaseViewname(String view, String name) {
@@ -1516,18 +1516,18 @@ public final class Utils {
 
 
     public static final String validateDomain(String domain, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(domain == null){
-            throw new IllegalArgumentException(name + "domain not defined (null)");
+            throw new IllegalArgumentException(name2 + "domain not defined (null)");
         }
         if(domain.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "domain not defined (blank)");
+            throw new IllegalArgumentException(name2 + "domain not defined (blank)");
         }
         domain = domain.trim();
         if(! isDomain(domain)){
-            throw new IllegalArgumentException("invalid " + name + "domain name defined ('" + domain + "')");
+            throw new IllegalArgumentException("invalid " + name2 + "domain name defined ('" + domain + "')");
         }
-        vlogOption(name + "domain", domain);
+        vlogOption(name2 + "domain", domain);
         return domain;
     }
     public static final String validateDomain(String domain) {
@@ -1535,18 +1535,18 @@ public final class Utils {
     }
 
     public static final String validateDomainStrict(String domain, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(domain == null){
-            throw new IllegalArgumentException(name + "domain not defined (null)");
+            throw new IllegalArgumentException(name2 + "domain not defined (null)");
         }
         String domain2 = domain.trim();
         if(domain2.isEmpty()){
-            throw new IllegalArgumentException(name + "domain not defined (blank)");
+            throw new IllegalArgumentException(name2 + "domain not defined (blank)");
         }
         if(! isDomainStrict(domain2)){
-            throw new IllegalArgumentException("invalid " + name + "domain name defined ('" + domain + "')");
+            throw new IllegalArgumentException("invalid " + name2 + "domain name defined ('" + domain + "')");
         }
-        vlogOption(name + "domain", domain2);
+        vlogOption(name2 + "domain", domain2);
         return domain2;
     }
     public static final String validateDomainStrict(String domain) {
@@ -1555,19 +1555,19 @@ public final class Utils {
 
 
     public static final String validateDirname(String dir, String name, Boolean novlog) {
-        name = name(name);
+        String name2 = name(name);
         if(dir == null){
-            throw new IllegalArgumentException(name + "directory not defined (null)");
+            throw new IllegalArgumentException(name2 + "directory not defined (null)");
         }
         if(dir.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "directory not defined (blank)");
+            throw new IllegalArgumentException(name2 + "directory not defined (blank)");
         }
         dir = dir.trim();
         if(! isDirname(dir)){
-            throw new IllegalArgumentException("invalid " + name + "directory (does not match regex criteria): '" + dir + "'");
+            throw new IllegalArgumentException("invalid " + name2 + "directory (does not match regex criteria): '" + dir + "'");
         }
         if(! novlog){
-            vlogOption(name + "directory", dir);
+            vlogOption(name2 + "directory", dir);
         }
         return dir;
     }
@@ -1580,15 +1580,15 @@ public final class Utils {
 
 
     public static final String validateDirectory(String dir, String name, Boolean novlog){
-        name = name(name);
+        String name2 = name(name);
         if(dir == null){
-            throw new IllegalArgumentException(name + "directory not defined (null)");
+            throw new IllegalArgumentException(name2 + "directory not defined (null)");
         }
         if(dir.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "directory not defined (blank)");
+            throw new IllegalArgumentException(name2 + "directory not defined (blank)");
         }
         dir = dir.trim();
-        dir = validateDirname(dir, name, novlog);
+        dir = validateDirname(dir, name2, novlog);
         File d = new File(dir);
         if(! d.isDirectory()){
             throw new IllegalArgumentException(String.format("directory '%s' does not exist", dir));
@@ -1629,11 +1629,11 @@ public final class Utils {
 
 
     public static final String validateFile(String filename, String name, Boolean novlog){
-        name = name(name);
-        validateFilename(filename, name, novlog);
+        String name2 = name(name);
+        validateFilename(filename, name2, novlog);
         File f = new File(filename);
         if(!(f.exists() && ! f.isDirectory())){
-            throw new IllegalArgumentException(name + "file not found: " + filename);
+            throw new IllegalArgumentException(name2 + "file not found: " + filename);
         }
         return filename;
     }
@@ -1646,22 +1646,22 @@ public final class Utils {
 
 
     public static final String validateFilename(String filename, String name, Boolean novlog) {
-        name = name(name);
-        if(name.isEmpty()){
-            name = "filename ";
+        String name2 = name(name);
+        if(name2.isEmpty()){
+            name2 = "filename ";
         }
         if(filename == null){
-            throw new IllegalArgumentException(name + "not defined (null)");
+            throw new IllegalArgumentException(name2 + "not defined (null)");
         }
         if(filename.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "not defined (blank)");
+            throw new IllegalArgumentException(name2 + "not defined (blank)");
         }
         filename = filename.trim();
         if(! isFilename(filename)){
-            throw new IllegalArgumentException("invalid " + name + "(does not match regex criteria): '" + filename + "'");
+            throw new IllegalArgumentException("invalid " + name2 + "(does not match regex criteria): '" + filename + "'");
         }
         if(! novlog){
-            vlogOption(name.trim(), filename);
+            vlogOption(name2.trim(), filename);
         }
         return filename;
     }
@@ -1674,18 +1674,18 @@ public final class Utils {
 
 
     public static final String validateFqdn(String fqdn, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(fqdn == null){
-            throw new IllegalArgumentException(name + "FQDN not defined (null)");
+            throw new IllegalArgumentException(name2 + "FQDN not defined (null)");
         }
         if(fqdn.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "FQDN not defined (blank)");
+            throw new IllegalArgumentException(name2 + "FQDN not defined (blank)");
         }
         fqdn = fqdn.trim();
         if(! isFqdn(fqdn)){
-            throw new IllegalArgumentException("invalid " + name + "FQDN defined");
+            throw new IllegalArgumentException("invalid " + name2 + "FQDN defined");
         }
-        vlogOption(name + "fqdn", fqdn);
+        vlogOption(name2 + "fqdn", fqdn);
         return fqdn;
     }
     public static final String validateFqdn(String fqdn) {
@@ -1700,18 +1700,18 @@ public final class Utils {
 
 
     public static final String validateHost(String host, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(host == null){
-            throw new IllegalArgumentException(name + "host not defined (null)");
+            throw new IllegalArgumentException(name2 + "host not defined (null)");
         }
         if(host.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "host not defined (blank)");
+            throw new IllegalArgumentException(name2 + "host not defined (blank)");
         }
         host = host.trim();
         if(! isHost(host)){
-            throw new IllegalArgumentException("invalid " + name + "host defined: not a valid hostname or IP address");
+            throw new IllegalArgumentException("invalid " + name2 + "host defined: not a valid hostname or IP address");
         }
-        vlogOption(name + "host", host);
+        vlogOption(name2 + "host", host);
         return host;
     }
     public static final String validateHost(String host) {
@@ -1792,30 +1792,30 @@ public final class Utils {
 
 
     public static final String validateHostPort(String hostport, String name, Boolean port_required, Boolean novlog) {
-        name = name(name);
+        String name2 = name(name);
         if(hostport == null){
-            throw new IllegalArgumentException(name + "host:port not defined (null)");
+            throw new IllegalArgumentException(name2 + "host:port not defined (null)");
         }
         if(hostport.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "host:port not defined (blank)");
+            throw new IllegalArgumentException(name2 + "host:port not defined (blank)");
         }
         hostport = hostport.trim();
         String[] host_port = hostport.split(":");
         if(host_port.length > 2){
-            throw new IllegalArgumentException("invalid " + name + "host:port supplied (too many colon separated components)");
+            throw new IllegalArgumentException("invalid " + name2 + "host:port supplied (too many colon separated components)");
         }
         if(! isHost(host_port[0])){
-            throw new IllegalArgumentException("invalid " + name + "host:port '" + hostport + "' defined: host portion '" + host_port[0] + "' is not a valid hostname or IP address");
+            throw new IllegalArgumentException("invalid " + name2 + "host:port '" + hostport + "' defined: host portion '" + host_port[0] + "' is not a valid hostname or IP address");
         }
         if(host_port.length > 1){
             if (!isPort(host_port[1])) {
-                throw new IllegalArgumentException(String.format("invalid port '%s' defined for " + name + "host:port: must be a positive integer", host_port[1]));
+                throw new IllegalArgumentException(String.format("invalid port '%s' defined for " + name2 + "host:port: must be a positive integer", host_port[1]));
             }
         } else if (port_required) {
             throw new IllegalArgumentException("port is required");
         }
         if(!novlog){
-            vlogOption(name + "hostport", hostport);
+            vlogOption(name2 + "hostport", hostport);
         }
         return hostport;
     }
@@ -1831,7 +1831,7 @@ public final class Utils {
 
 
     public static final String validateHostname(String hostname, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(hostname == null){
             throw new IllegalArgumentException("hostname not defined (null)");
         }
@@ -1840,9 +1840,9 @@ public final class Utils {
         }
         hostname = hostname.trim();
         if(! isHostname(hostname)){
-            throw new IllegalArgumentException("invalid " + name + "hostname '" + hostname + "' defined");
+            throw new IllegalArgumentException("invalid " + name2 + "hostname '" + hostname + "' defined");
         }
-        vlogOption(name + "hostname", hostname);
+        vlogOption(name2 + "hostname", hostname);
         return hostname;
     }
     public static final String validateHostname(String hostname) {
@@ -1851,17 +1851,17 @@ public final class Utils {
 
 
     public static final double validateDouble(double d, String name, double  minVal, double maxVal) {
-        name = requireName(name);
+        String name2 = requireName(name);
         if(minVal > maxVal){
             throw new IllegalArgumentException("minVal cannot be > maxVal");
         }
         if(d < minVal){
-            throw new IllegalArgumentException("invalid " + name + " defined: cannot be lower than " + minVal);
+            throw new IllegalArgumentException("invalid " + name2 + " defined: cannot be lower than " + minVal);
         }
         if(d > maxVal){
-            throw new IllegalArgumentException("invalid " + name + " defined: cannot be greater than " + maxVal);
+            throw new IllegalArgumentException("invalid " + name2 + " defined: cannot be greater than " + maxVal);
         }
-        vlogOption(name, String.valueOf(d));
+        vlogOption(name2, String.valueOf(d));
         return d;
     }
     public static final long validateLong(long l, String name, long minVal, long maxVal) {
@@ -1877,31 +1877,31 @@ public final class Utils {
         return f;
     }
     public static final double validateDouble(String d, String name, double minVal, double maxVal) {
-        name = requireName(name);
+        String name2 = requireName(name);
         double d_double = -1;
         try {
             d_double = Double.parseDouble(d);
         } catch (NumberFormatException e){
-            throw new IllegalArgumentException("invalid " + name + " defined: must be numeric (double)");
+            throw new IllegalArgumentException("invalid " + name2 + " defined: must be numeric (double)");
         }
         // log.info(String.format(option_format, option + ":", value)); done in validateDouble
-        validateDouble(d_double, name, minVal, maxVal);
+        validateDouble(d_double, name2, minVal, maxVal);
         return d_double;
     }
     public static final long validateLong(String l, String name, long minVal, long maxVal) {
-        name = requireName(name);
+        String name2 = requireName(name);
         long l_long = -1;
         try {
             l_long = Long.parseLong(l);
         } catch (NumberFormatException e){
-            throw new IllegalArgumentException("invalid " + name + " defined: must be numeric (long)");
+            throw new IllegalArgumentException("invalid " + name2 + " defined: must be numeric (long)");
         }
         // log.info(String.format(option_format, option + ":", value)); done in validateLong
-        validateDouble(l_long, name, minVal, maxVal);
+        validateDouble(l_long, name2, minVal, maxVal);
         return l_long;
     }
     public static final int validateInt(String i, String name, int minVal, int maxVal) {
-        name = requireName(name);
+        String name2 = requireName(name);
         int i_int = -1;
         try {
             i_int = Integer.parseInt(i);
@@ -1909,22 +1909,22 @@ public final class Utils {
             //if(debug){
             //	e.printStackTrace();
             //}
-            throw new IllegalArgumentException("invalid " + name + " defined: must be numeric (int)");
+            throw new IllegalArgumentException("invalid " + name2 + " defined: must be numeric (int)");
         }
         // log.info(String.format(option_format, option + ":", value)); done in pass through to validateLong
-        validateDouble(i_int, name, minVal, maxVal);
+        validateDouble(i_int, name2, minVal, maxVal);
         return i_int;
     }
     public static final float validateFloat(String f, String name, float minVal, float maxVal) {
-        name = requireName(name);
+        String name2 = requireName(name);
         float f_float = -1;
         try {
             f_float = Float.parseFloat(f);
         } catch (NumberFormatException e){
-            throw new IllegalArgumentException("invalid " + name + " defined: must be numeric (float)");
+            throw new IllegalArgumentException("invalid " + name2 + " defined: must be numeric (float)");
         }
         // log.info(String.format(option_format, option + ":", value)); done in pass through to validateLong
-        validateDouble(f_float, name, minVal, maxVal);
+        validateDouble(f_float, name2, minVal, maxVal);
         return f_float;
     }
 
@@ -1946,18 +1946,18 @@ public final class Utils {
 
 
     public static final String validateIP(String ip, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(ip == null){
-            throw new IllegalArgumentException(name + "IP not defined (null)");
+            throw new IllegalArgumentException(name2 + "IP not defined (null)");
         }
         if(ip.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "IP not defined (blank)");
+            throw new IllegalArgumentException(name2 + "IP not defined (blank)");
         }
         ip = ip.trim();
         if(! isIP(ip)){
-            throw new IllegalArgumentException("invalid " + name + "IP defined");
+            throw new IllegalArgumentException("invalid " + name2 + "IP defined");
         }
-        vlogOption(name + "ip", ip);
+        vlogOption(name2 + "ip", ip);
         return ip;
     }
     public static final String validateIP(String ip) {
@@ -1966,18 +1966,18 @@ public final class Utils {
 
 
     public static final String validateKrb5Princ(String princ, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(princ == null) {
-            throw new IllegalArgumentException(name + "krb5 principal not defined (null)");
+            throw new IllegalArgumentException(name2 + "krb5 principal not defined (null)");
         }
         if(princ.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "krb5 principal not defined (blank)");
+            throw new IllegalArgumentException(name2 + "krb5 principal not defined (blank)");
         }
         princ = princ.trim();
         if(! isKrb5Princ(princ)){
-            throw new IllegalArgumentException("invalid " + name + "krb5 principal defined");
+            throw new IllegalArgumentException("invalid " + name2 + "krb5 principal defined");
         }
-        vlogOption(name + "krb5 principal", princ);
+        vlogOption(name2 + "krb5 principal", princ);
         return princ;
     }
     public static final String validateKrb5Princ(String princ) {
@@ -1986,18 +1986,18 @@ public final class Utils {
 
 
     public static final String validateKrb5Realm(String realm, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(realm == null){
-            throw new IllegalArgumentException(name + "realm not defined (null)");
+            throw new IllegalArgumentException(name2 + "realm not defined (null)");
         }
         if(realm.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "realm not defined (blank)");
+            throw new IllegalArgumentException(name2 + "realm not defined (blank)");
         }
         realm = realm.trim();
         if(! isDomain(realm)){
-            throw new IllegalArgumentException("invalid " + name + "realm defined");
+            throw new IllegalArgumentException("invalid " + name2 + "realm defined");
         }
-        vlogOption(name + "realm", realm);
+        vlogOption(name2 + "realm", realm);
         return realm;
     }
     public static final String validateKrb5Realm(String realm) {
@@ -2022,18 +2022,18 @@ public final class Utils {
 
 
     public static final String validateLdapDn(String dn, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(dn == null){
-            throw new IllegalArgumentException("ldap " + name + "dn not defined (null)");
+            throw new IllegalArgumentException("ldap " + name2 + "dn not defined (null)");
         }
         if(dn.trim().isEmpty()){
-            throw new IllegalArgumentException("ldap " + name + "dn not defined (blank)");
+            throw new IllegalArgumentException("ldap " + name2 + "dn not defined (blank)");
         }
         dn = dn.trim();
         if(! isLdapDn(dn)){
-            throw new IllegalArgumentException("invalid " + name + "ldap dn defined");
+            throw new IllegalArgumentException("invalid " + name2 + "ldap dn defined");
         }
-        vlogOption("ldap " + name + "dn", dn);
+        vlogOption("ldap " + name2 + "dn", dn);
         return dn;
     }
     public static final String validateLdapDn(String dn) {
@@ -2118,18 +2118,18 @@ public final class Utils {
 
 
     public static final String validateNoSqlKey(String key, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(key == null){
-            throw new IllegalArgumentException(name + "key not defined (null)");
+            throw new IllegalArgumentException(name2 + "key not defined (null)");
         }
         if(key.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "key not defined (blank)");
+            throw new IllegalArgumentException(name2 + "key not defined (blank)");
         }
         key = key.trim();
         if(! isNoSqlKey(key)){
-            throw new IllegalArgumentException("invalid " + name + "key defined: may only contain characters: alphanumeric, commas, colons, underscores, pluses and dashes");
+            throw new IllegalArgumentException("invalid " + name2 + "key defined: may only contain characters: alphanumeric, commas, colons, underscores, pluses and dashes");
         }
-        vlogOption(name + "key", key);
+        vlogOption(name2 + "key", key);
         return key;
     }
     public static final String validateNoSqlKey(String key) {
@@ -2138,11 +2138,11 @@ public final class Utils {
 
 
     public static final int validatePort(int port, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(! isPort(port)){
-            throw new IllegalArgumentException("invalid " + name + "port defined");
+            throw new IllegalArgumentException("invalid " + name2 + "port defined");
         }
-        vlogOption(name + "port", String.valueOf(port));
+        vlogOption(name2 + "port", String.valueOf(port));
         return port;
     }
     public static final String validatePort(String port, String name){
@@ -2164,16 +2164,16 @@ public final class Utils {
 
 
     public static final String validateProcessName(String process, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(process == null){
-            throw new IllegalArgumentException(name + "process name not defined (null)");
+            throw new IllegalArgumentException(name2 + "process name not defined (null)");
         }
         if(process.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "process name not defined (blank)");
+            throw new IllegalArgumentException(name2 + "process name not defined (blank)");
         }
         process = process.trim();
         if(! isProcessName(process)){
-            throw new IllegalArgumentException("invalid " + name + "process name defined:");
+            throw new IllegalArgumentException("invalid " + name2 + "process name defined:");
         }
         return process;
     }
@@ -2183,12 +2183,12 @@ public final class Utils {
 
 
     public static final String validateProgramPath(String path, String name, String regex) {
-        name = requireName(name).trim();
+        String name2 = requireName(name).trim();
         if(path == null){
-            throw new IllegalArgumentException(name + " path not defined (null)");
+            throw new IllegalArgumentException(name2 + " path not defined (null)");
         }
         if(path.trim().isEmpty()){
-            throw new IllegalArgumentException(name + " path not defined (blank)");
+            throw new IllegalArgumentException(name2 + " path not defined (blank)");
         }
         path = path.trim();
         if(! path.matches("^[./]")){
@@ -2200,7 +2200,7 @@ public final class Utils {
             }
         }
         if(regex == null || regex.trim().isEmpty()){
-            regex = name;
+            regex = name2;
         }
         if(validateRegex(regex, "program path regex", true) == null){
             throw new IllegalArgumentException("invalid regex given to validateProgramPath()");
@@ -2210,7 +2210,7 @@ public final class Utils {
 //            throw new IllegalArgumentException("invalid path given for " + name + ", failed filename regex");
 //        }
         if(! path.matches("(?:^|.*/)" + regex + "$")){
-           throw new IllegalArgumentException("invalid path given for " + name + ", is not a path to the " + name + " command");
+           throw new IllegalArgumentException("invalid path given for " + name2 + ", is not a path to the " + name2 + " command");
         }
         File f = new File(path);
         if( ! ( f.exists() && f.isFile() ) ){
@@ -2219,7 +2219,7 @@ public final class Utils {
         if(!f.canExecute()){
             throw new IllegalArgumentException(path + " not executable");
         }
-        vlogOption(name + " program path", path);
+        vlogOption(name2 + " program path", path);
         return path;
     }
     public static final String validateProgramPath(String path, String name) {
@@ -2228,27 +2228,27 @@ public final class Utils {
 
 
     public static final String validateRegex(String regex, String name, Boolean posix) {
-        name = name(name);
+        String name2 = name(name);
         // intentionally not trimming
         if(regex == null){
-            throw new IllegalArgumentException(name + "regex not defined (null)");
+            throw new IllegalArgumentException(name2 + "regex not defined (null)");
         }
         if(regex.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "regex not defined (blank)");
+            throw new IllegalArgumentException(name2 + "regex not defined (blank)");
         }
         if(posix){
             if(regex.matches(".*(?:\\$\\(|`).*")){
-                throw new IllegalArgumentException("invalid " + name + "posix regex supplied: contains sub shell metachars ( $( / ` ) that would be dangerous to pass to shell");
+                throw new IllegalArgumentException("invalid " + name2 + "posix regex supplied: contains sub shell metachars ( $( / ` ) that would be dangerous to pass to shell");
             }
             // TODO: cmd("egrep '$regex' < /dev/null") and check for any output signifying error with the regex
         } else {
             try {
                 "".matches(regex);
             } catch (PatternSyntaxException e) {
-                throw new IllegalArgumentException("invalid " + name + "regex defined");
+                throw new IllegalArgumentException("invalid " + name2 + "regex defined");
             }
         }
-        vlogOption(name + "regex", regex);
+        vlogOption(name2 + "regex", regex);
         return regex;
     }
     public static final String validateRegex(String regex, String name) {
@@ -2257,18 +2257,18 @@ public final class Utils {
 
 
     public static final String validateUser(String user, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(user == null){
-            throw new IllegalArgumentException(name + "user not defined (null)");
+            throw new IllegalArgumentException(name2 + "user not defined (null)");
         }
         if(user.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "user not defined (blank)");
+            throw new IllegalArgumentException(name2 + "user not defined (blank)");
         }
         user = user.trim();
         if(! isUser(user)){
-            throw new IllegalArgumentException("invalid " + name + "username defined: must be alphanumeric");
+            throw new IllegalArgumentException("invalid " + name2 + "username defined: must be alphanumeric");
         }
-        vlogOption(name + "user", user);
+        vlogOption(name2 + "user", user);
         return user;
     }
     public static final String validateUser(String user) {
@@ -2287,21 +2287,21 @@ public final class Utils {
 
 
     public static final String validatePassword(String password, String name, Boolean allow_all) {
-        name = name(name);
+        String name2 = name(name);
         if(password == null){
-            throw new IllegalArgumentException(name + "password not defined (null)");
+            throw new IllegalArgumentException(name2 + "password not defined (null)");
         }
         if(password.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "password not defined (blank)");
+            throw new IllegalArgumentException(name2 + "password not defined (blank)");
         }
         if(allow_all){
             return password;
         }
         if(password.matches(".*[\"'`].*")){
-            throw new IllegalArgumentException("invalid " + name + "password defined: may not contain quotes or backticks");
+            throw new IllegalArgumentException("invalid " + name2 + "password defined: may not contain quotes or backticks");
         }
         if(password.matches(".*\\$\\(.*")){
-            throw new IllegalArgumentException("invalid " + name + "password defined: may not contain $( as this is a subshell escape and could be dangerous to pass through to programs, especially on the command line");
+            throw new IllegalArgumentException("invalid " + name2 + "password defined: may not contain $( as this is a subshell escape and could be dangerous to pass through to programs, especially on the command line");
         }
         vlogOption("password", "<omitted>");
         return password;
@@ -2315,12 +2315,12 @@ public final class Utils {
 
 
     public static final String validateResolvable(String host, String name) throws UnknownHostException {
-        name = name(name);
+        String name2 = name(name);
         if(host == null) {
-            throw new IllegalArgumentException(name + "host not defined (null)");
+            throw new IllegalArgumentException(name2 + "host not defined (null)");
         }
         if(host.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "host not defined (blank)");
+            throw new IllegalArgumentException(name2 + "host not defined (blank)");
         }
         host = host.trim();
         // throws exception now, no nulls
@@ -2336,19 +2336,19 @@ public final class Utils {
 
 
     public static final String validateUnits(String units, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(units == null) {
-            throw new IllegalArgumentException(name + "units not defined (null)");
+            throw new IllegalArgumentException(name2 + "units not defined (null)");
         }
-        if(units.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "units not defined (blank)");
+        String units2 = units.trim();
+        if(units2.isEmpty()){
+            throw new IllegalArgumentException(name2 + "units not defined (blank)");
         }
-        units = units.trim();
-        if(! isNagiosUnit(units)){
-            throw new IllegalArgumentException("invalid " + name + "units '" + units + "' defined, must be one of: " + valid_units.toString());
+        if(! isNagiosUnit(units2)){
+            throw new IllegalArgumentException("invalid " + name2 + "units '" + units2 + "' defined, must be one of: " + valid_units.toString());
         }
-        vlogOption(name + "units", units);
-        return units;
+        vlogOption(name2 + "units", units2);
+        return units2;
     }
     public static final String validateUnits(String units) {
         return validateUnits(units, null);
@@ -2356,22 +2356,22 @@ public final class Utils {
 
 
     public static final String validateUrl(String url, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(url == null) {
-            throw new IllegalArgumentException(name + "url not defined (null)");
+            throw new IllegalArgumentException(name2 + "url not defined (null)");
         }
-        if(url.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "url not defined (blank)");
+        String url2 = url.trim();
+        if(url2.isEmpty()){
+            throw new IllegalArgumentException(name2 + "url not defined (blank)");
         }
-        url = url.trim();
-        if(!url.contains("://")){
-            url = "http://" + url;
+        if(!url2.contains("://")){
+            url2 = "http://" + url2;
         }
-        if(! isUrl(url)){
-            throw new IllegalArgumentException("invalid " + name + "url defined: '" + url + "'");
+        if(! isUrl(url2)){
+            throw new IllegalArgumentException("invalid " + name2 + "url defined: '" + url2 + "'");
         }
-        vlogOption(name + "url", url);
-        return url;
+        vlogOption(name2 + "url", url2);
+        return url2;
     }
     public static final String validateUrl(String url) {
         return validateUrl(url, null);
@@ -2379,18 +2379,18 @@ public final class Utils {
 
 
     public static final String validateUrlPathSuffix(String url, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(url == null) {
-            throw new IllegalArgumentException(name + "url not defined (null)");
+            throw new IllegalArgumentException(name2 + "url not defined (null)");
         }
-        if(url.trim().isEmpty()){
-           throw new IllegalArgumentException(name + "url not defined (blank)");
+        String url2 = url.trim();
+        if(url2.isEmpty()){
+           throw new IllegalArgumentException(name2 + "url not defined (blank)");
         }
-        url = url.trim();
-        if(! isUrlPathSuffix(url)){
-            throw new IllegalArgumentException("invalid " + name + "url defined: '" + url + "'");
+        if(! isUrlPathSuffix(url2)){
+            throw new IllegalArgumentException("invalid " + name2 + "url defined: '" + url2 + "'");
         }
-        return url;
+        return url2;
     }
     public static final String validateUrlPathSuffix(String url) {
         return validateUrlPathSuffix(url, null);

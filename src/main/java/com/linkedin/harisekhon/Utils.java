@@ -1442,19 +1442,19 @@ public final class Utils {
         if(query == null){
             throw new IllegalArgumentException(name + "query not defined (null)");
         }
-        if(query.trim().isEmpty()){
+        String query2 = query.trim();
+        if(query2.isEmpty()){
             throw new IllegalArgumentException(name + "query not defined (blank)");
         }
-        query = query.trim();
         // XXX: fix this to be case insensitive and re-enable case insensitive unit test
-        if(! query.matches("^(?i)\\s*(?:SHOW|SELECT)\\s+.+$")){
+        if(! query2.matches("^(?i)\\s*(?:SHOW|SELECT)\\s+.+$")){
             throw new IllegalArgumentException("invalid " + name + "query defined: may only be a SELECT or SHOW statement");
         }
-        if(query.matches("(?i).*\\b(?:insert|update|delete|create|drop|alter|truncate)\\b.*")){
+        if(query2.matches("(?i).*\\b(?:insert|update|delete|create|drop|alter|truncate)\\b.*")){
             throw new IllegalArgumentException("invalid " + name + "query defined: DML statement or suspect chars detected in query");
         }
-        vlogOption(name + "query", query);
-        return query;
+        vlogOption(name + "query", query2);
+        return query2;
     }
     public static final String validateDatabaseQuerySelectShow(String query) {
         return validateDatabaseQuerySelectShow(query, null);
@@ -1537,15 +1537,15 @@ public final class Utils {
         if(domain == null){
             throw new IllegalArgumentException(name + "domain not defined (null)");
         }
-        if(domain.trim().isEmpty()){
+        String domain2 = domain.trim();
+        if(domain2.isEmpty()){
             throw new IllegalArgumentException(name + "domain not defined (blank)");
         }
-        domain = domain.trim();
-        if(! isDomainStrict(domain)){
+        if(! isDomainStrict(domain2)){
             throw new IllegalArgumentException("invalid " + name + "domain name defined ('" + domain + "')");
         }
-        vlogOption(name + "domain", domain);
-        return domain;
+        vlogOption(name + "domain", domain2);
+        return domain2;
     }
     public static final String validateDomainStrict(String domain) {
         return validateDomainStrict(domain, null);

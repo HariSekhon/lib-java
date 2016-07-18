@@ -59,8 +59,6 @@ public final class Utils {
 
     private static final HashMap<String, Integer> exit_codes = new HashMap<String, Integer>();
     private static String status = "UNKNOWN";
-    private static int verbose = 0;
-    public static boolean nagios_plugin = false;
 
     // keeping this lowercase to make it easier to do String.toLowerCase() case insensitive matches
     private static final ArrayList<String> valid_units = new ArrayList<String>(

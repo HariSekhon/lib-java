@@ -1737,11 +1737,10 @@ public final class Utils {
         if(! isPort(port)){
             throw new IllegalArgumentException("invalid port defined, integer must be between 1 and 65535");
         }
-        hosts = uniqArrayOrdered(hosts);
+        String[] hosts2 = uniqArrayOrdered(hosts);
         if(hosts.length < 1){
             throw new IllegalArgumentException("hosts not defined");
         }
-        String[] hosts2 = hosts;
         Pattern p = Pattern.compile(":(\\d+)$");
         for(int i=0; i < hosts2.length; i++){
             String node_port = null;

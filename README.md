@@ -15,7 +15,7 @@ Uses Maven as standard, just call
 mvn clean package
 ```
 
-Continuous Integration is run on this repo to build and unit test it (JUnit, over 400 unit tests).
+Continuous Integration is run on this repo to build and unit test it (~ 400 JUnit tests).
 
 #### Configuration ####
 

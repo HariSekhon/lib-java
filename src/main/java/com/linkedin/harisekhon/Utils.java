@@ -262,7 +262,7 @@ public final class Utils {
         setStatus("CRITICAL");
     }
 
-    public static final Boolean is_ok(){
+    public static final Boolean isOk(){
         // encapsulated and cannot return null, also reversed equality below cannot get NPE
 //        if(getStatus() == null){
 //            return false;
@@ -271,7 +271,7 @@ public final class Utils {
     }
 
 
-    public static final Boolean is_warning(){
+    public static final Boolean isWarning(){
         // encapsulated and cannot return null, also reversed equality below cannot get NPE
 //        if(getStatus() == null){
 //            return false;
@@ -279,7 +279,7 @@ public final class Utils {
         return "WARNING".equalsIgnoreCase(getStatus());
     }
 
-    public static final Boolean is_critical(){
+    public static final Boolean isCritical(){
         // encapsulated and cannot return null, also reversed equality below cannot get NPE
 //        if(getStatus() == null){
 //            return false;
@@ -287,7 +287,7 @@ public final class Utils {
         return "CRITICAL".equalsIgnoreCase(getStatus());
     }
 
-    public static final Boolean is_unknown(){
+    public static final Boolean isUnknown(){
         // encapsulated and cannot return null, also reversed equality below cannot get NPE
 //        if(getStatus() == null){
 //            return false;
@@ -339,9 +339,9 @@ public final class Utils {
     }
 
 
-    public static final Boolean check_string (String str, String expected, Boolean no_msg) {
+    public static final Boolean checkString(String str, String expected, Boolean no_msg) {
         if(expected == null){
-            throw new IllegalArgumentException("passed null as expected string to check_string()");
+            throw new IllegalArgumentException("passed null as expected string to checkString()");
         }
         if(str == null) {
             return false;
@@ -357,8 +357,8 @@ public final class Utils {
         */
         return false;
     }
-    public static final Boolean check_string (String str, String expected) {
-        return check_string(str, expected, false);
+    public static final Boolean checkString(String str, String expected) {
+        return checkString(str, expected, false);
     }
 
 

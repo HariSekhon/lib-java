@@ -105,39 +105,39 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_setStatus_getStatus_and_set_shortcuts(){
         // start unknown - but when repeatedly testing this breaks so reset to UNKNOWN at end
-        assertTrue(is_unknown());
+        assertTrue(isUnknown());
         assertTrue(getStatus().equals("UNKNOWN"));
         assertEquals(getStatusCode(), 3);
         warning();
         status();
         status2();
         status3();
-        assertTrue(is_warning());
+        assertTrue(isWarning());
         assertTrue(getStatus().equals("WARNING"));
 
         // shouldn't change from warning to unknown
         unknown();
-        assertTrue(is_warning());
+        assertTrue(isWarning());
         assertTrue(getStatus().equals("WARNING"));
         assertEquals(getStatusCode(), 1);
 
         // critical should override unknown
         setStatus("OK");
-        assertTrue(is_ok());
+        assertTrue(isOk());
         unknown();
-        assertTrue(is_unknown());
+        assertTrue(isUnknown());
         critical();
-        assertTrue(is_critical());
+        assertTrue(isCritical());
         assertTrue(getStatus().equals("CRITICAL"));
         assertEquals(getStatusCode(), 2);
 
         // critical should override warning
         setStatus("WARNING");
-        assertTrue(is_warning());
+        assertTrue(isWarning());
         critical();
-        assertTrue(is_critical());
+        assertTrue(isCritical());
         unknown(); // shouldn't change critical
-        assertTrue(is_critical());
+        assertTrue(isCritical());
         assertTrue(getStatus().equals("CRITICAL"));
 
         setStatus("UNKNOWN");
@@ -315,17 +315,17 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
     @Test
     public void test_check_string(){
-        //println(check_string("test", "test"));
-        assertTrue("check_string(test,test)",   check_string("test", "test"));             // will use ==
-        assertTrue("check_string(test,test)",   check_string("test", "test", true));
-        assertTrue("check_string(test,test)",   check_string("test", new String("test"))); // will use .equals()
-        assertFalse("check_string(test,test2)", check_string("test", "test2"));
-        assertFalse("check_string(null,test2)", check_string(null, "test2"));
+        //println(checkString("test", "test"));
+        assertTrue("checkString(test,test)",   checkString("test", "test"));             // will use ==
+        assertTrue("checkString(test,test)",   checkString("test", "test", true));
+        assertTrue("checkString(test,test)",   checkString("test", new String("test"))); // will use .equals()
+        assertFalse("checkString(test,test2)", checkString("test", "test2"));
+        assertFalse("checkString(null,test2)", checkString(null, "test2"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_check_string_null_exception() throws IllegalArgumentException {
-        check_string("test", null);
+        checkString("test", null);
     }
 
     // ====================================================================== //

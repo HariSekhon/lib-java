@@ -1836,15 +1836,15 @@ public final class Utils {
         if(hostname == null){
             throw new IllegalArgumentException("hostname not defined (null)");
         }
-        if(hostname.trim().isEmpty()){
+        String hostname2 = hostname.trim();
+        if(hostname2.isEmpty()){
             throw new IllegalArgumentException("hostname not defined (blank)");
         }
-        hostname = hostname.trim();
-        if(! isHostname(hostname)){
-            throw new IllegalArgumentException("invalid " + name2 + "hostname '" + hostname + "' defined");
+        if(! isHostname(hostname2)){
+            throw new IllegalArgumentException("invalid " + name2 + "hostname '" + hostname2 + "' defined");
         }
-        vlogOption(name2 + "hostname", hostname);
-        return hostname;
+        vlogOption(name2 + "hostname", hostname2);
+        return hostname2;
     }
     public static final String validateHostname(String hostname) {
         return validateHostname(hostname, null);

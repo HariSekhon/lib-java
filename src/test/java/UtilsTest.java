@@ -295,21 +295,21 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
     @Test
     public void testCheckRegex(){
-        //println(check_regex("test", "test"));
-        assertTrue("check_regex(test,test)",   check_regex("test", "test"));
-        assertTrue("check_regex(test,test)",   check_regex("test", "te.t"));
-        assertFalse("check_regex(test,test2)", check_regex("test", "^est"));
-        assertFalse("check_regex(null,test)",  check_regex(null, "test"));
+        //println(checkRegex("test", "test"));
+        assertTrue("checkRegex(test,test)",   checkRegex("test", "test"));
+        assertTrue("checkRegex(test,test)",   checkRegex("test", "te.t"));
+        assertFalse("checkRegex(test,test2)", checkRegex("test", "^est"));
+        assertFalse("checkRegex(null,test)",  checkRegex(null, "test"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testCheckRegexException() throws IllegalArgumentException {
-        check_regex("test", "*est");
+        checkRegex("test", "*est");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testCheckRegexNullRegexException() throws IllegalArgumentException {
-        check_regex("test", null);
+        checkRegex("test", null);
     }
 
     // ====================================================================== //

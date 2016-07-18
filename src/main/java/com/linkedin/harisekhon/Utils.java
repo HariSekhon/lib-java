@@ -318,16 +318,16 @@ public final class Utils {
 
     // ===================================================================== //
 
-    public static final Boolean check_regex (String string, String regex) {
+    public static final Boolean checkRegex(String string, String regex) {
         if(string == null){
-//            throw new IllegalArgumentException("undefined string passed to check_regex()");
+//            throw new IllegalArgumentException("undefined string passed to checkRegex()");
             return false;
         }
         if(regex == null){
-            throw new IllegalArgumentException("undefined regex passed to check_regex()");
+            throw new IllegalArgumentException("undefined regex passed to checkRegex()");
         }
         if(! isRegex(regex)){
-            throw new IllegalArgumentException("invalid regex passed to check_regex()");
+            throw new IllegalArgumentException("invalid regex passed to checkRegex()");
         }
         if(string.matches(regex)){
             return true;
@@ -401,47 +401,49 @@ public final class Utils {
 
 
     public static final String humanUnits(double num, String units, Boolean terse) {
+        String units2;
         if(units == null){
-            units = "";
+            units2 = "";
+        } else {
+            units2 = units.trim();
         }
-        units = units.trim();
-        if(!units.isEmpty()){
-            num = expandUnits(num, units, "humanUnits");
+        if(!units2.isEmpty()){
+            num = expandUnits(num, units2, "humanUnits");
         }
         if (num >= pow(1024, 7)) {
             throw new IllegalArgumentException(String.format("determined suspicious units for number '%s', larger than Exabytes?!!", num));
         } else if(num >= pow(1024, 6)){
             //num_str = String.format("%.2f", num / pow(1024, 6)).replaceFirst("\\.0+$", "");
             num = num / pow(1024, 6);
-            units = "EB";
+            units2 = "EB";
         } else if(num >= pow(1024, 5)){
             //num_str = String.format("%.2f", num / pow(1024, 5));
             num = num / pow(1024, 5);
-            units = "PB";
+            units2 = "PB";
         } else if(num >= pow(1024, 4)){
             //num_str = String.format("%.2f", num / pow(1024, 4));
             num = num / pow(1024, 4);
-            units = "TB";
+            units2 = "TB";
         } else if(num >= pow(1024, 3)){
             //num_str = String.format("%.2f", num / pow(1024, 3));
             num = num / pow(1024, 3);
-            units = "GB";
+            units2 = "GB";
         } else if(num >= pow(1024, 2)){
             //num_str = String.format("%.2f", num / pow(1024, 2));
             num = num / pow(1024, 2);
-            units = "MB";
+            units2 = "MB";
         } else if(num >= pow(1024, 1)){
             //num_str = String.format("%.2f", num / pow(1024, 1));
             num = num / pow(1024, 1);
-            units = "KB";
+            units2 = "KB";
         } else if(num < 1024){
             //num_str = String.valueOf(num);
             if(terse){
                 //return String.format("%sB", num);
-                units = "B";
+                units2 = "B";
             } else {
                 //return String.format("%s bytes", num);
-                units = " bytes";
+                units2 = " bytes";
             }
         // unreachable
 //        } else {
@@ -449,7 +451,7 @@ public final class Utils {
         }
         // remove trailing zeros past the decimal point
         String num_str = String.format("%.2f", num).replaceFirst("(\\.\\d+)0$", "$1").replaceFirst("\\.0+$", "");
-        return num_str + units;
+        return num_str + units2;
     }
     public static final String humanUnits(double num, String units) {
         return humanUnits(num, units, false);

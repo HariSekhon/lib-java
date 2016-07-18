@@ -1247,18 +1247,18 @@ public final class Utils {
 
 
     public static final String validateAlnum(String alnum, String name){
-        name = requireName(name);
+        String name2 = requireName(name);
         if(alnum == null){
-            throw new IllegalArgumentException(name + "not defined (null)");
+            throw new IllegalArgumentException(name2 + "not defined (null)");
         }
         String alnum2 = alnum.trim();
         if(alnum2.isEmpty()){
-            throw new IllegalArgumentException(name + "not defined (blank)");
+            throw new IllegalArgumentException(name2 + "not defined (blank)");
         }
         if(! alnum2.matches("^[A-Za-z0-9]+$")){
-            throw new IllegalArgumentException("invalid " + name + " defined: must be alphanumeric");
+            throw new IllegalArgumentException("invalid " + name2 + " defined: must be alphanumeric");
         }
-        vlogOption(name, alnum2);
+        vlogOption(name2, alnum2);
         return alnum2;
     }
 
@@ -1390,18 +1390,18 @@ public final class Utils {
 
 
     public static final String validateDatabase(String database, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(database == null){
-            throw new IllegalArgumentException(name + "database not defined (null)");
+            throw new IllegalArgumentException(name2 + "database not defined (null)");
         }
         if(database.trim().isEmpty()){
-            throw new IllegalArgumentException(name + "database not defined (blank)");
+            throw new IllegalArgumentException(name2 + "database not defined (blank)");
         }
         database.trim();
         if(! isDatabaseName(database)){
-            throw new IllegalArgumentException("invalid " + name + "database defined: must be alphanumeric");
+            throw new IllegalArgumentException("invalid " + name2 + "database defined: must be alphanumeric");
         }
-        vlogOption(name + "database", database);
+        vlogOption(name2 + "database", database);
         return database;
     }
     public static final String validateDatabase(String database) {
@@ -2148,14 +2148,14 @@ public final class Utils {
         return port;
     }
     public static final String validatePort(String port, String name){
-        name = name(name);
+        String name2 = name(name);
         int port_int = -1;
         try {
             port_int = Integer.parseInt(port);
         } catch (NumberFormatException e){
-            throw new IllegalArgumentException("invalid " + name + "port specified: must be numeric");
+            throw new IllegalArgumentException("invalid " + name2 + "port specified: must be numeric");
         }
-        return String.valueOf(validatePort(port_int, name));
+        return String.valueOf(validatePort(port_int, name2));
     }
     public static final int validatePort(int port) {
         return validatePort(port, null);
@@ -2280,9 +2280,9 @@ public final class Utils {
 
     public static final String validateUserExists(String user, String name) throws IOException, UnsupportedOSException {
         user = validateUser(user, name);
-        name = name(name);
+        String name2 = name(name);
         if(! userExists(user)){
-            throw new IllegalArgumentException("invalid " + name + "user defined, not found on local system");
+            throw new IllegalArgumentException("invalid " + name2 + "user defined, not found on local system");
         }
         return user;
     }

@@ -133,7 +133,7 @@ public final class Utils {
     public static HashSet<String> tlds = new HashSet<String>();
     public static final String tld_regex;
 
-    static final void load_tlds (String filename) throws IOException {
+    protected static final void load_tlds (String filename) throws IOException {
         int tld_count = 0;
         try {
             final InputStream resourceAsStream = Utils.class.getResourceAsStream("/" + filename);
@@ -1227,11 +1227,11 @@ public final class Utils {
         if(name == null){
             return "";
         }
-        name = name.trim();
-        if(! name.isEmpty()){
-            name = name + " ";
+        String name2 = name.trim();
+        if(! name2.isEmpty()){
+            name2 = name2 + " ";
         }
-        return name;
+        return name2;
     }
 
     static final String require_name (String name) {
@@ -1244,20 +1244,20 @@ public final class Utils {
     }
 
 
-    public static final String validate_alnum (String arg, String name){
+    public static final String validate_alnum (String alnum, String name){
         name = require_name(name);
-        if(arg == null){
+        if(alnum == null){
             throw new IllegalArgumentException(name + "not defined (null)");
         }
-        if(arg.trim().isEmpty()){
+        String alnum2 = alnum.trim();
+        if(alnum2.isEmpty()){
             throw new IllegalArgumentException(name + "not defined (blank)");
         }
-        arg = arg.trim();
-        if(! arg.matches("^[A-Za-z0-9]+$")){
+        if(! alnum2.matches("^[A-Za-z0-9]+$")){
             throw new IllegalArgumentException("invalid " + name + " defined: must be alphanumeric");
         }
-        vlog_option(name, arg);
-        return arg;
+        vlog_option(name, alnum2);
+        return alnum2;
     }
 
 

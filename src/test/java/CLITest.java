@@ -86,14 +86,14 @@ public class CLITest {
 
     @Test
     // setVerbose() won't work because parse args resets it so we change verbose_default instead
-    public void test_verbose_default_setters_getters() {
+    public void testVerboseDefaultSettersGetters() {
         cli.setVerboseDefault(2);
         assertEquals("cli.getVerboseDefault", 2, cli.getVerboseDefault());
 //        cli.main();
     }
 
     @Test
-    public void test_reinit_set_verbose() {
+    public void testReinitSetVerbose() {
         cli.setVerbose(0);
         assertEquals("cli.getVerbose()", 0, cli.getVerbose());
     }
@@ -122,7 +122,7 @@ public class CLITest {
     //                           "Utils version %(version_regex)s" % globals(), cli.__parser.get_version()))
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_set_timeout_max_set_timeout_Exception() {
+    public void testSetTimeoutMaxSetTimeoutException() {
         cli.setTimeoutMax(5);
         cli.setTimeout(6);
     }
@@ -138,7 +138,7 @@ public class CLITest {
 //    }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_set_timeout_max_set_timeout_default_Exception() {
+    public void testSetTimeoutMaxSetTimeoutDefaultException() {
         cli.setTimeoutMax(10);
         cli.setTimeoutDefault(11);
     }

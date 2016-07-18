@@ -462,7 +462,7 @@ public final class Utils {
         return humanUnits(num, null, false);
     }
 
-    public static final String strip_scheme (String str) {
+    public static final String stripScheme(String str) {
         if(str.matches("^\\w+://[^/].*")){
             return str.replaceFirst("^\\w+://", "");
         } else {
@@ -1720,7 +1720,7 @@ public final class Utils {
         return validateHost(host, null);
     }
 
-    static final int parse_port (String port){
+    public static final int parse_port (String port){
         int port_int = -1;
         try{
             port_int = Integer.parseInt(port);
@@ -2045,11 +2045,11 @@ public final class Utils {
 
     public static final ArrayList<String> validateNodeList(ArrayList<String> nodes){
         ArrayList<String> final_nodes = new ArrayList<String>();
-        nodes = uniqArraylistOrdered(nodes);
-        if(nodes.size() < 1){
+        ArrayList<String> nodes2 = uniqArraylistOrdered(nodes);
+        if(nodes2.size() < 1){
             throw new IllegalArgumentException("node(s) not defined");
         }
-        for(String node: nodes){
+        for(String node: nodes2){
             //node = node.trim();
             for(String node2: node.split("[,\\s]+")){
                 node2 = node2.trim();
@@ -2170,14 +2170,14 @@ public final class Utils {
         if(process == null){
             throw new IllegalArgumentException(name2 + "process name not defined (null)");
         }
-        if(process.trim().isEmpty()){
+        String process2 = process.trim();
+        if(process2.isEmpty()){
             throw new IllegalArgumentException(name2 + "process name not defined (blank)");
         }
-        process = process.trim();
-        if(! isProcessName(process)){
+        if(! isProcessName(process2)){
             throw new IllegalArgumentException("invalid " + name2 + "process name defined:");
         }
-        return process;
+        return process2;
     }
     public static final String validateProcessName(String process) {
         return validateProcessName(process, null);
@@ -2189,40 +2189,43 @@ public final class Utils {
         if(path == null){
             throw new IllegalArgumentException(name2 + " path not defined (null)");
         }
-        if(path.trim().isEmpty()){
+        String path2 = path.trim();
+        if(path2.isEmpty()){
             throw new IllegalArgumentException(name2 + " path not defined (blank)");
         }
-        path = path.trim();
-        if(! path.matches("^[./]")){
+        if(! path2.matches("^[./]")){
             try {
-                path = which(path);
+                path2 = which(path2);
             } catch (IOException e){
 //                throw new IllegalArgumentException(name + " program not found in $PATH (" + System.getenv("PATH") + ")");
                 throw new IllegalArgumentException(e.getMessage());
             }
         }
+        String regex2;
         if(regex == null || regex.trim().isEmpty()){
-            regex = name2;
+            regex2 = name2;
+        } else {
+            regex2 = regex;
         }
-        if(validateRegex(regex, "program path regex", true) == null){
+        if(validateRegex(regex2, "program path regex", true) == null){
             throw new IllegalArgumentException("invalid regex given to validateProgramPath()");
         }
-        validateFilename(path, null, true);
+        validateFilename(path2, null, true);
 //        if(validateFilename(path, null, true) == null){
 //            throw new IllegalArgumentException("invalid path given for " + name + ", failed filename regex");
 //        }
-        if(! path.matches("(?:^|.*/)" + regex + "$")){
+        if(! path2.matches("(?:^|.*/)" + regex2 + "$")){
            throw new IllegalArgumentException("invalid path given for " + name2 + ", is not a path to the " + name2 + " command");
         }
-        File f = new File(path);
+        File f = new File(path2);
         if( ! ( f.exists() && f.isFile() ) ){
-            throw new IllegalArgumentException(path + " not found");
+            throw new IllegalArgumentException(path2 + " not found");
         }
         if(!f.canExecute()){
-            throw new IllegalArgumentException(path + " not executable");
+            throw new IllegalArgumentException(path2 + " not executable");
         }
-        vlogOption(name2 + " program path", path);
-        return path;
+        vlogOption(name2 + " program path", path2);
+        return path2;
     }
     public static final String validateProgramPath(String path, String name) {
         return validateProgramPath(path, name, null);

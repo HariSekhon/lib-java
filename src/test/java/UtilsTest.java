@@ -468,12 +468,12 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
     @Test
     public void testStripScheme(){
-        assertEquals("strip_scheme(file:/blah)",                        "/blah",                        strip_scheme("file:/blah"));
-        assertEquals("strip_scheme(file:///path/to/blah)",              "/path/to/blah",                strip_scheme("file:///path/to/blah"));
-        assertEquals("strip_scheme(http://blah)",                       "blah",                         strip_scheme("http://blah"));
-        assertEquals("strip_scheme(hdfs:///blah)",                      "/blah",                        strip_scheme("hdfs:///blah"));
-        assertEquals("strip_scheme(hdfs://namenode/path/to/blah)",      "namenode/path/to/blah",        strip_scheme("hdfs://namenode/path/to/blah"));
-        assertEquals("strip_scheme(hdfs://namenode:8020/path/to/blah)", "namenode:8020/path/to/blah",   strip_scheme("hdfs://namenode:8020/path/to/blah"));
+        assertEquals("stripScheme(file:/blah)",                        "/blah",                        stripScheme("file:/blah"));
+        assertEquals("stripScheme(file:///path/to/blah)",              "/path/to/blah",                stripScheme("file:///path/to/blah"));
+        assertEquals("stripScheme(http://blah)",                       "blah",                         stripScheme("http://blah"));
+        assertEquals("stripScheme(hdfs:///blah)",                      "/blah",                        stripScheme("hdfs:///blah"));
+        assertEquals("stripScheme(hdfs://namenode/path/to/blah)",      "namenode/path/to/blah",        stripScheme("hdfs://namenode/path/to/blah"));
+        assertEquals("stripScheme(hdfs://namenode:8020/path/to/blah)", "namenode:8020/path/to/blah",   stripScheme("hdfs://namenode:8020/path/to/blah"));
     }
 
     // ====================================================================== //

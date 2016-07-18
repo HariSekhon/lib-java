@@ -247,7 +247,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_array_to_arraylist(){
         String[] a = {"node1:9200","node2","node3:8080","node4","node5"};
-        assertArrayEquals("array_to_arraylist()", a, arraylist_to_array(array_to_arraylist(a)));
+        assertArrayEquals("arrayToArraylist()", a, arraylistToArray(arrayToArraylist(a)));
     }
 
     @Test
@@ -255,7 +255,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         String[] a = {"test"};
         HashSet<String> b = new HashSet<String>();
         b.add("test");
-        assertArrayEquals("set_to_array()", a, set_to_array(b));
+        assertArrayEquals("setToArray()", a, setToArray(b));
     }
 
     // ====================================================================== //
@@ -479,15 +479,15 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
     @Test
     public void test_strip_scheme_host(){
-        assertEquals("strip_scheme_host(file:/blah)",                               "/blah",            strip_scheme_host("file:/blah"));
-        assertEquals("strip_scheme_host(file:///path/to/blah)",                     "/path/to/blah",    strip_scheme_host("file:///path/to/blah"));
-        assertEquals("strip_scheme_host(hdfs:///path/to/blah)",                     "/path/to/blah",    strip_scheme_host("hdfs:///path/to/blah"));
-        assertEquals("strip_scheme_host(http://my.domain.com/blah)",                "/blah",            strip_scheme_host("http://my.domain.com/blah"));
-        assertEquals("strip_scheme_host(hdfs://nameservice1/hdfsfile)",             "/hdfsfile",        strip_scheme_host("hdfs://nameservice1/hdfsfile"));
-        assertEquals("strip_scheme_host(hdfs://nameservice1:8020/hdfsfile)",        "/hdfsfile",        strip_scheme_host("hdfs://nameservice1:8020/hdfsfile"));
-        assertEquals("strip_scheme_host(hdfs://namenode.domain.com/hdfsfile)",      "/hdfsfile",        strip_scheme_host("hdfs://namenode.domain.com/hdfsfile"));
-        assertEquals("strip_scheme_host(hdfs://namenode.domain.com:8020/hdfsfile)", "/hdfsfile",        strip_scheme_host("hdfs://namenode.domain.com:8020/hdfsfile"));
-        assertEquals("strip_scheme_host(hdfs://nameservice1/path/to/hdfsfile)",     "/path/to/hdfsfile", strip_scheme_host("hdfs://nameservice1/path/to/hdfsfile"));
+        assertEquals("stripSchemeHost(file:/blah)",                               "/blah",            stripSchemeHost("file:/blah"));
+        assertEquals("stripSchemeHost(file:///path/to/blah)",                     "/path/to/blah",    stripSchemeHost("file:///path/to/blah"));
+        assertEquals("stripSchemeHost(hdfs:///path/to/blah)",                     "/path/to/blah",    stripSchemeHost("hdfs:///path/to/blah"));
+        assertEquals("stripSchemeHost(http://my.domain.com/blah)",                "/blah",            stripSchemeHost("http://my.domain.com/blah"));
+        assertEquals("stripSchemeHost(hdfs://nameservice1/hdfsfile)",             "/hdfsfile",        stripSchemeHost("hdfs://nameservice1/hdfsfile"));
+        assertEquals("stripSchemeHost(hdfs://nameservice1:8020/hdfsfile)",        "/hdfsfile",        stripSchemeHost("hdfs://nameservice1:8020/hdfsfile"));
+        assertEquals("stripSchemeHost(hdfs://namenode.domain.com/hdfsfile)",      "/hdfsfile",        stripSchemeHost("hdfs://namenode.domain.com/hdfsfile"));
+        assertEquals("stripSchemeHost(hdfs://namenode.domain.com:8020/hdfsfile)", "/hdfsfile",        stripSchemeHost("hdfs://namenode.domain.com:8020/hdfsfile"));
+        assertEquals("stripSchemeHost(hdfs://nameservice1/path/to/hdfsfile)",     "/path/to/hdfsfile", stripSchemeHost("hdfs://nameservice1/path/to/hdfsfile"));
     }
 
 //    @Test(expected=IllegalArgumentException.class)
@@ -523,12 +523,12 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_uniq_arraylist(){
         List<String> myList = Arrays.asList("one", "two", "three", "", "one");
         String[] myArray_deduped = {"one","two","three",""};
-        String[] myArray_test = arraylist_to_array(uniq_arraylist(myList));
+        String[] myArray_test = arraylistToArray(uniq_arraylist(myList));
         // The ordering is highly dependent on JDK version and fails on Oracle JDK 8 in Travis so must sort the arrays for comparison
         Arrays.sort(myArray_deduped);
         Arrays.sort(myArray_test);
 //        Collections.sort(myList);
-//        String[] myArray_test = arraylist_to_array(myList);
+//        String[] myArray_test = arraylistToArray(myList);
         assertArrayEquals(myArray_deduped, myArray_test);
     }
 
@@ -541,7 +541,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_uniq_arraylist_ordered(){
         String[] a = {"one","two","three","","one"};
         String[] b = {"one","two","three",""};
-        assertArrayEquals("uniq_arraylist_ordered(one,two,three,,one)", b, arraylist_to_array(uniq_arraylist_ordered(array_to_arraylist(a))));
+        assertArrayEquals("uniq_arraylist_ordered(one,two,three,,one)", b, arraylistToArray(uniq_arraylist_ordered(arrayToArraylist(a))));
     }
 
     // ====================================================================== //
@@ -1442,8 +1442,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         String[] b = {"node1:9200","node2:80","node3:8080","node4:8080","node5:8080"};
         assertArrayEquals("validate_hosts()", b, validate_hosts(a, "8080"));
         assertArrayEquals("validate_hosts()", b, validate_hosts(a, 8080));
-        assertArrayEquals("validate_hosts()", b, arraylist_to_array(validate_hosts(array_to_arraylist(a), "8080")));
-        assertArrayEquals("validate_hosts()", b, arraylist_to_array(validate_hosts(array_to_arraylist(a), 8080)));
+        assertArrayEquals("validate_hosts()", b, arraylistToArray(validate_hosts(arrayToArraylist(a), "8080")));
+        assertArrayEquals("validate_hosts()", b, arraylistToArray(validate_hosts(arrayToArraylist(a), 8080)));
         assertEquals("validate_hosts(myHost)",     "myHost:8080",     validate_hosts("myHost", 8080));
         assertEquals("validate_hosts(myHost)",     "myHost:8081,myHost2:9200",    validate_hosts("myHost,myHost2:9200", 8081));
         assertEquals("validate_hosts(myHost.myDomain.com)", "myHost.myDomain.com:8080", validate_hosts("myHost.myDomain.com", "8080"));
@@ -1839,7 +1839,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_node_list(){
         assertEquals("validate_node_list(String)", "node1,node2,node3,node4,node5", validate_node_list("node1 ,node2 node3  node4, node5"));
         String[] a = {"node1","node2","node3","node4","node5"};
-        assertArrayEquals("validate_node_list(ArrayList<String>)",  arraylist_to_array(new ArrayList<String>(Arrays.asList(a))), arraylist_to_array(validate_node_list(array_to_arraylist(a))));
+        assertArrayEquals("validate_node_list(ArrayList<String>)",  arraylistToArray(new ArrayList<String>(Arrays.asList(a))), arraylistToArray(validate_node_list(arrayToArraylist(a))));
         assertArrayEquals("validate_node_list(String[])",  a, validate_node_list(a));
     }
 
@@ -1847,7 +1847,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_validate_nodeport_list(){
         assertEquals("validate_nodeport_list(String)", "node1:9200,node2,node3:8080,node4,node5", validate_nodeport_list("node1:9200 ,node2 node3:8080 node4, node5"));
         String[] a = {"node1:9200","node2","node3:8080","node4","node5"};
-        assertArrayEquals("validate_nodeport_list(ArrayList<String>)", arraylist_to_array(new ArrayList<String>(Arrays.asList(a))), arraylist_to_array(validate_nodeport_list(array_to_arraylist(a))));
+        assertArrayEquals("validate_nodeport_list(ArrayList<String>)", arraylistToArray(new ArrayList<String>(Arrays.asList(a))), arraylistToArray(validate_nodeport_list(arrayToArraylist(a))));
         assertArrayEquals("validate_nodeport_list(String[])", a, validate_nodeport_list(a));
     }
 

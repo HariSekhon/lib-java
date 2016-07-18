@@ -368,21 +368,21 @@ public final class Utils {
             throw new IllegalArgumentException("null passed for units to expand_units()");
         }
         name = name.trim();
-        units = units.trim();
+        String units2 = units.trim();
         if(! name.isEmpty()){
             name = " for " + name;
         }
         int power = 1;
-        if(units.matches("(?i)^B?$")){
+        if(units2.matches("(?i)^B?$")){
             return num;
-        } else if(units.matches("(?i)^KB?$")){ power = 1;
-        } else if(units.matches("(?i)^MB?$")){ power = 2;
-        } else if(units.matches("(?i)^GB?$")){ power = 3;
-        } else if(units.matches("(?i)^TB?$")){ power = 4;
-        } else if(units.matches("(?i)^PB?$")) {
+        } else if(units2.matches("(?i)^KB?$")){ power = 1;
+        } else if(units2.matches("(?i)^MB?$")){ power = 2;
+        } else if(units2.matches("(?i)^GB?$")){ power = 3;
+        } else if(units2.matches("(?i)^TB?$")){ power = 4;
+        } else if(units2.matches("(?i)^PB?$")) {
             power = 5;
         } else {
-            throw new IllegalArgumentException(String.format("unrecognized units '%s' passed to expand_units()%s", units, name));
+            throw new IllegalArgumentException(String.format("unrecognized units '%s' passed to expand_units()%s", units2, name));
         }
         return (num * ( pow(1024, power) ) );
     }
@@ -468,7 +468,7 @@ public final class Utils {
         }
     }
 
-    public static final String strip_scheme_host (String str) {
+    public static final String stripSchemeHost(String str) {
         if(str.matches("^\\w+:///[^/].*")){
             return str.replaceFirst("^\\w+:///", "/");
         } else {
@@ -484,16 +484,16 @@ public final class Utils {
     //
     // ===================================================================== //
 
-    public static final ArrayList<String> array_to_arraylist(String[] array) {
+    public static final ArrayList<String> arrayToArraylist(String[] array) {
         return new ArrayList<String>(Arrays.asList(array));
     }
 
-    public static final String[] arraylist_to_array (ArrayList<String> arrayList) {
+    public static final String[] arraylistToArray(ArrayList<String> arrayList) {
         String[] array = new String[arrayList.size()];
         return arrayList.toArray(array);
     }
 
-    public static final String[] set_to_array(Set<String> set){
+    public static final String[] setToArray(Set<String> set){
         String[] array = set.toArray(new String[set.size()]);
         return array;
     }
@@ -1767,7 +1767,7 @@ public final class Utils {
     }
     public static final ArrayList<String> validate_hosts(ArrayList<String> hosts, int port){
         // don't uniq here it's done in called validate_hosts method
-        return array_to_arraylist(validate_hosts(arraylist_to_array(hosts), port));
+        return arrayToArraylist(validate_hosts(arraylistToArray(hosts), port));
     }
     public static final ArrayList<String> validate_hosts(ArrayList<String> hosts, String port){
         // don't uniq here it's done in called validate_hosts method
@@ -2065,7 +2065,7 @@ public final class Utils {
     }
     public static final String[] validate_node_list(String[] nodes){
         // don't uniq here it's done in called validate_node_list method
-        return arraylist_to_array(validate_node_list(array_to_arraylist(nodes)));
+        return arraylistToArray(validate_node_list(arrayToArraylist(nodes)));
     }
     public static final String validate_node_list (String nodelist) {
         if(nodelist == null) {
@@ -2100,7 +2100,7 @@ public final class Utils {
     }
     public static final String[] validate_nodeport_list(String[] nodes){
         // don't uniq here it's done in called validate_nodeport_list method
-        return arraylist_to_array(validate_nodeport_list(array_to_arraylist(nodes)));
+        return arraylistToArray(validate_nodeport_list(arrayToArraylist(nodes)));
     }
     public static final String validate_nodeport_list (String nodelist) {
         if(nodelist == null) {

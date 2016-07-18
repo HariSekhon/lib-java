@@ -135,7 +135,7 @@ public class CLI {
             usage(e.getMessage());
         }
 //        log.info("verbose level: %s".format(verbose));
-        validate_int(timeout, "timeout", 0, timeout_max);
+        validateInt(timeout, "timeout", 0, timeout_max);
 //        log.debug("setting timeout to {} secs", timeout);
         Thread t = new Thread(new Timeout(timeout));
         t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -234,7 +234,7 @@ public class CLI {
     }
 
     public void setTimeout(int secs){
-        validate_int(secs, "timeout", 0, timeout_max);
+        validateInt(secs, "timeout", 0, timeout_max);
 //        log.debug("setting timeout to %s secs", secs);
         timeout = secs;
     }
@@ -245,7 +245,7 @@ public class CLI {
 
     // null prevents --timeout switch becoming exposed, whereas 0 will allow
     public void setTimeoutDefault(int secs){
-//        validate_int(secs, "timeout default", 0, timeout_max);
+//        validateInt(secs, "timeout default", 0, timeout_max);
         if (secs > timeout_max) {
             throw new IllegalArgumentException("set default timeout > timeout max");
         }
@@ -259,7 +259,7 @@ public class CLI {
 
     public void setTimeoutMax(int secs) {
         // leave this to be able to set max to any amount
-        // validate_int(secs, "timeout default", 0, timeout_max)
+        // validateInt(secs, "timeout default", 0, timeout_max)
 //        log.debug("setting max timeout to %s secs", secs);
         timeout_max = secs;
     }

@@ -1628,24 +1628,24 @@ public final class Utils {
     }
 
 
-    public static final String validate_file (String filename, String name, Boolean novlog){
+    public static final String validateFile(String filename, String name, Boolean novlog){
         name = name(name);
-        validate_filename(filename, name, novlog);
+        validateFilename(filename, name, novlog);
         File f = new File(filename);
         if(!(f.exists() && ! f.isDirectory())){
             throw new IllegalArgumentException(name + "file not found: " + filename);
         }
         return filename;
     }
-    public static final String validate_file (String filename, String name) {
-        return validate_file(filename, name, false);
+    public static final String validateFile(String filename, String name) {
+        return validateFile(filename, name, false);
     }
-    public static final String validate_file (String filename) {
-        return validate_file(filename, null, false);
+    public static final String validateFile(String filename) {
+        return validateFile(filename, null, false);
     }
 
 
-    public static final String validate_filename (String filename, String name, Boolean novlog) {
+    public static final String validateFilename(String filename, String name, Boolean novlog) {
         name = name(name);
         if(name.isEmpty()){
             name = "filename ";
@@ -1665,15 +1665,15 @@ public final class Utils {
         }
         return filename;
     }
-    public static final String validate_filename (String filename, String name) {
-        return validate_filename(filename, name, false);
+    public static final String validateFilename(String filename, String name) {
+        return validateFilename(filename, name, false);
     }
-    public static final String validate_filename (String filename) {
-        return validate_filename(filename, null, false);
+    public static final String validateFilename(String filename) {
+        return validateFilename(filename, null, false);
     }
 
 
-    public static final String validate_fqdn (String fqdn, String name) {
+    public static final String validateFqdn(String fqdn, String name) {
         name = name(name);
         if(fqdn == null){
             throw new IllegalArgumentException(name + "FQDN not defined (null)");
@@ -1688,18 +1688,18 @@ public final class Utils {
         vlog_option(name + "fqdn", fqdn);
         return fqdn;
     }
-    public static final String validate_fqdn (String fqdn) {
-        return validate_fqdn(fqdn, null);
+    public static final String validateFqdn(String fqdn) {
+        return validateFqdn(fqdn, null);
     }
 
     /*
     public static final String[] validate_host_port_user_password(String host, String port, String user, String password){
-        return (validate_host(host), validate_port(port), validate_user(user), validate_password(password));
+        return (validateHost(host), validate_port(port), validate_user(user), validate_password(password));
     }
     */
 
 
-    public static final String validate_host (String host, String name) {
+    public static final String validateHost(String host, String name) {
         name = name(name);
         if(host == null){
             throw new IllegalArgumentException(name + "host not defined (null)");
@@ -1714,8 +1714,8 @@ public final class Utils {
         vlog_option(name + "host", host);
         return host;
     }
-    public static final String validate_host (String host) {
-        return validate_host(host, null);
+    public static final String validateHost(String host) {
+        return validateHost(host, null);
     }
 
     static final int parse_port (String port){
@@ -1731,7 +1731,7 @@ public final class Utils {
         return port_int;
     }
 
-    public static final String[] validate_hosts (String[] hosts, int port) {
+    public static final String[] validateHosts(String[] hosts, int port) {
         if(! isPort(port)){
             throw new IllegalArgumentException("invalid port defined, integer must be between 1 and 65535");
         }
@@ -1751,7 +1751,7 @@ public final class Utils {
                 }
                 hosts2[i] = hosts2[i].replaceAll(":\\d+$", "");
             }
-            hosts2[i] = validate_host(hosts2[i]);
+            hosts2[i] = validateHost(hosts2[i]);
             //hosts2[i] = validate_resolvable(hosts2[i]);
             if(node_port == null){
                 node_port = Integer.toString(port);
@@ -1761,37 +1761,37 @@ public final class Utils {
         }
         return hosts2;
     }
-    public static final String[] validate_hosts(String[] hosts, String port){
-        // don't uniq here it's done in called validate_hosts method
-        return validate_hosts(hosts, parse_port(port));
+    public static final String[] validateHosts(String[] hosts, String port){
+        // don't uniq here it's done in called validateHosts method
+        return validateHosts(hosts, parse_port(port));
     }
-    public static final ArrayList<String> validate_hosts(ArrayList<String> hosts, int port){
-        // don't uniq here it's done in called validate_hosts method
-        return arrayToArraylist(validate_hosts(arraylistToArray(hosts), port));
+    public static final ArrayList<String> validateHosts(ArrayList<String> hosts, int port){
+        // don't uniq here it's done in called validateHosts method
+        return arrayToArraylist(validateHosts(arraylistToArray(hosts), port));
     }
-    public static final ArrayList<String> validate_hosts(ArrayList<String> hosts, String port){
-        // don't uniq here it's done in called validate_hosts method
-        return validate_hosts(hosts, parse_port(port));
+    public static final ArrayList<String> validateHosts(ArrayList<String> hosts, String port){
+        // don't uniq here it's done in called validateHosts method
+        return validateHosts(hosts, parse_port(port));
     }
-    public static final String validate_hosts (String hosts, int port) {
+    public static final String validateHosts(String hosts, int port) {
         if(hosts == null) {
             throw new IllegalArgumentException("hosts not defined (null)");
         }
         if(hosts.trim().isEmpty()){
             throw new IllegalArgumentException("hosts not defined (blank)");
         }
-        String[] hosts2 = validate_hosts(hosts.split("[,\\s]+"), port);
+        String[] hosts2 = validateHosts(hosts.split("[,\\s]+"), port);
         String final_hosts = StringUtils.join(hosts2, ",");
         // vlogged in validate_nodeport_list
         //vlog_option("node list", final_hosts);
         return final_hosts;
     }
-    public static final String validate_hosts (String hosts, String port) {
-        return validate_hosts(hosts, parse_port(port));
+    public static final String validateHosts(String hosts, String port) {
+        return validateHosts(hosts, parse_port(port));
     }
 
 
-    public static final String validate_hostport (String hostport, String name, Boolean port_required, Boolean novlog) {
+    public static final String validateHostPort(String hostport, String name, Boolean port_required, Boolean novlog) {
         name = name(name);
         if(hostport == null){
             throw new IllegalArgumentException(name + "host:port not defined (null)");
@@ -1819,18 +1819,18 @@ public final class Utils {
         }
         return hostport;
     }
-    public static final String validate_hostport (String host, String name, Boolean port_required) {
-        return validate_hostport(host, name, port_required, false);
+    public static final String validateHostPort(String host, String name, Boolean port_required) {
+        return validateHostPort(host, name, port_required, false);
     }
-    public static final String validate_hostport (String host, String name) {
-        return validate_hostport(host, name, false, false);
+    public static final String validateHostPort(String host, String name) {
+        return validateHostPort(host, name, false, false);
     }
-    public static final String validate_hostport (String host){
-        return validate_hostport(host, null, false, false);
+    public static final String validateHostPort(String host){
+        return validateHostPort(host, null, false, false);
     }
 
 
-    public static final String validate_hostname (String hostname, String name) {
+    public static final String validateHostname(String hostname, String name) {
         name = name(name);
         if(hostname == null){
             throw new IllegalArgumentException("hostname not defined (null)");
@@ -1845,12 +1845,12 @@ public final class Utils {
         vlog_option(name + "hostname", hostname);
         return hostname;
     }
-    public static final String validate_hostname (String hostname) {
-        return validate_hostname(hostname, null);
+    public static final String validateHostname(String hostname) {
+        return validateHostname(hostname, null);
     }
 
 
-    public static final double validate_double (double d, String name, double  minVal, double maxVal) {
+    public static final double validateDouble(double d, String name, double  minVal, double maxVal) {
         name = requireName(name);
         if(minVal > maxVal){
             throw new IllegalArgumentException("minVal cannot be > maxVal");
@@ -1864,19 +1864,19 @@ public final class Utils {
         vlog_option(name, String.valueOf(d));
         return d;
     }
-    public static final long validate_long (long l, String name, long minVal, long maxVal) {
-        validate_double(l, name, minVal, maxVal);
+    public static final long validateLong(long l, String name, long minVal, long maxVal) {
+        validateDouble(l, name, minVal, maxVal);
         return l;
     }
-    public static final int validate_int (int i, String name, int minVal, int maxVal) {
-        validate_double(i, name, minVal, maxVal);
+    public static final int validateInt(int i, String name, int minVal, int maxVal) {
+        validateDouble(i, name, minVal, maxVal);
         return i;
     }
-    public static final float validate_float (float f, String name, float minVal, float maxVal) {
-        validate_double(f, name, minVal, maxVal);
+    public static final float validateFloat(float f, String name, float minVal, float maxVal) {
+        validateDouble(f, name, minVal, maxVal);
         return f;
     }
-    public static final double validate_double (String d, String name, double minVal, double maxVal) {
+    public static final double validateDouble(String d, String name, double minVal, double maxVal) {
         name = requireName(name);
         double d_double = -1;
         try {
@@ -1884,11 +1884,11 @@ public final class Utils {
         } catch (NumberFormatException e){
             throw new IllegalArgumentException("invalid " + name + " defined: must be numeric (double)");
         }
-        // log.info(String.format(option_format, option + ":", value)); done in validate_double
-        validate_double(d_double, name, minVal, maxVal);
+        // log.info(String.format(option_format, option + ":", value)); done in validateDouble
+        validateDouble(d_double, name, minVal, maxVal);
         return d_double;
     }
-    public static final long validate_long (String l, String name, long minVal, long maxVal) {
+    public static final long validateLong(String l, String name, long minVal, long maxVal) {
         name = requireName(name);
         long l_long = -1;
         try {
@@ -1896,11 +1896,11 @@ public final class Utils {
         } catch (NumberFormatException e){
             throw new IllegalArgumentException("invalid " + name + " defined: must be numeric (long)");
         }
-        // log.info(String.format(option_format, option + ":", value)); done in validate_long
-        validate_double(l_long, name, minVal, maxVal);
+        // log.info(String.format(option_format, option + ":", value)); done in validateLong
+        validateDouble(l_long, name, minVal, maxVal);
         return l_long;
     }
-    public static final int validate_int (String i, String name, int minVal, int maxVal) {
+    public static final int validateInt(String i, String name, int minVal, int maxVal) {
         name = requireName(name);
         int i_int = -1;
         try {
@@ -1911,11 +1911,11 @@ public final class Utils {
             //}
             throw new IllegalArgumentException("invalid " + name + " defined: must be numeric (int)");
         }
-        // log.info(String.format(option_format, option + ":", value)); done in pass through to validate_long
-        validate_double(i_int, name, minVal, maxVal);
+        // log.info(String.format(option_format, option + ":", value)); done in pass through to validateLong
+        validateDouble(i_int, name, minVal, maxVal);
         return i_int;
     }
-    public static final float validate_float (String f, String name, float minVal, float maxVal) {
+    public static final float validateFloat(String f, String name, float minVal, float maxVal) {
         name = requireName(name);
         float f_float = -1;
         try {
@@ -1923,13 +1923,13 @@ public final class Utils {
         } catch (NumberFormatException e){
             throw new IllegalArgumentException("invalid " + name + " defined: must be numeric (float)");
         }
-        // log.info(String.format(option_format, option + ":", value)); done in pass through to validate_long
-        validate_double(f_float, name, minVal, maxVal);
+        // log.info(String.format(option_format, option + ":", value)); done in pass through to validateLong
+        validateDouble(f_float, name, minVal, maxVal);
         return f_float;
     }
 
 
-    public static final String validate_interface (String networkInterface) {
+    public static final String validateInterface(String networkInterface) {
         if(networkInterface == null){
             throw new IllegalArgumentException("network interface not defined (null)");
         }
@@ -1945,7 +1945,7 @@ public final class Utils {
     }
 
 
-    public static final String validate_ip (String ip, String name) {
+    public static final String validateIP(String ip, String name) {
         name = name(name);
         if(ip == null){
             throw new IllegalArgumentException(name + "IP not defined (null)");
@@ -1960,12 +1960,12 @@ public final class Utils {
         vlog_option(name + "ip", ip);
         return ip;
     }
-    public static final String validate_ip (String ip) {
-        return validate_ip(ip, null);
+    public static final String validateIP(String ip) {
+        return validateIP(ip, null);
     }
 
 
-    public static final String validate_krb5_princ (String princ, String name) {
+    public static final String validateKrb5Princ(String princ, String name) {
         name = name(name);
         if(princ == null) {
             throw new IllegalArgumentException(name + "krb5 principal not defined (null)");
@@ -1980,12 +1980,12 @@ public final class Utils {
         vlog_option(name + "krb5 principal", princ);
         return princ;
     }
-    public static final String validate_krb5_princ (String princ) {
-        return validate_krb5_princ(princ, null);
+    public static final String validateKrb5Princ(String princ) {
+        return validateKrb5Princ(princ, null);
     }
 
 
-    public static final String validate_krb5_realm (String realm, String name) {
+    public static final String validateKrb5Realm(String realm, String name) {
         name = name(name);
         if(realm == null){
             throw new IllegalArgumentException(name + "realm not defined (null)");
@@ -2000,12 +2000,12 @@ public final class Utils {
         vlog_option(name + "realm", realm);
         return realm;
     }
-    public static final String validate_krb5_realm (String realm) {
-        return validate_krb5_realm(realm, null);
+    public static final String validateKrb5Realm(String realm) {
+        return validateKrb5Realm(realm, null);
     }
 
 
-    public static final String validate_label (String label) {
+    public static final String validateLabel(String label) {
         if(label == null){
             throw new IllegalArgumentException("label not defined (null)");
         }
@@ -2021,7 +2021,7 @@ public final class Utils {
     }
 
 
-    public static final String validate_ldap_dn (String dn, String name) {
+    public static final String validateLdapDn(String dn, String name) {
         name = name(name);
         if(dn == null){
             throw new IllegalArgumentException("ldap " + name + "dn not defined (null)");
@@ -2036,12 +2036,12 @@ public final class Utils {
         vlog_option("ldap " + name + "dn", dn);
         return dn;
     }
-    public static final String validate_ldap_dn (String dn) {
-        return validate_ldap_dn(dn, null);
+    public static final String validateLdapDn(String dn) {
+        return validateLdapDn(dn, null);
     }
 
 
-    public static final ArrayList<String> validate_node_list (ArrayList<String> nodes){
+    public static final ArrayList<String> validateNodeList(ArrayList<String> nodes){
         ArrayList<String> final_nodes = new ArrayList<String>();
         nodes = uniqArraylistOrdered(nodes);
         if(nodes.size() < 1){
@@ -2063,20 +2063,20 @@ public final class Utils {
         vlog_option("node list", final_nodes.toString());
         return final_nodes;
     }
-    public static final String[] validate_node_list(String[] nodes){
-        // don't uniq here it's done in called validate_node_list method
-        return arraylistToArray(validate_node_list(arrayToArraylist(nodes)));
+    public static final String[] validateNodeList(String[] nodes){
+        // don't uniq here it's done in called validateNodeList method
+        return arraylistToArray(validateNodeList(arrayToArraylist(nodes)));
     }
-    public static final String validate_node_list (String nodelist) {
+    public static final String validateNodeList(String nodelist) {
         if(nodelist == null) {
             throw new IllegalArgumentException("node(s) not defined (null)");
         }
         if(nodelist.trim().isEmpty()){
             throw new IllegalArgumentException("node(s) not defined (blank)");
         }
-        String[] nodelist2 = validate_node_list(nodelist.split("[,\\s]+"));
+        String[] nodelist2 = validateNodeList(nodelist.split("[,\\s]+"));
         String final_nodes = StringUtils.join(nodelist2, ",");
-        // vlogged in validate_node_list
+        // vlogged in validateNodeList
         //vlog_option("node list", final_nodes);
         return final_nodes;
     }
@@ -2092,7 +2092,7 @@ public final class Utils {
             //node = node.trim();
             for(String node2: node.split("[,\\s]+")){
                 //node2 = node2.trim();
-                final_nodes.add( validate_hostport(node2) );
+                final_nodes.add( validateHostPort(node2) );
             }
         }
         vlog_option("nodeport list", final_nodes.toString());
@@ -2205,8 +2205,8 @@ public final class Utils {
         if(validate_regex(regex, "program path regex", true) == null){
             throw new IllegalArgumentException("invalid regex given to validate_program_path()");
         }
-        validate_filename(path, null, true);
-//        if(validate_filename(path, null, true) == null){
+        validateFilename(path, null, true);
+//        if(validateFilename(path, null, true) == null){
 //            throw new IllegalArgumentException("invalid path given for " + name + ", failed filename regex");
 //        }
         if(! path.matches("(?:^|.*/)" + regex + "$")){

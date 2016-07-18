@@ -2282,12 +2282,12 @@ public final class Utils {
 
 
     public static final String validateUserExists(String user, String name) throws IOException, UnsupportedOSException {
-        user = validateUser(user, name);
+        String user2 = validateUser(user, name);
         String name2 = name(name);
-        if(! userExists(user)){
+        if(! userExists(user2)){
             throw new IllegalArgumentException("invalid " + name2 + "user defined, not found on local system");
         }
-        return user;
+        return user2;
     }
 
 
@@ -2324,12 +2324,12 @@ public final class Utils {
         if(host == null) {
             throw new IllegalArgumentException(name2 + "host not defined (null)");
         }
-        if(host.trim().isEmpty()){
+        String host2 = host.trim();
+        if(host2.isEmpty()){
             throw new IllegalArgumentException(name2 + "host not defined (blank)");
         }
-        host = host.trim();
         // throws exception now, no nulls
-        String ip = resolveIp(host);
+        String ip = resolveIp(host2);
 //        if(ip == null){
 //            quit("CRITICAL", "failed to resolve " + name + "host '" + host + "'");
 //        }

@@ -2266,7 +2266,7 @@ public final class Utils {
             throw new IllegalArgumentException(name2 + "user not defined (null)");
         }
         String user2 = user.trim();
-        if(user2.trim().isEmpty()){
+        if(user2.isEmpty()){
             throw new IllegalArgumentException(name2 + "user not defined (blank)");
         }
         if(! isUser(user2)){

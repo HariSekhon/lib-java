@@ -174,9 +174,11 @@ public class CLI {
 
     // can't make this abstract as conflicts with static
     public void run() {
+        // client defines CLI tool behaviour here
     }
 
     public void end(){
+        // client hook
     }
 
     public final void usage (String msg, String status) {
@@ -242,7 +244,7 @@ public class CLI {
         timeout = secs;
     }
 
-    public int getTimeout_default(){
+    public int getTimeoutDefault(){
         return timeout_default;
     }
 

@@ -137,6 +137,12 @@ public class CLITest {
 //        cli.setTimeoutDefault(null);
 //    }
 
+    @Test
+    public void testSetTimeoutDefault() {
+        cli.setTimeoutDefault(9);
+        assert(cli.getTimeoutDefault() == 9);
+    }
+
     @Test(expected=IllegalArgumentException.class)
     public void testSetTimeoutMaxSetTimeoutDefaultException() {
         cli.setTimeoutMax(10);
@@ -147,7 +153,7 @@ public class CLITest {
 //    public void test_timeout_default_max_normal() {
 //        cli = SubCLI();
 //        cli.setTimeoutDefault(null);
-//        assertEquals(cli.getTimeout_default, null);
+//        assertEquals(cli.getTimeoutDefault, null);
 //        cli.setTimeoutMax(30);
 //        cli.setTimeout(22);
 //        assertEquals(22, cli.getTimeout);

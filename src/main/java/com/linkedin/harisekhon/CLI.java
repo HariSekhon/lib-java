@@ -82,9 +82,11 @@ public class CLI {
     }
 
     public final void addUserOption(String name, String default_user, String default_password) {
-        String name2 = "";
+        String name2;
         if (name != null) {
             name2 = name + " ";
+        } else {
+            name2 = "";
         }
 //        (user_envs, default_user) = getenvs2(["USERNAME", "USER"], default_user, name)
 //        (pw_envs, default_password) = getenvs2("PASSWORD", default_password, name)

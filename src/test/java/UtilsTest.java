@@ -1039,13 +1039,13 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_database_tablename_blank_exception(){
+    public void testValidateDatabaseTablenameBlankException(){
         validateDatabaseTablename(" ");
     }
 
     // ====================================================================== //
     @Test
-    public void test_isDatabaseViewName(){
+    public void testIsDatabaseViewName(){
         assertTrue(isDatabaseViewName("myView_1"));
         assertTrue(isDatabaseViewName("default.myView_1", true));
         assertFalse(isDatabaseViewName("'view'"));

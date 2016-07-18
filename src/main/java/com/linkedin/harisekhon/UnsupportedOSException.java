@@ -41,9 +41,9 @@ class UnsupportedOSException extends RuntimeException {
 //        super(String.format(message, supportedOSs), cause, enableSuppression, writableStackTrace);
 //    }
 
-    public UnsupportedOSException(String status, String message) {
-        super(message);
-    }
+//    public UnsupportedOSException(String status, String message) {
+//        super(message);
+//    }
 
 //    no time to call in super()
 //    public String formatMsg(String supportedOSs){

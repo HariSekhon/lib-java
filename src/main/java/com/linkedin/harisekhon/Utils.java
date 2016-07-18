@@ -1586,16 +1586,16 @@ public final class Utils {
         if(dir == null){
             throw new IllegalArgumentException(name2 + "directory not defined (null)");
         }
-        if(dir.trim().isEmpty()){
+        String dir2 = dir.trim();
+        if(dir2.isEmpty()){
             throw new IllegalArgumentException(name2 + "directory not defined (blank)");
         }
-        dir = dir.trim();
-        dir = validateDirname(dir, name2, novlog);
-        File d = new File(dir);
+        String dir3 = validateDirname(dir2, name2, novlog);
+        File d = new File(dir3);
         if(! d.isDirectory()){
-            throw new IllegalArgumentException(String.format("directory '%s' does not exist", dir));
+            throw new IllegalArgumentException(String.format("directory '%s' does not exist", dir3));
         }
-        return dir;
+        return dir3;
     }
     public static final String validateDirectory(String dir, String name) {
         return validateDirectory(dir, name, false);
@@ -1798,16 +1798,16 @@ public final class Utils {
         if(hostport == null){
             throw new IllegalArgumentException(name2 + "host:port not defined (null)");
         }
-        if(hostport.trim().isEmpty()){
+        String hostport2 = hostport.trim();
+        if(hostport2.isEmpty()){
             throw new IllegalArgumentException(name2 + "host:port not defined (blank)");
         }
-        hostport = hostport.trim();
-        String[] host_port = hostport.split(":");
+        String[] host_port = hostport2.split(":");
         if(host_port.length > 2){
             throw new IllegalArgumentException("invalid " + name2 + "host:port supplied (too many colon separated components)");
         }
         if(! isHost(host_port[0])){
-            throw new IllegalArgumentException("invalid " + name2 + "host:port '" + hostport + "' defined: host portion '" + host_port[0] + "' is not a valid hostname or IP address");
+            throw new IllegalArgumentException("invalid " + name2 + "host:port '" + hostport2 + "' defined: host portion '" + host_port[0] + "' is not a valid hostname or IP address");
         }
         if(host_port.length > 1){
             if (!isPort(host_port[1])) {
@@ -1817,9 +1817,9 @@ public final class Utils {
             throw new IllegalArgumentException("port is required");
         }
         if(!novlog){
-            vlogOption(name2 + "hostport", hostport);
+            vlogOption(name2 + "hostport", hostport2);
         }
-        return hostport;
+        return hostport2;
     }
     public static final String validateHostPort(String host, String name, Boolean port_required) {
         return validateHostPort(host, name, port_required, false);

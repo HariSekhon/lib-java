@@ -36,7 +36,6 @@ public class CLI {
     private int timeout_max = 86400;
     private String usage_msg = "usage: <prog> <options>";
     protected Options options = new Options();
-    private CommandLine cmd;
 
     public final Logger log = Logger.getLogger(com.linkedin.harisekhon.Utils.class.getName());
 
@@ -100,6 +99,7 @@ public class CLI {
     }
 
     public void setup(){
+        // hook to be overridden by client
     }
 
     public static void main(String[] args) {
@@ -308,7 +308,7 @@ public class CLI {
         //CommandLineParser parser = new DefaultParser();
         CommandLineParser parser = new GnuParser();
         try {
-            cmd = parser.parse(options, args);
+            CommandLine cmd = parser.parse(options, args);
             if(cmd.hasOption("h")){
                 usage();
             }
@@ -339,9 +339,7 @@ public class CLI {
 //        if "timeout" in dir(self.options):
 //            self.timeout = self.get_opt("timeout")
         String env_verbose = System.getenv("VERBOSE");
-        if (env_verbose == null || env_verbose.trim().equals("")) {
-            // pass
-        } else {
+        if (env_verbose != null && ! env_verbose.trim().isEmpty()) {
             try{
                 int v = Integer.valueOf(env_verbose.trim());
                 if (Integer.valueOf(v) > verbose) {

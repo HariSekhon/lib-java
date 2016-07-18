@@ -1303,18 +1303,18 @@ public final class Utils {
         if(bucket == null){
             throw new IllegalArgumentException("aws bucket not defined (null)");
         }
-        if(bucket.trim().isEmpty()){
+        String bucket2 = bucket.trim();
+        if(bucket2.trim().isEmpty()){
             throw new IllegalArgumentException("aws bucket not defined (blank)");
         }
-        bucket = bucket.trim();
-        if(isIP(bucket)){
+        if(isIP(bucket2)){
             throw new IllegalArgumentException("invalid aws bucket name defined: may not be formatted as an IP address");
         }
-        if(! isDnsShortName(bucket)){
+        if(! isDnsShortName(bucket2)){
             throw new IllegalArgumentException("invalid aws bucket name defined: must be alphanumeric between 3 and 63 characters long");
         }
-        vlogOption("aws bucket:", bucket);
-        return bucket;
+        vlogOption("aws bucket:", bucket2);
+        return bucket2;
     }
 
     public static final String validateAwsHostname(String arg) {
@@ -1394,15 +1394,15 @@ public final class Utils {
         if(database == null){
             throw new IllegalArgumentException(name2 + "database not defined (null)");
         }
-        if(database.trim().isEmpty()){
+        String database2 = database.trim();
+        if(database2.isEmpty()){
             throw new IllegalArgumentException(name2 + "database not defined (blank)");
         }
-        database.trim();
-        if(! isDatabaseName(database)){
+        if(! isDatabaseName(database2)){
             throw new IllegalArgumentException("invalid " + name2 + "database defined: must be alphanumeric");
         }
-        vlogOption(name2 + "database", database);
-        return database;
+        vlogOption(name2 + "database", database2);
+        return database2;
     }
     public static final String validateDatabase(String database) {
         return validateDatabase(database, null);
@@ -1413,15 +1413,15 @@ public final class Utils {
         if(column == null){
             throw new IllegalArgumentException("column not defined (null)");
         }
-        if(column.trim().isEmpty()){
+        String column2 = column.trim();
+        if(column2.isEmpty()){
             throw new IllegalArgumentException("column not defined (blank)");
         }
-        column = column.trim();
-        if(! isDatabaseColumnName(column)){
+        if(! isDatabaseColumnName(column2)){
             throw new IllegalArgumentException("invalid column defined: must be alphanumeric");
         }
-        vlogOption("column", column);
-        return column;
+        vlogOption("column", column2);
+        return column2;
     }
 
 
@@ -1429,15 +1429,15 @@ public final class Utils {
         if(field == null){
             throw new IllegalArgumentException("field not defined (null)");
         }
-        if(field.trim().isEmpty()){
+        String field2 = field.trim();
+        if(field2.trim().isEmpty()){
             throw new IllegalArgumentException("field not defined (blank)");
         }
-        field = field.trim();
-        if(! isDatabaseFieldName(field)){
+        if(! isDatabaseFieldName(field2)){
             throw new IllegalArgumentException("invalid field defined: must be alphanumeric");
         }
-        vlogOption("field", field);
-        return field;
+        vlogOption("field", field2);
+        return field2;
     }
 
 
@@ -1470,15 +1470,15 @@ public final class Utils {
         if(table == null){
             throw new IllegalArgumentException(name2 + "table not defined (null)");
         }
-        if(table.trim().isEmpty()){
+        String table2 = table.trim();
+        if(table2.trim().isEmpty()){
             throw new IllegalArgumentException(name2 + "table not defined (blank)");
         }
-        table = table.trim();
-        if(! isDatabaseTableName(table, allow_qualified)){
+        if(! isDatabaseTableName(table2, allow_qualified)){
             throw new IllegalArgumentException("invalid " + name2 + "table defined: must be alphanumeric");
         }
-        vlogOption(name2 + "table", table);
-        return table;
+        vlogOption(name2 + "table", table2);
+        return table2;
     }
     public static final String validateDatabaseTablename(String table, String name) {
         return validateDatabaseTablename(table, name, false);
@@ -1496,15 +1496,15 @@ public final class Utils {
         if(view == null){
             throw new IllegalArgumentException(name2 + "view not defined (null)");
         }
-        if(view.trim().isEmpty()){
+        String view2 = view.trim();
+        if(view2.trim().isEmpty()){
             throw new IllegalArgumentException(name2 + "view not defined (blank)");
         }
-        view = view.trim();
-        if(! isDatabaseViewName(view, allow_qualified)){
+        if(! isDatabaseViewName(view2, allow_qualified)){
             throw new IllegalArgumentException("invalid " + name2 + "view defined: must be alphanumeric");
         }
-        vlogOption(name2 + "view", view);
-        return view;
+        vlogOption(name2 + "view", view2);
+        return view2;
     }
     public static final String validateDatabaseViewname(String view, String name) {
         return validateDatabaseViewname(view, name, false);
@@ -1522,15 +1522,15 @@ public final class Utils {
         if(domain == null){
             throw new IllegalArgumentException(name2 + "domain not defined (null)");
         }
-        if(domain.trim().isEmpty()){
+        String domain2 = domain.trim();
+        if(domain2.isEmpty()){
             throw new IllegalArgumentException(name2 + "domain not defined (blank)");
         }
-        domain = domain.trim();
-        if(! isDomain(domain)){
-            throw new IllegalArgumentException("invalid " + name2 + "domain name defined ('" + domain + "')");
+        if(! isDomain(domain2)){
+            throw new IllegalArgumentException("invalid " + name2 + "domain name defined ('" + domain2 + "')");
         }
-        vlogOption(name2 + "domain", domain);
-        return domain;
+        vlogOption(name2 + "domain", domain2);
+        return domain2;
     }
     public static final String validateDomain(String domain) {
         return validateDomain(domain, null);
@@ -1561,17 +1561,17 @@ public final class Utils {
         if(dir == null){
             throw new IllegalArgumentException(name2 + "directory not defined (null)");
         }
-        if(dir.trim().isEmpty()){
+        String dir2 = dir.trim();
+        if(dir2.isEmpty()){
             throw new IllegalArgumentException(name2 + "directory not defined (blank)");
         }
-        dir = dir.trim();
-        if(! isDirname(dir)){
-            throw new IllegalArgumentException("invalid " + name2 + "directory (does not match regex criteria): '" + dir + "'");
+        if(! isDirname(dir2)){
+            throw new IllegalArgumentException("invalid " + name2 + "directory (does not match regex criteria): '" + dir2 + "'");
         }
         if(! novlog){
-            vlogOption(name2 + "directory", dir);
+            vlogOption(name2 + "directory", dir2);
         }
-        return dir;
+        return dir2;
     }
     public static final String validateDirname(String dir, String name) {
         return validateDirname(dir, name, false);
@@ -1680,15 +1680,15 @@ public final class Utils {
         if(fqdn == null){
             throw new IllegalArgumentException(name2 + "FQDN not defined (null)");
         }
-        if(fqdn.trim().isEmpty()){
+        String fqdn2 = fqdn.trim();
+        if(fqdn2.trim().isEmpty()){
             throw new IllegalArgumentException(name2 + "FQDN not defined (blank)");
         }
-        fqdn = fqdn.trim();
-        if(! isFqdn(fqdn)){
+        if(! isFqdn(fqdn2)){
             throw new IllegalArgumentException("invalid " + name2 + "FQDN defined");
         }
-        vlogOption(name2 + "fqdn", fqdn);
-        return fqdn;
+        vlogOption(name2 + "fqdn", fqdn2);
+        return fqdn2;
     }
     public static final String validateFqdn(String fqdn) {
         return validateFqdn(fqdn, null);
@@ -1706,15 +1706,15 @@ public final class Utils {
         if(host == null){
             throw new IllegalArgumentException(name2 + "host not defined (null)");
         }
-        if(host.trim().isEmpty()){
+        String host2 = host.trim();
+        if(host2.isEmpty()){
             throw new IllegalArgumentException(name2 + "host not defined (blank)");
         }
-        host = host.trim();
-        if(! isHost(host)){
+        if(! isHost(host2)){
             throw new IllegalArgumentException("invalid " + name2 + "host defined: not a valid hostname or IP address");
         }
-        vlogOption(name2 + "host", host);
-        return host;
+        vlogOption(name2 + "host", host2);
+        return host2;
     }
     public static final String validateHost(String host) {
         return validateHost(host, null);

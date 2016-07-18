@@ -22,8 +22,8 @@ import java.util.HashMap;
 
 public class CLITest {
 
-    CLI cli;
-    HashMap myDict = new HashMap<String, Integer>();
+    private CLI cli;
+    private HashMap myDict = new HashMap<String, Integer>();
 
     class SubCLI extends CLI {
         @Override

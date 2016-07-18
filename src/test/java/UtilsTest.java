@@ -77,13 +77,13 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     // not really designed to be instantiated since there's no state but anyway
     @Test
-    public void test_utils_instance(){
+    public void testUtilsInstance(){
         Utils u = new com.linkedin.harisekhon.Utils();
         assert(u instanceof Utils);
     }
 
     @Test
-    public void test_getStatusCode(){
+    public void testGetStatusCode(){
         // programs depends on this for interoperability with Nagios compatiable monitoring systems
         assertSame("getStatus(OK)",             0,  getStatusCode("OK"));
         assertSame("getStatus(WARNING)",        1,  getStatusCode("WARNING"));
@@ -93,17 +93,17 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_getStatusCode_exception(){
+    public void testGetStatusCodeException(){
         getStatusCode("somethingInvalid");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_setStatus_exception(){
+    public void testSetStatusException(){
         setStatus("somethingInvalid");
     }
 
     @Test
-    public void test_setStatus_getStatus_and_set_shortcuts(){
+    public void testSetStatusGetStatusAndSetShortcuts(){
         // start unknown - but when repeatedly testing this breaks so reset to UNKNOWN at end
         assertTrue(isUnknown());
         assertTrue(getStatus().equals("UNKNOWN"));
@@ -160,7 +160,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 //    }
 
     @Test
-    public void test_println() {
+    public void testPrintln() {
         println("test");
         println(1.0);
         println(1L);
@@ -169,7 +169,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=QuitException.class)
-    public void test_quit_exception(){
+    public void testQuitException(){
         try {
             quit("CRITICAL", "blah");
         } catch (QuitException e){
@@ -180,7 +180,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_quit_invalid_status_exception(){
+    public void testQuitInvalidStatusException(){
         quit("INVALID_STATUS", "blah");
     }
 
@@ -190,7 +190,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 //    }
 
     @Test
-    public void test_load_tlds_nodups() throws IOException {
+    public void testLoadTldsNodups() throws IOException {
+        tlds.clear();
         loadTlds("tlds-alpha-by-domain.txt");
         loadTlds("tlds-alpha-by-domain.txt");
         assertTrue(tlds.size() > 1000);
@@ -198,7 +199,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_load_tlds_skip() throws IOException, IllegalStateException {
+    public void testLoadTldsSkip() throws IOException, IllegalStateException {
+        int tlds_starting_size = tlds.size();
         String filename = "faketld.txt";
 //        URL url = com.linkedin.harisekhon.Utils.class.getResource("/tlds-alpha-by-domain.txt");
         URL url = com.linkedin.harisekhon.Utils.class.getResource("/");
@@ -217,18 +219,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
             throw new IllegalStateException("tlds contain '=' which should have been excluded by loadTlds()");
         }
         f.delete();
-        assert(tlds.size() == 0);
+        assert(tlds.size() == tlds_starting_size);
     }
 
     @Test(expected=IOException.class)
-    public void test_load_tlds_nonexistent() throws Exception {
+    public void testLoadTldsNonexistent() throws Exception {
         loadTlds("nonexistentfile.txt");
         // shouldn't reach here
         throw new Exception("loadTlds() failed to thrown an IOException for a nonexistent file");
     }
 
     @Test(expected=IllegalStateException.class)
-    public void test_check_tldcount_too_high() throws IOException {
+    public void testCheckTldcountTooHigh() throws IOException {
         loadTlds("tlds-alpha-by-domain.txt");
         for(int i=0; i<1000; i++){
             tlds.add(String.format("%d", i));
@@ -237,7 +239,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected = IllegalStateException.class)
-    public void test_check_tldcount_too_low(){
+    public void testCheckTldcountTooLow(){
         tlds.clear();
         checkTldCount();
     }
@@ -245,13 +247,13 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
     // tests both array to arraylist at same time
     @Test
-    public void test_array_to_arraylist(){
+    public void testArrayToArraylist(){
         String[] a = {"node1:9200","node2","node3:8080","node4","node5"};
         assertArrayEquals("arrayToArraylist()", a, arraylistToArray(arrayToArraylist(a)));
     }
 
     @Test
-    public void test_set_to_array(){
+    public void testSetToArray(){
         String[] a = {"test"};
         HashSet<String> b = new HashSet<String>();
         b.add("test");

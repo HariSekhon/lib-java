@@ -361,11 +361,10 @@ public final class Utils {
 
 
     public static final double expandUnits(double num, String units, String name) {
-        name = name(name);
         if(units == null){
             throw new IllegalArgumentException("null passed for units to expandUnits()");
         }
-        String name2 = name.trim();
+        String name2 = name(name).trim();
         String units2 = units.trim();
         if(! name2.isEmpty()){
             name2 = " for " + name2;
@@ -401,6 +400,7 @@ public final class Utils {
 
 
     public static final String humanUnits(double num, String units, Boolean terse) {
+        double num2;
         String units2;
         if(units == null){
             units2 = "";
@@ -408,35 +408,37 @@ public final class Utils {
             units2 = units.trim();
         }
         if(!units2.isEmpty()){
-            num = expandUnits(num, units2, "humanUnits");
+            num2 = expandUnits(num, units2, "humanUnits");
+        } else {
+            num2 = num;
         }
-        if (num >= pow(1024, 7)) {
-            throw new IllegalArgumentException(String.format("determined suspicious units for number '%s', larger than Exabytes?!!", num));
-        } else if(num >= pow(1024, 6)){
+        if (num2 >= pow(1024, 7)) {
+            throw new IllegalArgumentException(String.format("determined suspicious units for number '%s', larger than Exabytes?!!", num2));
+        } else if(num2 >= pow(1024, 6)){
             //num_str = String.format("%.2f", num / pow(1024, 6)).replaceFirst("\\.0+$", "");
-            num = num / pow(1024, 6);
+            num2 = num2 / pow(1024, 6);
             units2 = "EB";
-        } else if(num >= pow(1024, 5)){
+        } else if(num2 >= pow(1024, 5)){
             //num_str = String.format("%.2f", num / pow(1024, 5));
-            num = num / pow(1024, 5);
+            num2 = num2 / pow(1024, 5);
             units2 = "PB";
-        } else if(num >= pow(1024, 4)){
+        } else if(num2 >= pow(1024, 4)){
             //num_str = String.format("%.2f", num / pow(1024, 4));
-            num = num / pow(1024, 4);
+            num2 = num2 / pow(1024, 4);
             units2 = "TB";
-        } else if(num >= pow(1024, 3)){
+        } else if(num2 >= pow(1024, 3)){
             //num_str = String.format("%.2f", num / pow(1024, 3));
-            num = num / pow(1024, 3);
+            num2 = num2 / pow(1024, 3);
             units2 = "GB";
-        } else if(num >= pow(1024, 2)){
+        } else if(num2 >= pow(1024, 2)){
             //num_str = String.format("%.2f", num / pow(1024, 2));
-            num = num / pow(1024, 2);
+            num2 = num2 / pow(1024, 2);
             units2 = "MB";
-        } else if(num >= pow(1024, 1)){
+        } else if(num2 >= pow(1024, 1)){
             //num_str = String.format("%.2f", num / pow(1024, 1));
-            num = num / pow(1024, 1);
+            num2 = num2 / pow(1024, 1);
             units2 = "KB";
-        } else if(num < 1024){
+        } else if(num2 < 1024){
             //num_str = String.valueOf(num);
             if(terse){
                 //return String.format("%sB", num);
@@ -450,7 +452,7 @@ public final class Utils {
 //            throw new IllegalArgumentException(String.format("unable to determine units for number '%s'", num));
         }
         // remove trailing zeros past the decimal point
-        String num_str = String.format("%.2f", num).replaceFirst("(\\.\\d+)0$", "$1").replaceFirst("\\.0+$", "");
+        String num_str = String.format("%.2f", num2).replaceFirst("(\\.\\d+)0$", "$1").replaceFirst("\\.0+$", "");
         return num_str + units2;
     }
     public static final String humanUnits(double num, String units) {

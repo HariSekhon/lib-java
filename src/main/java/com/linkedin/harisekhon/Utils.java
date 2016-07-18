@@ -365,10 +365,10 @@ public final class Utils {
         if(units == null){
             throw new IllegalArgumentException("null passed for units to expandUnits()");
         }
-        name = name.trim();
+        String name2 = name.trim();
         String units2 = units.trim();
-        if(! name.isEmpty()){
-            name = " for " + name;
+        if(! name2.isEmpty()){
+            name2 = " for " + name2;
         }
         int power = 1;
         if(units2.matches("(?i)^B?$")){
@@ -380,7 +380,7 @@ public final class Utils {
         } else if(units2.matches("(?i)^PB?$")) {
             power = 5;
         } else {
-            throw new IllegalArgumentException(String.format("unrecognized units '%s' passed to expandUnits()%s", units2, name));
+            throw new IllegalArgumentException(String.format("unrecognized units '%s' passed to expandUnits()%s", units2, name2));
         }
         return (num * ( pow(1024, power) ) );
     }

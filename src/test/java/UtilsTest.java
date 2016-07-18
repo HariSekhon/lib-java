@@ -318,7 +318,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         //println(checkString("test", "test"));
         assertTrue("checkString(test,test)",   checkString("test", "test"));             // will use ==
         assertTrue("checkString(test,test)",   checkString("test", "test", true));
-        assertTrue("checkString(test,test)",   checkString("test", new String("test"))); // will use .equals()
+        assertTrue("checkString(test,test)",   checkString("test", new String("test"))); // avoid string pool, check checkString uses .equals()
         assertFalse("checkString(test,test2)", checkString("test", "test2"));
         assertFalse("checkString(null,test2)", checkString(null, "test2"));
     }

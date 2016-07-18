@@ -1262,7 +1262,7 @@ public final class Utils {
 
 
     public static final String validateChars(String arg, String name, String chars) {
-        name = requireName(name);
+        String name2 = requireName(name);
         if(chars == null){
             throw new IllegalArgumentException("chars field not defined (null) when calling validateChars()");
         }
@@ -1270,13 +1270,13 @@ public final class Utils {
         if(chars2.isEmpty()){
             throw new IllegalArgumentException("chars field not defined (blank) when calling validateChars()");
         }
-        if(arg == null || arg.isEmpty()){
+        if(arg == null || arg.trim().isEmpty()){
             throw new IllegalArgumentException(name + "not defined");
         }
         if(! isChars(arg, chars2)){
-            throw new IllegalArgumentException("invalid " + name + " defined: must be one of the following chars - " + chars2);
+            throw new IllegalArgumentException("invalid " + name2 + " defined: must be one of the following chars - " + chars2);
         }
-        vlogOption(name, arg);
+        vlogOption(name2, arg);
         return arg;
     }
 
@@ -1368,7 +1368,7 @@ public final class Utils {
 
 
     public static final String validateCollection(String collection, String name) {
-        name = name(name);
+        String name2 = name(name);
         if(collection == null){
             throw new IllegalArgumentException(name + "collection not defined (null)");
         }
@@ -1377,9 +1377,9 @@ public final class Utils {
             throw new IllegalArgumentException(name + "collection not defined (blank)");
         }
         if(! isCollection(collection2)){
-            throw new IllegalArgumentException("invalid " + name + "collection defined: must be alphanumeric, with optional periods in the middle");
+            throw new IllegalArgumentException("invalid " + name2 + "collection defined: must be alphanumeric, with optional periods in the middle");
         }
-        vlogOption(name + "collection", collection2);
+        vlogOption(name2 + "collection", collection2);
         return collection2;
     }
     public static final String validateCollection(String collection) {

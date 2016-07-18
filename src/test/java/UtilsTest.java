@@ -1488,8 +1488,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test(expected=IllegalArgumentException.class)
     public void testValidateHostsNullException() {
-        String s = new String("");
-        s = null;
+        String s = null;
         validateHosts(s, 8000);
     }
 

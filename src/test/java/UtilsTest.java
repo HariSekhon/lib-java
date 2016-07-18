@@ -23,10 +23,10 @@ import static com.linkedin.harisekhon.Utils.*;
 import java.io.*;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.security.InvalidParameterException;
+//import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+//import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -40,7 +40,7 @@ import org.junit.Rule;
 import org.junit.rules.Timeout;
 
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.containsString;
+//import static org.hamcrest.CoreMatchers.containsString;
 import static java.lang.Math.pow;
 
 /**
@@ -78,7 +78,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // not really designed to be instantiated since there's no state but anyway
     @Test
     public void test_utils_instance(){
-        com.linkedin.harisekhon.Utils u = new com.linkedin.harisekhon.Utils();
+        Utils u = new com.linkedin.harisekhon.Utils();
+        assert u instanceof Utils;
     }
 
     @Test
@@ -164,6 +165,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         println(1.0);
         println(1L);
         println(true);
+        assert true;
     }
 
     @Test(expected=QuitException.class)
@@ -215,6 +217,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
             throw new IllegalStateException("tlds contain '=' which should have been excluded by load_tlds()");
         }
         f.delete();
+        assert tlds.size() == 0;
     }
 
     @Test(expected=IOException.class)

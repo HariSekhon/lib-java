@@ -1614,15 +1614,15 @@ public final class Utils {
         if(email == null){
             throw new IllegalArgumentException("email not defined (null)");
         }
-        if(email.trim().isEmpty()){
+        String email2 = email.trim();
+        if(email2.isEmpty()){
             throw new IllegalArgumentException("email not defined (blank)");
         }
-        email = email.trim();
-        if(! isEmail(email)){
+        if(! isEmail(email2)){
             throw new IllegalArgumentException("invalid email address defined: failed regex validation");
         }
-        vlogOption("email", email);
-        return email;
+        vlogOption("email", email2);
+        return email2;
     }
 
 

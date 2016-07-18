@@ -337,26 +337,26 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
     @Test
     public void test_expand_units(){
-        //println(expand_units(10, "kb")); // => 10240
+        //println(expandUnits(10, "kb")); // => 10240
         //println(10240L);
-        assertEquals("expand_units(10, KB)",    10240L,             expand_units(10L, "KB"));
-        assertEquals("expand_units(10, mB)",    10485760,           expand_units(10, "mB"));
-        assertEquals("expand_units(10, Gb)",    10737418240L,       expand_units(10L, "Gb"));
-        assertEquals("expand_units(10, tb)",    10995116277760L,    expand_units(10L, "tb"));
-        assertEquals("expand_units(10, Pb)",    11258999068426240L, expand_units(10L, "Pb"));
-        assertEquals("expand_units(10, KB, name)",  1024L,          expand_units(1L, "KB", "name"));
-        assertEquals("expand_units(10, KB, name)",  10240.0,        expand_units(10.0, "KB", "name"),   0);
-        assertEquals("expand_units(10, KB)",    10240.0,            expand_units(10.0, "KB"),   0);
+        assertEquals("expandUnits(10, KB)",    10240L,             expandUnits(10L, "KB"));
+        assertEquals("expandUnits(10, mB)",    10485760,           expandUnits(10, "mB"));
+        assertEquals("expandUnits(10, Gb)",    10737418240L,       expandUnits(10L, "Gb"));
+        assertEquals("expandUnits(10, tb)",    10995116277760L,    expandUnits(10L, "tb"));
+        assertEquals("expandUnits(10, Pb)",    11258999068426240L, expandUnits(10L, "Pb"));
+        assertEquals("expandUnits(10, KB, name)",  1024L,          expandUnits(1L, "KB", "name"));
+        assertEquals("expandUnits(10, KB, name)",  10240.0,        expandUnits(10.0, "KB", "name"),   0);
+        assertEquals("expandUnits(10, KB)",    10240.0,            expandUnits(10.0, "KB"),   0);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_expand_units_null_exception() throws IllegalArgumentException {
-        expand_units(10, null);
+        expandUnits(10, null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_expand_units_invalid_units_exception() throws IllegalArgumentException {
-        expand_units(10, "Kbps");
+        expandUnits(10, "Kbps");
     }
 
     @Test
@@ -397,27 +397,27 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
     @Test
     public void test_human_units(){
-        //println(human_units(1023     * pow(1024,1)));
-        assertEquals("human_units(1023)",   "1023 bytes",   human_units(1023));
-        assertEquals("human units KB",      "1023KB",       human_units(1023 * pow(1024, 1)));
-        assertEquals("human_units MB",      "1023.1MB",     human_units(1023.1 * pow(1024, 2)));
-        assertEquals("human units GB",      "1023.2GB",     human_units(1023.2 * pow(1024, 3)));
-        assertEquals("human units TB",      "1023.31TB",    human_units(1023.31 * pow(1024, 4)));
-        assertEquals("human units PB",      "1023.01PB",    human_units(1023.012 * pow(1024, 5)));
-        assertEquals("human units EB",      "1023EB",       human_units(1023 * pow(1024, 6)));
+        //println(humanUnits(1023     * pow(1024,1)));
+        assertEquals("humanUnits(1023)",   "1023 bytes",   humanUnits(1023));
+        assertEquals("human units KB",      "1023KB",       humanUnits(1023 * pow(1024, 1)));
+        assertEquals("humanUnits MB",      "1023.1MB",     humanUnits(1023.1 * pow(1024, 2)));
+        assertEquals("human units GB",      "1023.2GB",     humanUnits(1023.2 * pow(1024, 3)));
+        assertEquals("human units TB",      "1023.31TB",    humanUnits(1023.31 * pow(1024, 4)));
+        assertEquals("human units PB",      "1023.01PB",    humanUnits(1023.012 * pow(1024, 5)));
+        assertEquals("human units EB",      "1023EB",       humanUnits(1023 * pow(1024, 6)));
 
-        assertEquals("human_units(1023)",   "1023 bytes",   human_units(1023, "b"));
-        assertEquals("human_units(1023)",   "1023B",        human_units(1023, "b", true));
-        assertEquals("human units KB",      "1023KB",       human_units(1023, "KB"));
-        assertEquals("human_units MB",      "1023.1MB",     human_units(1023.1, "MB"));
-        assertEquals("human units GB",      "1023.2GB",     human_units(1023.2, "GB"));
-        assertEquals("human units TB",      "1023.31TB",    human_units(1023.31, "TB"));
-        assertEquals("human units PB",      "1023.01PB",    human_units(1023.012, "PB"));
+        assertEquals("humanUnits(1023)",   "1023 bytes",   humanUnits(1023, "b"));
+        assertEquals("humanUnits(1023)",   "1023B",        humanUnits(1023, "b", true));
+        assertEquals("human units KB",      "1023KB",       humanUnits(1023, "KB"));
+        assertEquals("humanUnits MB",      "1023.1MB",     humanUnits(1023.1, "MB"));
+        assertEquals("human units GB",      "1023.2GB",     humanUnits(1023.2, "GB"));
+        assertEquals("human units TB",      "1023.31TB",    humanUnits(1023.31, "TB"));
+        assertEquals("human units PB",      "1023.01PB",    humanUnits(1023.012, "PB"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_human_units_invalid_units_exception() throws IllegalArgumentException {
-        human_units(pow(1024, 7), "");
+        humanUnits(pow(1024, 7), "");
     }
 
     // ====================================================================== //
@@ -512,7 +512,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_uniq_array(){
         String[] myArray = {"one","two","three","","one"};
         String[] myArray_deduped = {"one","two","three",""};
-        String[] myArray_test = uniq_array(myArray);
+        String[] myArray_test = uniqArray(myArray);
         // The ordering is highly dependent on JDK version and fails on Oracle JDK 8 in Travis so must sort the arrays for comparison
         Arrays.sort(myArray_deduped);
         Arrays.sort(myArray_test);
@@ -523,7 +523,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_uniq_arraylist(){
         List<String> myList = Arrays.asList("one", "two", "three", "", "one");
         String[] myArray_deduped = {"one","two","three",""};
-        String[] myArray_test = arraylistToArray(uniq_arraylist(myList));
+        String[] myArray_test = arraylistToArray(uniqArraylist(myList));
         // The ordering is highly dependent on JDK version and fails on Oracle JDK 8 in Travis so must sort the arrays for comparison
         Arrays.sort(myArray_deduped);
         Arrays.sort(myArray_test);
@@ -534,14 +534,14 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_uniq_array_ordered() {
-        assertArrayEquals("uniq_array_ordered(one,two,three,,one)", new String[]{ "one", "two", "three", ""}, uniq_array_ordered(new String[]{"one", "two", "three", "", "one"}));
+        assertArrayEquals("uniqArrayOrdered(one,two,three,,one)", new String[]{ "one", "two", "three", ""}, uniqArrayOrdered(new String[]{"one", "two", "three", "", "one"}));
     }
 
     @Test
     public void test_uniq_arraylist_ordered(){
         String[] a = {"one","two","three","","one"};
         String[] b = {"one","two","three",""};
-        assertArrayEquals("uniq_arraylist_ordered(one,two,three,,one)", b, arraylistToArray(uniq_arraylist_ordered(arrayToArraylist(a))));
+        assertArrayEquals("uniqArraylistOrdered(one,two,three,,one)", b, arraylistToArray(uniqArraylistOrdered(arrayToArraylist(a))));
     }
 
     // ====================================================================== //

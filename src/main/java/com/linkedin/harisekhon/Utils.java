@@ -362,10 +362,10 @@ public final class Utils {
     }
 
 
-    public static final double expand_units (double num, String units, String name) {
+    public static final double expandUnits(double num, String units, String name) {
         name = name(name);
         if(units == null){
-            throw new IllegalArgumentException("null passed for units to expand_units()");
+            throw new IllegalArgumentException("null passed for units to expandUnits()");
         }
         name = name.trim();
         String units2 = units.trim();
@@ -382,18 +382,18 @@ public final class Utils {
         } else if(units2.matches("(?i)^PB?$")) {
             power = 5;
         } else {
-            throw new IllegalArgumentException(String.format("unrecognized units '%s' passed to expand_units()%s", units2, name));
+            throw new IllegalArgumentException(String.format("unrecognized units '%s' passed to expandUnits()%s", units2, name));
         }
         return (num * ( pow(1024, power) ) );
     }
-    public static final double expand_units (double num, String units) {
-        return expand_units(num, units, null);
+    public static final double expandUnits(double num, String units) {
+        return expandUnits(num, units, null);
     }
-    public static final long expand_units (long num, String units, String name) {
-        return (long) expand_units((double)num, units, name);
+    public static final long expandUnits(long num, String units, String name) {
+        return (long) expandUnits((double)num, units, name);
     }
-    public static final long expand_units (long num, String units) {
-        return expand_units(num, units, null);
+    public static final long expandUnits(long num, String units) {
+        return expandUnits(num, units, null);
     }
 
 
@@ -402,13 +402,13 @@ public final class Utils {
     }
 
 
-    public static final String human_units (double num, String units, Boolean terse) {
+    public static final String humanUnits(double num, String units, Boolean terse) {
         if(units == null){
             units = "";
         }
         units = units.trim();
         if(!units.isEmpty()){
-            num = expand_units(num, units, "human_units");
+            num = expandUnits(num, units, "humanUnits");
         }
         if (num >= pow(1024, 7)) {
             throw new IllegalArgumentException(String.format("determined suspicious units for number '%s', larger than Exabytes?!!", num));
@@ -453,11 +453,11 @@ public final class Utils {
         String num_str = String.format("%.2f", num).replaceFirst("(\\.\\d+)0$", "$1").replaceFirst("\\.0+$", "");
         return num_str + units;
     }
-    public static final String human_units (double num, String units) {
-        return human_units(num, units, false);
+    public static final String humanUnits(double num, String units) {
+        return humanUnits(num, units, false);
     }
-    public static final String human_units (double num) {
-        return human_units(num, null, false);
+    public static final String humanUnits(double num) {
+        return humanUnits(num, null, false);
     }
 
     public static final String strip_scheme (String str) {
@@ -503,7 +503,7 @@ public final class Utils {
     //
     //                     Non-deterministic Ordering
     //
-    public static final String[] uniq_array (String[] list) {
+    public static final String[] uniqArray(String[] list) {
         HashSet<String> set = new HashSet<String>();
         for(String item: list) {
             set.add(item);
@@ -513,7 +513,7 @@ public final class Utils {
     }
 
     // TODO: change this to be uniq_list instead and use List<String>
-    public static final ArrayList<String> uniq_arraylist (List<String> list) {
+    public static final ArrayList<String> uniqArraylist(List<String> list) {
         HashSet<String> set = new HashSet<String>(list);
         ArrayList<String> a = new ArrayList<String>();
         a.addAll(set);
@@ -524,7 +524,7 @@ public final class Utils {
     //
     //                     Order Preserving
     //
-    public static final String[] uniq_array_ordered (String[] list){
+    public static final String[] uniqArrayOrdered(String[] list){
         Set<String> set = new LinkedHashSet<String>();
         for(String item: list) {
             set.add(item);
@@ -533,7 +533,7 @@ public final class Utils {
         return set.toArray(a);
     }
 
-    public static final ArrayList<String> uniq_arraylist_ordered (ArrayList<String> list) {
+    public static final ArrayList<String> uniqArraylistOrdered(ArrayList<String> list) {
         Set<String> set = new LinkedHashSet<String>(list);
         ArrayList<String> a = new ArrayList<String>();
         a.addAll(set);
@@ -1735,7 +1735,7 @@ public final class Utils {
         if(! isPort(port)){
             throw new IllegalArgumentException("invalid port defined, integer must be between 1 and 65535");
         }
-        hosts = uniq_array_ordered(hosts);
+        hosts = uniqArrayOrdered(hosts);
         if(hosts.length < 1){
             throw new IllegalArgumentException("hosts not defined");
         }
@@ -2043,7 +2043,7 @@ public final class Utils {
 
     public static final ArrayList<String> validate_node_list (ArrayList<String> nodes){
         ArrayList<String> final_nodes = new ArrayList<String>();
-        nodes = uniq_arraylist_ordered(nodes);
+        nodes = uniqArraylistOrdered(nodes);
         if(nodes.size() < 1){
             throw new IllegalArgumentException("node(s) not defined");
         }
@@ -2084,7 +2084,7 @@ public final class Utils {
 
     public static final ArrayList<String> validate_nodeport_list (ArrayList<String> nodes) {
         ArrayList<String> final_nodes = new ArrayList<String>();
-        nodes = uniq_arraylist_ordered(nodes);
+        nodes = uniqArraylistOrdered(nodes);
         if(nodes.size() < 1){
             throw new IllegalArgumentException("node(s) not defined");
         }

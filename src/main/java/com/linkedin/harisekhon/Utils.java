@@ -2127,12 +2127,12 @@ public final class Utils {
         if(key.trim().isEmpty()){
             throw new IllegalArgumentException(name2 + "key not defined (blank)");
         }
-        key = key.trim();
-        if(! isNoSqlKey(key)){
+        String key2 = key.trim();
+        if(! isNoSqlKey(key2)){
             throw new IllegalArgumentException("invalid " + name2 + "key defined: may only contain characters: alphanumeric, commas, colons, underscores, pluses and dashes");
         }
-        vlogOption(name2 + "key", key);
-        return key;
+        vlogOption(name2 + "key", key2);
+        return key2;
     }
     public static final String validateNoSqlKey(String key) {
         return validateNoSqlKey(key, null);
@@ -2266,15 +2266,15 @@ public final class Utils {
         if(user == null){
             throw new IllegalArgumentException(name2 + "user not defined (null)");
         }
-        if(user.trim().isEmpty()){
+        String user2 = user.trim();
+        if(user2.trim().isEmpty()){
             throw new IllegalArgumentException(name2 + "user not defined (blank)");
         }
-        user = user.trim();
-        if(! isUser(user)){
+        if(! isUser(user2)){
             throw new IllegalArgumentException("invalid " + name2 + "username defined: must be alphanumeric");
         }
-        vlogOption(name2 + "user", user);
-        return user;
+        vlogOption(name2 + "user", user2);
+        return user2;
     }
     public static final String validateUser(String user) {
         return validateUser(user, null);

@@ -17,8 +17,6 @@ package com.linkedin.harisekhon;
 
 import static com.linkedin.harisekhon.Utils.*;
 
-import java.util.concurrent.TimeoutException;
-
 public class Timeout implements Runnable {
 
     private int secs;

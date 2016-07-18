@@ -79,7 +79,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_utils_instance(){
         Utils u = new com.linkedin.harisekhon.Utils();
-        assert u instanceof Utils;
+        assert(u instanceof Utils);
     }
 
     @Test
@@ -165,7 +165,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         println(1.0);
         println(1L);
         println(true);
-        assert true;
+        assert(true);
     }
 
     @Test(expected=QuitException.class)
@@ -217,7 +217,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
             throw new IllegalStateException("tlds contain '=' which should have been excluded by load_tlds()");
         }
         f.delete();
-        assert tlds.size() == 0;
+        assert(tlds.size() == 0);
     }
 
     @Test(expected=IOException.class)
@@ -391,6 +391,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void test_hr(){
         hr();
+        assert(true);
     }
 
     // ====================================================================== //

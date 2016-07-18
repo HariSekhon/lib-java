@@ -178,30 +178,18 @@ public class CLI {
     }
 
     public final void usage (String msg, String status) {
+        String msg2;
         if(msg == null){
-            msg = "";
+            msg2 = "";
         } else {
-            msg += "\n";
+            msg2 = msg + "\n";
         }
         if(status == null){
             status = "UNKNOWN";
         }
-//        if(msg != null && ! "".equals(msg)){
-//            println(msg);
-//        } else {
-//            println(usage_msg);
-//        }
         HelpFormatter formatter = new HelpFormatter();
-//		Class<?> enclosingClass = getClass().getEnclosingClass();
-//		if (enclosingClass != null) {
-//			System.out.println(enclosingClass.getName());
-//		} else {
-//			System.out.println(getClass().getName());
-//		}
-//		msg = msg + formatter.printHelp(enclosingClass + " [options]", options);
-        formatter.printHelp(msg, options);
+        formatter.printHelp(msg2, options);
         System.exit(getStatusCode("UNKNOWN"));
-//        throw new IllegalArgumentException(msg);
     }
     public final void usage(String msg){
         usage(msg, null);

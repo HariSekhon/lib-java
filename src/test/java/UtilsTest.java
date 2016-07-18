@@ -1964,7 +1964,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test(expected=IllegalArgumentException.class)
     public void testParsePortException() {
-        parse_port("test");
+        parsePort("test");
     }
 
     @Test(expected=IllegalArgumentException.class)

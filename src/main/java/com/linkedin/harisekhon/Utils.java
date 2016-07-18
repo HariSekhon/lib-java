@@ -1718,7 +1718,7 @@ public final class Utils {
         return validateHost(host, null);
     }
 
-    public static final int parse_port (String port){
+    public static final int parsePort(String port){
         int port_int = -1;
         try{
             port_int = Integer.parseInt(port);
@@ -1762,7 +1762,7 @@ public final class Utils {
     }
     public static final String[] validateHosts(String[] hosts, String port){
         // don't uniq here it's done in called validateHosts method
-        return validateHosts(hosts, parse_port(port));
+        return validateHosts(hosts, parsePort(port));
     }
     public static final ArrayList<String> validateHosts(ArrayList<String> hosts, int port){
         // don't uniq here it's done in called validateHosts method
@@ -1770,7 +1770,7 @@ public final class Utils {
     }
     public static final ArrayList<String> validateHosts(ArrayList<String> hosts, String port){
         // don't uniq here it's done in called validateHosts method
-        return validateHosts(hosts, parse_port(port));
+        return validateHosts(hosts, parsePort(port));
     }
     public static final String validateHosts(String hosts, int port) {
         if(hosts == null) {
@@ -1786,7 +1786,7 @@ public final class Utils {
         return final_hosts;
     }
     public static final String validateHosts(String hosts, String port) {
-        return validateHosts(hosts, parse_port(port));
+        return validateHosts(hosts, parsePort(port));
     }
 
 

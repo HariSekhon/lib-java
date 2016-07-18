@@ -261,24 +261,24 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
 
     @Test
-    public void test_name(){
+    public void testName(){
         assertEquals("name(null)", "", name(null));
         assertEquals("name(blank)", "", name(""));
         assertEquals("name(blah)", "blah ", name("blah"));
     }
 
     @Test
-    public void test_requireName(){
+    public void testRequireName(){
         assertEquals("requireName(blah)", "blah", requireName("blah"));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_requireName_exception_null() throws IllegalArgumentException {
+    public void testRequireNameExceptionNull() throws IllegalArgumentException {
         assertEquals("requireName(null)", "", requireName(null));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_requireName_exception_blank() throws IllegalArgumentException {
+    public void testRequireNameExceptionBlank() throws IllegalArgumentException {
         assertEquals("requireName(blank)", "", requireName(""));
     }
 
@@ -294,7 +294,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     // ====================================================================== //
     @Test
-    public void test_check_regex(){
+    public void testCheckRegex(){
         //println(check_regex("test", "test"));
         assertTrue("check_regex(test,test)",   check_regex("test", "test"));
         assertTrue("check_regex(test,test)",   check_regex("test", "te.t"));
@@ -303,18 +303,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_check_regex_exception() throws IllegalArgumentException {
+    public void testCheckRegexException() throws IllegalArgumentException {
         check_regex("test", "*est");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_check_regex_null_regex_exception() throws IllegalArgumentException {
+    public void testCheckRegexNullRegexException() throws IllegalArgumentException {
         check_regex("test", null);
     }
 
     // ====================================================================== //
     @Test
-    public void test_check_string(){
+    public void testCheckString(){
         //println(checkString("test", "test"));
         assertTrue("checkString(test,test)",   checkString("test", "test"));             // will use ==
         assertTrue("checkString(test,test)",   checkString("test", "test", true));
@@ -324,7 +324,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_check_string_null_exception() throws IllegalArgumentException {
+    public void testCheckStringNullException() throws IllegalArgumentException {
         checkString("test", null);
     }
 
@@ -336,7 +336,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     // ====================================================================== //
     @Test
-    public void test_expand_units(){
+    public void testExpandUnits(){
         //println(expandUnits(10, "kb")); // => 10240
         //println(10240L);
         assertEquals("expandUnits(10, KB)",    10240L,             expandUnits(10L, "KB"));
@@ -350,17 +350,17 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_expand_units_null_exception() throws IllegalArgumentException {
+    public void testExpandUnitsNullException() throws IllegalArgumentException {
         expandUnits(10, null);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_expand_units_invalid_units_exception() throws IllegalArgumentException {
+    public void testExpandUnitsInvalidUnitsException() throws IllegalArgumentException {
         expandUnits(10, "Kbps");
     }
 
     @Test
-    public void test_plural(){
+    public void testPlural(){
         assertEquals("plural(1)", "", plural(1));
         assertEquals("plural('1')", "", plural("1"));
         assertEquals("plural()", "", plural(""));
@@ -389,14 +389,14 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     // ====================================================================== //
     @Test
-    public void test_hr(){
+    public void testHr(){
         hr();
         assert(true);
     }
 
     // ====================================================================== //
     @Test
-    public void test_human_units(){
+    public void testHumanUnits(){
         //println(humanUnits(1023     * pow(1024,1)));
         assertEquals("humanUnits(1023)",   "1023 bytes",   humanUnits(1023));
         assertEquals("human units KB",      "1023KB",       humanUnits(1023 * pow(1024, 1)));
@@ -416,13 +416,13 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_human_units_invalid_units_exception() throws IllegalArgumentException {
+    public void testHumanUnitsInvalidUnitsException() throws IllegalArgumentException {
         humanUnits(pow(1024, 7), "");
     }
 
     // ====================================================================== //
     @Test
-    public void test_resolve_ip() throws UnknownHostException {
+    public void testResolveIp() throws UnknownHostException {
         // if not on a decent OS assume I'm somewhere lame like a bank where internal resolvers don't resolve internet addresses
         // this way my continous integration tests still run this one
 //        if(isLinuxOrMac()){
@@ -440,34 +440,34 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 //    }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_resolve_ip_null_exception() throws IllegalArgumentException, UnknownHostException {
+    public void testValidateResolveIpNullException() throws IllegalArgumentException, UnknownHostException {
         resolveIp(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_resolve_ip_blank_exception() throws IllegalArgumentException, UnknownHostException {
+    public void testValidateResolveIpBlankException() throws IllegalArgumentException, UnknownHostException {
         resolveIp(" ");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_resolvable_null_exception() throws IllegalArgumentException, UnknownHostException {
+    public void testValidateResolvableNullException() throws IllegalArgumentException, UnknownHostException {
         validateResolvable(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_resolvable_blank_exception() throws IllegalArgumentException, UnknownHostException {
+    public void testValidateResolvableBlankException() throws IllegalArgumentException, UnknownHostException {
         validateResolvable(" ");
     }
 
     // Some DNS servers return default answers for anything that doesn't resolve in order to redirect you to a landing page
 //    @Test(expected=UnknownHostException.class)
-//    public void test_validate_resolvable_blank_exception() throws IllegalArgumentException, UnknownHostException {
+//    public void testValidateResolvableBlankException() throws IllegalArgumentException, UnknownHostException {
 //        validateResolvable("nonexistenthost.local");
 //    }
 
     // ====================================================================== //
     @Test
-    public void test_strip_scheme(){
+    public void testStripScheme(){
         assertEquals("strip_scheme(file:/blah)",                        "/blah",                        strip_scheme("file:/blah"));
         assertEquals("strip_scheme(file:///path/to/blah)",              "/path/to/blah",                strip_scheme("file:///path/to/blah"));
         assertEquals("strip_scheme(http://blah)",                       "blah",                         strip_scheme("http://blah"));
@@ -478,7 +478,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     // ====================================================================== //
     @Test
-    public void test_strip_scheme_host(){
+    public void testStripSchemeHost(){
         assertEquals("stripSchemeHost(file:/blah)",                               "/blah",            stripSchemeHost("file:/blah"));
         assertEquals("stripSchemeHost(file:///path/to/blah)",                     "/path/to/blah",    stripSchemeHost("file:///path/to/blah"));
         assertEquals("stripSchemeHost(hdfs:///path/to/blah)",                     "/path/to/blah",    stripSchemeHost("hdfs:///path/to/blah"));
@@ -509,7 +509,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
 
     @Test
-    public void test_uniq_array(){
+    public void testUniqArray(){
         String[] myArray = {"one","two","three","","one"};
         String[] myArray_deduped = {"one","two","three",""};
         String[] myArray_test = uniqArray(myArray);
@@ -520,7 +520,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_uniq_arraylist(){
+    public void testUniqArraylist(){
         List<String> myList = Arrays.asList("one", "two", "three", "", "one");
         String[] myArray_deduped = {"one","two","three",""};
         String[] myArray_test = arraylistToArray(uniqArraylist(myList));
@@ -533,12 +533,12 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_uniq_array_ordered() {
+    public void testUniqArrayOrdered() {
         assertArrayEquals("uniqArrayOrdered(one,two,three,,one)", new String[]{ "one", "two", "three", ""}, uniqArrayOrdered(new String[]{"one", "two", "three", "", "one"}));
     }
 
     @Test
-    public void test_uniq_arraylist_ordered(){
+    public void testUniqArraylistOrdered(){
         String[] a = {"one","two","three","","one"};
         String[] b = {"one","two","three",""};
         assertArrayEquals("uniqArraylistOrdered(one,two,three,,one)", b, arraylistToArray(uniqArraylistOrdered(arrayToArraylist(a))));
@@ -556,17 +556,17 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     */
     //import static org.hamcrest.CoreMatchers.
     @Test
-    public void test_getOS(){
+    public void testGetOS(){
         assertTrue("getOS()", getOS().matches(".*(?:Linux|Mac|Windows).*"));
     }
 
     @Test
-    public void test_isOS(){
+    public void testIsOS(){
         assertTrue(isOS(System.getProperty("os.name")));
     }
 
     @Test
-    public void test_isLinux() throws UnsupportedOSException {
+    public void testIsLinux() throws UnsupportedOSException {
         if(isLinux()){
             assertEquals("isLinux()", "Linux", getOS());
             linuxOnly();
@@ -574,7 +574,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_isLinux_exception() throws Exception {
+    public void testIsLinuxException() throws Exception {
         if(!isLinux()){
             try {
                 linuxOnly();
@@ -586,7 +586,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_isMac(){
+    public void testIsMac(){
         if(isMac()){
             assertEquals("isMac()", "Mac OS X", getOS());
             macOnly();
@@ -594,7 +594,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_isMac_exception() throws Exception {
+    public void testIsMacException() throws Exception {
         if(!isMac()){
             try {
                 macOnly();
@@ -606,7 +606,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_isLinuxOrMac(){
+    public void testIsLinuxOrMac(){
         if(isLinuxOrMac()){
             assertTrue("isLinuxOrMac()", getOS().matches("Linux|Mac OS X"));
             linuxMacOnly();
@@ -614,7 +614,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_isLinuxOrMac_exception() throws Exception {
+    public void testIsLinuxOrMacException() throws Exception {
         if(!isLinuxOrMac()){
             try {
                 linuxMacOnly();
@@ -630,7 +630,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
 
     @Test
-    public void test_isAlNum(){
+    public void testIsAlNum(){
         assertTrue("isAlNum(ABC123efg)", isAlNum("ABC123efg"));
         assertTrue("isAlNum(0)",         isAlNum("0"));
         assertFalse("isAlNum(1.2)",      isAlNum("1.2"));
@@ -640,29 +640,29 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_validate_alnum(){
+    public void testValidateAlnum(){
         assertEquals("validateAlnum(Alnum2Test99, alnum test)", "Alnum2Test99", validateAlnum("Alnum2Test99", "alnum test"));
         assertEquals("validateAlnum(0, alnum zero)", "0", validateAlnum("0", "alnum zero"));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_alnum_exception(){
+    public void testValidateAlnumException(){
         validateAlnum("1.2", "alnum exception");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_alnum_null_exception(){
+    public void testValidateAlnumNullException(){
         validateAlnum(null, "alnum exception");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_alnum_blank_exception(){
+    public void testValidateAlnumBlankException(){
         validateAlnum(" ", "alnum exception");
     }
 
     // ====================================================================== //
     @Test
-    public void test_isAwsAccessKey(){
+    public void testIsAwsAccessKey(){
         assertTrue(isAwsAccessKey(repeatString("A", 20)));
         assertTrue(isAwsAccessKey(repeatString("1", 20)));
         assertTrue(isAwsAccessKey(repeatString("A1", 10)));
@@ -672,63 +672,63 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_validate_aws_access_key(){
+    public void testValidateAwsAccessKey(){
         assertEquals("validateAwsAccessKey(A * 20)", repeatString("A", 20), validateAwsAccessKey(repeatString("A", 20)));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_access_key_exception(){
+    public void testValidateAwsAccessKeyException(){
         validateAwsAccessKey(repeatString("A", 21));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_access_key_null_exception(){
+    public void testValidateAwsAccessKeyNullException(){
         validateAwsAccessKey(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_access_key_blank_exception(){
+    public void testValidateAwsAccessKeyBlankException(){
         validateAwsAccessKey(" ");
     }
 
     // ====================================================================== //
 
     @Test
-    public void test_isAwsBucket(){
+    public void testIsAwsBucket(){
         assertTrue("isAwsBucket(BucKeT63)", isAwsBucket("BucKeT63"));
         assertFalse("isAwsBucket(BucKeT63)", isAwsBucket("B@cKeT63"));
         assertFalse("isAwsBucket(null)", isAwsBucket(null));
     }
 
     @Test
-    public void test_validate_aws_bucket(){
+    public void testValidateAwsBucket(){
         assertEquals("validateAwsBucket(BucKeT63)", "BucKeT63", validateAwsBucket("BucKeT63"));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_bucket_exception(){
+    public void testValidateAwsBucketException(){
         validateAwsBucket("B@cKeT63");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_bucket_null_exception(){
+    public void testValidateAwsBucketNullException(){
         validateAwsBucket(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_bucket_blank_exception(){
+    public void testValidateAwsBucketBlankException(){
         validateAwsBucket(" ");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_bucket_ip_exception(){
+    public void testValidateAwsBucketIpException(){
         validateAwsBucket("4.2.2.1");
     }
 
     // ====================================================================== //
 
     @Test
-    public void test_isAwsHostname(){
+    public void testIsAwsHostname(){
         assertTrue(isAwsHostname("ip-172-31-1-1"));
         assertTrue(isAwsHostname("ip-172-31-1-1.eu-west-1.compute.internal"));
         assertFalse(isAwsHostname("harisekhon"));
@@ -738,78 +738,78 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_validate_aws_hostname(){
+    public void testValidateAwsHostname(){
         assertEquals("validateAwsHostname(ip-172-31-1-1)", "ip-172-31-1-1", validateAwsHostname("ip-172-31-1-1"));
         assertEquals("validateAwsHostname(ip-172-31-1-1.eu-west-1.compute.internal)", "ip-172-31-1-1.eu-west-1.compute.internal", validateAwsHostname("ip-172-31-1-1.eu-west-1.compute.internal"));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_hostname_exception() {
+    public void testValidateAwsHostnameException() {
         validateAwsHostname("harisekhon");
     }
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_hostname_exception2() {
+    public void testValidateAwsHostnameException2() {
         validateAwsHostname("10.10.10.1");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_hostname_exception3() {
+    public void testValidateAwsHostnameException3() {
         validateAwsHostname(repeatString("A", 40));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_hostname_null_exception() {
+    public void testValidateAwsHostnameNullException() {
         validateAwsHostname(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_hostname_blank_exception() {
+    public void testValidateAwsHostnameBlankException() {
         validateAwsHostname(" ");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_hostname_ip_exception() {
+    public void testValidateAwsHostnameIpException() {
         validateAwsHostname("4.2.2.1");
     }
 
     // ====================================================================== //
 
     @Test
-    public void test_isAwsFqdn(){
+    public void testIsAwsFqdn(){
         assertTrue(isAwsFqdn("ip-172-31-1-1.eu-west-1.compute.internal"));
         assertFalse(isAwsFqdn("ip-172-31-1-1"));
         assertFalse(isAwsFqdn(null));
     }
 
     @Test
-    public void test_validate_aws_fqdn(){
+    public void testValidateAwsFqdn(){
         assertEquals("validateAwsFqdn(ip-172-31-1-1.eu-west-1.compute.internal)", "ip-172-31-1-1.eu-west-1.compute.internal", validateAwsFqdn("ip-172-31-1-1.eu-west-1.compute.internal"));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_fqdn_exception() {
+    public void testValidateAwsFqdnException() {
         validateAwsFqdn("ip-172-31-1-1");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_fqdn_null_exception() {
+    public void testValidateAwsFqdnNullException() {
         validateAwsFqdn(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_fqdn_blank_exception() {
+    public void testValidateAwsFqdnBlankException() {
         validateAwsFqdn(" ");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_fqdn_ip_exception() {
+    public void testValidateAwsFqdnIpException() {
         validateAwsFqdn("4.2.2.1");
     }
 
     // ====================================================================== //
 
     @Test
-    public void test_isAwsSecretKey(){
+    public void testIsAwsSecretKey(){
         assertTrue(isAwsSecretKey(repeatString("A", 40)));
         assertTrue(isAwsSecretKey(repeatString("1", 40)));
         assertTrue(isAwsSecretKey(repeatString("A1", 20)));
@@ -819,28 +819,28 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_validate_aws_secret_key(){
+    public void testValidateAwsSecretKey(){
         assertEquals("validateAwsSecretKey(A * 40)", repeatString("A", 40), validateAwsSecretKey(repeatString("A", 40)));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_secret_key_exception(){
+    public void testValidateAwsSecretKeyException(){
         validateAwsSecretKey(repeatString("A", 41));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_secret_key_null_exception(){
+    public void testValidateAwsSecretKeyNullException(){
         validateAwsSecretKey(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_aws_secret_key_blank_exception(){
+    public void testValidateAwsSecretKeyBlankException(){
         validateAwsSecretKey(" ");
     }
 
     // ====================================================================== //
     @Test
-    public void test_isChars(){
+    public void testIsChars(){
         assertTrue(isChars("Alpha-01_", "A-Za-z0-9_-"));
         assertFalse(isChars("Alpha-01_*", "A-Za-z0-9_-"));
         assertFalse(isChars("Alpha-01_*", null));
@@ -849,95 +849,95 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_isChars_exception(){
+    public void testIsCharsException(){
         isChars("Alpha-01_*", "B-A");
     }
 
     @Test
-    public void test_validate_chars(){
+    public void testValidateChars(){
         assertEquals("validateChars(...)", "log_date=2015-05-23_10", validateChars("log_date=2015-05-23_10", "validate chars", "A-Za-z0-9_=-"));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_chars_exception(){
+    public void testValidateCharsException(){
         validateChars("Alpha-01_*", "validate chars", "A-Za-z0-9_-");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_chars_null_exception(){
+    public void testValidateCharsNullException(){
         validateChars("Alpha-01_*", "validate chars", null);
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_chars_null_arg_exception(){
+    public void testValidateCharsNullArgException(){
         validateChars(null, "validate chars", "A-Za-z0-9_-");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_chars_blank_exception(){
+    public void testValidateCharsBlankException(){
         validateChars("Alpha-01_*", "validate chars", " ");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_chars_blank_arg_exception(){
+    public void testValidateCharsBlankArgException(){
         validateChars(null, "validate chars", "A-Za-z0-9_-");
     }
 
     // ====================================================================== //
     @Test
-    public void test_isCollection(){
+    public void testIsCollection(){
         assertTrue(isCollection("students.grades"));
         assertFalse(isCollection("wrong@.grades"));
         assertFalse(isCollection(null));
     }
 
     @Test
-    public void test_validate_collection(){
+    public void testValidateCollection(){
         assertEquals("validateCollection(students.grades)", "students.grades", validateCollection("students.grades"));
         assertEquals("validateCollection(students.grades, name)", "students.grades", validateCollection("students.grades", "name"));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_collection_exception(){
+    public void testValidateCollectionException(){
         validateCollection("wrong@grades", "name");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_collection_null_exception(){
+    public void testValidateCollectionNullException(){
         validateCollection(null, "name");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_collection_blank_exception(){
+    public void testValidateCollectionBlankException(){
         validateCollection(" ", "name");
     }
 
     // ====================================================================== //
     @Test
-    public void test_isDatabaseName(){
+    public void testIsDatabaseName(){
         assertTrue(isDatabaseName("mysql1"));
         assertFalse(isDatabaseName("my@sql"));
         assertFalse(isDatabaseName(null));
     }
 
     @Test
-    public void test_validate_database(){
+    public void testValidateDatabase(){
         assertEquals("validateDatabase(mysql)", "mysql", validateDatabase("mysql"));
         assertEquals("validateDatabase(mysql, MySQL)", "mysql", validateDatabase("mysql", "MySQL"));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_database_exception(){
+    public void testValidateDatabaseException(){
         validateDatabase("my@sql", "name");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_database_null_exception(){
+    public void testValidateDatabaseNullException(){
         validateDatabase(null, "name");
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_validate_database_blank_exception(){
+    public void testValidateDatabaseBlankException(){
         validateDatabase(" ", "name");
     }
 

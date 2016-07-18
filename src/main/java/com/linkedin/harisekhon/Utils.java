@@ -133,7 +133,7 @@ public final class Utils {
     public static HashSet<String> tlds = new HashSet<String>();
     public static final String tld_regex;
 
-    protected static final void load_tlds (String filename) throws IOException {
+    protected static final void loadTlds(String filename) throws IOException {
         int tld_count = 0;
         try {
             final InputStream resourceAsStream = Utils.class.getResourceAsStream("/" + filename);
@@ -195,14 +195,14 @@ public final class Utils {
 
         // let the class fail to initialize if missing a resource to prevent relying on the regexes which won't match
         try {
-            load_tlds("tlds-alpha-by-domain.txt");
+            loadTlds("tlds-alpha-by-domain.txt");
             check_tldcount();
-            load_tlds("custom_tlds.txt");
+            loadTlds("custom_tlds.txt");
             // XXX: TODO: this fails correctly but doesn't give stack trace or file name
-//            load_tlds("custom_tldsa.txt");
+//            loadTlds("custom_tldsa.txt");
 //            log.trace("tld_regex = " + tld_regex);
         } catch(IOException e){
-            // logged by load_tlds when throwing exception
+            // logged by loadTlds when throwing exception
 //            log.error(e.getMessage());
             quit("UNKNOWN", String.format("unable to load a resource file containing TLDs for generated domain/fqdn regex generation: %s", e.getMessage()));
 //            throw e;

@@ -191,8 +191,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_load_tlds_nodups() throws IOException {
-        load_tlds("tlds-alpha-by-domain.txt");
-        load_tlds("tlds-alpha-by-domain.txt");
+        loadTlds("tlds-alpha-by-domain.txt");
+        loadTlds("tlds-alpha-by-domain.txt");
         assertTrue(tlds.size() > 1000);
         assertTrue(tlds.size() < 2000);
     }
@@ -212,9 +212,9 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         BufferedWriter bw = new BufferedWriter(fw);
         bw.write("=");
         bw.close();
-        load_tlds(filename);
+        loadTlds(filename);
         if(tlds.contains("=")){
-            throw new IllegalStateException("tlds contain '=' which should have been excluded by load_tlds()");
+            throw new IllegalStateException("tlds contain '=' which should have been excluded by loadTlds()");
         }
         f.delete();
         assert(tlds.size() == 0);
@@ -222,14 +222,14 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test(expected=IOException.class)
     public void test_load_tlds_nonexistent() throws Exception {
-        load_tlds("nonexistentfile.txt");
+        loadTlds("nonexistentfile.txt");
         // shouldn't reach here
-        throw new Exception("load_tlds() failed to thrown an IOException for a nonexistent file");
+        throw new Exception("loadTlds() failed to thrown an IOException for a nonexistent file");
     }
 
     @Test(expected=IllegalStateException.class)
     public void test_check_tldcount_too_high() throws IOException {
-        load_tlds("tlds-alpha-by-domain.txt");
+        loadTlds("tlds-alpha-by-domain.txt");
         for(int i=0; i<1000; i++){
             tlds.add(String.format("%d", i));
         }

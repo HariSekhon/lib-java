@@ -253,7 +253,7 @@ public class CLI {
         timeout_default = secs;
     }
 
-    public int getTimeout_max(){
+    public int getTimeoutMax(){
         return timeout_max;
     }
 

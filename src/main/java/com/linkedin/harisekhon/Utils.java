@@ -1266,15 +1266,15 @@ public final class Utils {
         if(chars == null){
             throw new IllegalArgumentException("chars field not defined (null) when calling validate_chars()");
         }
-        if(chars.trim().isEmpty()){
+        String chars2 = chars.trim();
+        if(chars2.isEmpty()){
             throw new IllegalArgumentException("chars field not defined (blank) when calling validate_chars()");
         }
-        chars = chars.trim();
         if(arg == null || arg.isEmpty()){
             throw new IllegalArgumentException(name + "not defined");
         }
-        if(! isChars(arg, chars)){
-            throw new IllegalArgumentException("invalid " + name + " defined: must be one of the following chars - " + chars);
+        if(! isChars(arg, chars2)){
+            throw new IllegalArgumentException("invalid " + name + " defined: must be one of the following chars - " + chars2);
         }
         vlog_option(name, arg);
         return arg;
@@ -1285,15 +1285,15 @@ public final class Utils {
         if(key == null){
             throw new IllegalArgumentException("aws access key not defined (null)");
         }
-        if(key.trim().isEmpty()){
+        String key2 = key.trim();
+        if(key2.isEmpty()){
             throw new IllegalArgumentException("aws access key not defined (blank)");
         }
-        key = key.trim();
-        if(! isAwsAccessKey(key)){
+        if(! isAwsAccessKey(key2)){
             throw new IllegalArgumentException("invalid aws access key defined: must be 20 alphanumeric chars");
         }
-        vlog_option("aws access key", repeat_string("X", 18) + key.substring(18, 20));
-        return key;
+        vlog_option("aws access key", repeat_string("X", 18) + key2.substring(18, 20));
+        return key2;
     }
 
 

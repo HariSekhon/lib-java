@@ -167,7 +167,7 @@ public final class Utils {
         log.debug(tld_count + " TLDs loaded from '" + filename + "'");
     }
 
-    public static void check_tldcount() throws IllegalStateException {
+    public static void checkTldCount() throws IllegalStateException {
         long tld_count = tlds.size();
         log.debug(String.format("%d total unique TLDs loaded from resources", tld_count));
         if (tld_count < 1000) {
@@ -196,7 +196,7 @@ public final class Utils {
         // let the class fail to initialize if missing a resource to prevent relying on the regexes which won't match
         try {
             loadTlds("tlds-alpha-by-domain.txt");
-            check_tldcount();
+            checkTldCount();
             loadTlds("custom_tlds.txt");
             // XXX: TODO: this fails correctly but doesn't give stack trace or file name
 //            loadTlds("custom_tldsa.txt");
@@ -1003,19 +1003,19 @@ public final class Utils {
         return isLinux() || isMac();
     }
  
-    public static final void linux_only() throws UnsupportedOSException {
+    public static final void linuxOnly() throws UnsupportedOSException {
         if (!isLinux()){
             throw new UnsupportedOSException("Linux");
         }
     }
 
-    public static final void mac_only() throws UnsupportedOSException {
+    public static final void macOnly() throws UnsupportedOSException {
         if (!isMac()) {
             throw new UnsupportedOSException("Mac OS X");
         }
     }
 
-    public static final void linux_mac_only() throws UnsupportedOSException {
+    public static final void linuxMacOnly() throws UnsupportedOSException {
         if(!(isLinux() || isMac())) {
             throw new UnsupportedOSException("Linux or Mac OS X");
         }
@@ -1103,12 +1103,12 @@ public final class Utils {
 //        }
 //    }
 
-    public static final String resolve_ip (String host) throws UnknownHostException {
+    public static final String resolveIp(String host) throws UnknownHostException {
         if(host == null){
-            throw new IllegalArgumentException("no host passed to resolve_ip (null)");
+            throw new IllegalArgumentException("no host passed to resolveIp (null)");
         }
         if(host.trim().isEmpty()){
-            throw new IllegalArgumentException("no host passed to resolve_ip (blank)");
+            throw new IllegalArgumentException("no host passed to resolveIp (blank)");
         }
 //        try {
             InetAddress address = InetAddress.getByName(host);
@@ -1119,8 +1119,8 @@ public final class Utils {
     }
 
     // only works on unix systems
-    public static final Boolean user_exists (String user) throws IOException, UnsupportedOSException {
-        linux_mac_only();
+    public static final Boolean userExists(String user) throws IOException, UnsupportedOSException {
+        linuxMacOnly();
         if(user == null) {
             return false;
         }
@@ -1205,7 +1205,7 @@ public final class Utils {
     */
 
 
-    public static final String repeat_string(String chars, int num) {
+    public static final String repeatString(String chars, int num) {
         StringBuilder string = new StringBuilder();
         for(int i = 0; i < num; i++){
             string.append(chars);
@@ -1234,7 +1234,7 @@ public final class Utils {
         return name2;
     }
 
-    static final String require_name (String name) {
+    static final String requireName(String name) {
         if(name == null || name.trim().isEmpty()){
             // TODO: improve the feedback location
             //StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace()
@@ -1244,8 +1244,8 @@ public final class Utils {
     }
 
 
-    public static final String validate_alnum (String alnum, String name){
-        name = require_name(name);
+    public static final String validateAlnum(String alnum, String name){
+        name = requireName(name);
         if(alnum == null){
             throw new IllegalArgumentException(name + "not defined (null)");
         }
@@ -1261,14 +1261,14 @@ public final class Utils {
     }
 
 
-    public static final String validate_chars (String arg, String name, String chars) {
-        name = require_name(name);
+    public static final String validateChars(String arg, String name, String chars) {
+        name = requireName(name);
         if(chars == null){
-            throw new IllegalArgumentException("chars field not defined (null) when calling validate_chars()");
+            throw new IllegalArgumentException("chars field not defined (null) when calling validateChars()");
         }
         String chars2 = chars.trim();
         if(chars2.isEmpty()){
-            throw new IllegalArgumentException("chars field not defined (blank) when calling validate_chars()");
+            throw new IllegalArgumentException("chars field not defined (blank) when calling validateChars()");
         }
         if(arg == null || arg.isEmpty()){
             throw new IllegalArgumentException(name + "not defined");
@@ -1281,7 +1281,7 @@ public final class Utils {
     }
 
 
-    public static final String validate_aws_access_key (String key) {
+    public static final String validateAwsAccessKey(String key) {
         if(key == null){
             throw new IllegalArgumentException("aws access key not defined (null)");
         }
@@ -1292,12 +1292,12 @@ public final class Utils {
         if(! isAwsAccessKey(key2)){
             throw new IllegalArgumentException("invalid aws access key defined: must be 20 alphanumeric chars");
         }
-        vlog_option("aws access key", repeat_string("X", 18) + key2.substring(18, 20));
+        vlog_option("aws access key", repeatString("X", 18) + key2.substring(18, 20));
         return key2;
     }
 
 
-    public static final String validate_aws_bucket (String bucket) {
+    public static final String validateAwsBucket(String bucket) {
         if(bucket == null){
             throw new IllegalArgumentException("aws bucket not defined (null)");
         }
@@ -1315,7 +1315,7 @@ public final class Utils {
         return bucket;
     }
 
-    public static final String validate_aws_hostname (String arg) {
+    public static final String validateAwsHostname(String arg) {
         if(arg == null){
             throw new IllegalArgumentException("aws hostname not defined (null)");
         }
@@ -1333,7 +1333,7 @@ public final class Utils {
         return arg;
     }
 
-    public static final String validate_aws_fqdn (String arg) {
+    public static final String validateAwsFqdn(String arg) {
         if(arg == null){
             throw new IllegalArgumentException("aws fqdn not defined (null)");
         }
@@ -1351,7 +1351,7 @@ public final class Utils {
         return arg;
     }
 
-    public static final String validate_aws_secret_key (String key) {
+    public static final String validateAwsSecretKey(String key) {
         if(key == null){
             throw new IllegalArgumentException("aws secret key not defined (null)");
         }
@@ -1362,12 +1362,12 @@ public final class Utils {
         if(! isAwsSecretKey(key)){
             throw new IllegalArgumentException("invalid aws secret key defined: must be 20 alphanumeric chars");
         }
-        vlog_option("aws secret key", repeat_string("X", 38) + key.substring(38, 40));
+        vlog_option("aws secret key", repeatString("X", 38) + key.substring(38, 40));
         return key;
     }
 
 
-    public static final String validate_collection (String collection, String name) {
+    public static final String validateCollection(String collection, String name) {
         name = name(name);
         if(collection == null){
             throw new IllegalArgumentException(name + "collection not defined (null)");
@@ -1382,12 +1382,12 @@ public final class Utils {
         vlog_option(name + "collection", collection);
         return collection;
     }
-    public static final String validate_collection (String collection) {
-        return validate_collection(collection, null);
+    public static final String validateCollection(String collection) {
+        return validateCollection(collection, null);
     }
 
 
-    public static final String validate_database (String database, String name) {
+    public static final String validateDatabase(String database, String name) {
         name = name(name);
         if(database == null){
             throw new IllegalArgumentException(name + "database not defined (null)");
@@ -1402,12 +1402,12 @@ public final class Utils {
         vlog_option(name + "database", database);
         return database;
     }
-    public static final String validate_database (String database) {
-        return validate_database(database, null);
+    public static final String validateDatabase(String database) {
+        return validateDatabase(database, null);
     }
 
 
-    public static final String validate_database_columnname (String column) {
+    public static final String validateDatabaseColumnname(String column) {
         if(column == null){
             throw new IllegalArgumentException("column not defined (null)");
         }
@@ -1423,7 +1423,7 @@ public final class Utils {
     }
 
 
-    public static final String validate_database_fieldname (String field) {
+    public static final String validateDatabaseFieldname(String field) {
         if(field == null){
             throw new IllegalArgumentException("field not defined (null)");
         }
@@ -1439,7 +1439,7 @@ public final class Utils {
     }
 
 
-    public static final String validate_database_query_select_show (String query, String name) {
+    public static final String validateDatabaseQuerySelectShow(String query, String name) {
         name = name(name);
         if(query == null){
             throw new IllegalArgumentException(name + "query not defined (null)");
@@ -1458,12 +1458,12 @@ public final class Utils {
         vlog_option(name + "query", query);
         return query;
     }
-    public static final String validate_database_query_select_show (String query) {
-        return validate_database_query_select_show(query, null);
+    public static final String validateDatabaseQuerySelectShow(String query) {
+        return validateDatabaseQuerySelectShow(query, null);
     }
 
 
-    public static final String validate_database_tablename (String table, String name, Boolean allow_qualified){
+    public static final String validateDatabaseTablename(String table, String name, Boolean allow_qualified){
         name = name(name);
         if(table == null){
             throw new IllegalArgumentException(name + "table not defined (null)");
@@ -1478,18 +1478,18 @@ public final class Utils {
         vlog_option(name + "table", table);
         return table;
     }
-    public static final String validate_database_tablename (String table, String name) {
-        return validate_database_tablename(table, name, false);
+    public static final String validateDatabaseTablename(String table, String name) {
+        return validateDatabaseTablename(table, name, false);
     }
-    public static final String validate_database_tablename (String table, Boolean allow_qualified){
-        return validate_database_tablename(table, null, allow_qualified);
+    public static final String validateDatabaseTablename(String table, Boolean allow_qualified){
+        return validateDatabaseTablename(table, null, allow_qualified);
     }
-    public static final String validate_database_tablename (String table){
-        return validate_database_tablename(table, null, false);
+    public static final String validateDatabaseTablename(String table){
+        return validateDatabaseTablename(table, null, false);
     }
 
 
-    public static final String validate_database_viewname (String view, String name, Boolean allow_qualified){
+    public static final String validateDatabaseViewname(String view, String name, Boolean allow_qualified){
         name = name(name);
         if(view == null){
             throw new IllegalArgumentException(name + "view not defined (null)");
@@ -1504,18 +1504,18 @@ public final class Utils {
         vlog_option(name + "view", view);
         return view;
     }
-    public static final String validate_database_viewname (String view, String name) {
-        return validate_database_viewname(view, name, false);
+    public static final String validateDatabaseViewname(String view, String name) {
+        return validateDatabaseViewname(view, name, false);
     }
-    public static final String validate_database_viewname (String view, Boolean allow_qualified) {
-        return validate_database_viewname(view, null, allow_qualified);
+    public static final String validateDatabaseViewname(String view, Boolean allow_qualified) {
+        return validateDatabaseViewname(view, null, allow_qualified);
     }
-    public static final String validate_database_viewname (String view) {
-        return validate_database_viewname(view, null, false);
+    public static final String validateDatabaseViewname(String view) {
+        return validateDatabaseViewname(view, null, false);
     }
 
 
-    public static final String validate_domain (String domain, String name) {
+    public static final String validateDomain(String domain, String name) {
         name = name(name);
         if(domain == null){
             throw new IllegalArgumentException(name + "domain not defined (null)");
@@ -1530,11 +1530,11 @@ public final class Utils {
         vlog_option(name + "domain", domain);
         return domain;
     }
-    public static final String validate_domain (String domain) {
-        return validate_domain(domain, null);
+    public static final String validateDomain(String domain) {
+        return validateDomain(domain, null);
     }
 
-    public static final String validate_domain_strict (String domain, String name) {
+    public static final String validateDomainStrict(String domain, String name) {
         name = name(name);
         if(domain == null){
             throw new IllegalArgumentException(name + "domain not defined (null)");
@@ -1549,12 +1549,12 @@ public final class Utils {
         vlog_option(name + "domain", domain);
         return domain;
     }
-    public static final String validate_domain_strict (String domain) {
-        return validate_domain_strict(domain, null);
+    public static final String validateDomainStrict(String domain) {
+        return validateDomainStrict(domain, null);
     }
 
 
-    public static final String validate_dirname (String dir, String name, Boolean novlog) {
+    public static final String validateDirname(String dir, String name, Boolean novlog) {
         name = name(name);
         if(dir == null){
             throw new IllegalArgumentException(name + "directory not defined (null)");
@@ -1571,15 +1571,15 @@ public final class Utils {
         }
         return dir;
     }
-    public static final String validate_dirname (String dir, String name) {
-        return validate_dirname(dir, name, false);
+    public static final String validateDirname(String dir, String name) {
+        return validateDirname(dir, name, false);
     }
-    public static final String validate_dirname (String dir) {
-        return validate_dirname(dir, null, false);
+    public static final String validateDirname(String dir) {
+        return validateDirname(dir, null, false);
     }
 
 
-    public static final String validate_directory (String dir, String name, Boolean novlog){
+    public static final String validateDirectory(String dir, String name, Boolean novlog){
         name = name(name);
         if(dir == null){
             throw new IllegalArgumentException(name + "directory not defined (null)");
@@ -1588,31 +1588,31 @@ public final class Utils {
             throw new IllegalArgumentException(name + "directory not defined (blank)");
         }
         dir = dir.trim();
-        dir = validate_dirname(dir, name, novlog);
+        dir = validateDirname(dir, name, novlog);
         File d = new File(dir);
         if(! d.isDirectory()){
             throw new IllegalArgumentException(String.format("directory '%s' does not exist", dir));
         }
         return dir;
     }
-    public static final String validate_directory (String dir, String name) {
-        return validate_directory(dir, name, false);
+    public static final String validateDirectory(String dir, String name) {
+        return validateDirectory(dir, name, false);
     }
-    public static final String validate_directory (String dir) {
-        return validate_directory(dir, null, false);
+    public static final String validateDirectory(String dir) {
+        return validateDirectory(dir, null, false);
     }
-    public static final String validate_dir (String dir, String name, Boolean novlog) {
-        return validate_directory(dir, name, novlog);
+    public static final String validateDir(String dir, String name, Boolean novlog) {
+        return validateDirectory(dir, name, novlog);
     }
-    public static final String validate_dir (String dir, String name) {
-        return validate_directory(dir, name, false);
+    public static final String validateDir(String dir, String name) {
+        return validateDirectory(dir, name, false);
     }
-    public static final String validate_dir (String dir) {
-        return validate_directory(dir, null, false);
+    public static final String validateDir(String dir) {
+        return validateDirectory(dir, null, false);
     }
 
 
-    public static final String validate_email (String email) {
+    public static final String validateEmail(String email) {
         if(email == null){
             throw new IllegalArgumentException("email not defined (null)");
         }
@@ -1851,7 +1851,7 @@ public final class Utils {
 
 
     public static final double validate_double (double d, String name, double  minVal, double maxVal) {
-        name = require_name(name);
+        name = requireName(name);
         if(minVal > maxVal){
             throw new IllegalArgumentException("minVal cannot be > maxVal");
         }
@@ -1877,7 +1877,7 @@ public final class Utils {
         return f;
     }
     public static final double validate_double (String d, String name, double minVal, double maxVal) {
-        name = require_name(name);
+        name = requireName(name);
         double d_double = -1;
         try {
             d_double = Double.parseDouble(d);
@@ -1889,7 +1889,7 @@ public final class Utils {
         return d_double;
     }
     public static final long validate_long (String l, String name, long minVal, long maxVal) {
-        name = require_name(name);
+        name = requireName(name);
         long l_long = -1;
         try {
             l_long = Long.parseLong(l);
@@ -1901,7 +1901,7 @@ public final class Utils {
         return l_long;
     }
     public static final int validate_int (String i, String name, int minVal, int maxVal) {
-        name = require_name(name);
+        name = requireName(name);
         int i_int = -1;
         try {
             i_int = Integer.parseInt(i);
@@ -1916,7 +1916,7 @@ public final class Utils {
         return i_int;
     }
     public static final float validate_float (String f, String name, float minVal, float maxVal) {
-        name = require_name(name);
+        name = requireName(name);
         float f_float = -1;
         try {
             f_float = Float.parseFloat(f);
@@ -2183,7 +2183,7 @@ public final class Utils {
 
 
     public static final String validate_program_path (String path, String name, String regex) {
-        name = require_name(name).trim();
+        name = requireName(name).trim();
         if(path == null){
             throw new IllegalArgumentException(name + " path not defined (null)");
         }
@@ -2279,7 +2279,7 @@ public final class Utils {
     public static final String validate_user_exists (String user, String name) throws IOException, UnsupportedOSException {
         user = validate_user(user, name);
         name = name(name);
-        if(! user_exists(user)){
+        if(! userExists(user)){
             throw new IllegalArgumentException("invalid " + name + "user defined, not found on local system");
         }
         return user;
@@ -2324,7 +2324,7 @@ public final class Utils {
         }
         host = host.trim();
         // throws exception now, no nulls
-        String ip = resolve_ip(host);
+        String ip = resolveIp(host);
 //        if(ip == null){
 //            quit("CRITICAL", "failed to resolve " + name + "host '" + host + "'");
 //        }

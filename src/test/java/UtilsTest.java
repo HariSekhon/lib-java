@@ -233,13 +233,13 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         for(int i=0; i<1000; i++){
             tlds.add(String.format("%d", i));
         }
-        check_tldcount();
+        checkTldCount();
     }
 
     @Test(expected = IllegalStateException.class)
     public void test_check_tldcount_too_low(){
         tlds.clear();
-        check_tldcount();
+        checkTldCount();
     }
 
     // ====================================================================== //
@@ -268,18 +268,18 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     }
 
     @Test
-    public void test_require_name(){
-        assertEquals("require_name(blah)", "blah", require_name("blah"));
+    public void test_requireName(){
+        assertEquals("requireName(blah)", "blah", requireName("blah"));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_require_name_exception_null() throws IllegalArgumentException {
-        assertEquals("require_name(null)", "", require_name(null));
+    public void test_requireName_exception_null() throws IllegalArgumentException {
+        assertEquals("requireName(null)", "", requireName(null));
     }
 
     @Test(expected=IllegalArgumentException.class)
-    public void test_require_name_exception_blank() throws IllegalArgumentException {
-        assertEquals("require_name(blank)", "", require_name(""));
+    public void test_requireName_exception_blank() throws IllegalArgumentException {
+        assertEquals("requireName(blank)", "", requireName(""));
     }
 
 //    @Test(expected=IllegalArgumentException.class)
@@ -426,27 +426,27 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         // if not on a decent OS assume I'm somewhere lame like a bank where internal resolvers don't resolve internet addresses
         // this way my continous integration tests still run this one
 //        if(isLinuxOrMac()){
-            assertEquals("resolve_ip(a.resolvers.level3.net)",  "4.2.2.1",  resolve_ip("a.resolvers.level3.net"));
+            assertEquals("resolveIp(a.resolvers.level3.net)",  "4.2.2.1",  resolveIp("a.resolvers.level3.net"));
             assertEquals("validate_resolvable()", "4.2.2.1",  validate_resolvable("a.resolvers.level3.net"));
 //        }
-        assertEquals("resolve_ip(4.2.2.1)",    "4.2.2.1",  resolve_ip("4.2.2.1"));
+        assertEquals("resolveIp(4.2.2.1)",    "4.2.2.1",  resolveIp("4.2.2.1"));
         assertEquals("validate_resolvable()",  "4.2.2.2",  validate_resolvable("4.2.2.2"));
     }
 
     // Some DNS servers return default answers for anything that doesn't resolve in order to redirect you to a landing page
 //    @Test(expected=UnknownHostException.class)
 //    public void test_resolve_ip_nonexistenthost_exception() throws UnknownHostException {
-//        resolve_ip("nonexistenthost.local");
+//        resolveIp("nonexistenthost.local");
 //    }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_resolve_ip_null_exception() throws IllegalArgumentException, UnknownHostException {
-        resolve_ip(null);
+        resolveIp(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_resolve_ip_blank_exception() throws IllegalArgumentException, UnknownHostException {
-        resolve_ip(" ");
+        resolveIp(" ");
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -569,7 +569,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isLinux() throws UnsupportedOSException {
         if(isLinux()){
             assertEquals("isLinux()", "Linux", getOS());
-            linux_only();
+            linuxOnly();
         }
     }
 
@@ -577,7 +577,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isLinux_exception() throws Exception {
         if(!isLinux()){
             try {
-                linux_only();
+                linuxOnly();
                 throw new Exception("failed to raise UnsupportedOSException");
             } catch (UnsupportedOSException e){
                 // pass
@@ -589,7 +589,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isMac(){
         if(isMac()){
             assertEquals("isMac()", "Mac OS X", getOS());
-            mac_only();
+            macOnly();
         }
     }
 
@@ -597,7 +597,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isMac_exception() throws Exception {
         if(!isMac()){
             try {
-                mac_only();
+                macOnly();
                 throw new Exception("failed to raise UnsupportedOSException");
             } catch (UnsupportedOSException e){
                 // pass
@@ -609,7 +609,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isLinuxOrMac(){
         if(isLinuxOrMac()){
             assertTrue("isLinuxOrMac()", getOS().matches("Linux|Mac OS X"));
-            linux_mac_only();
+            linuxMacOnly();
         }
     }
 
@@ -617,7 +617,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void test_isLinuxOrMac_exception() throws Exception {
         if(!isLinuxOrMac()){
             try {
-                linux_mac_only();
+                linuxMacOnly();
                 throw new Exception("failed to raise UnsupportedOSException");
             } catch (UnsupportedOSException e){
                 // pass
@@ -641,54 +641,54 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_alnum(){
-        assertEquals("validate_alnum(Alnum2Test99, alnum test)", "Alnum2Test99", validate_alnum("Alnum2Test99", "alnum test"));
-        assertEquals("validate_alnum(0, alnum zero)", "0", validate_alnum("0", "alnum zero"));
+        assertEquals("validateAlnum(Alnum2Test99, alnum test)", "Alnum2Test99", validateAlnum("Alnum2Test99", "alnum test"));
+        assertEquals("validateAlnum(0, alnum zero)", "0", validateAlnum("0", "alnum zero"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_alnum_exception(){
-        validate_alnum("1.2", "alnum exception");
+        validateAlnum("1.2", "alnum exception");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_alnum_null_exception(){
-        validate_alnum(null, "alnum exception");
+        validateAlnum(null, "alnum exception");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_alnum_blank_exception(){
-        validate_alnum(" ", "alnum exception");
+        validateAlnum(" ", "alnum exception");
     }
 
     // ====================================================================== //
     @Test
     public void test_isAwsAccessKey(){
-        assertTrue(isAwsAccessKey(repeat_string("A", 20)));
-        assertTrue(isAwsAccessKey(repeat_string("1", 20)));
-        assertTrue(isAwsAccessKey(repeat_string("A1", 10)));
-        assertFalse(isAwsAccessKey(repeat_string("@", 20)));
-        assertFalse(isAwsAccessKey(repeat_string("A", 40)));
+        assertTrue(isAwsAccessKey(repeatString("A", 20)));
+        assertTrue(isAwsAccessKey(repeatString("1", 20)));
+        assertTrue(isAwsAccessKey(repeatString("A1", 10)));
+        assertFalse(isAwsAccessKey(repeatString("@", 20)));
+        assertFalse(isAwsAccessKey(repeatString("A", 40)));
         assertFalse(isAwsAccessKey(null));
     }
 
     @Test
     public void test_validate_aws_access_key(){
-        assertEquals("validate_aws_access_key(A * 20)", repeat_string("A", 20), validate_aws_access_key(repeat_string("A", 20)));
+        assertEquals("validateAwsAccessKey(A * 20)", repeatString("A", 20), validateAwsAccessKey(repeatString("A", 20)));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_access_key_exception(){
-        validate_aws_access_key(repeat_string("A", 21));
+        validateAwsAccessKey(repeatString("A", 21));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_access_key_null_exception(){
-        validate_aws_access_key(null);
+        validateAwsAccessKey(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_access_key_blank_exception(){
-        validate_aws_access_key(" ");
+        validateAwsAccessKey(" ");
     }
 
     // ====================================================================== //
@@ -702,27 +702,27 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_aws_bucket(){
-        assertEquals("validate_aws_bucket(BucKeT63)", "BucKeT63", validate_aws_bucket("BucKeT63"));
+        assertEquals("validateAwsBucket(BucKeT63)", "BucKeT63", validateAwsBucket("BucKeT63"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_bucket_exception(){
-        validate_aws_bucket("B@cKeT63");
+        validateAwsBucket("B@cKeT63");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_bucket_null_exception(){
-        validate_aws_bucket(null);
+        validateAwsBucket(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_bucket_blank_exception(){
-        validate_aws_bucket(" ");
+        validateAwsBucket(" ");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_bucket_ip_exception(){
-        validate_aws_bucket("4.2.2.1");
+        validateAwsBucket("4.2.2.1");
     }
 
     // ====================================================================== //
@@ -733,43 +733,43 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isAwsHostname("ip-172-31-1-1.eu-west-1.compute.internal"));
         assertFalse(isAwsHostname("harisekhon"));
         assertFalse(isAwsHostname("10.10.10.1"));
-        assertFalse(isAwsHostname(repeat_string("A", 40)));
+        assertFalse(isAwsHostname(repeatString("A", 40)));
         assertFalse(isAwsHostname(null));
     }
 
     @Test
     public void test_validate_aws_hostname(){
-        assertEquals("validate_aws_hostname(ip-172-31-1-1)", "ip-172-31-1-1", validate_aws_hostname("ip-172-31-1-1"));
-        assertEquals("validate_aws_hostname(ip-172-31-1-1.eu-west-1.compute.internal)", "ip-172-31-1-1.eu-west-1.compute.internal", validate_aws_hostname("ip-172-31-1-1.eu-west-1.compute.internal"));
+        assertEquals("validateAwsHostname(ip-172-31-1-1)", "ip-172-31-1-1", validateAwsHostname("ip-172-31-1-1"));
+        assertEquals("validateAwsHostname(ip-172-31-1-1.eu-west-1.compute.internal)", "ip-172-31-1-1.eu-west-1.compute.internal", validateAwsHostname("ip-172-31-1-1.eu-west-1.compute.internal"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_hostname_exception() {
-        validate_aws_hostname("harisekhon");
+        validateAwsHostname("harisekhon");
     }
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_hostname_exception2() {
-        validate_aws_hostname("10.10.10.1");
+        validateAwsHostname("10.10.10.1");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_hostname_exception3() {
-        validate_aws_hostname(repeat_string("A", 40));
+        validateAwsHostname(repeatString("A", 40));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_hostname_null_exception() {
-        validate_aws_hostname(null);
+        validateAwsHostname(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_hostname_blank_exception() {
-        validate_aws_hostname(" ");
+        validateAwsHostname(" ");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_hostname_ip_exception() {
-        validate_aws_hostname("4.2.2.1");
+        validateAwsHostname("4.2.2.1");
     }
 
     // ====================================================================== //
@@ -783,59 +783,59 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_aws_fqdn(){
-        assertEquals("validate_aws_fqdn(ip-172-31-1-1.eu-west-1.compute.internal)", "ip-172-31-1-1.eu-west-1.compute.internal", validate_aws_fqdn("ip-172-31-1-1.eu-west-1.compute.internal"));
+        assertEquals("validateAwsFqdn(ip-172-31-1-1.eu-west-1.compute.internal)", "ip-172-31-1-1.eu-west-1.compute.internal", validateAwsFqdn("ip-172-31-1-1.eu-west-1.compute.internal"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_fqdn_exception() {
-        validate_aws_fqdn("ip-172-31-1-1");
+        validateAwsFqdn("ip-172-31-1-1");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_fqdn_null_exception() {
-        validate_aws_fqdn(null);
+        validateAwsFqdn(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_fqdn_blank_exception() {
-        validate_aws_fqdn(" ");
+        validateAwsFqdn(" ");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_fqdn_ip_exception() {
-        validate_aws_fqdn("4.2.2.1");
+        validateAwsFqdn("4.2.2.1");
     }
 
     // ====================================================================== //
 
     @Test
     public void test_isAwsSecretKey(){
-        assertTrue(isAwsSecretKey(repeat_string("A", 40)));
-        assertTrue(isAwsSecretKey(repeat_string("1", 40)));
-        assertTrue(isAwsSecretKey(repeat_string("A1", 20)));
-        assertFalse(isAwsSecretKey(repeat_string("@", 40)));
-        assertFalse(isAwsSecretKey(repeat_string("A", 20)));
+        assertTrue(isAwsSecretKey(repeatString("A", 40)));
+        assertTrue(isAwsSecretKey(repeatString("1", 40)));
+        assertTrue(isAwsSecretKey(repeatString("A1", 20)));
+        assertFalse(isAwsSecretKey(repeatString("@", 40)));
+        assertFalse(isAwsSecretKey(repeatString("A", 20)));
         assertFalse(isAwsSecretKey(null));
     }
 
     @Test
     public void test_validate_aws_secret_key(){
-        assertEquals("validate_aws_secret_key(A * 40)", repeat_string("A", 40), validate_aws_secret_key(repeat_string("A", 40)));
+        assertEquals("validateAwsSecretKey(A * 40)", repeatString("A", 40), validateAwsSecretKey(repeatString("A", 40)));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_secret_key_exception(){
-        validate_aws_secret_key(repeat_string("A", 41));
+        validateAwsSecretKey(repeatString("A", 41));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_secret_key_null_exception(){
-        validate_aws_secret_key(null);
+        validateAwsSecretKey(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_aws_secret_key_blank_exception(){
-        validate_aws_secret_key(" ");
+        validateAwsSecretKey(" ");
     }
 
     // ====================================================================== //
@@ -855,32 +855,32 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_chars(){
-        assertEquals("validate_chars(...)", "log_date=2015-05-23_10", validate_chars("log_date=2015-05-23_10", "validate chars", "A-Za-z0-9_=-"));
+        assertEquals("validateChars(...)", "log_date=2015-05-23_10", validateChars("log_date=2015-05-23_10", "validate chars", "A-Za-z0-9_=-"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_chars_exception(){
-        validate_chars("Alpha-01_*", "validate chars", "A-Za-z0-9_-");
+        validateChars("Alpha-01_*", "validate chars", "A-Za-z0-9_-");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_chars_null_exception(){
-        validate_chars("Alpha-01_*", "validate chars", null);
+        validateChars("Alpha-01_*", "validate chars", null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_chars_null_arg_exception(){
-        validate_chars(null, "validate chars", "A-Za-z0-9_-");
+        validateChars(null, "validate chars", "A-Za-z0-9_-");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_chars_blank_exception(){
-        validate_chars("Alpha-01_*", "validate chars", " ");
+        validateChars("Alpha-01_*", "validate chars", " ");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_chars_blank_arg_exception(){
-        validate_chars(null, "validate chars", "A-Za-z0-9_-");
+        validateChars(null, "validate chars", "A-Za-z0-9_-");
     }
 
     // ====================================================================== //
@@ -893,23 +893,23 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_collection(){
-        assertEquals("validate_collection(students.grades)", "students.grades", validate_collection("students.grades"));
-        assertEquals("validate_collection(students.grades, name)", "students.grades", validate_collection("students.grades", "name"));
+        assertEquals("validateCollection(students.grades)", "students.grades", validateCollection("students.grades"));
+        assertEquals("validateCollection(students.grades, name)", "students.grades", validateCollection("students.grades", "name"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_collection_exception(){
-        validate_collection("wrong@grades", "name");
+        validateCollection("wrong@grades", "name");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_collection_null_exception(){
-        validate_collection(null, "name");
+        validateCollection(null, "name");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_collection_blank_exception(){
-        validate_collection(" ", "name");
+        validateCollection(" ", "name");
     }
 
     // ====================================================================== //
@@ -922,23 +922,23 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_database(){
-        assertEquals("validate_database(mysql)", "mysql", validate_database("mysql"));
-        assertEquals("validate_database(mysql, MySQL)", "mysql", validate_database("mysql", "MySQL"));
+        assertEquals("validateDatabase(mysql)", "mysql", validateDatabase("mysql"));
+        assertEquals("validateDatabase(mysql, MySQL)", "mysql", validateDatabase("mysql", "MySQL"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_exception(){
-        validate_database("my@sql", "name");
+        validateDatabase("my@sql", "name");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_null_exception(){
-        validate_database(null, "name");
+        validateDatabase(null, "name");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_blank_exception(){
-        validate_database(" ", "name");
+        validateDatabase(" ", "name");
     }
 
     // ====================================================================== //
@@ -951,22 +951,22 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_database_columnname(){
-        assertEquals("validate_database_columnname(myColumn_1)", "myColumn_1", validate_database_columnname("myColumn_1"));
+        assertEquals("validateDatabaseColumnname(myColumn_1)", "myColumn_1", validateDatabaseColumnname("myColumn_1"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_columname_exception(){
-        validate_database_columnname("'column'");
+        validateDatabaseColumnname("'column'");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_columname_null_exception(){
-        validate_database_columnname(null);
+        validateDatabaseColumnname(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_columname_blank_exception(){
-        validate_database_columnname(" ");
+        validateDatabaseColumnname(" ");
     }
 
     // ====================================================================== //
@@ -981,24 +981,24 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_database_fieldname(){
-        assertEquals("validate_database_fieldname(age)", "age", validate_database_fieldname("age"));
-        assertEquals("validate_database_fieldname(10)", "10", validate_database_fieldname("10"));
-        assertEquals("validate_database_fieldname(count(*))", "count(*)", validate_database_fieldname("count(*)"));
+        assertEquals("validateDatabaseFieldname(age)", "age", validateDatabaseFieldname("age"));
+        assertEquals("validateDatabaseFieldname(10)", "10", validateDatabaseFieldname("10"));
+        assertEquals("validateDatabaseFieldname(count(*))", "count(*)", validateDatabaseFieldname("count(*)"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_fieldname_exception(){
-        validate_database_fieldname("@something");
+        validateDatabaseFieldname("@something");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_fieldname_null_exception(){
-        validate_database_fieldname(null);
+        validateDatabaseFieldname(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_fieldname_blank_exception(){
-        validate_database_fieldname(" ");
+        validateDatabaseFieldname(" ");
     }
 
     // ====================================================================== //
@@ -1014,31 +1014,31 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_database_tablename(){
-        assertEquals("validate_database_tablename(myTable)", "myTable", validate_database_tablename("myTable"));
-        assertEquals("validate_database_tablename(myTable, Hive)", "myTable", validate_database_tablename("myTable", "Hive"));
-        assertEquals("validate_database_tablename(myTable, Hive)", "myTable", validate_database_tablename("myTable", false));
-        assertEquals("validate_database_tablename(default.myTable, Hive, true)", "default.myTable", validate_database_tablename("default.myTable", "Hive", true));
-        assertEquals("validate_database_tablename(default.myTable, true)", "default.myTable", validate_database_tablename("default.myTable", true));
+        assertEquals("validateDatabaseTablename(myTable)", "myTable", validateDatabaseTablename("myTable"));
+        assertEquals("validateDatabaseTablename(myTable, Hive)", "myTable", validateDatabaseTablename("myTable", "Hive"));
+        assertEquals("validateDatabaseTablename(myTable, Hive)", "myTable", validateDatabaseTablename("myTable", false));
+        assertEquals("validateDatabaseTablename(default.myTable, Hive, true)", "default.myTable", validateDatabaseTablename("default.myTable", "Hive", true));
+        assertEquals("validateDatabaseTablename(default.myTable, true)", "default.myTable", validateDatabaseTablename("default.myTable", true));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_tablename_exception(){
-        validate_database_tablename("default.myTable");
+        validateDatabaseTablename("default.myTable");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_tablename_qualified_exception(){
-        validate_database_tablename("default.myTable", false);
+        validateDatabaseTablename("default.myTable", false);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_tablename_null_exception(){
-        validate_database_tablename(null);
+        validateDatabaseTablename(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_tablename_blank_exception(){
-        validate_database_tablename(" ");
+        validateDatabaseTablename(" ");
     }
 
     // ====================================================================== //
@@ -1053,25 +1053,25 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_database_viewname(){
-        assertEquals("validate_database_viewname(myView)", "myView", validate_database_viewname("myView"));
-        assertEquals("validate_database_viewname(myView, Hive)", "myView", validate_database_viewname("myView", "Hive"));
-        assertEquals("validate_database_viewname(default.myView, Hive, true)", "default.myView", validate_database_viewname("default.myView", "Hive", true));
-        assertEquals("validate_database_viewname(default.myView, Hive, true)", "default.myView", validate_database_viewname("default.myView", true));
+        assertEquals("validateDatabaseViewname(myView)", "myView", validateDatabaseViewname("myView"));
+        assertEquals("validateDatabaseViewname(myView, Hive)", "myView", validateDatabaseViewname("myView", "Hive"));
+        assertEquals("validateDatabaseViewname(default.myView, Hive, true)", "default.myView", validateDatabaseViewname("default.myView", "Hive", true));
+        assertEquals("validateDatabaseViewname(default.myView, Hive, true)", "default.myView", validateDatabaseViewname("default.myView", true));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_viewname_exception(){
-        validate_database_viewname("default.myView");
+        validateDatabaseViewname("default.myView");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_viewname_null_exception(){
-        validate_database_viewname(null);
+        validateDatabaseViewname(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_viewname_blank_exception(){
-        validate_database_viewname(" ");
+        validateDatabaseViewname(" ");
     }
 
     // ====================================================================== //
@@ -1087,69 +1087,69 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_dirname(){
-        assertEquals("validate_dirname(./src)",     "./src",    validate_dirname("./src", "dirname"));
-        assertEquals("validate_dirname(./src, true)",   "./src",    validate_dirname("./src", "dirname", true));
-        assertEquals("validate_dirname(/etc)",  "/etc",     validate_dirname("/etc", "dirname"));
-        assertEquals("validate_dirname(/etc/)",     "/etc/",    validate_dirname("/etc/", "dirname"));
+        assertEquals("validateDirname(./src)",     "./src",    validateDirname("./src", "dirname"));
+        assertEquals("validateDirname(./src, true)",   "./src",    validateDirname("./src", "dirname", true));
+        assertEquals("validateDirname(/etc)",  "/etc",     validateDirname("/etc", "dirname"));
+        assertEquals("validateDirname(/etc/)",     "/etc/",    validateDirname("/etc/", "dirname"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_dirname_exception(){
-        validate_dirname("b@dDir");
+        validateDirname("b@dDir");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_dirname_null_exception(){
-        validate_dirname(null);
+        validateDirname(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_dirname_blank_exception(){
-        validate_dirname(" ");
+        validateDirname(" ");
     }
 
     @Test
     public void test_validate_directory(){
         if(isLinuxOrMac()){
-            assertEquals("validate_directory(./src)",   "./src",    validate_directory("./src", "directory"));
-            assertEquals("validate_directory(./src, true)",     "./src",    validate_directory("./src", "directory", true));
-            assertEquals("validate_directory(/etc)",    "/etc",     validate_directory("/etc", "directory"));
-            assertEquals("validate_directory(/etc/)",   "/etc/",    validate_directory("/etc/", "directory"));
+            assertEquals("validateDirectory(./src)",   "./src",    validateDirectory("./src", "directory"));
+            assertEquals("validateDirectory(./src, true)",     "./src",    validateDirectory("./src", "directory", true));
+            assertEquals("validateDirectory(/etc)",    "/etc",     validateDirectory("/etc", "directory"));
+            assertEquals("validateDirectory(/etc/)",   "/etc/",    validateDirectory("/etc/", "directory"));
         }
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_directory_exception(){
-        validate_directory("b@dDir");
+        validateDirectory("b@dDir");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_directory_null_exception(){
-        validate_directory(null);
+        validateDirectory(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_directory_blank_exception(){
-        validate_directory(" ");
+        validateDirectory(" ");
     }
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_directory_nonexistent_exception(){
-        validate_directory("/etc/nonexistent");
+        validateDirectory("/etc/nonexistent");
     }
 
     @Test
     public void test_validate_dir(){
         if(isLinuxOrMac()){
-            assertEquals("validate_dir(./src)",     "./src",    validate_dir("./src", "directory"));
-            assertEquals("validate_dir(./src, true)",   "./src",    validate_dir("./src", "directory", true));
-            assertEquals("validate_dir(/etc)",      "/etc",     validate_dir("/etc", "dir"));
-            assertEquals("validate_dir(/etc/)",     "/etc/",    validate_dir("/etc/", "dir"));
+            assertEquals("validateDir(./src)",     "./src",    validateDir("./src", "directory"));
+            assertEquals("validateDir(./src, true)",   "./src",    validateDir("./src", "directory", true));
+            assertEquals("validateDir(/etc)",      "/etc",     validateDir("/etc", "dir"));
+            assertEquals("validateDir(/etc/)",     "/etc/",    validateDir("/etc/", "dir"));
         }
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_dir_exception(){
-        validate_dir("b@dDir");
+        validateDir("b@dDir");
     }
 
     // ====================================================================== //
@@ -1210,35 +1210,35 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isDomain("com"));
         assertTrue(isDomain("compute.internal"));
         assertTrue(isDomain("eu-west-1.compute.internal"));
-        assertTrue(isDomain(repeat_string("a", 63) + ".com"));
-        assertFalse(isDomain(repeat_string("a", 64) + ".com"));
+        assertTrue(isDomain(repeatString("a", 63) + ".com"));
+        assertFalse(isDomain(repeatString("a", 64) + ".com"));
         assertFalse(isDomain("harisekhon")); // not a valid TLD
         assertFalse(isDomain(null)); // not a valid TLD
     }
 
     @Test
     public void test_validate_domain(){
-        assertEquals("validate_domain(harisekhon.com)", "harisekhon.com", validate_domain("harisekhon.com"));
+        assertEquals("validateDomain(harisekhon.com)", "harisekhon.com", validateDomain("harisekhon.com"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_domain_exception() {
-        validate_domain(repeat_string("a", 64) + ".com");
+        validateDomain(repeatString("a", 64) + ".com");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_domain_exception2() {
-        validate_domain("harisekhon");
+        validateDomain("harisekhon");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_domain_null_exception() {
-        validate_domain(null);
+        validateDomain(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_domain_blank_exception() {
-        validate_domain(" ");
+        validateDomain(" ");
     }
 
     // ====================================================================== //
@@ -1255,22 +1255,22 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_domain_strict(){
-        assertEquals("validate_domain_strict(harisekhon.com)", "harisekhon.com", validate_domain_strict("harisekhon.com"));
+        assertEquals("validateDomainStrict(harisekhon.com)", "harisekhon.com", validateDomainStrict("harisekhon.com"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_domain_strict_exception() {
-        validate_domain_strict("com");
+        validateDomainStrict("com");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_domain_strict_null_exception() {
-        validate_domain_strict(null);
+        validateDomainStrict(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_domain_strict_blank_exception() {
-        validate_domain_strict(" ");
+        validateDomainStrict(" ");
     }
 
     // ====================================================================== //
@@ -1292,22 +1292,22 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_email(){
-        assertEquals("validate_email(hari@domain.com)", "hari@domain.com", validate_email("hari@domain.com"));
+        assertEquals("validateEmail(hari@domain.com)", "hari@domain.com", validateEmail("hari@domain.com"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_email_exception() {
-        validate_email("harisekhon");
+        validateEmail("harisekhon");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_email_null_exception() {
-        validate_email(null);
+        validateEmail(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_email_blank_exception() {
-        validate_email(" ");
+        validateEmail(" ");
     }
 
     // ====================================================================== //
@@ -1410,7 +1410,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isHost("10.10.10.255"));
         assertTrue(isHost("ip-172-31-1-1"));
         assertFalse(isHost("10.10.10.256"));
-        assertFalse(isHost(repeat_string("a", 256)));
+        assertFalse(isHost(repeatString("a", 256)));
         assertFalse(isHost(null));
     }
 
@@ -1544,8 +1544,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isHostname("harisekhon1.com"));
         assertTrue(isHostname("1"));
         assertTrue(isHostname("1harisekhon.com"));
-        assertTrue(isHostname(repeat_string("a", 63)));
-        assertFalse(isHostname(repeat_string("a", 64)));
+        assertTrue(isHostname(repeatString("a", 63)));
+        assertFalse(isHostname(repeatString("a", 64)));
         assertFalse(isHostname("-help"));
         assertFalse(isHostname("hari~sekhon"));
         assertFalse(isHostname(null));
@@ -1556,7 +1556,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("validate_hostname(myHost)",      "myHost",      validate_hostname("myHost", "name"));
         assertEquals("validate_hostname(myHost.myDomain.com)",  "myHost.myDomain.com",  validate_hostname("myHost.myDomain.com"));
         assertEquals("validate_hostname(harisekhon1.com)",  "harisekhon1.com",  validate_hostname("harisekhon1.com"));
-        assertEquals("validate_hostname(repeat_string(a))", repeat_string("a", 63),  validate_hostname(repeat_string("a", 63)));
+        assertEquals("validate_hostname(repeatString(a))", repeatString("a", 63),  validate_hostname(repeatString("a", 63)));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -2262,29 +2262,29 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_validate_database_query_select_show(){
-        assertEquals("validate_database_query_select_show(SELECT count(*) from database.table)", "SELECT count(*) from database.table;", validate_database_query_select_show("SELECT count(*) from database.table;"));
-        assertEquals("validate_database_query_select_show(select count(*) from database.created_date)", "select count(*) from database.created_date", validate_database_query_select_show("select count(*) from database.created_date"));
-        assertEquals("validate_database_query_select_show(SELECT count(*) from product_updates)", "SELECT count(*) from product_updates", validate_database_query_select_show("SELECT count(*) from product_updates"));
+        assertEquals("validateDatabaseQuerySelectShow(SELECT count(*) from database.table)", "SELECT count(*) from database.table;", validateDatabaseQuerySelectShow("SELECT count(*) from database.table;"));
+        assertEquals("validateDatabaseQuerySelectShow(select count(*) from database.created_date)", "select count(*) from database.created_date", validateDatabaseQuerySelectShow("select count(*) from database.created_date"));
+        assertEquals("validateDatabaseQuerySelectShow(SELECT count(*) from product_updates)", "SELECT count(*) from product_updates", validateDatabaseQuerySelectShow("SELECT count(*) from product_updates"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_query_select_show_delete_exception() {
-        validate_database_query_select_show("DELETE FROM myTable;");
+        validateDatabaseQuerySelectShow("DELETE FROM myTable;");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_query_select_show_drop_exception() {
-        validate_database_query_select_show("select * from (DROP myTable);");
+        validateDatabaseQuerySelectShow("select * from (DROP myTable);");
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_query_select_show_null_exception() {
-        validate_database_query_select_show(null);
+        validateDatabaseQuerySelectShow(null);
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void test_validate_database_query_select_show_blank_exception() {
-        validate_database_query_select_show(" ");
+        validateDatabaseQuerySelectShow(" ");
     }
 
     // ====================================================================== //
@@ -2344,11 +2344,11 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void test_user_exists() throws IOException {
-        assertTrue(user_exists("root"));
-        assertFalse(user_exists("nonexistent"));
-        assertFalse(user_exists("b@d"));
-        assertFalse(user_exists(" "));
-        assertFalse(user_exists(null));
+        assertTrue(userExists("root"));
+        assertFalse(userExists("nonexistent"));
+        assertFalse(userExists("b@d"));
+        assertFalse(userExists(" "));
+        assertFalse(userExists(null));
     }
 
     @Test

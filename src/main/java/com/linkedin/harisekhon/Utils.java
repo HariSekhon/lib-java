@@ -1225,7 +1225,7 @@ public final class Utils {
     // these methods are intentionally not throwing exceptions as they are designed for CLI.java usage and exit with usage()
     // for try and recover behaviour use the corresponding is* methods which return Boolean
 
-    static final String name (String name) {
+    public static final String name (String name) {
         if(name == null){
             return "";
         }
@@ -1236,7 +1236,7 @@ public final class Utils {
         return name2;
     }
 
-    static final String requireName(String name) {
+    public static final String requireName(String name) {
         if(name == null || name.trim().isEmpty()){
             // TODO: improve the feedback location
             //StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace()
@@ -1655,17 +1655,17 @@ public final class Utils {
         if(filename == null){
             throw new IllegalArgumentException(name2 + "not defined (null)");
         }
-        if(filename.trim().isEmpty()){
+        String filename2 = filename.trim();
+        if(filename2.isEmpty()){
             throw new IllegalArgumentException(name2 + "not defined (blank)");
         }
-        filename = filename.trim();
-        if(! isFilename(filename)){
-            throw new IllegalArgumentException("invalid " + name2 + "(does not match regex criteria): '" + filename + "'");
+        if(! isFilename(filename2)){
+            throw new IllegalArgumentException("invalid " + name2 + "(does not match regex criteria): '" + filename2 + "'");
         }
         if(! novlog){
-            vlogOption(name2.trim(), filename);
+            vlogOption(name2.trim(), filename2);
         }
-        return filename;
+        return filename2;
     }
     public static final String validateFilename(String filename, String name) {
         return validateFilename(filename, name, false);
@@ -1935,15 +1935,15 @@ public final class Utils {
         if(networkInterface == null){
             throw new IllegalArgumentException("network interface not defined (null)");
         }
-        if(networkInterface.trim().isEmpty()){
+        String networkInterface2 = networkInterface.trim();
+        if(networkInterface2.isEmpty()){
             throw new IllegalArgumentException("network interface not defined (blank)");
         }
-        networkInterface = networkInterface.trim();
-        if(! isInterface(networkInterface)){
+        if(! isInterface(networkInterface2)){
             throw new IllegalArgumentException("invalid network interface defined: must be either eth<N>, bond<N> or lo<N>");
         }
-        vlogOption("interface", networkInterface);
-        return networkInterface;
+        vlogOption("interface", networkInterface2);
+        return networkInterface2;
     }
 
 
@@ -1952,15 +1952,15 @@ public final class Utils {
         if(ip == null){
             throw new IllegalArgumentException(name2 + "IP not defined (null)");
         }
-        if(ip.trim().isEmpty()){
+        String ip2 = ip.trim();
+        if(ip2.isEmpty()){
             throw new IllegalArgumentException(name2 + "IP not defined (blank)");
         }
-        ip = ip.trim();
-        if(! isIP(ip)){
+        if(! isIP(ip2)){
             throw new IllegalArgumentException("invalid " + name2 + "IP defined");
         }
-        vlogOption(name2 + "ip", ip);
-        return ip;
+        vlogOption(name2 + "ip", ip2);
+        return ip2;
     }
     public static final String validateIP(String ip) {
         return validateIP(ip, null);
@@ -1972,15 +1972,15 @@ public final class Utils {
         if(princ == null) {
             throw new IllegalArgumentException(name2 + "krb5 principal not defined (null)");
         }
-        if(princ.trim().isEmpty()){
+        String princ2 = princ.trim();
+        if(princ2.isEmpty()){
             throw new IllegalArgumentException(name2 + "krb5 principal not defined (blank)");
         }
-        princ = princ.trim();
-        if(! isKrb5Princ(princ)){
+        if(! isKrb5Princ(princ2)){
             throw new IllegalArgumentException("invalid " + name2 + "krb5 principal defined");
         }
-        vlogOption(name2 + "krb5 principal", princ);
-        return princ;
+        vlogOption(name2 + "krb5 principal", princ2);
+        return princ2;
     }
     public static final String validateKrb5Princ(String princ) {
         return validateKrb5Princ(princ, null);
@@ -1992,15 +1992,15 @@ public final class Utils {
         if(realm == null){
             throw new IllegalArgumentException(name2 + "realm not defined (null)");
         }
-        if(realm.trim().isEmpty()){
+        String realm2 = realm.trim();
+        if(realm2.isEmpty()){
             throw new IllegalArgumentException(name2 + "realm not defined (blank)");
         }
-        realm = realm.trim();
-        if(! isDomain(realm)){
+        if(! isDomain(realm2)){
             throw new IllegalArgumentException("invalid " + name2 + "realm defined");
         }
-        vlogOption(name2 + "realm", realm);
-        return realm;
+        vlogOption(name2 + "realm", realm2);
+        return realm2;
     }
     public static final String validateKrb5Realm(String realm) {
         return validateKrb5Realm(realm, null);
@@ -2011,15 +2011,15 @@ public final class Utils {
         if(label == null){
             throw new IllegalArgumentException("label not defined (null)");
         }
-        if(label.trim().isEmpty()){
+        String label2 = label.trim();
+        if(label2.isEmpty()){
             throw new IllegalArgumentException("label not defined (blank)");
         }
-        label = label.trim();
-        if(! isLabel(label)){
+        if(! isLabel(label2)){
             throw new IllegalArgumentException("invalid label defined: must be an alphanumeric identifier");
         }
-        vlogOption("label", label);
-        return label;
+        vlogOption("label", label2);
+        return label2;
     }
 
 
@@ -2028,15 +2028,15 @@ public final class Utils {
         if(dn == null){
             throw new IllegalArgumentException("ldap " + name2 + "dn not defined (null)");
         }
-        if(dn.trim().isEmpty()){
+        String dn2 = dn.trim();
+        if(dn2.isEmpty()){
             throw new IllegalArgumentException("ldap " + name2 + "dn not defined (blank)");
         }
-        dn = dn.trim();
-        if(! isLdapDn(dn)){
+        if(! isLdapDn(dn2)){
             throw new IllegalArgumentException("invalid " + name2 + "ldap dn defined");
         }
-        vlogOption("ldap " + name2 + "dn", dn);
-        return dn;
+        vlogOption("ldap " + name2 + "dn", dn2);
+        return dn2;
     }
     public static final String validateLdapDn(String dn) {
         return validateLdapDn(dn, null);
@@ -2086,11 +2086,11 @@ public final class Utils {
 
     public static final ArrayList<String> validateNodePortList(ArrayList<String> nodes) {
         ArrayList<String> final_nodes = new ArrayList<String>();
-        nodes = uniqArraylistOrdered(nodes);
-        if(nodes.size() < 1){
+        ArrayList<String> nodes2 = uniqArraylistOrdered(nodes);
+        if(nodes2.size() < 1){
             throw new IllegalArgumentException("node(s) not defined");
         }
-        for(String node: nodes){
+        for(String node: nodes2){
             //node = node.trim();
             for(String node2: node.split("[,\\s]+")){
                 //node2 = node2.trim();

@@ -60,8 +60,6 @@ public final class Utils {
     private static final HashMap<String, Integer> exit_codes = new HashMap<String, Integer>();
     private static String status = "UNKNOWN";
     private static int verbose = 0;
-    private static int timeout = -1;
-    private static boolean debug = false;
     public static boolean nagios_plugin = false;
 
     // keeping this lowercase to make it easier to do String.toLowerCase() case insensitive matches
@@ -1319,51 +1317,51 @@ public final class Utils {
         if(arg == null){
             throw new IllegalArgumentException("aws hostname not defined (null)");
         }
-        if(arg.trim().isEmpty()){
+        String arg2 = arg.trim();
+        if(arg2.isEmpty()){
             throw new IllegalArgumentException("aws hostname not defined (blank)");
         }
-        arg = arg.trim();
-        if(isIP(arg)){
+        if(isIP(arg2)){
             throw new IllegalArgumentException("invalid aws hostname arg name defined: may not be formmatted as an IP address");
         }
-        if(! isAwsHostname(arg)){
+        if(! isAwsHostname(arg2)){
             throw new IllegalArgumentException("invalid aws hostname name defined: must be alphanumeric between 3 and 63 characters long");
         }
-        vlogOption("aws hostname:", arg);
-        return arg;
+        vlogOption("aws hostname:", arg2);
+        return arg2;
     }
 
     public static final String validateAwsFqdn(String arg) {
         if(arg == null){
             throw new IllegalArgumentException("aws fqdn not defined (null)");
         }
-        if(arg.trim().isEmpty()){
+        String arg2 = arg.trim();
+        if(arg2.isEmpty()){
             throw new IllegalArgumentException("aws fqdn not defined (blank)");
         }
-        arg = arg.trim();
-        if(isIP(arg)){
+        if(isIP(arg2)){
             throw new IllegalArgumentException("invalid aws fqdn arg name defined: may not be formmatted as an IP address");
         }
-        if(! isAwsFqdn(arg)){
+        if(! isAwsFqdn(arg2)){
             throw new IllegalArgumentException("invalid aws fqdn name defined: must be alphanumeric between 3 and 63 characters long hostname followed by domain");
         }
-        vlogOption("aws fqdn:", arg);
-        return arg;
+        vlogOption("aws fqdn:", arg2);
+        return arg2;
     }
 
     public static final String validateAwsSecretKey(String key) {
         if(key == null){
             throw new IllegalArgumentException("aws secret key not defined (null)");
         }
-        if(key.trim().isEmpty()){
+        String key2 = key.trim();
+        if(key2.isEmpty()){
             throw new IllegalArgumentException("aws secret key not defined (blank)");
         }
-        key = key.trim();
-        if(! isAwsSecretKey(key)){
+        if(! isAwsSecretKey(key2)){
             throw new IllegalArgumentException("invalid aws secret key defined: must be 20 alphanumeric chars");
         }
-        vlogOption("aws secret key", repeatString("X", 38) + key.substring(38, 40));
-        return key;
+        vlogOption("aws secret key", repeatString("X", 38) + key2.substring(38, 40));
+        return key2;
     }
 
 
@@ -1372,15 +1370,15 @@ public final class Utils {
         if(collection == null){
             throw new IllegalArgumentException(name + "collection not defined (null)");
         }
-        if(collection.trim().isEmpty()){
+        String collection2 = collection.trim();
+        if(collection2.isEmpty()){
             throw new IllegalArgumentException(name + "collection not defined (blank)");
         }
-        collection = collection.trim();
-        if(! isCollection(collection)){
+        if(! isCollection(collection2)){
             throw new IllegalArgumentException("invalid " + name + "collection defined: must be alphanumeric, with optional periods in the middle");
         }
-        vlogOption(name + "collection", collection);
-        return collection;
+        vlogOption(name + "collection", collection2);
+        return collection2;
     }
     public static final String validateCollection(String collection) {
         return validateCollection(collection, null);

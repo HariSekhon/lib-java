@@ -2450,23 +2450,24 @@ public final class Utils {
 //        return log.getLogLevel();
 //    }
 
-    public static final void setVerbose(int verbosity){
-        if(verbosity > 4) {
-            log.setLevel(Level.ALL);
-        } else if(verbosity > 3) {
-            log.setLevel(Level.TRACE);
-        } else if(verbosity == 3) {
-            log.setLevel(Level.INFO);
-        } else if (verbosity == 2) {
-            log.setLevel(Level.WARN);
-        } else if (verbosity == 1) {
-            log.setLevel(Level.ERROR);
-        } else if (verbosity == 0) {
-            log.setLevel(Level.FATAL);
-        } else {
-            log.setLevel(Level.INFO);
-        }
-    }
+    // should be handled in CLI
+//    public static final void setVerbose(int verbosity){
+//        if(verbosity > 4) {
+//            log.setLevel(Level.ALL);
+//        } else if(verbosity > 3) {
+//            log.setLevel(Level.TRACE);
+//        } else if(verbosity == 3) {
+//            log.setLevel(Level.INFO);
+//        } else if (verbosity == 2) {
+//            log.setLevel(Level.WARN);
+//        } else if (verbosity == 1) {
+//            log.setLevel(Level.ERROR);
+//        } else if (verbosity == 0) {
+//            log.setLevel(Level.FATAL);
+//        } else {
+//            log.setLevel(Level.INFO);
+//        }
+//    }
 
     public static final String getCallingMethod(){
         StackTraceElement[] stackTraceElements = Thread.currentThread().getStackTrace();

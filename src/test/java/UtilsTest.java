@@ -2362,20 +2362,20 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(userExists(null));
     }
 
-    @Test
-    public void testVerbose(){
-        setVerbose(2);
+//    @Test
+//    public void testVerbose(){
+//        setVerbose(2);
 //        assertEquals("getVerbose() 2", 2, getVerbose());
-        setVerbose(1);
+//        setVerbose(1);
 //        assertEquals("getVerbose() 1", 1, getVerbose());
-        setVerbose(3);
+//        setVerbose(3);
 //        assertEquals("getVerbose() 3", 3, getVerbose());
-        setVerbose(4);
-        setVerbose(5);
-        setVerbose(-1);
-        setVerbose(0);
-        setVerbose(2);
-    }
+//        setVerbose(4);
+//        setVerbose(5);
+//        setVerbose(-1);
+//        setVerbose(0);
+//        setVerbose(2);
+//    }
 
 
     @Test

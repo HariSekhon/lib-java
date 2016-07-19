@@ -2202,7 +2202,7 @@ public final class Utils {
         if(regex == null || regex.trim().isEmpty()){
             regex2 = name2;
         } else {
-            regex2 = regex;
+            regex2 = regex.trim();
         }
         if(validateRegex(regex2, "program path regex", true) == null){
             throw new IllegalArgumentException("invalid regex given to validateProgramPath()");

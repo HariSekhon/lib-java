@@ -140,7 +140,7 @@ public class CLITest {
     @Test
     public void testSetTimeoutDefault() {
         cli.setTimeoutDefault(9);
-        assert(cli.getTimeoutDefault() == 9);
+        assertEquals(9, cli.getTimeoutDefault());
     }
 
     @Test(expected=IllegalArgumentException.class)

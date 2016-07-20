@@ -79,7 +79,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void testUtilsInstance(){
         Utils u = new com.linkedin.harisekhon.Utils();
-        assert(u instanceof Utils);
+        assertTrue(u instanceof Utils);
     }
 
     @Test
@@ -165,7 +165,6 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         println(1.0);
         println(1L);
         println(true);
-        assert(true); // silence Codacy
     }
 
     @Test(expected=QuitException.class)
@@ -219,7 +218,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
             throw new IllegalStateException("tlds contain '=' which should have been excluded by loadTlds()");
         }
         f.delete();
-        assert(tlds.size() == tlds_starting_size);
+        assertEquals(tlds_starting_size, tlds.size());
     }
 
     @Test(expected=IOException.class)
@@ -393,7 +392,6 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void testHr(){
         hr();
-        assert(true);
     }
 
     // ====================================================================== //
@@ -1159,13 +1157,25 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void testValidateDouble() {
         validateDouble(2.0, "two", 2, 3);
         validateDouble(3.0, "three", 2, 3);
-        validateDouble("2.1", "two string", 2, 3);
+        assertEquals(2.1, validateDouble("2.1", "two string", 2, 3), 0);
+    }
+
+    @Test
+    public void testValidateFloat() {
         validateFloat(2.0f, "two", 2f, 3f);
-        validateFloat("2.0", "two string", 2f, 3f);
+        assertEquals(2f, validateFloat("2.0", "two string", 2f, 3f), 0);
+    }
+
+    @Test
+    public void testValidateLong() {
         validateLong(2L, "two", 2L, 3L);
-        validateLong("2", "two string", 2L, 3L);
+        assertEquals(2L, validateLong("2", "two string", 2L, 3L));
+    }
+
+    @Test
+    public void testValidateInt() {
         validateInt(2, "two", 2, 3);
-        validateInt("2", "two string", 2, 3);
+        assertEquals(2, validateInt("2", "two string", 2, 3));
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -2352,20 +2362,20 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertFalse(userExists(null));
     }
 
-    @Test
-    public void testVerbose(){
-        setVerbose(2);
+//    @Test
+//    public void testVerbose(){
+//        setVerbose(2);
 //        assertEquals("getVerbose() 2", 2, getVerbose());
-        setVerbose(1);
+//        setVerbose(1);
 //        assertEquals("getVerbose() 1", 1, getVerbose());
-        setVerbose(3);
+//        setVerbose(3);
 //        assertEquals("getVerbose() 3", 3, getVerbose());
-        setVerbose(4);
-        setVerbose(5);
-        setVerbose(-1);
-        setVerbose(0);
-        setVerbose(2);
-    }
+//        setVerbose(4);
+//        setVerbose(5);
+//        setVerbose(-1);
+//        setVerbose(0);
+//        setVerbose(2);
+//    }
 
 
     @Test

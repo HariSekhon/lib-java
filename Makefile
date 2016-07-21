@@ -44,6 +44,13 @@ p:
 package:
 	mvn package
 
+.PHONY: sonar
+sonar:
+	#mvn clean install
+	mvn sonar:sonar
+	# or
+	# sonar-scanner
+
 .PHONY: test
 test:
 	mvn test

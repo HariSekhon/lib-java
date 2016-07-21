@@ -26,8 +26,16 @@
   <version>1.16.0</version>
   <packaging>jar</packaging>
 
-  <name>Utils</name>
+  <name>JVM Utils</name>
+  <description>Utility library for JVM languages</description>
   <url>https://github.com/harisekhon/lib-java</url>
+  <scm>
+    <!-- for consistency with sonar-project.properties
+    <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>
+    <developerConnection>scm:svn:https://somerepository.com/svn_repo/trunk</developerConnection>
+    -->
+    <url>https://github.com/harisekhon/lib-java</url>
+  </scm>
 
   <!-- stops build from using platform dependent encoding and therefore being non-portable -->
   <properties>

@@ -40,6 +40,10 @@
     -->
     <url>https://github.com/harisekhon/lib-java</url>
   </scm>
+  <ciManagement>
+    <system>Travis CI</system>
+    <url>https://travis-ci.org/HariSekhon/lib-java</url>
+  </ciManagement>
 
   <!-- stops build from using platform dependent encoding and therefore being non-portable -->
   <properties>

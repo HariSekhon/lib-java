@@ -29,6 +29,10 @@
   <name>JVM Utils</name>
   <description>Utility library for JVM languages</description>
   <url>https://github.com/harisekhon/lib-java</url>
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/harisekhon/lib-java/issues</url>
+  </issueManagement>
   <scm>
     <!-- for consistency with sonar-project.properties
     <connection>scm:svn:http://somerepository.com/svn_repo/trunk</connection>

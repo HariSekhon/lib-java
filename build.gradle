@@ -13,6 +13,10 @@
 //  http://www.linkedin.com/in/harisekhon
 //
 
+// ~/.gradle/gradle.properties
+plugins {
+    id "org.sonarqube" version "2.0.1"
+}
 apply plugin: 'java'
 apply plugin: 'maven'
 

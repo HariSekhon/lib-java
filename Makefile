@@ -47,7 +47,7 @@ gradle:
 clean:
 	./mvnw clean || :
 	sbt clean || :
-	gradle clean || :
+	./gradlew clean || :
 	rm -f harisekhon-utils.jar
 
 .PHONY: update
@@ -79,7 +79,7 @@ sonar:
 
 .PHONY: test
 test:
-	mvn test
+	./mvnw test
 	bash-tools/all.sh
 
 .PHONY: tld

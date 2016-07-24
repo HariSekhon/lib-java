@@ -40,8 +40,7 @@ sbt:
 .PHONY: gradle
 gradle:
 	make common
-	@#gradle clean package
-	gradle clean build
+	./gradlew clean build
 	cp -av build/libs/harisekhon-utils-*.jar harisekhon-utils.jar
 
 .PHONY: clean

@@ -22,6 +22,15 @@ version := "1.16.0"
 
 scalaVersion := "2.10.6"
 
+publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
+
+// add assembly artifact to publish
+artifact in (Compile, assembly) := {
+    val art = (artifact in (Compile, assembly)).value
+    art.copy(`classifier` = Some("assembly"))
+}
+addArtifact(artifact in (Compile, assembly), assembly)
+
 libraryDependencies ++= Seq (
     "commons-cli" % "commons-cli" % "1.2",
     "commons-lang" % "commons-lang" % "2.6",

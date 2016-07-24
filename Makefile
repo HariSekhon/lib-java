@@ -73,7 +73,7 @@ package:
 .PHONY: sonar
 sonar:
 	#mvn clean install
-	mvn sonar:sonar
+	./mvnw sonar:sonar
 	# or
 	# sonar-scanner
 

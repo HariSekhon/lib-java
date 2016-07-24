@@ -76,6 +76,7 @@ sonar:
 	./mvnw sonar:sonar
 	# or
 	# sonar-scanner
+	# gradle sonarqube
 
 .PHONY: test
 test:

@@ -27,17 +27,29 @@ common:
 mvn:
 	make common
 	mvn clean package
+	cp -av target/harisekhon-utils-*.jar harisekhon-utils.jar
 
+# don't use SBT - it will bundle Scala ballooning the jar size
 .PHONY: sbt
 sbt:
 	make common
 	@#sbt clean package
 	sbt clean assembly
+	cp -av target/scala-*/harisekhon-utils-assembly-*.jar harisekhon-utils.jar
+
+.PHONY: gradle
+gradle:
+	make common
+	@#gradle clean package
+	gradle clean build
+	cp -av build/libs/harisekhon-utils-*.jar harisekhon-utils.jar
 
 .PHONY: clean
 clean:
 	mvn clean || :
 	sbt clean || :
+	gradle clean || :
+	rm -f harisekhon-utils.jar
 
 .PHONY: update
 update:

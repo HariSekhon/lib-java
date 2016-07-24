@@ -22,7 +22,8 @@ build:
 
 .PHONY: clean
 clean:
-	mvn clean
+	mvn clean || :
+	sbt clean || :
 
 .PHONY: update
 update:

@@ -1,0 +1,36 @@
+//
+//  Author: Hari Sekhon
+//  Date: 2016-07-24 09:40:20 +0100 (Sun, 24 Jul 2016)
+//
+//  vim:ts=4:sts=4:sw=4:et:filetype=groovy
+//
+//  https://github.com/harisekhon/lib-java
+//
+//  License: see accompanying Hari Sekhon LICENSE file
+//
+//  If you're using my code you're welcome to connect with me on LinkedIn and optionally send me feedback to help improve or steer this or other code I publish
+//
+//  http://www.linkedin.com/in/harisekhon
+//
+
+apply plugin: 'java'
+apply plugin: 'maven'
+
+group = 'com.linkedin.harisekhon'
+version = '1.16.0'
+
+description = """Hari Sekhon's JVM Utility Library"""
+
+sourceCompatibility = 1.6
+targetCompatibility = 1.6
+
+repositories {
+      mavenCentral()
+}
+
+dependencies {
+    compile group: 'commons-cli', name: 'commons-cli', version:'1.2'
+    compile group: 'commons-lang', name: 'commons-lang', version:'2.6'
+    compile group: 'log4j', name: 'log4j', version:'1.2.17'
+    testCompile group: 'junit', name: 'junit', version:'4.12'
+}

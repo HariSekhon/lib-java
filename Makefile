@@ -48,7 +48,7 @@ clean:
 	./mvnw clean || :
 	sbt clean || :
 	./gradlew clean || :
-	rm -f harisekhon-utils.jar
+	rm -vf harisekhon-utils.jar
 
 .PHONY: update
 update:

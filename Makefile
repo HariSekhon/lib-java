@@ -16,9 +16,23 @@
 
 .PHONY: build
 build:
+	make mvn
+
+.PHONY: common
+common:
 	git submodule init
 	git submodule update --recursive
+
+.PHONY: mvn
+mvn:
+	make common
 	mvn clean package
+
+.PHONY: sbt
+sbt:
+	make common
+	@#sbt clean package
+	sbt clean assembly
 
 .PHONY: clean
 clean:

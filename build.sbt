@@ -32,7 +32,7 @@ artifact in (Compile, assembly) := {
 addArtifact(artifact in (Compile, assembly), assembly)
 
 libraryDependencies ++= Seq (
-    "commons-cli" % "commons-cli" % "1.2",
+    "commons-cli" % "commons-cli" % "1.3.1",
     "commons-lang" % "commons-lang" % "2.6",
     "junit" % "junit" % "4.12",
     "log4j" % "log4j" % "1.2.17",

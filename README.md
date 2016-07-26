@@ -11,9 +11,30 @@ My personal Java library, full of lots of validation code and utility functions.
 
 #### Build ####
 
-Uses Maven as standard, just call
+Builds with any one of Maven, Gradle or SBT. The default build will trigger a Maven build:
+
 ```
-mvn clean package
+make
+```
+
+You can call any one of the 3 major build systems explicitly instead
+
+Maven:
+
+```
+make mvn
+```
+
+Gradle:
+
+```
+make gradle
+```
+
+SBT:
+
+```
+make sbt
 ```
 
 Continuous Integration is run on this repo to build and unit test it (~ 400 JUnit tests).

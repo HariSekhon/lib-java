@@ -35,9 +35,8 @@ public class CLI {
     private int timeout_default = 10;
     private int timeout_max = 86400;
     private String usage_msg = "usage: <prog> <options>";
+    protected CommandLine cmd;
     protected Options options = new Options();
-
-    public final Logger log = Logger.getLogger(com.linkedin.harisekhon.Utils.class.getName());
 
     public CLI() {
         // 1.3+ API doesn't work in Spark which embeds older commons-cli
@@ -110,11 +109,10 @@ public class CLI {
     }
 
     public final void main2(String[] args){
-        log.debug("running main()");
-        log.setLevel(Level.DEBUG);
+        log.trace("running CLI.main2()");
         setup();
         try {
-//            addOptions();
+            addOptions();
 //            add_default_opts();
         } catch (IllegalArgumentException e) {
             usage(e);
@@ -122,33 +120,38 @@ public class CLI {
         try {
             parseArgs2(args);
 //            autoflush();
-            if(verbose > 2) {
-                log.setLevel(Level.DEBUG);
-            } else if(verbose > 1){
-                log.setLevel(Level.INFO);
-            }
-            if(debug){
-                log.setLevel(Level.DEBUG);
-            }
+            // TODO: this will reduce TRACE level, check to only increase log level and never reduce it
+//            if(verbose > 2) {
+//                log.setLevel(Level.DEBUG);
+//            } else if(verbose > 1){
+//                log.setLevel(Level.INFO);
+//            }
+//            if(debug){
+//                log.setLevel(Level.DEBUG);
+//            }
         } catch(Exception e){
             if(log.isDebugEnabled()){
                 e.printStackTrace();
             }
             usage(e.getMessage());
         }
-//        log.info("verbose level: %s".format(verbose));
+        log.info("verbose level: %s".format(String.valueOf(verbose)));
         validateInt(timeout, "timeout", 0, timeout_max);
-//        log.debug("setting timeout to {} secs", timeout);
+        log.info("setting timeout to %s secs".format(String.valueOf(timeout)));
         Thread t = new Thread(new Timeout(timeout));
         t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread t, Throwable e) {
                 if(e instanceof QuitException){
                     println(((QuitException) e).status + ": " + ((QuitException) e).message);
+                    System.exit(getStatusCode("UNKNOWN"));
                 } else {
-                    println(e.getMessage());
+                    // normal Thread.stop() at end of program raises exception with null
+                    if(e.getMessage() != null){
+                        println(e.getMessage());
+                        System.exit(getStatusCode("UNKNOWN"));
+                    }
                 }
-                System.exit(getStatusCode("UNKNOWN"));
             }
         });
         t.start();
@@ -157,12 +160,20 @@ public class CLI {
 //            System.exit(exit_codes.get("UNKNOWN"));
 //        }
         try {
+            log.trace("running CLI.processArgs()");
             processArgs();
+            log.trace("running CLI.run()");
             run();
+            log.trace("running CLI.end()");
             end();
+            log.trace("stopping timeout thread");
+            t.stop();
         } catch (IllegalArgumentException e){
+            log.trace("caught exception in CLI.main2()");
             if(log.isDebugEnabled()){
                 e.printStackTrace();
+                // not as nicely formatted - not printing anything right now??
+//                println(e.getStackTrace().toString());
             }
             usage(e.getMessage());
         // not thrown by try block, how is Control-C thrown?
@@ -192,7 +203,7 @@ public class CLI {
             status = "UNKNOWN";
         }
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp(msg2, options);
+        formatter.printHelp("\n\n" + msg2 + "\n" + usage_msg + "\n", options);
         System.exit(getStatusCode("UNKNOWN"));
     }
     public final void usage(String msg){
@@ -308,12 +319,12 @@ public class CLI {
 //        self.add_opt("-D", "--debug", action="store_true", help=SUPPRESS_HELP, default=bool(os.getenv("DEBUG")))
 
     private void parseArgs2(String[] args) {
-        log.debug("parseArgs2()");
+        log.trace("parseArgs2()");
         // 1.3+ API problem with Spark, go back to older API for commons-cli
         //CommandLineParser parser = new DefaultParser();
         CommandLineParser parser = new GnuParser();
         try {
-            CommandLine cmd = parser.parse(options, args);
+            cmd = parser.parse(options, args);
             if(cmd.hasOption("h")){
                 usage();
             }

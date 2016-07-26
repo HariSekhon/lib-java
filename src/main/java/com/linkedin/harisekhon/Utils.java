@@ -1000,7 +1000,7 @@ public final class Utils {
     public static final Boolean isLinuxOrMac(){
         return isLinux() || isMac();
     }
- 
+
     public static final void linuxOnly() throws UnsupportedOSException {
         if (!isLinux()){
             throw new UnsupportedOSException("Linux");

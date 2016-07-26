@@ -2427,26 +2427,25 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("sec2min(30)", "0:30",   sec2min(30));
         assertEquals("sec2min(3601)", "60:01", sec2min(3601));
         assertEquals("sec2min(0)", "0:00", sec2min(0));
-        
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void test_sec2min_exception_negative(){
         sec2min("-1");
     }
-    
+
     @Test(expected=IllegalArgumentException.class)
     public void test_sec2min_exception_nonnumeric(){
         sec2min("aa");
     }
      */
-    
+
     // ====================================================================== //
-    
+
     // @Test(expected= IndexOutOfBoundsException.class)
     // public void test_validate_* {
     // change validate_* to throwing exceptions for better testing and wrap in a generic exception catcher in Nagios code to convert to one liners
-    
+
     //@Test
     // public void test_validate* {
     //      try {
@@ -2456,12 +2455,12 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     //          assertThat(e.getMessage(), is("some message"));
     //      }
     // }
-    
+
     //@Ignore("Test disabled, re-enable later")
     // or use this more flexible one which allows use of matchers such as .containsString()
     //@Rule
     //public ExpectedException thrown = ExpectedException.none();
-    
+
     //@Ignore("Test is ignored as a demonstration")
     //@Test
     //public void validate_*() throw IndexOutOfBoundsException {

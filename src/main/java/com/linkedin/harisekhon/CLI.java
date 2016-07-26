@@ -18,8 +18,8 @@
 package com.linkedin.harisekhon;
 
 import static com.linkedin.harisekhon.Utils.*;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Level;
+//import org.apache.log4j.Logger;
 //import java.util.UnknownFormatConversionException;
 import org.apache.commons.cli.*;
 // 1.3+ API causes problems with Spark, use older API for commons-cli
@@ -193,10 +193,8 @@ public class CLI {
     }
 
     public final void usage (String msg, String status) {
-        String msg2;
-        if(msg == null){
-            msg2 = "";
-        } else {
+        String msg2 = "";
+        if(msg != null){
             msg2 = msg + "\n";
         }
         if(status == null){

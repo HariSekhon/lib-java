@@ -27,7 +27,7 @@ common:
 mvn:
 	make common
 	./mvnw clean install
-	@#cp -av target/harisekhon-utils-*.jar harisekhon-utils.jar
+	@#ln -sfv target/harisekhon-utils-*.jar harisekhon-utils.jar
 
 # don't use SBT - it will bundle Scala ballooning the jar size
 .PHONY: sbt
@@ -35,13 +35,14 @@ sbt:
 	make common
 	@#				   .m2	   .ivy
 	sbt clean assembly publish publishLocal
-	@#cp -av target/scala-*/harisekhon-utils-assembly-*.jar harisekhon-utils.jar
+	@#ln -sfv target/scala-*/harisekhon-utils-assembly-*.jar harisekhon-utils.jar
 
 .PHONY: gradle
 gradle:
 	make common
-	./gradlew clean install
-	@#cp -av build/libs/harisekhon-utils-*.jar harisekhon-utils.jar
+	@#				.m2     .ivy
+	./gradlew clean install uploadArchives
+	@#ln -sfv build/libs/harisekhon-utils-*.jar harisekhon-utils.jar
 
 .PHONY: clean
 clean:

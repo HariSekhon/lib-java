@@ -19,7 +19,7 @@
 organization := "com.linkedin.harisekhon"
 name := "harisekhon-utils"
 
-version := "1.16.0"
+version := "1.17.0"
 
 scalaVersion := "2.10.6"
 

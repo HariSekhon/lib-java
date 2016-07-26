@@ -2081,15 +2081,14 @@ public final class Utils {
 
 
     public static final ArrayList<String> validateNodePortList(ArrayList<String> nodes, String name) {
-        if(name == null) {
-            name = "";
-        } else {
-            name = name + " ";
+        String name2 = "";
+        if(name != null) {
+            name2 = name + " ";
         }
         ArrayList<String> final_nodes = new ArrayList<String>();
         ArrayList<String> nodes2 = uniqArraylistOrdered(nodes);
         if(nodes2.size() < 1){
-            throw new IllegalArgumentException(String.format("%snode(s) not defined",name));
+            throw new IllegalArgumentException(String.format("%snode(s) not defined", name2));
         }
         for(String node: nodes2){
             //node = node.trim();
@@ -2098,7 +2097,7 @@ public final class Utils {
                 final_nodes.add( validateHostPort(node2) );
             }
         }
-        vlogOption(String.format("%snodeport list", name), final_nodes.toString());
+        vlogOption(String.format("%snodeport list", name2), final_nodes.toString());
         return final_nodes;
     }
     public static final ArrayList<String> validateNodePortList(ArrayList<String> nodes) {
@@ -2112,16 +2111,15 @@ public final class Utils {
         return validateNodePortList(nodes, null);
     }
     public static final String validateNodePortList(String nodelist, String name) {
+        String name2 = "";
         if(name == null) {
-            name = "";
-        } else {
-            name = name + " ";
+            name2 = name + " ";
         }
         if(nodelist == null) {
-            throw new IllegalArgumentException(String.format("%snode(s) not defined (null)", name));
+            throw new IllegalArgumentException(String.format("%snode(s) not defined (null)", name2));
         }
         if(nodelist.trim().isEmpty()){
-            throw new IllegalArgumentException(String.format("%snode(s) not defined (blank)", name));
+            throw new IllegalArgumentException(String.format("%snode(s) not defined (blank)", name2));
         }
         String[] nodelist2 = validateNodePortList(nodelist.split("[,\\s]+"));
         String final_nodes = StringUtils.join(nodelist2, ",");

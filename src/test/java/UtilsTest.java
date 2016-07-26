@@ -40,7 +40,7 @@ import org.junit.Rule;
 import org.junit.rules.Timeout;
 
 import static org.junit.Assert.*;
-//import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.*;
 import static java.lang.Math.pow;
 
 /**
@@ -2392,8 +2392,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     @Test
     public void testValidateWhich() throws IOException {
         if(isLinuxOrMac()){
-            assertEquals("which(sh)",                           "/bin/sh",      which("sh"));
-            assertEquals("which(/bin/bash)",                    "/bin/bash",    which("/bin/bash"));
+            assertThat("which(sh)", which("sh"), anyOf(is("/bin/sh"),   is("/usr/bin/sh")));
+            assertThat("which(/bin/bash)", which("/bin/bash"), anyOf(is("/bin/bash"), is("/usr/bin/bash")));
         }
     }
 

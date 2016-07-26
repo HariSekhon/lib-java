@@ -17,22 +17,19 @@ Builds with any one of Maven, Gradle or SBT. The default build will trigger a Ma
 make
 ```
 
-You can call any one of the 3 major build systems explicitly instead
+You can call any one of the 3 major build systems explicitly instead:
 
 Maven:
-
 ```
 make mvn
 ```
 
 Gradle:
-
 ```
 make gradle
 ```
 
 SBT:
-
 ```
 make sbt
 ```

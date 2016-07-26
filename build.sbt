@@ -16,6 +16,7 @@
 // TODO: metadata from pom, description, URLs, different name to jar artifact id
 
 // This comes out with spaces and capitalization with sbt assembly
+organization := "com.linkedin.harisekhon"
 name := "harisekhon-utils"
 
 version := "1.16.0"

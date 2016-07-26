@@ -33,14 +33,14 @@ mvn:
 .PHONY: sbt
 sbt:
 	make common
-	@#				   .m2	   .ivy
+	@#                 .m2     .ivy
 	sbt clean assembly publish publishLocal
 	@#ln -sfv target/scala-*/harisekhon-utils-assembly-*.jar harisekhon-utils.jar
 
 .PHONY: gradle
 gradle:
 	make common
-	@#				.m2     .ivy
+	@#              .m2     .ivy
 	./gradlew clean install uploadArchives
 	@#ln -sfv build/libs/harisekhon-utils-*.jar harisekhon-utils.jar
 

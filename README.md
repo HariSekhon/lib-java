@@ -11,8 +11,9 @@ My personal Java library, full of lots of validation code and utility functions.
 
 #### Build ####
 
-Builds with any one of Maven, Gradle or SBT. The default build will trigger a Maven build:
+Builds with any one of Maven, Gradle or SBT. The Maven and Gradle builds are best as they will auto-download their own build systems for you.
 
+The default build will trigger a Maven build:
 ```
 make
 ```

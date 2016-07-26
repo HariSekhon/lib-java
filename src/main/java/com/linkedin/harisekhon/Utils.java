@@ -187,8 +187,6 @@ public final class Utils {
         exit_codes.put("UNKNOWN",   3);
         exit_codes.put("DEPENDENT", 4);
 
-        log.setLevel(Level.INFO);
-
         // let the class fail to initialize if missing a resource to prevent relying on the regexes which won't match
         try {
             loadTlds("tlds-alpha-by-domain.txt");
@@ -1860,6 +1858,7 @@ public final class Utils {
         if(d > maxVal){
             throw new IllegalArgumentException("invalid " + name2 + " defined: cannot be greater than " + maxVal);
         }
+        // TODO: trim trailing zeros from double
         vlogOption(name2, String.valueOf(d));
         return d;
     }
@@ -2081,11 +2080,16 @@ public final class Utils {
     }
 
 
-    public static final ArrayList<String> validateNodePortList(ArrayList<String> nodes) {
+    public static final ArrayList<String> validateNodePortList(ArrayList<String> nodes, String name) {
+        if(name == null) {
+            name = "";
+        } else {
+            name = name + " ";
+        }
         ArrayList<String> final_nodes = new ArrayList<String>();
         ArrayList<String> nodes2 = uniqArraylistOrdered(nodes);
         if(nodes2.size() < 1){
-            throw new IllegalArgumentException("node(s) not defined");
+            throw new IllegalArgumentException(String.format("%snode(s) not defined",name));
         }
         for(String node: nodes2){
             //node = node.trim();
@@ -2094,25 +2098,39 @@ public final class Utils {
                 final_nodes.add( validateHostPort(node2) );
             }
         }
-        vlogOption("nodeport list", final_nodes.toString());
+        vlogOption(String.format("%snodeport list", name), final_nodes.toString());
         return final_nodes;
     }
-    public static final String[] validateNodePortList(String[] nodes){
-        // don't uniq here it's done in called validateNodePortList method
-        return arraylistToArray(validateNodePortList(arrayToArraylist(nodes)));
+    public static final ArrayList<String> validateNodePortList(ArrayList<String> nodes) {
+        return validateNodePortList(nodes, null);
     }
-    public static final String validateNodePortList(String nodelist) {
+    public static final String[] validateNodePortList(String[] nodes, String name){
+        // don't uniq here it's done in called validateNodePortList method
+        return arraylistToArray(validateNodePortList(arrayToArraylist(nodes), name));
+    }
+    public static final String[] validateNodePortList(String[] nodes){
+        return validateNodePortList(nodes, null);
+    }
+    public static final String validateNodePortList(String nodelist, String name) {
+        if(name == null) {
+            name = "";
+        } else {
+            name = name + " ";
+        }
         if(nodelist == null) {
-            throw new IllegalArgumentException("node(s) not defined (null)");
+            throw new IllegalArgumentException(String.format("%snode(s) not defined (null)", name));
         }
         if(nodelist.trim().isEmpty()){
-            throw new IllegalArgumentException("node(s) not defined (blank)");
+            throw new IllegalArgumentException(String.format("%snode(s) not defined (blank)", name));
         }
         String[] nodelist2 = validateNodePortList(nodelist.split("[,\\s]+"));
         String final_nodes = StringUtils.join(nodelist2, ",");
         // vlogged in validateNodePortList
         //vlogOption("node list", final_nodes);
         return final_nodes;
+    }
+    public static final String validateNodePortList(String nodelist){
+        return validateNodePortList(nodelist, null);
     }
 
 

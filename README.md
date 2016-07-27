@@ -13,7 +13,8 @@ My personal Java library, full of lots of validation code and utility functions.
 
 Builds with any one of Maven, Gradle or SBT. The Maven and Gradle builds are best as they will auto-download their own build systems of the correct compatible version for you without you having to pre-install them.
 
-The default build will trigger a Maven build:
+The default build will trigger a Gradle build which requires no pre-installed dependencies other than Java. This is preferred because of the self-bootstrap but the Gradle mechanism additionally has an emb
+edded checksum for security:
 ```
 make
 ```

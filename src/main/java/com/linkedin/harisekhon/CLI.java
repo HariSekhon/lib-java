@@ -18,13 +18,7 @@
 package com.linkedin.harisekhon;
 
 import static com.linkedin.harisekhon.Utils.*;
-//import org.apache.log4j.Level;
-//import org.apache.log4j.Logger;
-//import java.util.UnknownFormatConversionException;
 import org.apache.commons.cli.*;
-// 1.3+ API causes problems with Spark, use older API for commons-cli
-//import org.apache.commons.cli.DefaultParser;
-//import org.apache.commons.cli.Option;
 
 public class CLI {
 
@@ -39,23 +33,11 @@ public class CLI {
     protected Options options = new Options();
 
     public CLI() {
-        // 1.3+ API doesn't work in Spark which embeds older commons-cli
-        // so have to use this older static Builder style, which is actually more horrible in Scala
-        // which doesn't allow static method chaining
-//        options.addOption(OptionBuilder.withLongOpt("timeout")
-//                .hasArg()
-//                .withArgName("secs")
-//                .withDescription("Timeout for program (Optional)")
-//                .create("t"));
-//        options.addOption(OptionBuilder.withLongOpt("debug")
-//                .withDescription("Debug mode (Optional)")
-//                .create("D"));
-//        options.addOption("v", "verbose", false, "Verbose mode");
-//        options.addOption("h", "help", false, "Print usage help and exit");
         options.addOption("t", "timeout", true, String.format("Timeout in secs (default: %s)", timeout_default));
-        options.addOption("D", "debug", false, "Debug mode");
         options.addOption("v", "verbose", false, "Verbose mode (-v, -vv, -vvv)");
+        options.addOption("D", "debug", false, "Debug mode");
 //        options.addOption("V", "version", false, "Print version and exit");
+        options.addOption("h", "help", false, "Print usage help and exit");
     }
 
     // TODO: add logic for default host + port support
@@ -103,17 +85,11 @@ public class CLI {
         // hook to be overridden by client
     }
 
-    public static void main(String[] args) {
-        CLI c = new CLI();
-        c.main2(args);
-    }
-
     public final void main2(String[] args){
         log.trace("running CLI.main2()");
         setup();
         try {
             addOptions();
-//            add_default_opts();
         } catch (IllegalArgumentException e) {
             usage(e);
         }
@@ -135,9 +111,9 @@ public class CLI {
             }
             usage(e.getMessage());
         }
-        log.info("verbose level: %s".format(String.valueOf(verbose)));
+        log.info(String.format("verbose level: %s", verbose));
         validateInt(timeout, "timeout", 0, timeout_max);
-        log.info("setting timeout to %s secs".format(String.valueOf(timeout)));
+        log.info(String.format("setting timeout to %s secs", timeout));
         Thread t = new Thread(new Timeout(timeout));
         t.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
@@ -155,10 +131,6 @@ public class CLI {
             }
         });
         t.start();
-//        if(version){
-//            println(version_string);
-//            System.exit(exit_codes.get("UNKNOWN"));
-//        }
         try {
             log.trace("running CLI.processArgs()");
             processArgs();
@@ -202,7 +174,7 @@ public class CLI {
         }
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("\n\n" + msg2 + "\n" + usage_msg + "\n", options);
-        System.exit(getStatusCode("UNKNOWN"));
+        System.exit(getStatusCode(status));
     }
     public final void usage(String msg){
         usage(msg, null);
@@ -214,11 +186,12 @@ public class CLI {
         usage(null, null);
     }
 
-//  public static void no_args(String[] args){
-//        if(args != null){
-//            usage("invalid non-switch arguments supplied on command line");
-//        }
-//    }
+    // not used in this base class, convenience method for client parseArgs() method
+    public void noArgs(){
+        if(cmd.getArgList().size() > 0){
+            usage("invalid non-switch arguments supplied on command line");
+        }
+    }
 
     public void addOptions(){
         // client hook
@@ -257,7 +230,7 @@ public class CLI {
         return timeout_default;
     }
 
-    // null prevents --timeout switch becoming exposed, whereas 0 will allow
+    // TODO: null to prevent --timeout switch becoming exposed, while 0 will still add timeout switch
     public void setTimeoutDefault(int secs){
 //        validateInt(secs, "timeout default", 0, timeout_max);
         if (secs > timeout_max) {
@@ -272,25 +245,21 @@ public class CLI {
     }
 
     public void setTimeoutMax(int secs) {
-        // leave this to be able to set max to any amount
-        // validateInt(secs, "timeout default", 0, timeout_max)
-//        log.debug("setting max timeout to %s secs", secs);
         timeout_max = secs;
     }
 
+    // XXX: Not sure this can be ported without **kwargs pass through that Python has...
 //    def add_opt(self, *args, **kwargs):
 //        self.__parser.add_option(*args, **kwargs)
-//
-//    def get_opt(self, name):
-//        if not isStr(name):
-//            throw new IllegalArgumentException("passed non-string as arg to CLI.get_opt()")
-//        if not self.is_option_defined(name):
-//            throw new IllegalArgumentException("{0} option not defined".format(name))
-//        return getattr(self.options, name)
-//
-//    def is_option_defined(self, name):
-//        return name in dir(self.options)
-//
+
+    public String getOpt(String opt){
+        if(cmd.hasOption(opt)){
+            return cmd.getOptionValue(opt);
+        }
+        // TODO: switch this to Optional later
+        return null;
+    }
+
     public void timeoutHandler(Exception e){
         // consider letting exception propagate
         quit("UNKNOWN", String.format("self timeout out after %s second%s", timeout, plural(timeout)));
@@ -323,6 +292,7 @@ public class CLI {
         CommandLineParser parser = new GnuParser();
         try {
             cmd = parser.parse(options, args);
+            // TODO: swtich to getOpt after Optional implemented
             if(cmd.hasOption("h")){
                 usage();
             }
@@ -332,11 +302,11 @@ public class CLI {
             if(cmd.hasOption("v")){
                 verbose += 1;
             }
-            // TODO:
-//                if(cmd.hasOption("V")){
-//                    println("%s version %s");
-//                    System.exit(getStatusCode("UNKNOWN"));
-//                }
+            // TODO: get version and top level class name
+//            if(cmd.hasOption("%s version %s".format())){
+//                println(version_string);
+//                System.exit(exit_codes.get("UNKNOWN"));
+//            }
             timeout = timeout_default;
             if(cmd.hasOption("t")){
                 timeout = Integer.valueOf(cmd.getOptionValue("t", String.valueOf(timeout)));
@@ -348,20 +318,16 @@ public class CLI {
             log.error(e + "\n");
             usage();
         }
-//            print("%(version)s" % self.__dict__)
-//            sys.exit(ERRORS["UNKNOWN"])
-//        if "timeout" in dir(self.options):
-//            self.timeout = self.get_opt("timeout")
         String env_verbose = System.getenv("VERBOSE");
         if (env_verbose != null && ! env_verbose.trim().isEmpty()) {
             try{
                 int v = Integer.valueOf(env_verbose.trim());
-                if (Integer.valueOf(v) > verbose) {
-//                    log.debug("environment variable $VERBOSE = %i, increasing verbosity", v);
+                if (v > verbose) {
+                    log.trace(String.format("environment variable $VERBOSE = %d, increasing verbosity to %d", v, v));
                     verbose = v;
                 }
             } catch(NumberFormatException e) {
-//                log.warn(String.format("$VERBOSE environment variable is not an integer ('{}')", env_verbose));
+                log.warn(String.format("$VERBOSE environment variable is not an integer ('%s')", env_verbose));
             }
         }
         parseArgs();

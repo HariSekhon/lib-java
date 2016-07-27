@@ -52,6 +52,7 @@
     <commons-lang.version>2.6</commons-lang.version>
     <coveralls-maven-plugin.version>4.2.0</coveralls-maven-plugin.version>
     <jacoco-maven-plugin.version>0.7.7.201606060606</jacoco-maven-plugin.version>
+    <jline.version>2.12</jline.version>
     <junit.version>4.12</junit.version>
     <log4j.version>1.2.17</log4j.version>
     <maven-compiler-plugin.version>3.5.1</maven-compiler-plugin.version>
@@ -76,6 +77,11 @@
       <version>${log4j.version}</version>
     </dependency>
     <dependency>
+      <groupId>jline</groupId>
+      <artifactId>jline</artifactId>
+      <version>${jline.version}</version>
+    </dependency>
+    <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
@@ -84,6 +90,12 @@
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

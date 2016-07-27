@@ -28,7 +28,8 @@ public class CLI {
     private int timeout = 0;
     private int timeout_default = 10;
     private int timeout_max = 86400;
-    private String usage_msg = "usage: <prog> <options>";
+    protected String usage_header = "Hari Sekhon - https://github.com/harisekhon\n\n";
+    protected String usage_msg = "<prog> <options>";
     protected CommandLine cmd;
     protected Options options = new Options();
 
@@ -172,8 +173,12 @@ public class CLI {
         if(status == null){
             status = "UNKNOWN";
         }
+        int terminalWidth = jline.TerminalFactory.get().getWidth();
+        if(terminalWidth < 80){
+            terminalWidth = 80;
+        }
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("\n\n" + msg2 + "\n" + usage_msg + "\n", options);
+        formatter.printHelp(terminalWidth, msg2 + "\n\n" + usage_header + "\n", usage_msg + "\n\n", options, "");
         System.exit(getStatusCode(status));
     }
     public final void usage(String msg){

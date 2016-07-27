@@ -24,7 +24,7 @@ version = '1.17.0'
 
 description = """Hari Sekhon's JVM Utility Library"""
 
-String target_java_version = '7'
+def target_java_version = '7'
 
 sourceCompatibility = "1.$target_java_version"
 targetCompatibility = "1.$target_java_version"

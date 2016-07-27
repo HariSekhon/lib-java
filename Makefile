@@ -16,7 +16,7 @@
 
 .PHONY: build
 build:
-	make mvn
+	make gradle
 
 .PHONY: common
 common:

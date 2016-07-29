@@ -87,3 +87,8 @@ test:
 .PHONY: tld
 tld:
 	wget -O src/main/resources/tlds-alpha-by-domain.txt http://data.iana.org/TLD/tlds-alpha-by-domain.txt
+
+findbugs:
+	./mvnw compile
+	./mvnw findbugs:findbugs
+	./mvnw findbugs:gui

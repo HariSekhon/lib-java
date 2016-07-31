@@ -54,7 +54,7 @@ clean:
 .PHONY: deep-clean
 deep-clean:
 	make clean
-	rm -rf .gradle ~/.gradle/{caches,native,wrapper} ~/.m2/{repository,wrapper} ~/.ivy2 ~/.sbt/boot && \
+	rm -rf .gradle ~/.gradle/{caches,native,wrapper} ~/.m2/{repository,wrapper} ~/.ivy2 ~/.sbt/boot
 
 .PHONY: update
 update:

@@ -78,11 +78,21 @@ package:
 
 .PHONY: sonar
 sonar:
-	#mvn clean install
+	make gradle-sonar
+
+.PHONY: gradle-sonar
+gradle-sonar:
+	@# calls compileJava
+	./gradlew sonarqube
+
+.PHONY: mvn-sonar
+mvn-sonar:
+	@# calls compileJava
 	./mvnw sonar:sonar
-	# or
-	# sonar-scanner
-	# gradle sonarqube
+
+.PHONY: sonar-scanner
+sonar-scanner:
+	sonar-scanner
 
 .PHONY: test
 test:

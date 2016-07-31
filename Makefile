@@ -87,7 +87,6 @@ gradle-sonar:
 
 .PHONY: mvn-sonar
 mvn-sonar:
-	@# calls compileJava
 	./mvnw sonar:sonar
 
 .PHONY: sonar-scanner

@@ -21,7 +21,8 @@ build:
 # used by CI
 .PHONY: random-build
 random-build:
-	@x=$$(bash-tools/random_select.sh build mvn gradle sbt); echo make $$x; make $$x
+	# Travis does't have SBT in java builds
+	@x=$$(bash-tools/random_select.sh build mvn gradle); echo make $$x; make $$x
 
 .PHONY: common
 common:

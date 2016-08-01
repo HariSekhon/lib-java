@@ -14,6 +14,8 @@
 #  https://www.linkedin.com/in/harisekhon
 #
 
+SHELL=/bin/bash
+
 .PHONY: build
 build:
 	make gradle

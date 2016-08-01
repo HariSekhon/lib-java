@@ -3,8 +3,6 @@
 #  Author: Hari Sekhon
 #  Date: 2015-10-06 14:02:35 +0100 (Tue, 06 Oct 2015)
 #
-#  vim:ts=4:sts=4:sw=4:noet
-#
 #  https://github.com/harisekhon/lib-java
 #
 #  License: see accompanying Hari Sekhon LICENSE file

@@ -34,7 +34,7 @@ branches:
     - master
 
 install:
-  - make
+  - make random-build
 
 after_success:
   # JaCoCo gives error, skip for now and just use Cobertura:

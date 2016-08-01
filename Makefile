@@ -18,6 +18,11 @@
 build:
 	make gradle
 
+# used by CI
+.PHONY: random-build
+random-build:
+	@a[0]=build; a[1]=mvn; a[2]=gradle; a[3]=sbt; rand=$$[ $$RANDOM % 4 ]; r=$${a[$$rand]}; echo make $$r
+
 .PHONY: common
 common:
 	git submodule init
@@ -102,6 +107,7 @@ test:
 tld:
 	wget -O src/main/resources/tlds-alpha-by-domain.txt http://data.iana.org/TLD/tlds-alpha-by-domain.txt
 
+.PHONY: findbugs
 findbugs:
 	./mvnw compile
 	./mvnw findbugs:findbugs

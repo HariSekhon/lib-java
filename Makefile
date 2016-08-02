@@ -113,3 +113,7 @@ findbugs:
 	./mvnw compile
 	./mvnw findbugs:findbugs
 	./mvnw findbugs:gui
+
+.PHONY: mvn-versioneye
+mvn-versioneye:
+	./mvnw versioneye:update

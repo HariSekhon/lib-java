@@ -8,3 +8,4 @@ target/
 .project
 *.iml
 dependency-reduced-pom.xml
+versioneye.properties

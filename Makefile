@@ -117,3 +117,9 @@ findbugs:
 .PHONY: mvn-versioneye
 mvn-versioneye:
 	./mvnw versioneye:update
+
+.PHONY: gradle-versioneye
+gradle-versioneye:
+	@# in gradle.properties now
+	@#./gradlew -P versioneye.projectid=57616cdb0a82b20053182c74 versionEyeUpdate
+	./gradlew versionEyeUpdate

@@ -20,7 +20,8 @@ jdk:
   - oraclejdk7
   # only available on Trusty builds for now
   - openjdk8
-  - openjdk7
+  # gets buffer overflows for both Java Surefire and SBT
+  #- openjdk7
   # not supported by either mvnw or gradlew
   #- openjdk6
 

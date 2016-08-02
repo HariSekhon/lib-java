@@ -18,8 +18,7 @@ language: java
 jdk:
   - oraclejdk8
   - oraclejdk7
-  # not supported yet
-  #- openjdk8
+  - openjdk8
   - openjdk7
   # not supported by either mvnw or gradlew
   #- openjdk6

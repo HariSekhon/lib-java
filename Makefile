@@ -118,6 +118,7 @@ findbugs:
 versioneye:
 	make mvn-versioneye
 	make gradle-versioneye
+	make sbt-versioneye
 
 .PHONY: mvn-versioneye
 mvn-versioneye:
@@ -128,3 +129,7 @@ gradle-versioneye:
 	@# in gradle.properties now
 	@#./gradlew -P versioneye.projectid=57616cdb0a82b20053182c74 versionEyeUpdate
 	./gradlew versionEyeUpdate
+
+.PHONY: sbt-versioneye
+sbt-versioneye:
+	sbt versioneye:updateProject

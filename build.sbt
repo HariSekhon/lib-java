@@ -32,12 +32,19 @@ artifact in (Compile, assembly) := {
 }
 addArtifact(artifact in (Compile, assembly), assembly)
 
+enablePlugins(VersionEyePlugin)
+
+existingProjectId in versioneye := "57616cdb0a82b20053182c74"
+baseUrl in versioneye := "https://www.versioneye.com"
+apiPath in versioneye := "/api/v2"
+publishCrossVersion in versioneye := true
+
 libraryDependencies ++= Seq (
     "commons-cli" % "commons-cli" % "1.3.1",
     "commons-lang" % "commons-lang" % "2.6",
     "jline" % "jline" % "2.14.2",
     "junit" % "junit" % "4.12",
     "log4j" % "log4j" % "1.2.17",
-    "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+    "org.scalatest" %% "scalatest" % "3.0.0" % "test"
     //"net.sf.jopt-simple" % "jopt-simple" % "4.9"
 )

@@ -2122,6 +2122,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isUrl("https://gmail.com"));
         assertTrue(isUrl("1"));
         assertTrue(isUrl("http://cdh43:50070/dfsnodelist.jsp?whatNodes=LIVE"));
+        assertTrue(isUrl("http://namenode:50070/dfshealth.html#tab-overview"));
         assertFalse(isUrl("-help"));
         assertFalse(isUrl(null));
     }

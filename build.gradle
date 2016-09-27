@@ -21,7 +21,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 
 group = 'com.linkedin.harisekhon'
-version = '1.17.0'
+version = '1.17.1'
 
 description = """Hari Sekhon's JVM Utility Library"""
 

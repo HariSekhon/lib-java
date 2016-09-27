@@ -50,6 +50,13 @@ gradle:
 	./gradlew clean install uploadArchives
 	@#ln -sfv build/libs/harisekhon-utils-*.jar harisekhon-utils.jar
 
+# for testing
+.PHONY: all
+all:
+	make mvn
+	make gradle
+	make sbt
+
 .PHONY: clean
 clean:
 	./mvnw clean || :

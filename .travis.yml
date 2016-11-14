@@ -17,7 +17,8 @@ language: java
 # doesn't provide oraclejdk6 any more because it's EOL as of Nov 2012
 jdk:
   - oraclejdk8
-  - oraclejdk7
+  # SonarQube plugin is now built with Java 8, doesn't support Java 7
+  #- oraclejdk7
   # only available on Trusty builds for now
   - openjdk8
   # gets buffer overflows for both Java Surefire and SBT

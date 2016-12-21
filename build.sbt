@@ -45,6 +45,6 @@ libraryDependencies ++= Seq (
     "jline" % "jline" % "2.14.2",
     "junit" % "junit" % "4.12",
     "log4j" % "log4j" % "1.2.17",
-    "org.scalatest" %% "scalatest" % "3.0.0" % "test"
+    "org.scalatest" %% "scalatest" % "3.0.1" % "test"
     //"net.sf.jopt-simple" % "jopt-simple" % "4.9"
 )

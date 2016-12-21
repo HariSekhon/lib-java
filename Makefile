@@ -140,3 +140,7 @@ gradle-versioneye:
 .PHONY: sbt-versioneye
 sbt-versioneye:
 	sbt versioneye:updateProject
+
+.PHONY: push
+push:
+	git push

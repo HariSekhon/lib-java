@@ -21,7 +21,7 @@ name := "harisekhon-utils"
 
 version := "1.17.1"
 
-scalaVersion := "2.12.2"
+scalaVersion := "2.12.3"
 
 publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
 

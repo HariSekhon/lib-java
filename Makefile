@@ -31,6 +31,9 @@ common:
 
 .PHONY: mvn
 mvn:
+	@echo ==========================
+	@echo Java Library - Maven Build
+	@echo ==========================
 	make common
 	./mvnw clean install
 	@#ln -sfv target/harisekhon-utils-*.jar harisekhon-utils.jar
@@ -38,6 +41,9 @@ mvn:
 # don't use SBT - it will bundle Scala ballooning the jar size
 .PHONY: sbt
 sbt:
+	@echo ========================
+	@echo Java Library - SBT Build
+	@echo ========================
 	make common
 	@#                 .m2     .ivy
 	sbt clean assembly publish publishLocal
@@ -45,6 +51,9 @@ sbt:
 
 .PHONY: gradle
 gradle:
+	@echo ===========================
+	@echo Java Library - Gradle Build
+	@echo ===========================
 	make common
 	@#              .m2     .ivy
 	./gradlew clean install uploadArchives

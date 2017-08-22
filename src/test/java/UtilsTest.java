@@ -2389,7 +2389,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         getVersion();
     }
 
-    // ====================================================================== //    
+    // ====================================================================== //
     @Test
     public void testValidateWhich() throws IOException {
         if(isLinuxOrMac()){

@@ -35,7 +35,15 @@ SBT:
 make sbt
 ```
 
-Continuous Integration is run on this repo to build and unit test it (~ 400 JUnit tests).
+#### Testing
+
+[Continuous Integration] is run on this repo to build and unit test it (around 400 JUnit tests).
+
+You can launch tests manually by running this command at the top level of the repo:
+
+```
+make test
+```
 
 #### Configuration ####
 

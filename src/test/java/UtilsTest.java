@@ -2195,7 +2195,8 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isUser("cloudera-scm"));
         assertTrue(isUser("nonexistentuser"));
         assertFalse(isUser("-hari"));
-        assertFalse(isUser("1hari"));
+        assertTrue(isUser("1hari"));
+        assertTrue(isUser("12345678"));
         assertTrue(isUser("null"));
         assertFalse(isUser(null));
     }
@@ -2204,16 +2205,13 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     public void testValidateUser(){
         assertEquals("validateUser(hadoop, name)", "hadoop", validateUser("hadoop", "name"));
         assertEquals("validateUser(hari1)", "hari1", validateUser("hari1"));
+        assertEquals("validateUser(9hari1)", "9hari", validateUser("9hari"));
+        assertEquals("validateUser(12345678)", "12345678", validateUser("12345678"));
     }
 
     @Test(expected=IllegalArgumentException.class)
     public void testValidateUserException() {
         validateUser("-hari");
-    }
-
-    @Test(expected=IllegalArgumentException.class)
-    public void testValidateUserException2() {
-        validateUser("1hari");
     }
 
     @Test(expected=IllegalArgumentException.class)

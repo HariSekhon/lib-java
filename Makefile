@@ -16,13 +16,13 @@ SHELL=/bin/bash
 
 .PHONY: build
 build:
-	make gradle
+	$(MAKE) gradle
 
 # used by CI
 .PHONY: random-build
 random-build:
 	# Travis does't have SBT in java builds
-	@x=$$(bash-tools/random_select.sh build mvn gradle); echo make $$x; make $$x
+	@x=$$(bash-tools/random_select.sh build mvn gradle); echo $(MAKE) $$x; $(MAKE) $$x
 
 .PHONY: common
 common:
@@ -34,7 +34,7 @@ mvn:
 	@echo ==========================
 	@echo Java Library - Maven Build
 	@echo ==========================
-	make common
+	$(MAKE) common
 	./mvnw clean install
 	@#ln -sfv target/harisekhon-utils-*.jar harisekhon-utils.jar
 
@@ -44,7 +44,7 @@ sbt:
 	@echo ========================
 	@echo Java Library - SBT Build
 	@echo ========================
-	make common
+	$(MAKE) common
 	@#                 .m2     .ivy
 	sbt clean assembly publish publishLocal
 	@#ln -sfv target/scala-*/harisekhon-utils-assembly-*.jar harisekhon-utils.jar
@@ -54,7 +54,7 @@ gradle:
 	@echo ===========================
 	@echo Java Library - Gradle Build
 	@echo ===========================
-	make common
+	$(MAKE) common
 	@#              .m2     .ivy
 	./gradlew clean install uploadArchives
 	@#ln -sfv build/libs/harisekhon-utils-*.jar harisekhon-utils.jar
@@ -62,9 +62,9 @@ gradle:
 # for testing
 .PHONY: all
 all:
-	make mvn
-	make gradle
-	make sbt
+	$(MAKE) mvn
+	$(MAKE) gradle
+	$(MAKE) sbt
 
 .PHONY: clean
 clean:
@@ -75,32 +75,32 @@ clean:
 
 .PHONY: deep-clean
 deep-clean:
-	make clean
+	$(MAKE) clean
 	rm -rf .gradle ~/.gradle/{caches,native,wrapper} ~/.m2/{repository,wrapper} ~/.ivy2 ~/.sbt/boot
 
 .PHONY: update
 update:
 	git pull
 	git submodule update --init --recursive
-	make
+	$(MAKE)
 
 .PHONY: update-submodules
 update-submodules:
 	git submodule update --init --remote
 .PHONY: updatem
 updatem:
-	make update-submodules
+	$(MAKE) update-submodules
 
 .PHONY: p
 p:
-	make package
+	$(MAKE) package
 .PHONY: package
 package:
 	./mvnw package
 
 .PHONY: sonar
 sonar:
-	make gradle-sonar
+	$(MAKE) gradle-sonar
 
 .PHONY: gradle-sonar
 gradle-sonar:
@@ -132,9 +132,9 @@ findbugs:
 
 .PHONY: versioneye
 versioneye:
-	make mvn-versioneye
-	make gradle-versioneye
-	make sbt-versioneye
+	$(MAKE) mvn-versioneye
+	$(MAKE) gradle-versioneye
+	$(MAKE) sbt-versioneye
 
 .PHONY: mvn-versioneye
 mvn-versioneye:

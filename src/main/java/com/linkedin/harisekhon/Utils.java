@@ -92,7 +92,9 @@ public final class Utils {
     // There are certain scenarios where Google Guava and Apache Commons libraries don't help with these
     // AWS regex from http://blogs.aws.amazon.com/security/blog/tag/key+rotation
     public static final String aws_access_key_regex     = "(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])";
-    public static final String aws_host_component       = "ip-(?:10-\\d+-\\d+-\\d+|172-1[6-9]-\\d+-\\d+|172-2[0-9]-\\d+-\\d+|172-3[0-1]-\\d+-\\d+|192-168-\\d+-\\d+)";
+    //public static final String aws_host_ip_regex       = "ip-(?:10-\\d+-\\d+-\\d+|172-1[6-9]-\\d+-\\d+|172-2[0-9]-\\d+-\\d+|172-3[0-1]-\\d+-\\d+|192-168-\\d+-\\d+)";
+    // the ip- prefix gives it away as an IP so can be a bit more general and let's catch all IPs not just private ranges
+    public static final String aws_host_ip_regex       = "\\bip-\\d+-\\d+-\\d+-\\d+\\b";;
     public static final String aws_secret_key_regex     = "(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])";
     public static final String ip_prefix_regex          = "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}";
     // now allowing 0 or 255 as the final octet due to CIDR
@@ -208,8 +210,8 @@ public final class Utils {
         domain_regex                = "(?:" + domain_component + "\\.)*" + tld_regex;
         domain_regex_strict         = "(?:" + domain_component + "\\.)+" + tld_regex;
         hostname_regex              = String.format("%s(?:\\.%s)?", hostname_component_regex, domain_regex);
-        aws_hostname_regex          = aws_host_component + "(?:\\." + domain_regex + ")?";
-        aws_fqdn_regex              = aws_host_component + "\\." + domain_regex;
+        aws_hostname_regex          = aws_host_ip_regex + "(?:\\." + domain_regex + ")?";
+        aws_fqdn_regex              = aws_host_ip_regex + "\\." + domain_regex;
         host_regex                  = String.format("\\b(?:%s|%s)\\b", hostname_regex, ip_regex);
         fqdn_regex                  = hostname_component_regex + "\\." + domain_regex;
         krb5_principal_regex        = String.format("%s(?:/%s)?(?:@%s)?", user_regex, hostname_regex, domain_regex);

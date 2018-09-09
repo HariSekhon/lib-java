@@ -49,7 +49,7 @@ import static java.lang.Math.pow;
 
 public final class Utils {
 
-    private static final String utils_version = "1.17.3";
+    private static final String utils_version = "1.17.4";
 
     public static String msg = "";
     public static final String nagios_plugins_support_msg = "Please try latest version from https://github.com/harisekhon/nagios-plugins, re-run on command line with -vvv and if problem persists paste full output from -vvv mode in to a ticket requesting a fix/update at https://github.com/harisekhon/nagios-plugins/issues/new";
@@ -458,6 +458,11 @@ public final class Utils {
     }
     public static final String humanUnits(double num) {
         return humanUnits(num, null, false);
+    }
+
+    public static final String stripANSIEscapeCodes(String str) {
+        // ported from https://github.com/HariSekhon/pylib
+        return str.replaceAll("(\\x9B|\\x1B\\[)[0-?]*[ -\\/]*[@-~]", "");
     }
 
     public static final String stripScheme(String str) {

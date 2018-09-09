@@ -467,6 +467,13 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     // ====================================================================== //
     @Test
+    public void testANSIEscapeCodes(){
+        assertEquals("stripANSIEscapeCodes(some content here)",         "some content here",            stripANSIEscapeCodes("some \033[01;31m\033[Kcontent\033[m\033[K here"));
+        assertEquals("stripANSIEcapeCodes(some highlighted content)",   "some highlighted content",     stripANSIEscapeCodes("some \033[01;31m\033[Khigh\033[m\033[Klighted \033[01;31m\033[Kcontent\033[m\033[K"));
+    }
+
+    // ====================================================================== //
+    @Test
     public void testStripScheme(){
         assertEquals("stripScheme(file:/blah)",                        "/blah",                        stripScheme("file:/blah"));
         assertEquals("stripScheme(file:///path/to/blah)",              "/path/to/blah",                stripScheme("file:///path/to/blah"));

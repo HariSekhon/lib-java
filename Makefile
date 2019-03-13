@@ -41,6 +41,7 @@ mvn:
 	@echo ==========================
 	$(MAKE) init
 	if [ -z "$(CPANM)" ]; then make mvn; exit $$?; fi
+	$(MAKE) system-packages
 	./mvnw clean install
 	@#ln -sfv target/harisekhon-utils-*.jar harisekhon-utils.jar
 
@@ -52,6 +53,7 @@ sbt:
 	@echo ========================
 	$(MAKE) init
 	if [ -z "$(CPANM)" ]; then make sbt; exit $$?; fi
+	$(MAKE) system-packages
 	@#                 .m2     .ivy
 	sbt clean assembly publish publishLocal
 	@#ln -sfv target/scala-*/harisekhon-utils-assembly-*.jar harisekhon-utils.jar
@@ -63,6 +65,7 @@ gradle:
 	@echo ===========================
 	$(MAKE) init
 	if [ -z "$(CPANM)" ]; then make gradle; exit $$?; fi
+	$(MAKE) system-packages
 	@#              .m2     .ivy
 	./gradlew clean install uploadArchives
 	@#ln -sfv build/libs/harisekhon-utils-*.jar harisekhon-utils.jar

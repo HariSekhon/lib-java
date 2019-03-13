@@ -14,9 +14,19 @@
 
 SHELL=/bin/bash
 
+ifneq ("$(wildcard bash-tools/Makefile.in)", "")
+	include bash-tools/Makefile.in
+endif
+
 .PHONY: build
 build:
+	$(MAKE) init
+	if [ -z "$(CPANM)" ]; then make; exit $$?; fi
 	$(MAKE) gradle
+
+.PHONY: init
+init:
+	git submodule update --init --recursive
 
 # used by CI
 .PHONY: random-build
@@ -24,17 +34,13 @@ random-build:
 	# Travis does't have SBT in java builds
 	@x=$$(bash-tools/random_select.sh build mvn gradle); echo $(MAKE) $$x; $(MAKE) $$x
 
-.PHONY: common
-common:
-	git submodule init
-	git submodule update --recursive
-
 .PHONY: mvn
 mvn:
 	@echo ==========================
 	@echo Java Library - Maven Build
 	@echo ==========================
-	$(MAKE) common
+	$(MAKE) init
+	if [ -z "$(CPANM)" ]; then make mvn; exit $$?; fi
 	./mvnw clean install
 	@#ln -sfv target/harisekhon-utils-*.jar harisekhon-utils.jar
 
@@ -44,7 +50,8 @@ sbt:
 	@echo ========================
 	@echo Java Library - SBT Build
 	@echo ========================
-	$(MAKE) common
+	$(MAKE) init
+	if [ -z "$(CPANM)" ]; then make sbt; exit $$?; fi
 	@#                 .m2     .ivy
 	sbt clean assembly publish publishLocal
 	@#ln -sfv target/scala-*/harisekhon-utils-assembly-*.jar harisekhon-utils.jar
@@ -54,7 +61,8 @@ gradle:
 	@echo ===========================
 	@echo Java Library - Gradle Build
 	@echo ===========================
-	$(MAKE) common
+	$(MAKE) init
+	if [ -z "$(CPANM)" ]; then make gradle; exit $$?; fi
 	@#              .m2     .ivy
 	./gradlew clean install uploadArchives
 	@#ln -sfv build/libs/harisekhon-utils-*.jar harisekhon-utils.jar

@@ -86,42 +86,12 @@ deep-clean:
 	$(MAKE) clean
 	rm -rf .gradle ~/.gradle/{caches,native,wrapper} ~/.m2/{repository,wrapper} ~/.ivy2 ~/.sbt/boot
 
-.PHONY: update
-update:
-	git pull
-	git submodule update --init --recursive
-	$(MAKE)
-
-.PHONY: update-submodules
-update-submodules:
-	git submodule update --init --remote
-.PHONY: updatem
-updatem:
-	$(MAKE) update-submodules
-
 .PHONY: p
 p:
 	$(MAKE) package
 .PHONY: package
 package:
 	./mvnw package
-
-.PHONY: sonar
-sonar:
-	$(MAKE) gradle-sonar
-
-.PHONY: gradle-sonar
-gradle-sonar:
-	@# calls compileJava
-	./gradlew sonarqube
-
-.PHONY: mvn-sonar
-mvn-sonar:
-	./mvnw sonar:sonar
-
-.PHONY: sonar-scanner
-sonar-scanner:
-	sonar-scanner
 
 .PHONY: test
 test:
@@ -132,21 +102,20 @@ test:
 tld:
 	wget -O src/main/resources/tlds-alpha-by-domain.txt http://data.iana.org/TLD/tlds-alpha-by-domain.txt
 
+.PHONY: gradle-sonar
+gradle-sonar:
+	@# calls compileJava
+	./gradlew sonarqube
+
+.PHONY: mvn-sonar
+mvn-sonar:
+	./mvnw sonar:sonar
+
 .PHONY: findbugs
 findbugs:
 	./mvnw compile
 	./mvnw findbugs:findbugs
 	./mvnw findbugs:gui
-
-.PHONY: versioneye
-versioneye:
-	$(MAKE) mvn-versioneye
-	$(MAKE) gradle-versioneye
-	$(MAKE) sbt-versioneye
-
-.PHONY: mvn-versioneye
-mvn-versioneye:
-	./mvnw versioneye:update
 
 .PHONY: gradle-versioneye
 gradle-versioneye:
@@ -154,10 +123,17 @@ gradle-versioneye:
 	@#./gradlew -P versioneye.projectid=57616cdb0a82b20053182c74 versionEyeUpdate
 	./gradlew versionEyeUpdate
 
+.PHONY: mvn-versioneye
+mvn-versioneye:
+	./mvnw versioneye:update
+
 .PHONY: sbt-versioneye
 sbt-versioneye:
 	sbt versioneye:updateProject
 
-.PHONY: push
-push:
-	git push
+.PHONY: versioneye
+versioneye:
+	$(MAKE) mvn-versioneye
+	$(MAKE) gradle-versioneye
+	$(MAKE) sbt-versioneye
+

@@ -1764,14 +1764,16 @@ public class UtilsTest { // extends TestCase { // JUnit 3
     // ====================================================================== //
     @Test
     public void testIsLdapDn(){
-        assertTrue(isLdapDn("uid=hari,cn=users,cn=accounts,dc=local"));
+        assertTrue(isLdapDn("uid=hari,ou=users,ou=accounts,dc=local"));
+        assertTrue(isLdapDn("cn=hari-supseruser,ou=big-users,ou=accounts,dc=local"));
         assertFalse(isLdapDn("hari@LOCAL"));
     }
 
     @Test
     public void testValidateLdapDn(){
-        assertEquals("validateLdapDn(uid=hari,cn=users,cn=accounts,dc=local)", "uid=hari,cn=users,cn=accounts,dc=local", validateLdapDn("uid=hari,cn=users,cn=accounts,dc=local"));
-        assertEquals("validateLdapDn(uid=hari,cn=users,cn=accounts,dc=local, name)", "uid=hari,cn=users,cn=accounts,dc=local", validateLdapDn("uid=hari,cn=users,cn=accounts,dc=local", "name"));
+        assertEquals("validateLdapDn(uid=hari,ou=users,ou=accounts,dc=local)", "uid=hari,ou=users,ou=accounts,dc=local", validateLdapDn("uid=hari,ou=users,ou=accounts,dc=local"));
+        assertEquals("validateLdapDn(uid=hari,ou=users,ou=accounts,dc=local, name)", "uid=hari,ou=users,ou=accounts,dc=local", validateLdapDn("uid=hari,ou=users,ou=accounts,dc=local", "name"));
+        assertEquals("validateLdapDn(cn=hari-superuser,ou=big-users,ou=accounts,dc=local, name)", "cn=hari-superuser,ou=big-users,ou=accounts,dc=local", validateLdapDn("cn=hari-superuser,ou=big-users,ou=accounts,dc=local"));
     }
 
     @Test(expected=IllegalArgumentException.class)

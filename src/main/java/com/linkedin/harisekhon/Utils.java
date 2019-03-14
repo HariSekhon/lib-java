@@ -49,7 +49,7 @@ import static java.lang.Math.pow;
 
 public final class Utils {
 
-    private static final String utils_version = "1.17.5";
+    private static final String utils_version = "1.17.6";
 
     public static String msg = "";
     public static final String nagios_plugins_support_msg = "Please try latest version from https://github.com/harisekhon/nagios-plugins, re-run on command line with -vvv and if problem persists paste full output from -vvv mode in to a ticket requesting a fix/update at https://github.com/harisekhon/nagios-plugins/issues/new";
@@ -120,7 +120,7 @@ public final class Utils {
     public static final String user_regex               = "\\b[A-Za-z0-9][A-Za-z0-9\\._-]*[A-Za-z0-9]\\b";
     public static final String url_regex;
     public static final String column_regex             = "\\b[\\w:]+\\b";
-    public static final String ldap_dn_regex            = "\\b\\w+=[\\w\\s]+(?:,\\w+=[\\w\\s]+)*\\b";
+    public static final String ldap_dn_regex            = "\\b\\w+=[\\w\\s-]+(?:,\\w+=[\\w\\s-]+)*\\b";
     public static final String krb5_principal_regex;
     public static final String threshold_range_regex    = "^(@)?(-?\\d+(?:\\.\\d+)?)(:)(-?\\d+(?:\\.\\d+)?)?$";
     public static final String threshold_simple_regex   = "^(-?\\d+(?:\\.\\d+)?)$";

@@ -19,7 +19,7 @@
 organization := "com.linkedin.harisekhon"
 name := "harisekhon-utils"
 
-version := "1.17.5"
+version := "1.17.6"
 
 // This must be aligned with nagios-plugin-kafka etc
 scalaVersion := "2.10.6"

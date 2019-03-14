@@ -23,7 +23,7 @@
 
   <groupId>com.linkedin.harisekhon</groupId>
   <artifactId>harisekhon-utils</artifactId>
-  <version>1.17.5</version>
+  <version>1.17.6</version>
   <packaging>jar</packaging>
 
   <name>JVM Utils</name>

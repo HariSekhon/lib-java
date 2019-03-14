@@ -2200,6 +2200,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertTrue(isUser("hari1"));
         assertTrue(isUser("mysql_test"));
         assertTrue(isUser("cloudera-scm"));
+        assertTrue(isUser("hari.sekhon"));
         assertTrue(isUser("nonexistentuser"));
         assertFalse(isUser("-hari"));
         assertTrue(isUser("1hari"));
@@ -2214,6 +2215,7 @@ public class UtilsTest { // extends TestCase { // JUnit 3
         assertEquals("validateUser(hari1)", "hari1", validateUser("hari1"));
         assertEquals("validateUser(9hari1)", "9hari", validateUser("9hari"));
         assertEquals("validateUser(12345678)", "12345678", validateUser("12345678"));
+        assertEquals("validateUser(hari.sekhon)", "hari.sekhon", validateUser("hari.sekhon"));
     }
 
     @Test(expected=IllegalArgumentException.class)

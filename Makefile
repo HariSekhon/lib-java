@@ -97,9 +97,12 @@ package:
 	./mvnw package
 
 .PHONY: test
-test:
-	./mvnw test
+test: unittest
 	bash-tools/all.sh
+
+.PHONY: unittest
+unittest:
+	./mvnw test
 
 .PHONY: tld
 tld:

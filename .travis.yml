@@ -39,6 +39,8 @@ branches:
     - master
 
 install:
+  #- travis_retry make random-build
+  # want it to fail if the selected build doesn't work
   - make random-build
 
 after_success:

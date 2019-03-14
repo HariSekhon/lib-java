@@ -49,7 +49,7 @@ import static java.lang.Math.pow;
 
 public final class Utils {
 
-    private static final String utils_version = "1.17.4";
+    private static final String utils_version = "1.17.5";
 
     public static String msg = "";
     public static final String nagios_plugins_support_msg = "Please try latest version from https://github.com/harisekhon/nagios-plugins, re-run on command line with -vvv and if problem persists paste full output from -vvv mode in to a ticket requesting a fix/update at https://github.com/harisekhon/nagios-plugins/issues/new";
@@ -117,7 +117,7 @@ public final class Utils {
     public static final String mac_regex                = "\\b[0-9A-Fa-f]{1,2}[:-](?:[0-9A-Fa-f]{1,2}[:-]){4}[0-9A-Fa-f]{1,2}\\b";
     public static final String process_name_regex       = "\\s*[\\w./<>-][\\w\\s./<>-]+";
     public static final String url_path_suffix_regex    = "/(?:[\\w.,:/%&?#!=*|\\[\\]~+-]+)?"; // there is an RFC3987 regex but it's gigantic, this is easier to reason about and serves my needs
-    public static final String user_regex               = "\\b[A-Za-z0-9][A-Za-z0-9_-]*[A-Za-z0-9]\\b";
+    public static final String user_regex               = "\\b[A-Za-z0-9][A-Za-z0-9\\._-]*[A-Za-z0-9]\\b";
     public static final String url_regex;
     public static final String column_regex             = "\\b[\\w:]+\\b";
     public static final String ldap_dn_regex            = "\\b\\w+=[\\w\\s]+(?:,\\w+=[\\w\\s]+)*\\b";

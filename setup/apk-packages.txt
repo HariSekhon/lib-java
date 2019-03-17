@@ -17,3 +17,6 @@
 openjdk8
 bash
 git
+
+# needed for Gradle 5.2 bootstrap
+nss

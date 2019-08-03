@@ -143,3 +143,6 @@ versioneye:
 	$(MAKE) gradle-versioneye
 	$(MAKE) sbt-versioneye
 
+.PHONY: travis
+travis:
+	travis_last_log.py /lib-java

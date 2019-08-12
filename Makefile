@@ -14,6 +14,10 @@
 
 SHELL=/bin/bash
 
+REPO := HariSekhon/lib-java
+
+CODE_FILES := $(shell find . -name '*.java')
+
 ifneq ("$(wildcard bash-tools/Makefile.in)", "")
 	include bash-tools/Makefile.in
 endif
@@ -142,7 +146,3 @@ versioneye:
 	$(MAKE) mvn-versioneye
 	$(MAKE) gradle-versioneye
 	$(MAKE) sbt-versioneye
-
-.PHONY: travis
-travis:
-	travis_last_log.py /lib-java

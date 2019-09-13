@@ -24,8 +24,9 @@ matrix:
   # only available on Trusty builds for now
   - jdk: openjdk8
     os: linux
-  - jdk: openjdk9
-    os: osx
+  # Java 8 not available on Mac OS X
+  #- jdk: openjdk9
+  #  os: osx
   # gets buffer overflows for both Java Surefire and SBT
   #- openjdk7
   # not supported by either mvnw or gradlew

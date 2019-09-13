@@ -15,20 +15,21 @@
 
 language: java
 # doesn't provide oraclejdk6 any more because it's EOL as of Nov 2012
-jdk:
-  - oraclejdk8
+matrix:
   # SonarQube plugin version 2.2 is now built with Java 8, doesn't support Java 7
   #- oraclejdk7
+  include:
+  - jdk: oraclejdk8
+    os: linux
   # only available on Trusty builds for now
-  - openjdk8
+  - jdk: openjdk8
+    os: linux
+  - jdk: openjdk9
+    os: osx
   # gets buffer overflows for both Java Surefire and SBT
   #- openjdk7
   # not supported by either mvnw or gradlew
   #- openjdk6
-
-os:
-  - linux
-  - osx
 
 #sudo: false
 # workaround to get Trusty build for openjdk8

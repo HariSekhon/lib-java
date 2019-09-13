@@ -26,6 +26,10 @@ jdk:
   # not supported by either mvnw or gradlew
   #- openjdk6
 
+os:
+  - linux
+  - osx
+
 #sudo: false
 # workaround to get Trusty build for openjdk8
 sudo: required

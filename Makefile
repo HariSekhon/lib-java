@@ -12,15 +12,15 @@
 #  https://www.linkedin.com/in/harisekhon
 #
 
-SHELL=/bin/bash
+ifneq ("$(wildcard bash-tools/Makefile.in)", "")
+	include bash-tools/Makefile.in
+endif
+
+SHELL := /bin/bash
 
 REPO := HariSekhon/lib-java
 
 CODE_FILES := $(shell find . -name '*.java')
-
-ifneq ("$(wildcard bash-tools/Makefile.in)", "")
-	include bash-tools/Makefile.in
-endif
 
 .PHONY: build
 build:

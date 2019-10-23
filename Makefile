@@ -102,7 +102,7 @@ package:
 
 .PHONY: test
 test: unittest
-	bash-tools/all.sh
+	bash-tools/check_all.sh
 
 .PHONY: unittest
 unittest:

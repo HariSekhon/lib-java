@@ -55,9 +55,8 @@ before_install:
   - sudo rm -rf "${TRAVIS_ROOT}/var/lib/apt/lists/"*
 
 install:
-  #- travis_retry make random-build
-  # want it to fail if the selected build doesn't work
-  - make random-build
+  #- make random-build
+  - travis_retry make all
 
 after_success:
   # JaCoCo gives error, skip for now and just use Cobertura:

@@ -19,10 +19,13 @@ matrix:
   # SonarQube plugin version 2.2 is now built with Java 8, doesn't support Java 7
   #- oraclejdk7
   include:
-  - jdk: oraclejdk8
+  # not available any more on Travis CI
+  #- jdk: oraclejdk9
+  - jdk: oraclejdk9
     os: linux
-  # only available on Trusty builds for now
-  - jdk: openjdk8
+  - jdk: openjdk9
+    os: linux
+  - jdk: openjdk11
     os: linux
   # Java 8 not available on Mac OS X
   #- jdk: openjdk9
@@ -35,7 +38,9 @@ matrix:
 #sudo: false
 # workaround to get Trusty build for openjdk8
 sudo: required
-dist: trusty
+
+#dist: trusty
+dist: bionic
 
 notifications:
   email: false

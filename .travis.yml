@@ -35,8 +35,6 @@ matrix:
   # not supported by either mvnw or gradlew
   #- openjdk6
 
-sudo: required
-
 dist: bionic
 
 notifications:

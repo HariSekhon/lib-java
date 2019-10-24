@@ -153,6 +153,7 @@
           </configuration>
       </plugin>
 
+      <!--
       <plugin>
           <groupId>org.jacoco</groupId>
           <artifactId>jacoco-maven-plugin</artifactId>
@@ -166,6 +167,7 @@
               </execution>
           </executions>
       </plugin>
+      -->
 
       <!-- gives an IllegalArgumentException which looks like a bug in this plugin
       [ERROR] Failed to execute goal com.github.timurstrekalov:saga-maven-plugin:1.5.2 :coverage (default-cli) on project Utils: Caught IllegalArgumentException: illegal parameters?: Illegal character in authority at index 7: http://localhost:${jasmine.serverPort} -> [Help 1]

@@ -2341,7 +2341,14 @@ public class UtilsTest { // extends TestCase { // JUnit 3
 
     @Test
     public void testGetCallingMethod(){
-        assertEquals("getCallingMethod()", "sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)", getCallingMethod());
+        System.out.println("XXX: " + getCallingMethod());
+        // ~ Java 6 - 7
+        //assertEquals("getCallingMethod()", "sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)", getCallingMethod());
+        // ~ Java 8 - 11
+        //assertEquals("getCallingMethod()", "java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)", getCallingMethod());
+        //assertTrue(getCallingMethod().contains(".reflect.NativeMethodAccessorImpl.invoke0(Native Method)"));
+        //assertTrue(getCallingMethod().contains(".reflect.NativeMethodAccessorImpl.invoke0(Native Method)"));
+        assertThat(getCallingMethod(), containsString(".reflect.NativeMethodAccessorImpl.invoke0(Native Method)"));
     }
 
     // ====================================================================== //

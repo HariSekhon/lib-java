@@ -20,8 +20,9 @@ matrix:
   #- oraclejdk7
   include:
   # not available any more on Travis CI
+  #- jdk: oraclejdk8
+  # maven repo access broken in Travis CI
   #- jdk: oraclejdk9
-  - jdk: oraclejdk9
     os: linux
   - jdk: openjdk9
     os: linux

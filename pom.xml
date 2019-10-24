@@ -52,7 +52,7 @@
     <commons-lang.version>2.6</commons-lang.version>
     <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
     <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
-    <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.4</jacoco-maven-plugin.version>
     <jline.version>2.14.5</jline.version>
     <junit.version>4.12</junit.version>
     <log4j.version>1.2.17</log4j.version>

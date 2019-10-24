@@ -14,6 +14,6 @@
 #                            RPM Package Requirements
 # ============================================================================ #
 
-java-1-.8.0-openjdk-devel
+java-devel
 bash
 git

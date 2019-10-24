@@ -45,14 +45,14 @@
 
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <java.version>7</java.version>
+    <java.version>8</java.version>
 
     <cobertura-maven-plugin.version>2.7</cobertura-maven-plugin.version>
     <commons-cli.version>1.4</commons-cli.version>
     <commons-lang.version>2.6</commons-lang.version>
     <coveralls-maven-plugin.version>4.3.0</coveralls-maven-plugin.version>
     <findbugs-maven-plugin.version>3.0.5</findbugs-maven-plugin.version>
-    <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
+    <jacoco-maven-plugin.version>0.8.5</jacoco-maven-plugin.version>
     <jline.version>2.14.5</jline.version>
     <junit.version>4.12</junit.version>
     <log4j.version>1.2.17</log4j.version>
@@ -108,13 +108,11 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>${maven-compiler-plugin.version}</version>
-        <!--
         <configuration>
           <source>1.${java.version}</source>
           <target>1.${java.version}</target>
           <compilerVersion>1.${java.version}</compilerVersion>
         </configuration>
-        -->
       </plugin>
 
       <plugin>

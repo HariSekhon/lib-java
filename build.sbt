@@ -22,7 +22,7 @@ name := "harisekhon-utils"
 version := "1.17.6"
 
 // This must be aligned with nagios-plugin-kafka etc
-scalaVersion := "2.10.6"
+scalaVersion := "2.12.8"
 
 publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.m2/repository")))
 

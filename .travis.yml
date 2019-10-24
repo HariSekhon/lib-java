@@ -36,11 +36,8 @@ matrix:
   # not supported by either mvnw or gradlew
   #- openjdk6
 
-#sudo: false
-# workaround to get Trusty build for openjdk8
 sudo: required
 
-#dist: trusty
 dist: bionic
 
 notifications:

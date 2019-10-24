@@ -29,16 +29,17 @@ publishTo := Some(Resolver.file("file",  new File(Path.userHome.absolutePath+"/.
 // add assembly artifact to publish
 artifact in (Compile, assembly) := {
     val art = (artifact in (Compile, assembly)).value
-    art.copy(`classifier` = Some("assembly"))
+    art.withClassifier(Some("assembly"))
 }
 addArtifact(artifact in (Compile, assembly), assembly)
 
-enablePlugins(VersionEyePlugin)
+// not updated for sbt 1.x
+//enablePlugins(VersionEyePlugin)
 
-existingProjectId in versioneye := "57616cdb0a82b20053182c74"
-baseUrl in versioneye := "https://www.versioneye.com"
-apiPath in versioneye := "/api/v2"
-publishCrossVersion in versioneye := true
+//existingProjectId in versioneye := "57616cdb0a82b20053182c74"
+//baseUrl in versioneye := "https://www.versioneye.com"
+//apiPath in versioneye := "/api/v2"
+//publishCrossVersion in versioneye := true
 
 libraryDependencies ++= Seq (
     "commons-cli" % "commons-cli" % "1.4",

@@ -13,6 +13,8 @@
 #  http://www.linkedin.com/in/harisekhon
 #
 
+version: ~> 1.0
+
 language: java
 # doesn't provide oraclejdk6 any more because it's EOL as of Nov 2012
 matrix:
@@ -23,6 +25,7 @@ matrix:
   #- jdk: oraclejdk8
   # maven repo access broken in Travis CI
   #- jdk: oraclejdk9
+    os: linux
   - jdk: openjdk9
     os: linux
   - jdk: openjdk11

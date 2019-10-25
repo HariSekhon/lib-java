@@ -25,7 +25,6 @@ matrix:
   #- jdk: oraclejdk8
   # maven repo access broken in Travis CI
   #- jdk: oraclejdk9
-    os: linux
   - jdk: openjdk9
     os: linux
   - jdk: openjdk11

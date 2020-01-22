@@ -9,6 +9,15 @@ Hari Sekhon Java Library
 
 My personal Java library, full of lots of validation code and utility functions.
 
+Hari Sekhon
+
+Cloud & Big Data Contractor, United Kingdom
+
+(ex-Cloudera, former Hortonworks Consultant)
+
+https://www.linkedin.com/in/harisekhon
+###### (you're welcome to connect with me on LinkedIn)
+
 #### Build ####
 
 Builds with any one of Maven, Gradle or SBT. The Maven and Gradle builds are best as they will auto-download their own build systems of the correct compatible version for you without you having to pre-install them.

@@ -16,7 +16,8 @@ ifneq ("$(wildcard bash-tools/Makefile.in)", "")
 	include bash-tools/Makefile.in
 endif
 
-SHELL := /bin/bash
+# breaks bootstrapping on Alpine
+#SHELL := /usr/bin/env bash
 
 REPO := HariSekhon/lib-java
 

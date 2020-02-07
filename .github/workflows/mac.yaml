@@ -48,5 +48,7 @@ jobs:
       with:
         path: ~/.ivy2/cache
         key: ${{ runner.os }}-sbt-ivy-cache-${{ hashFiles('**/build.sbt') }}
-    - name: build & test
-      run: make build test
+    - name: build
+      run: make
+    - name: test
+      run: make test

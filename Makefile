@@ -39,6 +39,10 @@ random-build:
 	# Travis does't have SBT in java builds
 	@x=$$(bash-tools/random_select.sh build mvn gradle); echo $(MAKE) $$x; $(MAKE) $$x
 
+.PHONY: maven
+maven: mvn
+	@:
+
 .PHONY: mvn
 mvn:
 	@echo ==========================

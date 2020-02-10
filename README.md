@@ -15,6 +15,10 @@ Hari Sekhon Java Library
 [![CI CentOS 8](https://github.com/HariSekhon/lib-java/workflows/CI%20CentOS%208/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CI+CentOS+8%22)
 [![CI Alpine](https://github.com/HariSekhon/lib-java/workflows/CI%20Alpine/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CI+Alpine%22)
 
+[![CI Maven](https://github.com/HariSekhon/lib-java/workflows/CI%20Maven/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CI+Maven%22)
+[![CI SBT](https://github.com/HariSekhon/lib-java/workflows/CI%20SBT/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CI+SBT%22)
+[![CI Gradle](https://github.com/HariSekhon/lib-java/workflows/CI%20Gradle/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CI+Gradle%22)
+
 My personal Java library, full of lots of validation code and utility functions.
 
 Hari Sekhon

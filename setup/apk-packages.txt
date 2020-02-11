@@ -15,8 +15,10 @@
 # ============================================================================ #
 
 openjdk8
-bash
-git
+
+# installed by bash-tools submodule now
+#bash
+#git
 
 # needed for Gradle 5.2 bootstrap
 nss

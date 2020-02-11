@@ -16,4 +16,6 @@
 
 #openjdk-*-jdk
 default-jdk
-bash
+
+# installed by bash-tools submodule now
+#bash

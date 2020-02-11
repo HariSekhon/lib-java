@@ -15,5 +15,7 @@
 # ============================================================================ #
 
 java-devel
-bash
-git
+
+# installed by bash-tools submodule now
+#bash
+#git

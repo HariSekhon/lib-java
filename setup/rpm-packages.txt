@@ -15,7 +15,7 @@
 # ============================================================================ #
 
 java
-#java-devel  # pull java 7 jdk in RHEL6
+java-devel  # pulls java 7 instead of java 8 in RHEL6
 
 # installed by bash-tools submodule now
 #bash

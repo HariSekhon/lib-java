@@ -13,8 +13,8 @@
 
 name: CI Ubuntu
 
-env:
-  DEBUG: 1
+#env:
+#  DEBUG: 1
 
 on: # [push]
   push:
@@ -27,13 +27,8 @@ on: # [push]
 jobs:
   build:
     #name: build
-    timeout-minutes: 10
-    #runs-on: ubuntu-latest
-
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, ubuntu-16.04]
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v1
@@ -53,6 +48,12 @@ jobs:
       with:
         path: ~/.ivy2/cache
         key: ${{ runner.os }}-sbt-ivy-cache-${{ hashFiles('**/build.sbt') }}
+    - uses: actions/cache@v1
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-lib-java  # ${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
     - name: build
       run: make
     - name: test

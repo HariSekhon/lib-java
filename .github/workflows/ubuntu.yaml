@@ -35,25 +35,43 @@ jobs:
       name: Maven Cache
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+        key: ${{ runner.os }}-maven-lib-java-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
-          ${{ runner.os }}-maven-
+          ${{ runner.os }}-maven-lib-java-
     - uses: actions/cache@v1
       name: SBT Cache
       with:
         path: ~/.sbt
-        key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
+        key: ${{ runner.os }}-sbt-lib-java-${{ hashFiles('**/build.sbt') }}
+        restore-keys: |
+          ${{ runner.os }}-sbt-lib-java-
     - uses: actions/cache@v1
       name: SBT Ivy Cache
       with:
         path: ~/.ivy2/cache
-        key: ${{ runner.os }}-sbt-ivy-cache-${{ hashFiles('**/build.sbt') }}
+        key: ${{ runner.os }}-sbt-ivy-cache-lib-java-${{ hashFiles('**/build.sbt') }}
+        restore-keys: |
+          ${{ runner.os }}-sbt-ivy-lib-java-
+    - uses: actions/cache@v1
+      name: Gradle Cache
+      with:
+        path: ~/.gradle/caches
+        key: ${{ runner.os }}-gradle-cache-lib-java-${{ hashFiles('**/build.gradle') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-cache-lib-java-
+    - uses: actions/cache@v1
+      name: Gradle Wrapper
+      with:
+        path: ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-wrapper-lib-java-${{ hashFiles('**/build.gradle') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-wrapper-lib-java-
     - uses: actions/cache@v1
       with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-lib-java  # ${{ hashFiles('**/requirements.txt') }}
+        path: ~/Library/Caches/pip
+        key: ${{ runner.os }}-pip-lib-java  # -${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
-          ${{ runner.os }}-pip-
+          ${{ runner.os }}-pip-lib-java
     - name: build
       run: make
     - name: test

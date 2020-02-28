@@ -1,11 +1,33 @@
 Hari Sekhon Java Library
 ========================
-[![Build Status](https://travis-ci.org/HariSekhon/lib-java.svg?branch=master)](https://travis-ci.org/HariSekhon/lib-java)
+
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b929aef71cb34ede9decf79459aa936d)](https://www.codacy.com/app/harisekhon/lib-java)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=alert_status)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
+[![GitHub stars](https://img.shields.io/github/stars/harisekhon/lib-java.svg)](https://github.com/harisekhon/lib-java/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/harisekhon/lib-java.svg)](https://github.com/harisekhon/lib-java/network)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=ncloc)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=security_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 [![Coverage Status](https://coveralls.io/repos/HariSekhon/lib-java/badge.svg?branch=master&service=github)](https://coveralls.io/github/HariSekhon/lib-java?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74/badge.svg)](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74)
+
 [![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20OS%20X-blue.svg)](https://github.com/harisekhon/lib-java#hari-sekhon-java-library)
 [![DockerHub](https://img.shields.io/badge/docker-available-blue.svg)](https://hub.docker.com/r/harisekhon/centos-github/)
+[![DockerHub Pulls](https://img.shields.io/docker/pulls/harisekhon/centos-github.svg)](https://hub.docker.com/r/harisekhon/centos-github)
+[![DockerHub Build Automated](https://img.shields.io/docker/automated/harisekhon/centos-github.svg)](https://hub.docker.com/r/harisekhon/centos-github)
+[![Docker Build Status](https://img.shields.io/docker/cloud/build/harisekhon/centos-github.svg)](https://hub.docker.com/r/harisekhon/centos-github/builds)
+[![MicroBadger](https://images.microbadger.com/badges/image/harisekhon/centos-github.svg)](http://microbadger.com/#/images/harisekhon/centos-github)
+
+[![Travis CI](https://travis-ci.org/HariSekhon/lib-java.svg?branch=master)](https://travis-ci.org/HariSekhon/lib-java)
+[![Azure DevOps Pipeline](https://dev.azure.com/harisekhon/GitHub/_apis/build/status/HariSekhon.lib-java?branchName=master)](https://dev.azure.com/harisekhon/GitHub/_build/latest?definitionId=2&branchName=master)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/u6f97cskcgb30sce/branch/master?svg=true)](https://ci.appveyor.com/project/HariSekhon/lib-java/branch/master)
+[![BitBucket Pipeline](https://img.shields.io/bitbucket/pipelines/harisekhon/lib-java/master)](https://bitbucket.org/harisekhon/lib-java/addon/pipelines/home#!/)
+[![Codeship Status for HariSekhon/lib-java](https://app.codeship.com/projects/59b2b9f0-3c5f-0138-d2dc-1a2635a521f6/status?branch=master)](https://app.codeship.com/projects/387246)
+[![CircleCI](https://circleci.com/gh/HariSekhon/lib-java.svg?style=svg)](https://circleci.com/gh/HariSekhon/lib-java)
+[![Shippable](https://api.shippable.com/projects/5e52c63645c70f0007ff514e/badge?branch=master)](https://app.shippable.com/github/HariSekhon/lib-java/dashboard)
+[![Codefresh]( https://g.codefresh.io/api/badges/pipeline/harisekhon/GitHub%2Flib-java?branch=master&key=eyJhbGciOiJIUzI1NiJ9.NWU1MmM5OGNiM2FiOWUzM2Y3ZDZmYjM3.O69674cW7vYom3v5JOGKXDbYgCVIJU9EWhXUMHl3zwA&type=cf-1 )]( https%3A%2F%2Fg.codefresh.io%2Fpipelines%2Flib-java%2Fbuilds%3FrepoOwner%3DHariSekhon%26repoName%3Dlib-java%26serviceName%3DHariSekhon%252Flib-java%26filter%3Dtrigger%3Abuild~Build%3Bbranch%3Amaster%3Bpipeline%3A5e58e3089604d75cec95ee25~lib-java )
+[![Wercker](https://app.wercker.com/status/9f72e3856e29563c4225ca4bdce46cf9/s/master "wercker status")](https://app.wercker.com/project/byKey/9f72e3856e29563c4225ca4bdce46cf9)
 
 [![CI Mac](https://github.com/HariSekhon/lib-java/workflows/CI%20Mac/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CI+Mac%22)
 [![CI Ubuntu](https://github.com/HariSekhon/lib-java/workflows/CI%20Ubuntu/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CI+Ubuntu%22)

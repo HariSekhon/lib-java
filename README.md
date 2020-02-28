@@ -21,7 +21,7 @@ Hari Sekhon Java Library
 
 [![Travis CI](https://travis-ci.org/HariSekhon/lib-java.svg?branch=master)](https://travis-ci.org/HariSekhon/lib-java)
 [![Azure DevOps Pipeline](https://dev.azure.com/harisekhon/GitHub/_apis/build/status/HariSekhon.lib-java?branchName=master)](https://dev.azure.com/harisekhon/GitHub/_build/latest?definitionId=2&branchName=master)
-[![AppVeyor](https://ci.appveyor.com/api/projects/status/u6f97cskcgb30sce/branch/master?svg=true)](https://ci.appveyor.com/project/HariSekhon/lib-java/branch/master)
+[![AppVeyor](https://ci.appveyor.com/api/projects/status/fq6jma1p8e2gv5ph/branch/master?svg=true)](https://ci.appveyor.com/project/HariSekhon/lib-java/branch/master)
 [![BitBucket Pipeline](https://img.shields.io/bitbucket/pipelines/harisekhon/lib-java/master)](https://bitbucket.org/harisekhon/lib-java/addon/pipelines/home#!/)
 [![Codeship Status for HariSekhon/lib-java](https://app.codeship.com/projects/59b2b9f0-3c5f-0138-d2dc-1a2635a521f6/status?branch=master)](https://app.codeship.com/projects/387246)
 [![CircleCI](https://circleci.com/gh/HariSekhon/lib-java.svg?style=svg)](https://circleci.com/gh/HariSekhon/lib-java)

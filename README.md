@@ -20,15 +20,17 @@ Hari Sekhon Java Library
 [![MicroBadger](https://images.microbadger.com/badges/image/harisekhon/centos-github.svg)](http://microbadger.com/#/images/harisekhon/centos-github)
 
 [![Travis CI](https://img.shields.io/travis/harisekhon/lib-java/master?logo=travis)](https://travis-ci.org/HariSekhon/lib-java)
-[![Azure DevOps Pipeline](https://dev.azure.com/harisekhon/GitHub/_apis/build/status/HariSekhon.lib-java?branchName=master)](https://dev.azure.com/harisekhon/GitHub/_build/latest?definitionId=2&branchName=master)
 [![AppVeyor](https://img.shields.io/appveyor/build/harisekhon/lib-java/master?logo=appveyor)](https://ci.appveyor.com/project/HariSekhon/lib-java/branch/master)
+[![Drone](https://img.shields.io/drone/build/HariSekhon/lib-java/master?logo=drone)](https://cloud.drone.io/HariSekhon/lib-java)
+[![CircleCI](https://circleci.com/gh/HariSekhon/lib-java.svg?style=svg)](https://circleci.com/gh/HariSekhon/lib-java)
+[![Codeship Status for HariSekhon/lib-java](https://app.codeship.com/projects/59b2b9f0-3c5f-0138-d2dc-1a2635a521f6/status?branch=master)](https://app.codeship.com/projects/387246)
+[![Shippable](https://api.shippable.com/projects/5e52c63645c70f0007ff514e/badge?branch=master)](https://app.shippable.com/github/HariSekhon/lib-java/dashboard/jobs)
+[![Codefresh](ihttps://g.codefresh.io/api/badges/pipeline/harisekhon/GitHub%2Flib-java?branch=master&key=eyJhbGciOiJIUzI1NiJ9.NWU1MmM5OGNiM2FiOWUzM2Y3ZDZmYjM3.O69674cW7vYom3v5JOGKXDbYgCVIJU9EWhXUMHl3zwA&type=cf-1)](https://g.codefresh.io/pipelines/lib-java/builds)
+[![Wercker](https://app.wercker.com/status/9f72e3856e29563c4225ca4bdce46cf9/s/master "wercker status")](https://app.wercker.com/project/byKey/9f72e3856e29563c4225ca4bdce46cf9)
+
+[![Azure DevOps Pipeline](https://dev.azure.com/harisekhon/GitHub/_apis/build/status/HariSekhon.lib-java?branchName=master)](https://dev.azure.com/harisekhon/GitHub/_build/latest?definitionId=2&branchName=master)
 [![BitBucket Pipeline](https://img.shields.io/bitbucket/pipelines/harisekhon/lib-java/master?logo=bitbucket)](https://bitbucket.org/harisekhon/lib-java/addon/pipelines/home#!/)
 [![GitLab Pipeline](https://img.shields.io/gitlab/pipeline/harisekhon/lib-java?logo=gitlab)](https://gitlab.com/HariSekhon/lib-java/pipelines)
-[![Codeship Status for HariSekhon/lib-java](https://app.codeship.com/projects/59b2b9f0-3c5f-0138-d2dc-1a2635a521f6/status?branch=master)](https://app.codeship.com/projects/387246)
-[![CircleCI](https://circleci.com/gh/HariSekhon/lib-java.svg?style=svg)](https://circleci.com/gh/HariSekhon/lib-java)
-[![Shippable](https://api.shippable.com/projects/5e52c63645c70f0007ff514e/badge?branch=master)](https://app.shippable.com/github/HariSekhon/lib-java/dashboard)
-[![Codefresh](https://g.codefresh.io/api/badges/pipeline/harisekhon/GitHub%2Flib-java?branch=master&key=eyJhbGciOiJIUzI1NiJ9.NWU1MmM5OGNiM2FiOWUzM2Y3ZDZmYjM3.O69674cW7vYom3v5JOGKXDbYgCVIJU9EWhXUMHl3zwA&type=cf-1)](https://g.codefresh.io/pipelines/lib-java/builds)
-[![Wercker](https://app.wercker.com/status/9f72e3856e29563c4225ca4bdce46cf9/s/master "wercker status")](https://app.wercker.com/project/byKey/9f72e3856e29563c4225ca4bdce46cf9)
 
 [![CI Mac](https://github.com/HariSekhon/lib-java/workflows/CI%20Mac/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CI+Mac%22)
 [![CI Ubuntu](https://github.com/HariSekhon/lib-java/workflows/CI%20Ubuntu/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CI+Ubuntu%22)

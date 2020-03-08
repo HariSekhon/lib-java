@@ -65,7 +65,7 @@ only picking up a few lines of XML
 [![CI SBT](https://github.com/HariSekhon/lib-java/workflows/CI%20SBT/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CI+SBT%22)
 [![CI Gradle](https://github.com/HariSekhon/lib-java/workflows/CI%20Gradle/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CI+Gradle%22)
 
-My personal Java library, full of lots of validation code and utility functions.
+Java library, full of lots of validation code and utility functions.
 
 Hari Sekhon
 

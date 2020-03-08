@@ -94,7 +94,7 @@ public final class Utils {
     public static final String aws_access_key_regex     = "(?<![A-Z0-9])[A-Z0-9]{20}(?![A-Z0-9])";
     //public static final String aws_host_ip_regex       = "ip-(?:10-\\d+-\\d+-\\d+|172-1[6-9]-\\d+-\\d+|172-2[0-9]-\\d+-\\d+|172-3[0-1]-\\d+-\\d+|192-168-\\d+-\\d+)";
     // the ip- prefix gives it away as an IP so can be a bit more general and let's catch all IPs not just private ranges
-    public static final String aws_host_ip_regex       = "\\bip-\\d+-\\d+-\\d+-\\d+\\b";;
+    public static final String aws_host_ip_regex       = "\\bip-\\d+-\\d+-\\d+-\\d+\\b";
     public static final String aws_secret_key_regex     = "(?<![A-Za-z0-9/+=])[A-Za-z0-9/+=]{40}(?![A-Za-z0-9/+=])";
     public static final String ip_prefix_regex          = "\\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}";
     // now allowing 0 or 255 as the final octet due to CIDR
@@ -234,6 +234,14 @@ public final class Utils {
         return exit_codes.get(status);
     }
 
+    public static final int getStatusCode (String key) {
+        if(key != null && exit_codes.containsKey(key)){
+            return exit_codes.get(key);
+        } else {
+            throw new IllegalArgumentException("invalid status '" + key + "' passed to getStatusCode()");
+        }
+    }
+
     public static final void setStatus (String key) {
         if(exit_codes.containsKey(key)){
             status = key;
@@ -289,15 +297,6 @@ public final class Utils {
 //            return false;
 //        }
         return "UNKNOWN".equalsIgnoreCase(getStatus());
-    }
-
-
-    public static final int getStatusCode (String key) {
-        if(key != null && exit_codes.containsKey(key)){
-            return exit_codes.get(key);
-        } else {
-            throw new IllegalArgumentException("invalid status '" + key + "' passed to getStatusCode()");
-        }
     }
 
 
@@ -1869,18 +1868,7 @@ public final class Utils {
         vlogOption(name2, String.valueOf(d));
         return d;
     }
-    public static final long validateLong(long l, String name, long minVal, long maxVal) {
-        validateDouble(l, name, minVal, maxVal);
-        return l;
-    }
-    public static final int validateInt(int i, String name, int minVal, int maxVal) {
-        validateDouble(i, name, minVal, maxVal);
-        return i;
-    }
-    public static final float validateFloat(float f, String name, float minVal, float maxVal) {
-        validateDouble(f, name, minVal, maxVal);
-        return f;
-    }
+
     public static final double validateDouble(String d, String name, double minVal, double maxVal) {
         String name2 = requireName(name);
         double d_double = -1;
@@ -1893,6 +1881,12 @@ public final class Utils {
         validateDouble(d_double, name2, minVal, maxVal);
         return d_double;
     }
+
+    public static final long validateLong(long l, String name, long minVal, long maxVal) {
+        validateDouble(l, name, minVal, maxVal);
+        return l;
+    }
+
     public static final long validateLong(String l, String name, long minVal, long maxVal) {
         String name2 = requireName(name);
         long l_long = -1;
@@ -1905,6 +1899,12 @@ public final class Utils {
         validateDouble(l_long, name2, minVal, maxVal);
         return l_long;
     }
+
+    public static final int validateInt(int i, String name, int minVal, int maxVal) {
+        validateDouble(i, name, minVal, maxVal);
+        return i;
+    }
+
     public static final int validateInt(String i, String name, int minVal, int maxVal) {
         String name2 = requireName(name);
         int i_int = -1;
@@ -1920,6 +1920,12 @@ public final class Utils {
         validateDouble(i_int, name2, minVal, maxVal);
         return i_int;
     }
+
+    public static final float validateFloat(float f, String name, float minVal, float maxVal) {
+        validateDouble(f, name, minVal, maxVal);
+        return f;
+    }
+
     public static final float validateFloat(String f, String name, float minVal, float maxVal) {
         String name2 = requireName(name);
         float f_float = -1;
@@ -1932,7 +1938,6 @@ public final class Utils {
         validateDouble(f_float, name2, minVal, maxVal);
         return f_float;
     }
-
 
     public static final String validateInterface(String networkInterface) {
         if(networkInterface == null){

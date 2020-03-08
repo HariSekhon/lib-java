@@ -136,7 +136,9 @@
         <module name="MissingSwitchDefault"/>
         <module name="MultipleVariableDeclarations"/>
         <module name="SimplifyBooleanExpression"/>
+        <!-- false positives around checking for nulls before each test
         <module name="SimplifyBooleanReturn"/>
+        -->
         <!-- Checks for class design                         -->
         <!-- See https://checkstyle.org/config_design.html -->
         <module name="DesignForExtension"/>
@@ -148,7 +150,9 @@
         <!-- See https://checkstyle.org/config_misc.html -->
         <module name="ArrayTypeStyle"/>
         <module name="FinalParameters"/>
+        <!-- not a good enough reason to mark down
         <module name="TodoComment"/>
+        -->
         <module name="UpperEll"/>
         <!-- https://checkstyle.org/config_filters.html#SuppressionXpathFilter -->
         <module name="SuppressionXpathFilter">

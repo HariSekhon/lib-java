@@ -2,19 +2,23 @@ Hari Sekhon Java Library
 ========================
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b929aef71cb34ede9decf79459aa936d)](https://www.codacy.com/app/harisekhon/lib-java)
+[![CodeFactor](https://www.codefactor.io/repository/github/harisekhon/lib-java/badge)](https://www.codefactor.io/repository/github/harisekhon/lib-java)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=alert_status)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
-[![GitHub stars](https://img.shields.io/github/stars/harisekhon/lib-java.svg)](https://github.com/harisekhon/lib-java/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/harisekhon/lib-java.svg)](https://github.com/harisekhon/lib-java/network)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=ncloc)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=security_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 [![Coverage Status](https://coveralls.io/repos/HariSekhon/lib-java/badge.svg?branch=master&service=github)](https://coveralls.io/github/HariSekhon/lib-java?branch=master)
 [![Dependency Status](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74/badge.svg)](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74)
+[![GitHub stars](https://img.shields.io/github/stars/harisekhon/lib-java.svg)](https://github.com/harisekhon/lib-java/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/harisekhon/lib-java.svg)](https://github.com/harisekhon/lib-java/network)
+<!-- broken only picking up a few lines of XML
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=ncloc)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
+-->
 
-[![Platform](https://img.shields.io/badge/platform-Linux%20%7C%20OS%20X-blue.svg)](https://github.com/harisekhon/lib-java#hari-sekhon-java-library)
-[![DockerHub](https://img.shields.io/badge/docker-available-blue.svg)](https://hub.docker.com/r/harisekhon/centos-github/)
-[![DockerHub Pulls](https://img.shields.io/docker/pulls/harisekhon/centos-github.svg)](https://hub.docker.com/r/harisekhon/centos-github)
+[![Linux](https://img.shields.io/badge/OS-Linux-blue?logo=linux)](https://github.com/HariSekhon/DevOps-Bash-tools#hari-sekhon---devops-bash-tools)
+[![Mac](https://img.shields.io/badge/OS-Mac-blue?logo=apple)](https://github.com/HariSekhon/DevOps-Bash-tools#hari-sekhon---devops-bash-tools)
+[![Docker](https://img.shields.io/badge/container-Docker-blue?logo=docker)](https://hub.docker.com/r/harisekhon/bash-tools)
+[![DockerHub Pulls](https://img.shields.io/docker/pulls/harisekhon/centos-github?label=DockerHub%20pulls&logo=docker)](https://hub.docker.com/r/harisekhon/centos-github)
 [![DockerHub Build Automated](https://img.shields.io/docker/automated/harisekhon/centos-github.svg)](https://hub.docker.com/r/harisekhon/centos-github)
 [![Docker Build Status](https://img.shields.io/docker/cloud/build/harisekhon/centos-github.svg)](https://hub.docker.com/r/harisekhon/centos-github/builds)
 [![MicroBadger](https://images.microbadger.com/badges/image/harisekhon/centos-github.svg)](http://microbadger.com/#/images/harisekhon/centos-github)

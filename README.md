@@ -8,10 +8,13 @@ Hari Sekhon Java Library
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=security_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 [![Coverage Status](https://coveralls.io/repos/HariSekhon/lib-java/badge.svg?branch=master&service=github)](https://coveralls.io/github/HariSekhon/lib-java?branch=master)
-[![Dependency Status](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74/badge.svg)](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74)
 [![GitHub stars](https://img.shields.io/github/stars/harisekhon/lib-java.svg)](https://github.com/harisekhon/lib-java/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/harisekhon/lib-java.svg)](https://github.com/harisekhon/lib-java/network)
-<!-- broken only picking up a few lines of XML
+<!--
+broken for a while, not showing dependencies any more
+[![Dependency Status](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74/badge.svg)](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74)
+
+only picking up a few lines of XML
 [![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=ncloc)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 -->
 

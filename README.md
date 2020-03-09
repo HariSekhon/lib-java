@@ -1,8 +1,6 @@
 Hari Sekhon Java Library
 ========================
 
-[![GitHub stars](https://img.shields.io/github/stars/harisekhon/lib-java)](https://github.com/harisekhon/lib-java/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/harisekhon/lib-java)](https://github.com/harisekhon/lib-java/network)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/b929aef71cb34ede9decf79459aa936d)](https://www.codacy.com/app/harisekhon/lib-java)
 [![CodeFactor](https://www.codefactor.io/repository/github/harisekhon/lib-java/badge)](https://www.codefactor.io/repository/github/harisekhon/lib-java)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=alert_status)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
@@ -10,6 +8,8 @@ Hari Sekhon Java Library
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=security_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 [![Coverage Status](https://coveralls.io/repos/HariSekhon/lib-java/badge.svg?branch=master&service=github)](https://coveralls.io/github/HariSekhon/lib-java?branch=master)
+[![GitHub stars](https://img.shields.io/github/stars/harisekhon/lib-java)](https://github.com/harisekhon/lib-java/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/harisekhon/lib-java)](https://github.com/harisekhon/lib-java/network)
 <!--
 broken for a while, not showing dependencies any more
 [![Dependency Status](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74/badge.svg)](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74)

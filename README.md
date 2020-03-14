@@ -36,6 +36,7 @@ only picking up a few lines of XML
 [![Codefresh](https://g.codefresh.io/api/badges/pipeline/harisekhon/GitHub%2Flib-java?branch=master&key=eyJhbGciOiJIUzI1NiJ9.NWU1MmM5OGNiM2FiOWUzM2Y3ZDZmYjM3.O69674cW7vYom3v5JOGKXDbYgCVIJU9EWhXUMHl3zwA&type=cf-1)](https://g.codefresh.io/pipelines/lib-java/builds)
 [![Wercker](https://app.wercker.com/status/9f72e3856e29563c4225ca4bdce46cf9/s/master "wercker status")](https://app.wercker.com/project/byKey/9f72e3856e29563c4225ca4bdce46cf9)
 [![Cirrus CI](https://img.shields.io/cirrus/github/HariSekhon/lib-java/master?logo=Cirrus%20CI&label=Cirrus%20CI)](https://cirrus-ci.com/github/HariSekhon/lib-java)
+[![BuildKite](https://img.shields.io/buildkite/c3e6142bd65c1b912652cf3c7c14a8a2c0eeae704dfc8949a9/master?label=BuildKite)](https://buildkite.com/hari-sekhon/lib-java)
 <!--
 [![Wercker](https://img.shields.io/wercker/ci/5e58ef1ad1f86d0900f13a31/master?label=Wercker)](https://app.wercker.com/project/byKey/9f72e3856e29563c4225ca4bdce46cf9)
 -->

@@ -10,6 +10,7 @@ Hari Sekhon Java Library
 [![Coverage Status](https://coveralls.io/repos/HariSekhon/lib-java/badge.svg?branch=master&service=github)](https://coveralls.io/github/HariSekhon/lib-java?branch=master)
 [![GitHub stars](https://img.shields.io/github/stars/harisekhon/lib-java)](https://github.com/harisekhon/lib-java/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/harisekhon/lib-java)](https://github.com/harisekhon/lib-java/network)
+[![Lines of Code](https://img.shields.io/badge/lines%20of%20code-5.7k-lightgrey)](https://github.com/HariSekhon/lib-java)
 <!--
 broken for a while, not showing dependencies any more
 [![Dependency Status](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74/badge.svg)](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74)

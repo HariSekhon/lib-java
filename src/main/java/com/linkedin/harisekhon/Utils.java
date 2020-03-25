@@ -1136,7 +1136,7 @@ public final class Utils {
         }
         StringBuilder id = new StringBuilder();
 //        try {
-            Process child = Runtime.getRuntime().exec("id -u " + user);
+            Process child = Runtime.getRuntime().exec(new String[] {"id", "-u", user});
             InputStream in = child.getInputStream();
             int c;
             while((c = in.read()) != -1){

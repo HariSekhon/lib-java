@@ -43,6 +43,7 @@ only picking up a few lines of XML
 [![Cirrus CI](https://img.shields.io/cirrus/github/HariSekhon/lib-java/master?logo=Cirrus%20CI&label=Cirrus%20CI)](https://cirrus-ci.com/github/HariSekhon/lib-java)
 [![Concourse](https://img.shields.io/badge/Concourse-ready-blue)](https://github.com/HariSekhon/lib-java/blob/master/.concourse.yml)
 [![GoCD](https://img.shields.io/badge/GoCD-ready-blue)](https://github.com/HariSekhon/lib-java/blob/master/.gocd.yml)
+[![Jenkins](https://img.shields.io/badge/Jenkins-ready-blue)](https://github.com/HariSekhon/lib-java/blob/master/Jenkinsfile)
 <!--
 [![Wercker](https://img.shields.io/wercker/ci/5e58ef1ad1f86d0900f13a31/master?label=Wercker)](https://app.wercker.com/project/byKey/9f72e3856e29563c4225ca4bdce46cf9)
 -->

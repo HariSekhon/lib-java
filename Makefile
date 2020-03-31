@@ -43,11 +43,10 @@ maven: mvn
 	@:
 
 .PHONY: mvn
-mvn:
+mvn: init
 	@echo ==========================
 	@echo Java Library - Maven Build
 	@echo ==========================
-	$(MAKE) init
 	$(MAKE) git-summary
 	$(MAKE) system-packages
 	./mvnw clean install
@@ -55,11 +54,10 @@ mvn:
 
 # don't use SBT - it will bundle Scala ballooning the jar size
 .PHONY: sbt
-sbt:
+sbt: init
 	@echo ========================
 	@echo Java Library - SBT Build
 	@echo ========================
-	$(MAKE) init
 	$(MAKE) git-summary
 	$(MAKE) system-packages
 	@#                 .m2     .ivy
@@ -67,11 +65,10 @@ sbt:
 	@#ln -sfv target/scala-*/harisekhon-utils-assembly-*.jar harisekhon-utils.jar
 
 .PHONY: gradle
-gradle:
+gradle: init
 	@echo ===========================
 	@echo Java Library - Gradle Build
 	@echo ===========================
-	$(MAKE) init
 	$(MAKE) git-summary
 	$(MAKE) system-packages
 	@#              .m2     .ivy

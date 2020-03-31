@@ -47,7 +47,7 @@ mvn: init
 	@echo ==========================
 	@echo Java Library - Maven Build
 	@echo ==========================
-	$(MAKE) git-summary
+	@$(MAKE) git-summary
 	$(MAKE) system-packages
 	./mvnw clean install
 	@#ln -sfv target/harisekhon-utils-*.jar harisekhon-utils.jar
@@ -58,7 +58,7 @@ sbt: init
 	@echo ========================
 	@echo Java Library - SBT Build
 	@echo ========================
-	$(MAKE) git-summary
+	@$(MAKE) git-summary
 	$(MAKE) system-packages
 	@#                 .m2     .ivy
 	sbt clean assembly publish publishLocal
@@ -69,7 +69,7 @@ gradle: init
 	@echo ===========================
 	@echo Java Library - Gradle Build
 	@echo ===========================
-	$(MAKE) git-summary
+	@$(MAKE) git-summary
 	$(MAKE) system-packages
 	@#              .m2     .ivy
 	./gradlew clean install uploadArchives

@@ -28,7 +28,7 @@ only picking up a few lines of XML
 [![DockerHub Build Automated](https://img.shields.io/docker/automated/harisekhon/centos-github.svg)](https://hub.docker.com/r/harisekhon/centos-github)
 [![Docker Build Status](https://img.shields.io/docker/cloud/build/harisekhon/centos-github.svg)](https://hub.docker.com/r/harisekhon/centos-github/builds)
 [![MicroBadger](https://images.microbadger.com/badges/image/harisekhon/centos-github.svg)](http://microbadger.com/#/images/harisekhon/centos-github)
-[![CI Builds Overview](https://img.shields.io/badge/CI%20Builds-Overview%20Page-blue)](https://github.com/HariSekhon/DevOps-Bash-tools/blob/master/STATUS.md)
+[![CI Builds Overview](https://img.shields.io/badge/CI%20Builds-Overview%20Page-blue)](https://bitbucket.org/harisekhon/devops-bash-tools/src/master/STATUS.md)
 
 [![Travis CI](https://img.shields.io/travis/harisekhon/lib-java/master?logo=travis&label=Travis)](https://travis-ci.org/HariSekhon/lib-java)
 [![AppVeyor](https://img.shields.io/appveyor/build/harisekhon/lib-java/master?logo=appveyor&label=AppVeyor)](https://ci.appveyor.com/project/HariSekhon/lib-java/branch/master)
@@ -36,9 +36,9 @@ only picking up a few lines of XML
 [![CircleCI](https://circleci.com/gh/HariSekhon/lib-java.svg?style=svg)](https://circleci.com/gh/HariSekhon/lib-java)
 [![Codeship Status for HariSekhon/lib-java](https://app.codeship.com/projects/59b2b9f0-3c5f-0138-d2dc-1a2635a521f6/status?branch=master)](https://app.codeship.com/projects/387246)
 [![Shippable](https://img.shields.io/shippable/5e52c63645c70f0007ff514e/master?label=Shippable)](https://app.shippable.com/github/HariSekhon/lib-java/dashboard/jobs)
-[![Codefresh](https://g.codefresh.io/api/badges/pipeline/harisekhon/GitHub%2Flib-java?branch=master&key=eyJhbGciOiJIUzI1NiJ9.NWU1MmM5OGNiM2FiOWUzM2Y3ZDZmYjM3.O69674cW7vYom3v5JOGKXDbYgCVIJU9EWhXUMHl3zwA&type=cf-1)](https://g.codefresh.io/pipelines/lib-java/builds)
+[![Codefresh](https://g.codefresh.io/api/badges/pipeline/harisekhon/GitHub%2Flib-java?branch=master&key=eyJhbGciOiJIUzI1NiJ9.NWU1MmM5OGNiM2FiOWUzM2Y3ZDZmYjM3.O69674cW7vYom3v5JOGKXDbYgCVIJU9EWhXUMHl3zwA&type=cf-1)](https://g.codefresh.io/pipelines/edit/new/builds?id=5e58e3089604d75cec95ee25&pipeline=lib-java&filter=page:1;pageSize:10;timeFrameStart:week)
 [![Wercker](https://app.wercker.com/status/9f72e3856e29563c4225ca4bdce46cf9/s/master "wercker status")](https://app.wercker.com/project/byKey/9f72e3856e29563c4225ca4bdce46cf9)
-[![BuildKite](https://img.shields.io/buildkite/c3e6142bd65c1b912652cf3c7c14a8a2c0eeae704dfc8949a9/master?label=BuildKite)](https://buildkite.com/hari-sekhon/lib-java)
+[![BuildKite](https://img.shields.io/buildkite/453eb82cca3de2c18bb45b07765e1736051856ff42b0598884/master?label=BuildKite)](https://buildkite.com/hari-sekhon/lib-java)
 [![buddy pipeline](https://app.buddy.works/harisekhon/lib-java/pipelines/pipeline/246984/badge.svg?token=7f63afa3c423a65e6e39a79be0386959e98c4105ea1e20f7f8b05d6d6b587038 "buddy pipeline")](https://app.buddy.works/harisekhon/lib-java/pipelines/pipeline/246984)
 [![Cirrus CI](https://img.shields.io/cirrus/github/HariSekhon/lib-java/master?logo=Cirrus%20CI&label=Cirrus%20CI)](https://cirrus-ci.com/github/HariSekhon/lib-java)
 [![Concourse](https://img.shields.io/badge/Concourse-ready-blue)](https://github.com/HariSekhon/lib-java/blob/master/.concourse.yml)
@@ -149,3 +149,5 @@ If using bespoke internal domains such as `.local`, `.intranet`, `.vm`, `.cloud`
 * [HAProxy-configs](https://github.com/harisekhon/haproxy-configs) - 80+ HAProxy Configs for Hadoop, Big Data, NoSQL, Docker, Elasticsearch, SolrCloud, HBase, Cloudera, Hortonworks, MapR, MySQL, PostgreSQL, Apache Drill, Hive, Presto, Impala, ZooKeeper, OpenTSDB, InfluxDB, Prometheus, Kibana, Graphite, SSH, RabbitMQ, Redis, Riak, Rancher etc.
 
 * [Dockerfiles](https://github.com/HariSekhon/Dockerfiles) - 50+ DockerHub public images for Docker & Kubernetes - Hadoop, Kafka, ZooKeeper, HBase, Cassandra, Solr, SolrCloud, Presto, Apache Drill, Nifi, Spark, Mesos, Consul, Riak, OpenTSDB, Jython, Advanced Nagios Plugins & DevOps Tools repos on Alpine, CentOS, Debian, Fedora, Ubuntu, Superset, H2O, Serf, Alluxio / Tachyon, FakeS3
+
+[git.io/libj](https://git.io/libj)

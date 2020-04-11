@@ -41,6 +41,7 @@ only picking up a few lines of XML
 [![BuildKite](https://img.shields.io/buildkite/453eb82cca3de2c18bb45b07765e1736051856ff42b0598884/master?label=BuildKite)](https://buildkite.com/hari-sekhon/lib-java)
 [![buddy pipeline](https://app.buddy.works/harisekhon/lib-java/pipelines/pipeline/246984/badge.svg?token=7f63afa3c423a65e6e39a79be0386959e98c4105ea1e20f7f8b05d6d6b587038 "buddy pipeline")](https://app.buddy.works/harisekhon/lib-java/pipelines/pipeline/246984)
 [![Cirrus CI](https://img.shields.io/cirrus/github/HariSekhon/lib-java/master?logo=Cirrus%20CI&label=Cirrus%20CI)](https://cirrus-ci.com/github/HariSekhon/lib-java)
+[![Semaphore](https://harisekhon.semaphoreci.com/badges/lib-java.svg)](https://harisekhon.semaphoreci.com/projects/lib-java)
 [![Concourse](https://img.shields.io/badge/Concourse-ready-blue)](https://github.com/HariSekhon/lib-java/blob/master/.concourse.yml)
 [![GoCD](https://img.shields.io/badge/GoCD-ready-blue)](https://github.com/HariSekhon/lib-java/blob/master/.gocd.yml)
 [![Jenkins](https://img.shields.io/badge/Jenkins-ready-blue)](https://github.com/HariSekhon/lib-java/blob/master/Jenkinsfile)

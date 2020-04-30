@@ -24,8 +24,7 @@ REPO := HariSekhon/lib-java
 CODE_FILES := $(shell find . -name '*.java')
 
 .PHONY: build
-build:
-	$(MAKE) init
+build: init
 	$(MAKE) gradle
 
 .PHONY: init
@@ -47,7 +46,7 @@ mvn: init
 	@echo ==========================
 	@echo Java Library - Maven Build
 	@echo ==========================
-	@$(MAKE) git-summary
+	@$(MAKE) printenv
 	$(MAKE) system-packages
 	./mvnw clean install
 	@#ln -sfv target/harisekhon-utils-*.jar harisekhon-utils.jar
@@ -58,7 +57,7 @@ sbt: init
 	@echo ========================
 	@echo Java Library - SBT Build
 	@echo ========================
-	@$(MAKE) git-summary
+	@$(MAKE) printenv
 	$(MAKE) system-packages
 	@#                 .m2     .ivy
 	sbt clean assembly publish publishLocal
@@ -69,7 +68,7 @@ gradle: init
 	@echo ===========================
 	@echo Java Library - Gradle Build
 	@echo ===========================
-	@$(MAKE) git-summary
+	@$(MAKE) printenv
 	$(MAKE) system-packages
 	@#              .m2     .ivy
 	./gradlew clean install uploadArchives

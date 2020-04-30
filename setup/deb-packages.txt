@@ -15,6 +15,20 @@
 # ============================================================================ #
 
 #openjdk-*-jdk
+#
+# installing 'default-jdk' gets error if another jdk version is already installed - see https://github.com/appveyor/ci/issues/3411
+#
+# Some packages could not be installed. This may mean that you have
+# requested an impossible situation or if you are using the unstable
+# distribution that some required packages have not yet been created
+# or been moved out of Incoming.
+# The following information may help to resolve the situation:
+# The following packages have unmet dependencies:
+#  default-jdk : Depends: default-jre (= 2:1.11-68ubuntu1~18.04.1) but it is not going to be installed
+#                Depends: default-jdk-headless (= 2:1.11-68ubuntu1~18.04.1) but it is not going to be installed
+#                Depends: openjdk-11-jdk but it is not going to be installed
+# E: Unable to correct problems, you have held broken packages.
+#
 default-jdk
 
 # installed by bash-tools submodule now

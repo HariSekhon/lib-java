@@ -38,7 +38,7 @@ matrix:
   # not supported by either mvnw or gradlew
   #- openjdk6
 
-dist: bionic
+#dist: bionic
 
 notifications:
   email: false

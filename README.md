@@ -46,11 +46,6 @@ only picking up a few lines of XML
 [![GoCD](https://img.shields.io/badge/GoCD-ready-blue?logo=go?logo=go)](https://github.com/HariSekhon/lib-java/blob/master/.gocd.yml)
 [![Jenkins](https://img.shields.io/badge/Jenkins-ready-blue?logo=jenkins?logo=jenkins)](https://github.com/HariSekhon/lib-java/blob/master/Jenkinsfile)
 <!--
-
-shields.io gets throttled after a few reloads :-/ - which is bad because shields latency is high and oftens fails to load some badges which requires you to reload the page a few times until they load, so have gone back to the generic wercker badge
-
-[![Wercker](https://img.shields.io/wercker/ci/5e58ef1ad1f86d0900f13a31/master?label=Wercker)](https://app.wercker.com/project/byKey/9f72e3856e29563c4225ca4bdce46cf9)
-
 can't run Buddy on more than 5 projects on free plan :-(
 
 [![Buddy](https://app.buddy.works/harisekhon/lib-java/pipelines/pipeline/246984/badge.svg?token=7f63afa3c423a65e6e39a79be0386959e98c4105ea1e20f7f8b05d6d6b587038 "buddy pipeline")](https://app.buddy.works/harisekhon/lib-java/pipelines/pipeline/246984)

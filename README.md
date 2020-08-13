@@ -38,7 +38,8 @@ only picking up a few lines of XML
 [![Codeship Status for HariSekhon/lib-java](https://app.codeship.com/projects/59b2b9f0-3c5f-0138-d2dc-1a2635a521f6/status?branch=master)](https://app.codeship.com/projects/387246)
 [![Shippable](https://img.shields.io/shippable/5e52c63645c70f0007ff514e/master?label=Shippable&logo=shippable)](https://app.shippable.com/github/HariSekhon/lib-java/dashboard/jobs)
 [![Codefresh](https://g.codefresh.io/api/badges/pipeline/harisekhon/GitHub%2Flib-java?branch=master&key=eyJhbGciOiJIUzI1NiJ9.NWU1MmM5OGNiM2FiOWUzM2Y3ZDZmYjM3.O69674cW7vYom3v5JOGKXDbYgCVIJU9EWhXUMHl3zwA&type=cf-1)](https://g.codefresh.io/pipelines/edit/new/builds?id=5e58e3089604d75cec95ee25&pipeline=lib-java&filter=page:1;pageSize:10;timeFrameStart:week)
-[![Wercker](https://img.shields.io/wercker/ci/5e58ef1ad1f86d0900f13a31/master?label=Wercker&logo=oracle)](https://app.wercker.com/harisekhon/lib-java/runs)
+<!--[![Wercker](https://img.shields.io/wercker/ci/5e58ef1ad1f86d0900f13a31/master?label=Wercker&logo=oracle)](https://app.wercker.com/harisekhon/lib-java/runs)-->
+[![Wercker](https://app.wercker.com/status/9f72e3856e29563c4225ca4bdce46cf9/s/master "wercker status")](https://app.wercker.com/harisekhon/lib-java/runs)
 [![BuildKite](https://img.shields.io/buildkite/453eb82cca3de2c18bb45b07765e1736051856ff42b0598884/master?label=BuildKite)](https://buildkite.com/hari-sekhon/lib-java)
 [![Cirrus CI](https://img.shields.io/cirrus/github/HariSekhon/lib-java/master?logo=Cirrus%20CI&label=Cirrus%20CI)](https://cirrus-ci.com/github/HariSekhon/lib-java)
 [![Semaphore](https://harisekhon.semaphoreci.com/badges/lib-java.svg)](https://harisekhon.semaphoreci.com/projects/lib-java)

@@ -29,7 +29,6 @@ only picking up a few lines of XML
 [![DockerHub Build Automated](https://img.shields.io/docker/automated/harisekhon/centos-github?logo=docker)](https://hub.docker.com/r/harisekhon/centos-github)
 [![Docker Build Status](https://img.shields.io/docker/cloud/build/harisekhon/centos-github?logo=docker)](https://hub.docker.com/r/harisekhon/centos-github/builds)
 [![MicroBadger](https://images.microbadger.com/badges/image/harisekhon/centos-github.svg)](http://microbadger.com/#/images/harisekhon/centos-github)
-[![CI Builds Overview](https://img.shields.io/badge/CI%20Builds-Overview%20Page-blue?logo=circleci?logo=circleci)](https://bitbucket.org/harisekhon/devops-bash-tools/src/master/STATUS.md)
 
 [![Travis CI](https://img.shields.io/travis/harisekhon/lib-java/master?logo=travis&label=Travis)](https://travis-ci.org/HariSekhon/lib-java)
 [![AppVeyor](https://img.shields.io/appveyor/build/harisekhon/lib-java/master?logo=appveyor&label=AppVeyor)](https://ci.appveyor.com/project/HariSekhon/lib-java/branch/master)
@@ -53,6 +52,7 @@ can't run Buddy on more than 5 projects on free plan :-(
 [![Jenkins](https://img.shields.io/badge/Jenkins-ready-blue?logo=jenkins?logo=jenkins)](https://github.com/HariSekhon/lib-java/blob/master/Jenkinsfile)
 [![Concourse](https://img.shields.io/badge/Concourse-ready-blue?logo=concourse?logo=concourse)](https://github.com/HariSekhon/lib-java/blob/master/.concourse.yml)
 [![GoCD](https://img.shields.io/badge/GoCD-ready-blue?logo=go?logo=go)](https://github.com/HariSekhon/lib-java/blob/master/.gocd.yml)
+[![CI Builds Overview](https://img.shields.io/badge/CI%20Builds-Overview%20Page-blue?logo=circleci?logo=circleci)](https://bitbucket.org/harisekhon/devops-bash-tools/src/master/STATUS.md)
 
 [![Azure DevOps Pipeline](https://dev.azure.com/harisekhon/GitHub/_apis/build/status/HariSekhon.lib-java?branchName=master)](https://dev.azure.com/harisekhon/GitHub/_build/latest?definitionId=2&branchName=master)
 [![BitBucket Pipeline](https://img.shields.io/bitbucket/pipelines/harisekhon/lib-java/master?logo=bitbucket&label=BitBucket)](https://bitbucket.org/harisekhon/lib-java/addon/pipelines/home#!/)

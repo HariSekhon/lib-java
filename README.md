@@ -55,7 +55,7 @@ can't run Buddy on more than 5 projects on free plan :-(
 -->
 
 [![Azure DevOps Pipeline](https://dev.azure.com/harisekhon/GitHub/_apis/build/status/HariSekhon.lib-java?branchName=master)](https://dev.azure.com/harisekhon/GitHub/_build/latest?definitionId=2&branchName=master)
-[![BitBucket Pipeline](https://img.shields.io/bitbucket/pipelines/harisekhon/lib-java/master?logo=bitbucket&label=BitBucket)](https://bitbucket.org/harisekhon/lib-java/addon/pipelines/home#!/)
+[![BitBucket Pipeline](https://img.shields.io/bitbucket/pipelines/harisekhon/lib-java/master?logo=bitbucket&label=BitBucket%20CI)](https://bitbucket.org/harisekhon/lib-java/addon/pipelines/home#!/)
 [![GitLab Pipeline](https://img.shields.io/gitlab/pipeline/harisekhon/lib-java?logo=gitlab&label=GitLab%20CI)](https://gitlab.com/HariSekhon/lib-java/pipelines)
 [![Repo on GitHub](https://img.shields.io/badge/repo-GitHub-blue?logo=github)](https://github.com/HariSekhon/lib-java)
 [![Repo on GitLab](https://img.shields.io/badge/repo-GitLab-blue?logo=gitlab)](https://gitlab.com/HariSekhon/lib-java)

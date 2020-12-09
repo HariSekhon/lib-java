@@ -13,11 +13,18 @@
 #  http://www.linkedin.com/in/harisekhon
 #
 
+# https://docs.travis-ci.com/user/customizing-the-build/
+
 version: ~> 1.0
 
+# https://docs.travis-ci.com/user/languages/java/
 language: java
-# doesn't provide oraclejdk6 any more because it's EOL as of Nov 2012
+
+# https://docs.travis-ci.com/user/build-matrix/
+# https://docs.travis-ci.com/user/build-stages/matrix-expansion/
 matrix:
+  # doesn't provide oraclejdk6 any more because it's EOL as of Nov 2012
+
   # SonarQube plugin version 2.2 is now built with Java 8, doesn't support Java 7
   #- oraclejdk7
   include:
@@ -38,14 +45,17 @@ matrix:
   # not supported by either mvnw or gradlew
   #- openjdk6
 
-#dist: bionic
-
+# https://docs.travis-ci.com/user/notifications/
 notifications:
   email: false
 
-branches:
-  only:
-    - master
+# https://docs.travis-ci.com/user/customizing-the-build/#building-specific-branches
+# https://docs.travis-ci.com/user/conditional-builds-stages-jobs
+#branches:
+#  only:
+#    - master
+
+# https://docs.travis-ci.com/user/job-lifecycle/
 
 # avoid package checksum mismatches when installing packages
 before_install:

@@ -50,13 +50,8 @@ only picking up a few lines of XML
 [![Cirrus CI](https://img.shields.io/cirrus/github/HariSekhon/lib-java/master?logo=Cirrus%20CI&label=Cirrus%20CI)](https://cirrus-ci.com/github/HariSekhon/lib-java)
 [![Semaphore](https://harisekhon.semaphoreci.com/badges/lib-java.svg)](https://harisekhon.semaphoreci.com/projects/lib-java)
 [![Wercker](https://app.wercker.com/status/9f72e3856e29563c4225ca4bdce46cf9/s/master "wercker status")](https://app.wercker.com/harisekhon/lib-java/runs)
+[![Buddy](https://img.shields.io/badge/Buddy-ready-1A86FD?logo=buddy)](https://github.com/HariSekhon/lib-java/blob/master/buddy.yml)
 <!--[![Wercker](https://img.shields.io/wercker/ci/5e58ef1ad1f86d0900f13a31/master?label=Wercker&logo=oracle)](https://app.wercker.com/harisekhon/lib-java/runs)-->
-
-<!--
-can't run Buddy on more than 5 projects on free plan :-(
-
-[![Buddy](https://app.buddy.works/harisekhon/lib-java/pipelines/pipeline/246984/badge.svg?token=7f63afa3c423a65e6e39a79be0386959e98c4105ea1e20f7f8b05d6d6b587038 "buddy pipeline")](https://app.buddy.works/harisekhon/lib-java/pipelines/pipeline/246984)
--->
 
 [![Azure DevOps Pipeline](https://dev.azure.com/harisekhon/GitHub/_apis/build/status/HariSekhon.lib-java?branchName=master)](https://dev.azure.com/harisekhon/GitHub/_build/latest?definitionId=2&branchName=master)
 [![GitLab Pipeline](https://img.shields.io/gitlab/pipeline/harisekhon/lib-java?logo=gitlab&label=GitLab%20CI)](https://gitlab.com/HariSekhon/lib-java/pipelines)

@@ -1,7 +1,7 @@
 Hari Sekhon Java Library
 ========================
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b929aef71cb34ede9decf79459aa936d)](https://www.codacy.com/app/harisekhon/lib-java)
+[![Codacy](https://app.codacy.com/project/badge/Grade/b929aef71cb34ede9decf79459aa936d)](https://www.codacy.com/gh/HariSekhon/lib-java/dashboard)
 [![CodeFactor](https://www.codefactor.io/repository/github/harisekhon/lib-java/badge)](https://www.codefactor.io/repository/github/harisekhon/lib-java)
 [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/HariSekhon/lib-java.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/HariSekhon/lib-java/context:java)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=alert_status)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)

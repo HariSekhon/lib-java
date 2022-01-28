@@ -35,22 +35,22 @@ matrix:
   # SonarQube plugin version 2.2 is now built with Java 8, doesn't support Java 7
   #- oraclejdk7
   include:
-  # not available any more on Travis CI
-  #- jdk: oraclejdk8
-  # maven repo access broken in Travis CI
-  #- jdk: oraclejdk9
-  #  os: linux
-  - jdk: openjdk9
-    os: linux
-  - jdk: openjdk11
-    os: linux
-  # Java 8 not available on Mac OS X
-  #- jdk: openjdk9
-  #  os: osx
-  # gets buffer overflows for both Java Surefire and SBT
-  #- openjdk7
-  # not supported by either mvnw or gradlew
-  #- openjdk6
+    # not available any more on Travis CI
+    #- jdk: oraclejdk8
+    # maven repo access broken in Travis CI
+    #- jdk: oraclejdk9
+    #  os: linux
+    - jdk: openjdk9
+      os: linux
+    - jdk: openjdk11
+      os: linux
+    # Java 8 not available on Mac OS X
+    #- jdk: openjdk9
+    #  os: osx
+    # gets buffer overflows for both Java Surefire and SBT
+    #- openjdk7
+    # not supported by either mvnw or gradlew
+    #- openjdk6
 
 # ======================================================
 # https://docs.travis-ci.com/user/environment-variables/

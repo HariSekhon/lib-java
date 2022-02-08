@@ -11,72 +11,20 @@
 #  https://www.linkedin.com/in/harisekhon
 #
 
+---
 name: Mac
-
-#env:
-#  DEBUG: 1
 
 on:
   push:
     branches:
       - master
+  workflow_dispatch:
   schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron:  '0 7 * * *'
+    - cron: '0 7 * * *'
 
 jobs:
   build:
-    #name: build
-    timeout-minutes: 60
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/cache@v1
-      name: Maven Cache
-      with:
-        path: ~/.m2/repository
-        key: ${{ runner.os }}-maven-lib-java-${{ hashFiles('**/pom.xml') }}
-        restore-keys: |
-          ${{ runner.os }}-maven-lib-java-
-    - uses: actions/cache@v1
-      name: SBT Cache
-      with:
-        path: ~/.sbt
-        key: ${{ runner.os }}-sbt-lib-java-${{ hashFiles('**/build.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-sbt-lib-java-
-    - uses: actions/cache@v1
-      name: SBT Ivy Cache
-      with:
-        path: ~/.ivy2/cache
-        key: ${{ runner.os }}-sbt-ivy-cache-lib-java-${{ hashFiles('**/build.sbt') }}
-        restore-keys: |
-          ${{ runner.os }}-sbt-ivy-lib-java-
-    - uses: actions/cache@v1
-      name: Gradle Cache
-      with:
-        path: ~/.gradle/caches
-        key: ${{ runner.os }}-gradle-cache-lib-java-${{ hashFiles('**/build.gradle') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-cache-lib-java-
-    - uses: actions/cache@v1
-      name: Gradle Wrapper
-      with:
-        path: ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-wrapper-lib-java-${{ hashFiles('**/build.gradle') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-wrapper-lib-java-
-    - uses: actions/cache@v1
-      with:
-        path: ~/Library/Caches/pip
-        key: ${{ runner.os }}-pip-lib-java  # -${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-lib-java
-    - name: brew update
-      run: which brew && brew update || echo
-    - name: init
-      run: make init
-    - name: build
-      run: make ci
-    - name: test
-      run: make test
+    name: Mac
+    uses: HariSekhon/GitHub-Actions/.github/workflows/mac.yaml@master
+    #with:
+    #  debug: 1

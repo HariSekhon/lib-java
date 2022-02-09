@@ -14,6 +14,7 @@ Hari Sekhon Java Library
 [![GitHub forks](https://img.shields.io/github/forks/harisekhon/lib-java?logo=github)](https://github.com/harisekhon/lib-java/network)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/HariSekhon/lib-java?logo=github)](https://github.com/HariSekhon/lib-java/commits/master)
 [![Lines of Code](https://img.shields.io/badge/lines%20of%20code-5.7k-lightgrey?logo=codecademy)](https://github.com/HariSekhon/lib-java)
+[![License](https://img.shields.io/github/license/HariSekhon/lib-java)](https://github.com/HariSekhon/lib-java/blob/master/LICENSE)
 <!--
 broken for a while, not showing dependencies any more
 [![Dependency Status](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74/badge.svg)](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74)

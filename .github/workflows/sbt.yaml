@@ -42,4 +42,8 @@ concurrency:
 jobs:
   make:
     name: Make
-    uses: HariSekhon/GitHub-Actions/.github/workflows/make-sbt.yaml@master
+    uses: HariSekhon/GitHub-Actions/.github/workflows/make.yaml@master
+    with:
+      build-target: sbt
+      caches: sbt
+    timeout-minutes: 60

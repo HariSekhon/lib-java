@@ -46,3 +46,4 @@ jobs:
     with:
       build-target: sbt
       caches: sbt
+      debug: ${{ github.event.inputs.debug || false }}

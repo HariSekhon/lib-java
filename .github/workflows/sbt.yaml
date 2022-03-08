@@ -46,4 +46,3 @@ jobs:
     with:
       build-target: sbt
       caches: sbt
-    timeout-minutes: 60

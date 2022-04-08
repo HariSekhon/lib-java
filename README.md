@@ -1,6 +1,19 @@
 Hari Sekhon Java Library
 ========================
 
+[![GitHub stars](https://img.shields.io/github/stars/harisekhon/lib-java?logo=github)](https://github.com/harisekhon/lib-java/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/harisekhon/lib-java?logo=github)](https://github.com/harisekhon/lib-java/network)
+[![Lines of Code](https://img.shields.io/badge/lines%20of%20code-5.7k-lightgrey?logo=codecademy)](https://github.com/HariSekhon/lib-java)
+[![License](https://img.shields.io/github/license/HariSekhon/lib-java)](https://github.com/HariSekhon/lib-java/blob/master/LICENSE)
+[![GitHub Last Commit](https://img.shields.io/github/last-commit/HariSekhon/lib-java?logo=github)](https://github.com/HariSekhon/lib-java/commits/master)
+<!--
+broken for a while, not showing dependencies any more
+[![Dependency Status](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74/badge.svg)](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74)
+
+only picking up a few lines of XML
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=ncloc)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
+-->
+
 [![Codacy](https://app.codacy.com/project/badge/Grade/b929aef71cb34ede9decf79459aa936d)](https://www.codacy.com/gh/HariSekhon/lib-java/dashboard)
 [![CodeFactor](https://www.codefactor.io/repository/github/harisekhon/lib-java/badge)](https://www.codefactor.io/repository/github/harisekhon/lib-java)
 [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/HariSekhon/lib-java.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/HariSekhon/lib-java/context:java)
@@ -10,18 +23,6 @@ Hari Sekhon Java Library
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=security_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 [![Coverage Status](https://coveralls.io/repos/HariSekhon/lib-java/badge.svg?branch=master&service=github)](https://coveralls.io/github/HariSekhon/lib-java?branch=master)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/HariSekhon/lib-java.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/HariSekhon/lib-java/alerts/)
-[![GitHub stars](https://img.shields.io/github/stars/harisekhon/lib-java?logo=github)](https://github.com/harisekhon/lib-java/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/harisekhon/lib-java?logo=github)](https://github.com/harisekhon/lib-java/network)
-[![GitHub Last Commit](https://img.shields.io/github/last-commit/HariSekhon/lib-java?logo=github)](https://github.com/HariSekhon/lib-java/commits/master)
-[![Lines of Code](https://img.shields.io/badge/lines%20of%20code-5.7k-lightgrey?logo=codecademy)](https://github.com/HariSekhon/lib-java)
-[![License](https://img.shields.io/github/license/HariSekhon/lib-java)](https://github.com/HariSekhon/lib-java/blob/master/LICENSE)
-<!--
-broken for a while, not showing dependencies any more
-[![Dependency Status](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74/badge.svg)](https://www.versioneye.com/user/projects/57616cdb0a82b20053182c74)
-
-only picking up a few lines of XML
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=ncloc)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
--->
 
 [![Linux](https://img.shields.io/badge/OS-Linux-blue?logo=linux)](https://github.com/HariSekhon/lib-java)
 [![Mac](https://img.shields.io/badge/OS-Mac-blue?logo=apple)](https://github.com/HariSekhon/lib-java)

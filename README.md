@@ -67,6 +67,7 @@ only picking up a few lines of XML
 [![Repo on BitBucket](https://img.shields.io/badge/repo-BitBucket-0052CC?logo=bitbucket)](https://bitbucket.org/HariSekhon/lib-java)
 [![Validation](https://github.com/HariSekhon/lib-java/actions/workflows/validate.yaml/badge.svg)](https://github.com/HariSekhon/lib-java/actions/workflows/validate.yaml)
 [![Semgrep](https://github.com/HariSekhon/lib-java/actions/workflows/semgrep.yaml/badge.svg)](https://github.com/HariSekhon/lib-java/actions/workflows/semgrep.yaml)
+[![Kics](https://github.com/HariSekhon/lib-java/actions/workflows/kics.yaml/badge.svg)](https://github.com/HariSekhon/lib-java/actions/workflows/kics.yaml)
 
 [![GitHub Actions Ubuntu](https://github.com/HariSekhon/lib-java/workflows/GitHub%20Actions%20Ubuntu/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22GitHub+Actions+Ubuntu%22)
 [![Mac](https://github.com/HariSekhon/lib-java/workflows/Mac/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22Mac%22)

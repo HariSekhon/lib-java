@@ -4,7 +4,7 @@
   "material": {
     "type": "git",
     "attributes": {
-  	"url": "https://github.com/harisekhon/lib-java",
+  	"url": "https://github.com/HariSekhon/lib-java",
   	"branch": "master",
   	"auto_update": true
     }

@@ -4,14 +4,14 @@
 //
 //  vim:ts=4:sts=4:sw=4:et
 //
-//  https://github.com/harisekhon/lib-java
+//  https://github.com/HariSekhon/lib-java
 //
 //  License: see accompanying Hari Sekhon LICENSE file
 //
 //  If you're using my code you're welcome to connect with me on LinkedIn and optionally send me feedback
 //  to help improve or steer this or other code I publish
 //
-//  https://www.linkedin.com/in/harisekhon
+//  https://www.linkedin.com/in/HariSekhon
 //
 
 // Port of my personal libraries from other languages I've been using for several years
@@ -52,7 +52,7 @@ public final class Utils {
     private static final String utils_version = "1.17.6";
 
     public static String msg = "";
-    public static final String nagios_plugins_support_msg = "Please try latest version from https://github.com/harisekhon/nagios-plugins, re-run on command line with -vvv and if problem persists paste full output from -vvv mode in to a ticket requesting a fix/update at https://github.com/harisekhon/nagios-plugins/issues/new";
+    public static final String nagios_plugins_support_msg = "Please try latest version from https://github.com/HariSekhon/Nagios-Plugins, re-run on command line with -vvv and if problem persists paste full output from -vvv mode in to a ticket requesting a fix/update at https://github.com/HariSekhon/Nagios-Plugins/issues/new";
     public static final String option_format_calling_method = "%-50s %-25s %s";
     public static final String option_format = "%-25s %s";
     public static final String nagios_plugins_support_msg_api = "API may have changed. " + nagios_plugins_support_msg;

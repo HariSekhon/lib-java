@@ -3,13 +3,13 @@
 #  Author: Hari Sekhon
 #  Date: 2015-10-06 14:02:35 +0100 (Tue, 06 Oct 2015)
 #
-#  https://github.com/harisekhon/lib-java
+#  https://github.com/HariSekhon/lib-java
 #
 #  License: see accompanying Hari Sekhon LICENSE file
 #
 #  If you're using my code you're welcome to connect with me on LinkedIn and optionally send me feedback to help improve or steer this or other code I publish
 #
-#  https://www.linkedin.com/in/harisekhon
+#  https://www.linkedin.com/in/HariSekhon
 #
 
 ifneq ("$(wildcard bash-tools/Makefile.in)", "")

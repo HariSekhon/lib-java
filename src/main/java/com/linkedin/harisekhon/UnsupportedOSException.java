@@ -4,7 +4,7 @@
 //
 //  vim:ts=4:sts=4:sw=4:noet
 //
-//  https://github.com/harisekhon/lib-java
+//  https://github.com/HariSekhon/lib-java
 //
 //  License: see accompanying Hari Sekhon LICENSE file
 //

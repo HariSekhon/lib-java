@@ -2,14 +2,14 @@
 //  Author: Hari Sekhon
 //  Date: 2016-06-14 12:06:17 +0100 (Tue, 14 Jun 2016)
 //
-//  https://github.com/harisekhon/lib-java
+//  https://github.com/HariSekhon/lib-java
 //
 //  License: see accompanying Hari Sekhon LICENSE file
 //
 //  If you're using my code you're welcome to connect with me on LinkedIn and optionally send me feedback
 //  to help improve or steer this or other code I publish
 //
-//  https://www.linkedin.com/in/harisekhon
+//  https://www.linkedin.com/in/HariSekhon
 //
 
 

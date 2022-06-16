@@ -1,5 +1,4 @@
-Hari Sekhon Java Library
-========================
+# Hari Sekhon Java Library
 
 [![GitHub stars](https://img.shields.io/github/stars/harisekhon/lib-java?logo=github)](https://github.com/HariSekhon/lib-java/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/harisekhon/lib-java?logo=github)](https://github.com/HariSekhon/lib-java/network)

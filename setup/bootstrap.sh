@@ -27,7 +27,7 @@ srcdir="$(dirname "$0")"
 
 repo="https://github.com/HariSekhon/lib-java"
 
-directory="lib-java"
+directory="libj"
 
 sudo=""
 [ "$(whoami)" = "root" ] || sudo=sudo
@@ -81,4 +81,6 @@ else
     fi
 fi
 
-make
+if [ -z "${NO_MAKE:-}" ]; then
+    make
+fi

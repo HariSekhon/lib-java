@@ -20,6 +20,7 @@ only picking up a few lines of XML
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=security_rating)](https://sonarcloud.io/dashboard?id=HariSekhon_lib-java)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=HariSekhon_lib-java&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=HariSekhon_lib-java)
 [![Coverage Status](https://coveralls.io/repos/HariSekhon/lib-java/badge.svg?branch=master&service=github)](https://coveralls.io/github/HariSekhon/lib-java?branch=master)
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/HariSekhon/lib-java.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/HariSekhon/lib-java/alerts/)
 

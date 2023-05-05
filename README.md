@@ -53,8 +53,8 @@ only picking up a few lines of XML
 [![Travis CI](https://img.shields.io/badge/TravisCI-ready-blue?logo=travis&label=Travis%20CI)](https://github.com/HariSekhon/lib-java/blob/master/.travis.yml)
 
 [![Azure DevOps Pipeline](https://dev.azure.com/harisekhon/GitHub/_apis/build/status/HariSekhon.lib-java?branchName=master)](https://dev.azure.com/harisekhon/GitHub/_build/latest?definitionId=2&branchName=master)
-[![GitLab Pipeline](https://img.shields.io/gitlab/pipeline/harisekhon/lib-java?logo=gitlab&label=GitLab%20CI)](https://gitlab.com/HariSekhon/lib-java/pipelines)
-[![BitBucket Pipeline](https://img.shields.io/bitbucket/pipelines/harisekhon/lib-java/master?logo=bitbucket&label=BitBucket%20CI)](https://bitbucket.org/harisekhon/lib-java/addon/pipelines/home#!/)
+[![GitLab Pipeline](https://img.shields.io/badge/GitLab%20CI-legacy-lightgrey?logo=gitlab)](https://gitlab.com/HariSekhon/lib-java/pipelines)
+[![BitBucket Pipeline](https://img.shields.io/badge/Bitbucket%20CI-legacy-lightgrey?logo=bitbucket)](https://bitbucket.org/harisekhon/lib-java/addon/pipelines/home#!/)
 [![AWS CodeBuild](https://img.shields.io/badge/AWS%20CodeBuild-ready-blue?logo=amazon%20aws)](https://github.com/HariSekhon/lib-java/blob/master/buildspec.yml)
 [![GCP Cloud Build](https://img.shields.io/badge/GCP%20Cloud%20Build-ready-blue?logo=google%20cloud&logoColor=white)](https://github.com/HariSekhon/lib-java/blob/master/cloudbuild.yaml)
 

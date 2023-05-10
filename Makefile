@@ -35,7 +35,7 @@ init:
 .PHONY: random-build
 random-build:
 	# Travis does't have SBT in java builds
-	@x=$$(bash-tools/random_select.sh build mvn gradle); echo $(MAKE) $$x; $(MAKE) $$x
+	@x=$$(bash-tools/bin/random_select.sh build mvn gradle); echo $(MAKE) $$x; $(MAKE) $$x
 
 .PHONY: maven
 maven: mvn
@@ -102,7 +102,7 @@ package:
 
 .PHONY: test
 test: unittest
-	bash-tools/check_all.sh
+	bash-tools/checks/check_all.sh
 
 .PHONY: unittest
 unittest:

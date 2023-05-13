@@ -67,6 +67,7 @@ only picking up a few lines of XML
 [![XML](https://github.com/HariSekhon/lib-java/actions/workflows/xml.yaml/badge.svg)](https://github.com/HariSekhon/lib-java/actions/workflows/xml.yaml)
 [![Validation](https://github.com/HariSekhon/lib-java/actions/workflows/validate.yaml/badge.svg)](https://github.com/HariSekhon/lib-java/actions/workflows/validate.yaml)
 [![Kics](https://github.com/HariSekhon/lib-java/actions/workflows/kics.yaml/badge.svg)](https://github.com/HariSekhon/lib-java/actions/workflows/kics.yaml)
+[![Grype](https://github.com/HariSekhon/lib-java/actions/workflows/grype.yaml/badge.svg)](https://github.com/HariSekhon/lib-java/actions/workflows/grype.yaml)
 [![Semgrep](https://github.com/HariSekhon/lib-java/actions/workflows/semgrep.yaml/badge.svg)](https://github.com/HariSekhon/lib-java/actions/workflows/semgrep.yaml)
 [![Semgrep Cloud](https://github.com/HariSekhon/lib-java/actions/workflows/semgrep-cloud.yaml/badge.svg)](https://github.com/HariSekhon/lib-java/actions/workflows/semgrep-cloud.yaml)
 [![Trivy](https://github.com/HariSekhon/lib-java/actions/workflows/trivy.yaml/badge.svg)](https://github.com/HariSekhon/lib-java/actions/workflows/trivy.yaml)

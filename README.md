@@ -80,7 +80,6 @@ only picking up a few lines of XML
 [![Ubuntu 20.04](https://github.com/HariSekhon/lib-java/workflows/Ubuntu%2020.04/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22Ubuntu+20.04%22)
 [![Ubuntu 22.04](https://github.com/HariSekhon/lib-java/workflows/Ubuntu%2022.04/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22Ubuntu+22.04%22)
 [![Debian](https://github.com/HariSekhon/lib-java/workflows/Debian/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22Debian%22)
-[![Debian 9](https://github.com/HariSekhon/lib-java/workflows/Debian%209/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22Debian+9%22)
 [![Debian 10](https://github.com/HariSekhon/lib-java/workflows/Debian%2010/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22Debian+10%22)
 [![CentOS](https://github.com/HariSekhon/lib-java/workflows/CentOS/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CentOS%22)
 [![CentOS 7](https://github.com/HariSekhon/lib-java/workflows/CentOS%207/badge.svg)](https://github.com/HariSekhon/lib-java/actions?query=workflow%3A%22CentOS+7%22)

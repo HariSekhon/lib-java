@@ -4,6 +4,7 @@
 [![GitHub forks](https://img.shields.io/github/forks/harisekhon/lib-java?logo=github)](https://github.com/HariSekhon/lib-java/network)
 [![Lines of Code](https://img.shields.io/badge/lines%20of%20code-5.7k-lightgrey?logo=codecademy)](https://github.com/HariSekhon/lib-java)
 [![License](https://img.shields.io/github/license/HariSekhon/lib-java)](https://github.com/HariSekhon/lib-java/blob/master/LICENSE)
+[![My LinkedIn](https://img.shields.io/badge/LinkedIn%20Profile-HariSekhon-blue?logo=linkedin)](https://www.linkedin.com/in/HariSekhon/)
 [![GitHub Last Commit](https://img.shields.io/github/last-commit/HariSekhon/lib-java?logo=github)](https://github.com/HariSekhon/lib-java/commits/master)
 <!--
 broken for a while, not showing dependencies any more
